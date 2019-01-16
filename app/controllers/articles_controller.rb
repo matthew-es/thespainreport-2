@@ -7,7 +7,7 @@ class ArticlesController < ApplicationController
     @types = Type.all.order(:name)
     @statuses = Status.all.order(:name)
     @languages = Language.all.order(:name)
-    @stories = Story.all.order(:title)
+    @stories = Article.story.order(:created_at)
     @articles = Article.original.order(:created_at)
     @mainarticles = Article.all.order(:created_at)
     @campaigns = Campaign.all.order(:name)
@@ -86,6 +86,6 @@ class ArticlesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def article_params
-      params.require(:article).permit(:body, :campaign_id, :headline, :language_id, :lede, :is_free, :main_id, :original_id, :status_id, :topstory, :type_id, :story_ids => [])
+      params.require(:article).permit(:body, :campaign_id, :headline, :language_id, :lede, :is_free, :main_id, :original_id, :status_id, :story_id, :topstory, :type_id)
     end
 end

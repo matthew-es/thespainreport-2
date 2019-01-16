@@ -1,9 +1,13 @@
 <div class="content">
-<div class="story-link">
-	<% @article.stories.each do |s| %>
-		<%= link_to s.title, s %>
-	<% end %>
-</div>
+
+		<div class="story-link">
+		<% if @article.story.nil? %>
+			<%= link_to "The Spain Report", '/' %>
+		<% else %>
+			<%= link_to @article.story.headline, @article.story %>
+		<% end %>
+		</div>
+
 
 <h1><%= link_to @article.headline, edit_article_path, class: "editor-link" %></h1>
 
@@ -82,7 +86,12 @@
     </ul>
 </div>
 
-	<%= markdown(@article.body) %>
+<audio controls>
+  <source src="https://s3-eu-west-1.amazonaws.com/audio.thespainreport.com/podcast-conversation-3-chris-dottie.mp3" type="audio/mpeg">
+Your browser does not support the audio element.
+</audio>
+
+	<%= markdown(@article.body).html_safe %>
 	
 	<div class="updates">
 	<% @article.updates.each do |u| %>

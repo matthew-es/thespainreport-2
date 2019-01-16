@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   get 'articles/admin'
   
   resources :campaigns
-  resources :stories
   resources :languages
   resources :statuses
   resources :types

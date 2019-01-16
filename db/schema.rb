@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_16_134251) do
+ActiveRecord::Schema.define(version: 2019_01_16_213657) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -47,20 +47,17 @@ ActiveRecord::Schema.define(version: 2019_01_16_134251) do
     t.integer "original_id"
     t.integer "campaign_id"
     t.integer "main_id"
+    t.integer "story_id"
     t.index ["campaign_id"], name: "index_articles_on_campaign_id"
     t.index ["language_id"], name: "index_articles_on_language_id"
     t.index ["main_id"], name: "index_articles_on_main_id"
     t.index ["original_id"], name: "index_articles_on_original_id"
+    t.index ["story_id"], name: "index_articles_on_story_id"
   end
 
   create_table "articles_statuses", id: false, force: :cascade do |t|
     t.integer "article_id"
     t.integer "status_id"
-  end
-
-  create_table "articles_stories", id: false, force: :cascade do |t|
-    t.integer "article_id"
-    t.integer "story_id"
   end
 
   create_table "articles_types", id: false, force: :cascade do |t|
@@ -91,19 +88,6 @@ ActiveRecord::Schema.define(version: 2019_01_16_134251) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "stories", force: :cascade do |t|
-    t.string "title"
-    t.string "lede"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "language_id"
-    t.integer "status_id"
-    t.integer "original_id"
-    t.index ["language_id"], name: "index_stories_on_language_id"
-    t.index ["original_id"], name: "index_stories_on_original_id"
-    t.index ["status_id"], name: "index_stories_on_status_id"
   end
 
   create_table "types", force: :cascade do |t|

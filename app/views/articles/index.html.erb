@@ -25,10 +25,7 @@
 					 <%= link_to tr.language.name, tr %>
 					<% end %>
 				</td>
-				<td>
-					<% article.stories.each do |s| %>
-					 <%= link_to s.title, s %>
-					<% end %>
+				<td><%= link_to article.story.headline, article.story unless article.story.nil? %>
 				</td>
 				<td><%= article.headline %></td>
 				<td><%= article.lede %></td>

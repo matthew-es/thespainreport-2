@@ -5,7 +5,8 @@ module ApplicationHelper
       filter_html: true,
       hard_wrap: true,
       space_after_headers: true, 
-      fenced_code_blocks: true
+      fenced_code_blocks: true,
+      with_toc_data: true
     }
 
     extensions = {
