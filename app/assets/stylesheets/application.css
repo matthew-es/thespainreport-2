@@ -14,46 +14,45 @@
  *= require_self
  */
 
-body {
-  padding-top: 20px;
-  background-color: #fff;
-}
+body {margin-top: 20px; padding-top: 0px; background-color: #fff;}
+.clear {clear:both;}
 
-.content {
-  margin-left: 50px;
-  border-left: 5px solid #AA151B;
-  padding-left: 50px;
-  width: 700px;
-}
+.site-title-new, .site-title-new a, .site-title-new a:visited, .site-title-new a:hover {font-family: Impact; background-color: #AA151B;  color:#ffe680; text-decoration: none;}
+.site-title-new {float: left; padding: 10px 10px 10px 10px; font-size: 39px; font-family: Impact; font-weight: 700; line-height: 1;}
+.site-title-surround {font-family: Georgia; color:#ffe680;}
+.site-title-spain {font-family: Georgia; color:#F1BF00;}
 
-h1, h2 {
-  font-family: Impact;
-  text-transform: none;
-}
+.content {width: 650px; margin: 0 auto; padding: 10px 30px; border-left: 1px solid #AA151B; border-right: 1px solid #AA151B;}
+.updates p {margin-top: 0px;}
 
-p, li {
-  font-family: "Courier New";
-  font-size: 18px;
-  line-height: 130%;
-  text-align: left;
-}
+.content-admin {width: 1100px; margin: 0 auto; padding: 10px; border-left: 1px solid #AA151B; border-right: 1px solid #AA151B; }
+.content-admin-block {margin-bottom: 10px;}
+input.content-admin-headline {width: 98%; padding:5px;}
+input.content-admin-lede {width: 98%; padding:5px;}
+textarea.content-admin-body {width: 98%; padding:10px; min-height: 600px;}
+.content-admin-block-tr {width: 100%;}
+.content-admin-block-tr-left {width: 48%; float:left;}
+.content-admin-block-tr-left p {margin-top: 12px; margin-left: 10px; margin-bottom: 15px;}
+.content-admin-block-tr-right {width: 48%; float:right; margin-right: 20px;}
 
-a {
-  color: #0073e6;
-}
+/*Font styles */
+h1, h2 {font-family: Impact; font-size: 28px; line-height: 120%;}
+h3 {margin-top: 30px; margin-bottom: 10px; font-family: Impact; font-size: 20px; line-height: 100%;}
+input.content-admin-headline {font-family: Impact; font-size: 23px; line-height: 120%;}
+p, li, textarea.content-admin-body, .content-admin-block-tr-right {font-family: Georgia; font-size: 18px; line-height: 130%; text-align: left;}
+.lede, input.content-admin-lede {font-family: Georgia; font-size: 18px; font-style: italic;}
 
-a:hover{
+/*Link styles */
+a { color: #2952a3;}
+a:visited { color: #930677;}
+a:hover{background-color: #0073e6; color: #fff;}
+mark {background-color: #ffe680; font-weight: normal;}
+a.editor-link, a.editor-link:visited, a.editor-link:hover {background-color: #fff; color: #000; text-decoration: none;}
+
+img {max-width: 100%; margin-bottom: 10px;}
+
+a.button, a.button:visited {
   background-color: #2952a3;
-  color: #fff;
-}
-
-.highlight {
-  background-color: #ffe680;
-  font-weight: normal;
-}
-
-.button {
-  background-color: #0073e6;
   border: 1px solid #2952a3;
   border-radius: 3px;
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset;
@@ -63,11 +62,20 @@ a:hover{
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-family: "Courier New";
+  font-family: Georgia;
   font-size: 18px;
   padding: 10px 50px;
 }
+a.button:hover {background-color: #0073e6;}
 
-.button:hover {
-  background-color: #2952a3;
-}
+.story-link {font-size: 16px; font-family: Impact; font-weight: normal; text-transform: none;}
+.meta {padding-top: 0px; padding-bottom: 0px; font-size: 11px; font-family: Georgia; font-weight: normal; text-transform: none;}
+.meta-tag {margin-bottom: 5px; margin-right: 5px; float:left;}
+.black-label-mini {background-color: #000000; color: #ffffff; padding: 2px 5px; line-height: 120%; text-transform: uppercase;}
+.red-label-mini {background-color: #AA151B; color: #ffffff; padding: 2px 5px; line-height: 120%; text-transform: uppercase;}
+.blue-label-mini {}
+.blue-label-mini a, .blue-label-mini a:visited {background-color: #2952a3; padding: 2px 5px; line-height: 120%; color: #fff; text-decoration: none;}
+.blue-label-mini a:hover {background-color: #0073e6;}
+
+.lede {margin-top: 5px; margin-bottom: 10px;}
+.lede-slug {font-weight: bold;}

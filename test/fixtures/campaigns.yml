@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  teaser: MyText
+  language: one
+
+two:
+  teaser: MyText
+  language: two

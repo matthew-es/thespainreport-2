@@ -1,0 +1,47 @@
+<div class="content">
+	<h1><%= @story.title %></h1>
+	
+	<div class="meta">
+		<div class="meta-tag">
+			<% if @story.language_id == 1 %>
+			<%= @story.created_at.strftime("%b %d, %Y, %l:%M %P") %>
+		<% elsif @story.language_id == 2 %>
+			<%= @story.created_at.strftime("%d/%m/%Y, %H:%M") %>
+		<% else %>
+		<% end %>
+		</div>
+		
+		<div class="meta-tag">
+			<span class="red-label-mini">
+				<span class="site-title-surround">The</span> <span class="site-title-spain">Spain</span> <span class="site-title-surround">Report</span>
+			</span>
+		</div>
+		
+		
+		<% if @story.original.blank? %>
+		<% @story.translations.where.not(id: @story).each do |tr| %>
+			<div class="meta-tag"><span class="blue-label-mini"><%= link_to tr.language.prompt, tr %></span></div>
+		<% end %>
+	<% else %>
+		<div class="meta-tag"><span class="blue-label-mini"><%= link_to @story.original.language.prompt, @story.original %></span></div>
+		<% @story.original.translations.where.not(id: @story).each do |tr| %>
+			<div class="meta-tag"><span class="blue-label-mini"><%= link_to tr.language.prompt, tr %></span></div>
+		<% end %>
+	<% end %>
+	 </div>
+	 <div class="clear"></div>
+	 
+	 <div class="lede">
+	 	<%= @story.lede %>
+	 </div>
+	 
+	 
+
+<ul>
+	<% @story.articles.each do |a| %>
+		<li><%= link_to a.headline, a %></li>
+	<% end %>
+</ul>
+
+</div>
+<div class="clear"></div>

@@ -1,0 +1,68 @@
+<%= form_with(model: article, local: true) do |f| %>
+
+	<% if article.errors.any? %>
+		<div id="error_explanation">
+			<h2><%= pluralize(article.errors.count, "error") %> prohibited this article from being saved:</h2>
+
+			<ul>
+			<% article.errors.full_messages.each do |message| %>
+				<li><%= message %></li>
+			<% end %>
+			</ul>
+		</div>
+	<% end %>
+	
+	<div class="content-admin-block">
+		Latest <%= f.check_box :topstory %>
+		Free <%= f.check_box :is_free %>
+		<%= f.collection_select :type_id, @types.where(language_id: @article.language_id), :id, :name, {:selected => @article.type_id ? @article.type_id : 1} %>
+		<%= f.collection_select :main_id, @mainarticles, :id, :headline, {include_blank: true, :selected => @article.main_id}, {:style => "width: 300px;"} %>
+		<%= f.collection_select :original_id, @articles, :id, :headline, {include_blank: true, :selected => @article.original_id}, {:style => "width: 300px;"} %>
+		<%= f.collection_select :language_id, @languages, :id, :name, {:selected => @article.language_id ? @article.language_id : 1} %>
+		<%= f.collection_select :status_id, @statuses, :id, :name, {:selected => @article.status_id ? @article.status_id : 1} %>
+		<%= f.submit %>
+		<%= link_to 'Go', @article %>
+	</div>
+
+	<div class="content-admin-block">
+		<%= f.text_field :headline, :class => "content-admin-headline" %>
+	</div>
+
+	<div class="content-admin-block">
+		<%= f.text_field :lede, :class => "content-admin-lede" %>
+	</div>
+	
+	<div class="content-admin-block">
+		<% if @article.original.blank? %>
+			<%= f.text_area :body, :class => "content-admin-body" %>
+		<% else %>
+			<div class="content-admin-block-tr">
+			<div class="content-admin-block-tr-left">
+				<%= markdown(@article.original.body) %>
+			</div>
+			<div class="content-admin-block-tr-right">
+				<%= f.text_area :body, :class => "content-admin-body" %>
+			</div>
+			</div>
+		<% end %>
+	</div><div class="clear"></div>
+	
+	<div class="content-admin-block">
+	<%= f.file_field :picture %>
+	</div>
+
+
+<div class="content-admin-block">
+	<% article_story_ids = @article.stories.pluck(:id) %>
+	<ul>
+		<% @stories.where(language_id: @article.language_id).each do |s| %>
+			<li>
+				<%= check_box_tag "article[story_ids][]", s.id, article_story_ids.include?(s.id) %>
+				<%= s.title %>
+			</li>
+		<% end %>
+	</ul>
+	<%= f.collection_select :campaign_id, @campaigns.where(language_id: @article.language_id), :id, :name, {:selected => @article.campaign_id ? @article.campaign_id : 1} %>
+</div>
+
+<% end %>

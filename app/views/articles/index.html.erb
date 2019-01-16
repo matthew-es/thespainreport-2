@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Articles</h1>
+
+<table>
+	<thead>
+		<tr>
+			<th>Status</th>
+			<th>Type</th>
+			<th>Translations</th>
+			<th>Stories</th>
+			<th>Headline</th>
+			<th>Lede</th>
+			<th colspan="3"></th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% @articles.each do |article| %>
+			<tr>
+				<td><%= article.status.try(:name) %></td>
+				<td><%= article.type.try(:name) %></td>
+				<td>
+					<% article.translations.each do |tr| %>
+					 <%= link_to tr.language.name, tr %>
+					<% end %>
+				</td>
+				<td>
+					<% article.stories.each do |s| %>
+					 <%= link_to s.title, s %>
+					<% end %>
+				</td>
+				<td><%= article.headline %></td>
+				<td><%= article.lede %></td>
+				<td><%= link_to 'Show', article %></td>
+				<td><%= link_to 'Edit', edit_article_path(article) %></td>
+				<td><%= link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Article', new_article_path %>
