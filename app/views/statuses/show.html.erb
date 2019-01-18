@@ -1,9 +1,10 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Eng:</strong>
-  <%= @status.eng %>
+  <%= @status.name %>
 </p>
+
+<p style="background-color: #<%= @status.colorbackground %>; color: #<%= @status.colortext %>;"><%= @status.name %></p>
 
 <%= link_to 'Edit', edit_status_path(@status) %> |
 <%= link_to 'Back', statuses_path %>

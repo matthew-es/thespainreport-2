@@ -1,6 +1,19 @@
+<div class="content-admin">
+
+<div class="content-admin-block">
+	<%= link_to "Articles", articles_path %>
+	<%= link_to "Uploads", uploads_path %>
+	<%= link_to "Campaigns", campaigns_path %>
+	<%= link_to "Types", types_path %>
+	<%= link_to "Languages", languages_path %>
+	<%= link_to "Statuses", statuses_path %>
+</div>
+
 <p id="notice"><%= notice %></p>
 
 <h1>Statuses</h1>
+
+<%= link_to 'New Status', new_status_path %>
 
 <table>
   <thead>
@@ -11,17 +24,15 @@
   </thead>
 
   <tbody>
-    <% @statuses.each do |status| %>
+    <% @statuses.each do |s| %>
       <tr>
-        <td><%= status.eng %></td>
-        <td><%= link_to 'Show', status %></td>
-        <td><%= link_to 'Edit', edit_status_path(status) %></td>
-        <td><%= link_to 'Destroy', status, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td style="border: 1 px solid #000; background-color: #<%= s.colorbackground %>; color: #<%= s.colortext %>;"><%= s.name %></td>
+        <td><%= link_to 'Show', s %></td>
+        <td><%= link_to 'Edit', edit_status_path(s) %></td>
+        <td><%= link_to 'Destroy', s, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Status', new_status_path %>
+</div>

@@ -1,22 +1,14 @@
 /*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
  *= require_tree .
  *= require_self
  */
 
+/* Site-wide */
 body {margin-top: 20px; padding-top: 0px; background-color: #fff;}
 .clear {clear:both;}
+.right {text-align: right;}
 
+/* Public pages */
 .site-title-new, .site-title-new a, .site-title-new a:visited, .site-title-new a:hover {font-family: Impact; background-color: #AA151B;  color:#ffe680; text-decoration: none;}
 .site-title-new {float: left; padding: 10px 10px 10px 10px; font-size: 39px; font-family: Impact; font-weight: 700; line-height: 1;}
 .site-title-surround {font-family: Georgia; color:#ffe680;}
@@ -26,48 +18,8 @@ body {margin-top: 20px; padding-top: 0px; background-color: #fff;}
 .updates p {margin-top: 0px;}
 .content-index {background-color: #fff;}
 
-.content-admin {width: 1100px; margin: 0 auto; padding: 10px; border-left: 1px solid #AA151B; border-right: 1px solid #AA151B; }
-.content-admin-block {margin-bottom: 10px;}
-input.content-admin-headline {width: 98%; padding:5px;}
-input.content-admin-lede {width: 98%; padding:5px;}
-textarea.content-admin-body {width: 98%; padding:10px; min-height: 600px;}
-.content-admin-block-tr {width: 100%;}
-.content-admin-block-tr-left {width: 48%; float:left;}
-.content-admin-block-tr-left p {margin-top: 12px; margin-left: 10px; margin-bottom: 15px;}
-.content-admin-block-tr-right {width: 48%; float:right; margin-right: 20px;}
-
-/*Font styles */
-h1, h2 {font-family: Impact; font-size: 28px; line-height: 120%;}
-h3 {margin-top: 30px; margin-bottom: 10px; font-family: Impact; font-size: 20px; line-height: 100%;}
-input.content-admin-headline {font-family: Impact; font-size: 23px; line-height: 120%;}
-p, li, textarea.content-admin-body, .content-admin-block-tr-right {font-family: Georgia; font-size: 18px; line-height: 130%; text-align: left;}
-.lede, input.content-admin-lede {font-family: Georgia; font-size: 18px; font-style: italic;}
-
-/*Link styles */
-a { color: #2952a3;}
-a:visited { color: #930677;}
-a:hover{background-color: #0073e6; color: #fff;}
+img {max-width: 100%; margin: 0 10px;}
 mark {background-color: #ffe680; font-weight: normal;}
-a.editor-link, a.editor-link:visited, a.editor-link:hover {background-color: #fff; color: #000; text-decoration: none;}
-
-img {max-width: 100%; margin-bottom: 10px;}
-
-a.button, a.button:visited {
-  background-color: #2952a3;
-  border: 1px solid #2952a3;
-  border-radius: 3px;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset;
-  color: white;
-  line-height: 80%;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-family: Georgia;
-  font-size: 18px;
-  padding: 10px 50px;
-}
-a.button:hover {background-color: #0073e6;}
 
 .story-link {font-size: 16px; font-family: Impact; font-weight: normal; text-transform: none;}
 .meta {padding-top: 0px; padding-bottom: 0px; font-size: 11px; font-family: Georgia; font-weight: normal; text-transform: none;}
@@ -80,3 +32,38 @@ a.button:hover {background-color: #0073e6;}
 
 .lede {margin-top: 5px; margin-bottom: 10px;}
 .lede-slug {font-weight: bold;}
+
+.article-audio {width: 50%; background-color: #fff; padding: 5px;}
+.article-audio-text {padding-left: 5px; font-family: Georgia; font-size: 15px; font-style: italic; margin-bottom: 3px;}
+
+/* Admin pages */
+.content-admin {width: 1100px; margin: 0 auto; padding: 10px; border-left: 1px solid #AA151B; border-right: 1px solid #AA151B; }
+.content-admin-block {margin-bottom: 10px;}
+.content-admin-block-tr {width: 100%;}
+.content-admin-block-tr-left {width: 48%; float:left;}
+.content-admin-block-tr-left p {margin-top: 12px; margin-left: 10px; margin-bottom: 15px;}
+.content-admin-block-tr-right {width: 48%; float:right; margin-right: 20px;}
+
+input.content-admin-headline, input.content-admin-lede, input.content-admin-media {width: 98%; padding:5px;}
+input.content-admin-media {font-family: Georgia; font-size: 13px; font-style: italic;}
+textarea.content-admin-body {width: 98%; padding:10px; min-height: 600px;}
+
+/* Font styles */
+h1, h2 {font-family: Impact; font-size: 28px; line-height: 120%;}
+h3 {margin-top: 30px; margin-bottom: 10px; font-family: Impact; font-size: 20px; line-height: 100%;}
+input.content-admin-headline {font-family: Impact; font-size: 23px; line-height: 120%;}
+p, li, textarea.content-admin-body, .content-admin-block-tr-right {font-family: Georgia; font-size: 18px; line-height: 130%; text-align: left;}
+.lede, input.content-admin-lede {font-family: Georgia; font-size: 18px; font-style: italic;}
+
+/* Link styles */
+a { color: #2952a3;}
+a:visited { color: #930677;}
+a:hover{background-color: #0073e6; color: #fff;}
+a.editor-link, a.editor-link:visited, a.editor-link:hover {background-color: #fff; color: #000; 
+  text-decoration: none;}
+a.button, a.button:visited {background-color: #2952a3; border: 1px solid #2952a3;
+  border-radius: 3px; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset;
+  color: white; line-height: 80%; cursor: pointer; text-align: center; text-decoration: none;
+  display: inline-block; font-family: Georgia;
+  font-size: 18px; padding: 10px 50px;}
+a.button:hover {background-color: #0073e6;}

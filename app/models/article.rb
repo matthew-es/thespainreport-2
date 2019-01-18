@@ -17,6 +17,9 @@ class Article < ApplicationRecord
 		"#{id}-#{created_at.strftime("%y%m%d%H%M%S")}-#{headline.parameterize}"
 	end
     
-    scope :original, -> {where(original_id: '')}
-    scope :story, -> {where(story_id: '')}
+    scope :notupdate, -> {where(main_id: '')}
+    scope :nottranslation, -> {where(original_id: '')}
+    scope :story, -> {Article.joins(:type).merge(Type.story)}
+    scope :notstory, -> {Article.joins(:type).merge(Type.notstory)}
+    scope :toplevelstory, -> {where(story_id: '')}
 end

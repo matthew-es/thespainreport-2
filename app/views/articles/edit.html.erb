@@ -1,5 +1,14 @@
 <div class="content-admin">
 	<div class="content-admin-block">
+		<%= link_to "Articles", articles_path %>
+		<%= link_to "Uploads", uploads_path %>
+		<%= link_to "Campaigns", campaigns_path %>
+		<%= link_to "Types", types_path %>
+		<%= link_to "Languages", languages_path %>
+		<%= link_to "Statuses", statuses_path %>
+	</div>
+	
+	<div class="content-admin-block">
 		<div class="story-link">
 			Editing
 		    <% if @article.original.blank? %>
@@ -16,5 +25,4 @@
 
 <%= render 'form', article: @article %>
 
-<%= link_to 'Back', articles_path %>
 </div>

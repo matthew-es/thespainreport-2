@@ -21,16 +21,19 @@
 				<td><%= link_to article.status.try(:name), edit_article_path(article) %></td>
 				<td><%= article.type.try(:name) %></td>
 				<td>
-					<% article.translations.each do |tr| %>
-					 <%= link_to tr.language.name, tr %>
-					<% end %>
+					
 				</td>
 				<td>
 					<% article.stories.each do |s| %>
 					 <%= link_to s.title, s %>
 					<% end %>
 				</td>
-				<td><%= link_to article.headline, article %></td>
+				<td>
+					<%= link_to article.headline, article %><br />
+					<% article.translations.each do |tr| %>
+					 <%= link_to tr.language.name, tr %>
+					<% end %>
+				</td>
 				<td><%= link_to 'D?', article, method: :delete, data: { confirm: 'Are you sure?' } %></td>
 			</tr>
 		<% end %>

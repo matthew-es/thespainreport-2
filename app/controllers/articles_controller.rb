@@ -8,13 +8,15 @@ class ArticlesController < ApplicationController
     @statuses = Status.all.order(:name)
     @languages = Language.all.order(:name)
     @stories = Article.story.order(:created_at)
-    @articles = Article.original.order(:created_at)
-    @mainarticles = Article.all.order(:created_at)
+    @nottranslations = Article.nottranslation.order(:created_at)
+    @mains = Article.notupdate.order(:created_at)
     @campaigns = Campaign.all.order(:name)
   end
   
   def index
-    @articles = Article.original.order(:created_at)
+    @articles = Article.notupdate.nottranslation.notstory.order('created_at DESC')
+    @stories = Article.notupdate.nottranslation.story.order('created_at DESC')
+    @toplevelstories = Article.notupdate.nottranslation.story.toplevelstory.order('created_at DESC')
   end
   
   def admin
@@ -86,6 +88,6 @@ class ArticlesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def article_params
-      params.require(:article).permit(:body, :campaign_id, :headline, :language_id, :lede, :is_free, :main_id, :original_id, :status_id, :story_id, :topstory, :type_id)
+      params.require(:article).permit(:audio, :body, :campaign_id, :headline, :image, :is_free, :language_id, :lede, :main_id, :original_id, :status_id, :story_id, :topstory, :type_id)
     end
 end

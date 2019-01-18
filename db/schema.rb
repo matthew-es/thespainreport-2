@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_16_213657) do
+ActiveRecord::Schema.define(version: 2019_01_18_163218) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -48,6 +48,8 @@ ActiveRecord::Schema.define(version: 2019_01_16_213657) do
     t.integer "campaign_id"
     t.integer "main_id"
     t.integer "story_id"
+    t.string "image"
+    t.string "audio"
     t.index ["campaign_id"], name: "index_articles_on_campaign_id"
     t.index ["language_id"], name: "index_articles_on_language_id"
     t.index ["main_id"], name: "index_articles_on_main_id"
@@ -88,6 +90,8 @@ ActiveRecord::Schema.define(version: 2019_01_16_213657) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "colorbackground"
+    t.string "colortext"
   end
 
   create_table "types", force: :cascade do |t|
@@ -96,6 +100,12 @@ ActiveRecord::Schema.define(version: 2019_01_16_213657) do
     t.datetime "updated_at", null: false
     t.integer "language_id"
     t.index ["language_id"], name: "index_types_on_language_id"
+  end
+
+  create_table "uploads", force: :cascade do |t|
+    t.text "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

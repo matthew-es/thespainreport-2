@@ -12,8 +12,9 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :eng %>
-    <%= form.text_field :eng %>
+    <strong>Name:</strong><%= form.text_field :name %>
+    <strong>Background:</strong> (Hex #) <%= form.text_field :colorbackground %>
+    <strong>Text:</strong> (Hex #) <%= form.text_field :colortext %>
   </div>
 
   <div class="actions">
