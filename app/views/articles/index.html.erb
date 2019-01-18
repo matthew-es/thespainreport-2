@@ -28,9 +28,10 @@
 			<strong><%= article.type.try(:name) %>:</strong> <%= article.lede %>
 		</div>
 		<div class="">
+			
 			<strong>Updates:</strong> 
 				<% article.updates.each do |u| %>
-					<span style="background-color: #<%= u.status.colorbackground %>; color: #<%= u.status.colortext %>;"><%= link_to u.headline, u, {:style => 'color: # u.status.colortext;'}  %></span>
+					<span style="background-color: #<%= u.status.colorbackground %>; color: #<%= u.status.colortext %>;"><%= link_to u.headline, article_path(article, anchor: u.id), {:style => 'color: # u.status.colortext;'}  %></span>
 					<% u.translations.each do |tr| %>
 						(<span style="background-color: #<%= tr.status.colorbackground %>; color: #<%= tr.status.colortext %>;"><%= link_to tr.language.name, tr, {:style => 'color: # tr.status.colortext;'}  %></span>)
 					<% end %>
@@ -40,7 +41,7 @@
 				<% article.translations.each do |tr| %>
 					<span style="background-color: #<%= tr.status.colorbackground %>; color: #<%= tr.status.colortext %>;"><%= link_to tr.headline, tr, {:style => 'color: # tr.status.colortext;'}  %></span>
 					<% tr.updates.each do |u| %>
-						<span style="background-color: #<%= u.status.colorbackground %>; color: #<%= u.status.colortext %>;"><%= link_to u.headline, u, {:style => 'color: # u.status.colortext;'}  %></span>
+						<span style="background-color: #<%= u.status.colorbackground %>; color: #<%= u.status.colortext %>;"><%= link_to u.headline, article_path(tr, anchor: u.id), {:style => 'color: # u.status.colortext;'}  %></span>
 					<% end %>
 				<% end %>
 				

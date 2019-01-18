@@ -37,11 +37,17 @@
 	</div>
 	
 	<div class="content-admin-block">
-		<%= f.text_field :audio, :class => "content-admin-media", placeholder: "Audio file…" %>
+		<div class="floatleft" style="width:75%">
+			<%= f.text_field :audio, :class => "content-admin-audio", placeholder: "Audio file…" %>
+		</div>
+		<div class="floatleft" style="width:20%">
+			<%= f.text_field :audioteaser, :class => "content-admin-audioteaser", placeholder: "Audio teaser…" %>
+		</div>
+	<div class="clear"></div>
 	</div>
 	
 	<div class="content-admin-block">
-		<%= f.text_field :image, :class => "content-admin-media", placeholder: "Main image file…" %>
+		<%= f.text_field :image, :class => "content-admin-image", placeholder: "Main image file…" %>
 	</div>
 	
 	<div class="content-admin-block">

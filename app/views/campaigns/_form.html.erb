@@ -1,3 +1,5 @@
+<div class="content-admin">
+
 <%= form_with(model: campaign, local: true) do |f| %>
   <% if campaign.errors.any? %>
     <div id="error_explanation">
@@ -17,8 +19,28 @@
   </div>
   
   <div class="field">
-    <%= f.label :teaser %>
+    <%= f.label :image %>
+    <%= f.text_field :image %>
+  </div>
+  
+  <div class="field">
+    Teaser:
     <%= f.text_area :teaser %>
+  </div>
+  
+  <div class="field">
+    Deal:
+    <%= f.text_area :deal %>
+  </div>
+  
+  <div class="field">
+    Social & Momentum
+    <%= f.text_area :social %>
+  </div>
+  
+  <div class="field">
+    Risk reversal, guarantee
+    <%= f.text_area :riskreversal %>
   </div>
   
   <div class="field">
@@ -35,3 +57,4 @@
     <%= f.submit %>
   </div>
 <% end %>
+</div>

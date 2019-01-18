@@ -1,5 +1,18 @@
 <div class="content">
-
+	
+	<div class="content-top">
+		<div class="topbutton floatright">
+			<a href="https://www.patreon.com/join/matthewbennett" class="topbutton">
+				<% if @article.language_id == 1 %>
+					Support now on Patreon
+				<% elsif @article.language_id == 2 %>
+					Apoye ahora en el Patreon
+				<% else %>
+				<% end %>
+				
+			</a>
+		</div>
+	
 		<div class="story-link">
 		<% if @article.story.nil? %>
 			<%= link_to "The Spain Report", '/' %>
@@ -7,7 +20,8 @@
 			<%= link_to @article.story.headline, @article.story %>
 		<% end %>
 		</div>
-
+		<div class="clear"></div>
+	</div>
 
 <h1><%= link_to @article.headline, edit_article_path, class: "editor-link" %></h1>
 
@@ -39,18 +53,7 @@
     		</span>
     	</div>
     <% end %>
-    <% if @article.is_free == true %>
-    	<div class="meta-tag">
-    		<span class="black-label-mini">
-    			<% if @article.language_id == 1 %>
-    				Free access
-    			<% elsif @article.language_id == 2 %>
-    				Acceso libre
-    			<% else %>
-    			<% end %>
-    		</span>
-    	</div>
-    <% end %>
+
     <% if @article.updates.present? || @article.status.try(:name) == 'Updated' %>
     	<div class="meta-tag">
     		<span class="black-label-mini">
@@ -63,6 +66,15 @@
     		</span>
     	</div>
     <% end %>
+    
+    <% if @article.audio.present? %>
+    	<div class="meta-tag">
+    		<span class="black-label-mini">
+    			Audio
+    		</span>
+    	</div>
+    <% end %>
+    
 	<% if @article.original.blank? %>
 		<% @article.translations.where.not(id: @article).each do |tr| %>
 			<div class="meta-tag"><span class="blue-label-mini"><%= link_to tr.language.prompt, tr %></span></div>
@@ -94,7 +106,14 @@
 <% if @article.audio.present? %>
 	<div class="article-audio" >
 		<div class="article-audio-text" >
-			<strong>Listen now:</strong> xxxx
+			<strong>
+				<% if @article.language_id == 1 %>
+    				Listen now:
+    			<% elsif @article.language_id == 2 %>
+    				Escuche ahora:
+    			<% else %>
+    			<% end %>
+			</strong> <%= @article.audioteaser %>
 		</div>
 		<audio controls>
 		  <source src="<%= @article.audio %>" type="audio/mpeg">
@@ -108,7 +127,7 @@
 	
 	<div class="updates">
 	<% @article.updates.each do |u| %>
-		<h3 id="<%= u.id %>"><%= u.headline %></h3>
+		<h3 id="<%= u.id %>"><%= link_to u.headline, edit_article_path(u), class: "editor-link" %></h3>
 		<div class="meta">
 			<div class="meta-tag">
 				<% if u.language_id == 1 %>
@@ -130,6 +149,10 @@
 	    	</div>
     	</div>
     	<div class="clear"></div>
+    	<% if u.image.present? %>
+			<%= image_tag u.image %>
+		<% else %>
+		<% end %>
 		<%= markdown(u.body) %>
 	<% end %>
 	</div>
@@ -140,6 +163,7 @@
 	<a href="https://www.patreon.com/join/matthewbennett" class="button"><%= @article.campaign.buttontext %></a>
 </p>
 
+<p class="floatright"><%= image_tag @article.campaign.image, :class => "campaignimage" %></p>
 <p>
 	<%= markdown(@article.campaign.teaser) %>
 </p>
