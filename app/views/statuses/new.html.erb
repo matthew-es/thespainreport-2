@@ -1,5 +1,11 @@
-<h1>New Status</h1>
+<%= render "articles/admintop" %>
 
-<%= render 'form', status: @status %>
+	<h1 class="font-header font-header-normal line-115">Statuses</h1>
+	
+	<div class="margin-bottom-20">
+		New status…
+	</div>
 
-<%= link_to 'Back', statuses_path %>
+	<%= render 'form', status: @status %>
+
+</div>

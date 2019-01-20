@@ -1,7 +1,7 @@
 <div class="content">
 	
 	<div class="content-top">
-		<div class="topbutton floatright">
+		<div class="topbutton float-right">
 			<a href="https://www.patreon.com/join/matthewbennett" class="topbutton">
 				<% if @article.language_id == 1 %>
 					Support now on Patreon
@@ -13,7 +13,7 @@
 			</a>
 		</div>
 	
-		<div class="story-link">
+		<div class="padding-top-5 font-header font-header-tiny">
 		<% if @article.story.nil? %>
 			<%= link_to "The Spain Report", '/' %>
 		<% else %>
@@ -23,10 +23,10 @@
 		<div class="clear"></div>
 	</div>
 
-<h1><%= link_to @article.headline, edit_article_path, class: "editor-link" %></h1>
+<h1 class="font-header font-header-normal line-115"><%= link_to @article.headline, edit_article_path, class: "editor-link" %></h1>
 
-<div class="meta">
-    <div class="meta-tag">
+<div class="meta font-main font-main-tiny">
+    <div class="margin-right-5 float-left">
     	<% if @article.language_id == 1 %>
 			<%= @article.created_at.strftime("%b %d, %Y, %l:%M %P") %>
 		<% elsif @article.language_id == 2 %>
@@ -35,17 +35,17 @@
 		<% end %>
     </div>
     
-    <div class="meta-tag">
-    	<span class="red-label-mini">
-    		<span class="site-title-surround">The</span> <span class="site-title-spain">Spain</span> <span class="site-title-surround">Report</span>
+    <div class="margin-right-5 float-left">
+    	<span class="label background-color-red">
+    		<span class="font-color-yellow">The</span> <span class="font-color-orange">Spain</span> <span class="font-color-yellow">Report</span>
     	</span>
     </div>
     
     <% if @article.topstory == true %>
-    	<div class="meta-tag">
-    		<span class="red-label-mini">
+    	<div class="margin-right-5 float-left">
+    		<span class="label background-color-red font-color-white">
     			<% if @article.language_id == 1 %>
-    				Latest News
+    				Breaking News
     			<% elsif @article.language_id == 2 %>
     				Última Hora
     			<% else %>
@@ -55,8 +55,8 @@
     <% end %>
 
     <% if @article.updates.present? || @article.status.try(:name) == 'Updated' %>
-    	<div class="meta-tag">
-    		<span class="black-label-mini">
+    	<div class="margin-right-5 float-left">
+    		<span class="label background-color-black font-color-white">
     			<% if @article.language_id == 1 %>
     				Updated
     			<% elsif @article.language_id == 2 %>
@@ -68,8 +68,8 @@
     <% end %>
     
     <% if @article.audio.present? %>
-    	<div class="meta-tag">
-    		<span class="black-label-mini">
+    	<div class="margin-right-5 float-left">
+    		<span class="label background-color-black font-color-white">
     			Audio
     		</span>
     	</div>
@@ -77,25 +77,33 @@
     
 	<% if @article.original.blank? %>
 		<% @article.translations.where.not(id: @article).each do |tr| %>
-			<div class="meta-tag"><span class="blue-label-mini"><%= link_to tr.language.prompt, tr %></span></div>
+			<div class="margin-right-5 float-left">
+				<%= link_to tr.language.prompt, tr, class: "label" %>
+			</div>
 		<% end %>
 	<% else %>
-		<div class="meta-tag"><span class="blue-label-mini"><%= link_to @article.original.language.prompt, @article.original %></span></div>
+		<div class="margin-right-5 float-left">
+			<%= link_to @article.original.language.prompt, @article.original, class: "label" %>
+		</div>
 		<% @article.original.translations.where.not(id: @article).each do |tr| %>
-			<div class="meta-tag"><span class="blue-label-mini"><%= link_to tr.language.prompt, tr %></span></div>
+			<div class="margin-right-5 float-left">
+				<%= link_to tr.language.prompt, tr, class: "label" %>
+			</div>
 		<% end %>
 	<% end %>
 	<div class="clear"></div>
 </div>
 
-<div class="lede">
-	<span class="lede-slug"><%= @article.type.try(:name) %>:</span> <%= @article.lede %>
-	
-	<ul style="margin-top: 10px; margin-bottom: 0px; margin-left: 20px; margin-right: 0;">
-      <% @article.updates.each do |u| %>
-        <li style="margin: 0 auto; text-align:left; font-style: normal;"><%= link_to u.headline, article_path(@article, anchor: u.id) %></li>
-      <% end %>
-    </ul>
+<div class="margin-top-5 font-main font-main-normal font-italic">
+	<span class="font-bold"><%= @article.type.try(:name) %>:</span> <%= @article.lede %>
+	<% if @article.updates.present? %>
+		<ul class="margin-top-5 margin-bottom-0 margin-left-20 margin-right-0">
+	      <% @article.updates.each do |u| %>
+	        <li><%= link_to u.headline, article_path(@article, anchor: u.id) %></li>
+	      <% end %>
+	    </ul>
+    <% else %>
+    <% end %>
 </div>
 
 <% if @article.image.present? %>
@@ -104,16 +112,16 @@
 <% end %>
 
 <% if @article.audio.present? %>
-	<div class="article-audio" >
-		<div class="article-audio-text" >
-			<strong>
+	<div class="margin-left-20 margin-top-10" >
+		<div class="padding-left-5 font-main font-main-small font-italic" >
+			<span class="font-bold">
 				<% if @article.language_id == 1 %>
     				Listen now:
     			<% elsif @article.language_id == 2 %>
     				Escuche ahora:
     			<% else %>
     			<% end %>
-			</strong> <%= @article.audioteaser %>
+			</span> <%= @article.audioteaser %>
 		</div>
 		<audio controls>
 		  <source src="<%= @article.audio %>" type="audio/mpeg">
@@ -123,13 +131,13 @@
 <% else %>
 <% end %>
 
+	<div class="margin-top-10">
 	<%= markdown(@article.body).html_safe %>
 	
-	<div class="updates">
 	<% @article.updates.each do |u| %>
 		<h3 id="<%= u.id %>"><%= link_to u.headline, edit_article_path(u), class: "editor-link" %></h3>
-		<div class="meta">
-			<div class="meta-tag">
+		<div class="meta font-main font-main-tiny">
+			<div class="margin-right-5 float-left">
 				<% if u.language_id == 1 %>
 					<%= u.created_at.strftime("%b %d, %Y, %l:%M %P") %>
 				<% elsif u.language_id == 2 %>
@@ -137,8 +145,8 @@
 				<% else %>
 				<% end %>
 			</div>
-			<div class="meta-tag">
-	    		<span class="black-label-mini">
+			<div class="margin-right-5 float-left">
+	    		<span class="label background-color-black font-color-white">
 	    			<% if u.language_id == 1 %>
 	    				Update
 	    			<% elsif u.language_id == 2 %>
@@ -156,17 +164,38 @@
 		<%= markdown(u.body) %>
 	<% end %>
 	</div>
-
+	
+	<p>——</p>
 
 <% if !@article.campaign.nil? %>
-<p style="text-align: center;">
-	<a href="https://www.patreon.com/join/matthewbennett" class="button"><%= @article.campaign.buttontext %></a>
-</p>
-
-<p class="floatright"><%= image_tag @article.campaign.image, :class => "campaignimage" %></p>
-<p>
-	<%= markdown(@article.campaign.teaser) %>
-</p>
+	<p style="text-align: center;">
+		<a href="https://www.patreon.com/join/matthewbennett" class="button"><%= @article.campaign.buttontext %></a>
+	</p>
+	<p class="float-right">
+		<%= image_tag @article.campaign.image, :class => "campaignimage" unless @article.campaign.image.nil? %>
+	</p>
+	<p><%= markdown(@article.campaign.teaser) %></p>
+	<p><%= markdown(@article.campaign.deal) %></p>
+	<p><%= markdown(@article.campaign.social) %></p>
+	<p><%= markdown(@article.campaign.riskreversal) %></p>
 <% end %>
+
+	<p>——</p>
+	<p>
+		<strong>What is The Spain Report?</strong><br />
+		Independent reporting and analysis of the most important stories changing the country,
+		written by Matthew Bennett, a British journalist who has been living and working in Spain for most of the past 20 years.
+		<a href="#">Read more</a>
+	</p>
+	<p>
+		<strong>Questions, stories, interviews, tips:</strong> matthew@thespainreport.com<br />
+		<strong>WhatsApp/Signal:</strong> (0034) 647 81 81 43<br />
+		<strong>Twitter:</strong> <a href="https://twitter.com/matthewbennett" title="Matthew Bennett on Twitter">@matthewbennett</a> <a href="https://twitter.com/thespainreport" title="The Spain Report on Twitter">@thespainreport</a>
+	</p>
+	<p style="text-align: center;">
+		&#169;<%= Time.new.year %> Matthew Bennett<br />
+		<a href="https://www.thespainreport.es" title="The Spain Report">The Spain Report</a>
+	</p>
+
 </div>
 <div class="clear"></div>

@@ -1,6 +1,11 @@
-<h1>Editing Type</h1>
+<%= render "articles/admintop" %>
 
-<%= render 'form', type: @type %>
+	<h1 class="font-header font-header-normal line-115">Types</h1>
+	
+	<div class="margin-bottom-20">
+		Editing type…
+	</div>
 
-<%= link_to 'Show', @type %> |
-<%= link_to 'Back', types_path %>
+	<%= render 'form', type: @type %>
+
+</div>

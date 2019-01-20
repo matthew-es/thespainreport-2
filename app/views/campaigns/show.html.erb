@@ -1,24 +1,22 @@
-<p id="notice"><%= notice %></p>
+<%= render "articles/admintop" %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @campaign.name %>
-</p>
+	<h1 class="font-header font-header-normal line-115">Campaigns</h1>
+	
+	<div class="margin-bottom-20">
+		<strong>Name:</strong> <%= link_to @campaign.name, edit_campaign_path(@campaign) %><br />
+		<strong>Language:</strong> <%= @campaign.language.try(:name) %>
+	</div>
+	
+	<div class="margin-bottom-20">
+		<%= markdown(@campaign.teaser) %>
+		<%= markdown(@campaign.deal) %>
+		<%= markdown(@campaign.social) %>
+		<%= markdown(@campaign.riskreversal) %>
+		<a href="https://www.patreon.com/join/matthewbennett" class="button"><%= @campaign.buttontext %></a>
+	</div>
+	
+	<div class="margin-bottom-20">
+		<%= image_tag @campaign.image unless @campaign.image.nil? %>
+	</div>
 
-<p>
-  <%= markdown(@campaign.teaser) %>
-  <%= image_tag @campaign.image %>
-</p>
-
-<p>
-  <strong>Button Text:</strong>
-  <%= @campaign.buttontext %>
-</p>
-
-<p>
-  <strong>Language:</strong>
-  <%= @campaign.language.try(:name) %>
-</p>
-
-<%= link_to 'Edit', edit_campaign_path(@campaign) %> |
-<%= link_to 'Back', campaigns_path %>
+</div>

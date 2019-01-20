@@ -1,9 +1,7 @@
-<p id="notice"><%= notice %></p>
+<%= render "articles/admintop" %>
 
-<p>
-  <strong>Data:</strong>
-  <%= image_tag @upload.data %>
-</p>
+	<div class="margin-bottom-10">
+		<%= image_tag @upload.data %>
+	</div>
 
-<%= link_to 'Edit', edit_upload_path(@upload) %> |
-<%= link_to 'Back', uploads_path %>
+</div>

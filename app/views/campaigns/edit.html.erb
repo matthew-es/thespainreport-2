@@ -1,6 +1,10 @@
-<h1>Editing Campaign</h1>
+<%= render "articles/admintop" %>
 
-<%= render 'form', campaign: @campaign %>
+	<h1 class="font-header font-header-normal line-115">Campaigns</h1>
+	
+	<div class="margin-bottom-20">
+		Editing campaign…
+	</div>
+	<%= render 'form', campaign: @campaign %>
 
-<%= link_to 'Show', @campaign %> |
-<%= link_to 'Back', campaigns_path %>
+</div>

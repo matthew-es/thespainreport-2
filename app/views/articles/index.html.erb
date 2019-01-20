@@ -1,19 +1,9 @@
-<div class="content-admin">
+<%= render "articles/admintop" %>
 
-<div class="content-admin-block">
-	<%= link_to "Articles", articles_path %>
-	<%= link_to "Uploads", uploads_path %>
-	<%= link_to "Campaigns", campaigns_path %>
-	<%= link_to "Types", types_path %>
-	<%= link_to "Languages", languages_path %>
-	<%= link_to "Statuses", statuses_path %>
-</div>
+<h1 class="font-header font-header-normal line-115">Articles, updates, translations</h1>
 
-<h1>Articles, updates, translations</h1>
-<p id="notice"><%= notice %></p>
-
-<div class="content-admin-block">
-	<%= link_to 'New', new_article_path %>
+<div class="margin-bottom-20">
+	<%= link_to 'New Article', new_article_path %>
 </div>
 
 <% @articles.each do |article| %>
@@ -51,7 +41,7 @@
 	</div>
 <% end %>
 
-<h1>Stories</h1>
+<h1 class="font-header font-header-normal line-115">Stories</h1>
 
 <% @toplevelstories.each do |article| %>
 	<div class="" style="margin-bottom: 20px;">

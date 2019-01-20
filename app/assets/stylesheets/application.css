@@ -1,78 +1,71 @@
-/*
- *= require_tree .
- *= require_self
- */
-
-/* Site-wide */
+/* Site-wide HTML */
 body {margin-top: 20px; padding-top: 0px; background-color: #fff;}
-.clear {clear:both;}
-.right {text-align: right;}
-.floatleft {float: left;}
-.floatright {float: right;}
-
-/* Public pages */
-.site-title-new, .site-title-new a, .site-title-new a:visited, .site-title-new a:hover {font-family: Impact; background-color: #AA151B;  color:#ffe680; text-decoration: none;}
-.site-title-new {float: left; padding: 10px 10px 10px 10px; font-size: 39px; font-family: Impact; font-weight: 700; line-height: 1;}
-.site-title-surround {font-family: Georgia; color:#ffe680;}
-.site-title-spain {font-family: Georgia; color:#F1BF00;}
-
-.content {width: 650px; margin: 0 auto; padding: 10px 30px; border-left: 1px solid #AA151B; border-right: 1px solid #AA151B;}
-.topbutton {}
-.story-link {padding-top: 4px; font-size: 16px; font-family: Impact; font-weight: normal; text-transform: none;}
-
-.updates p {margin-top: 0px;}
-.content-index {background-color: #fff;}
-
+h2, h3, h4, h5 {margin-top: 20px; margin-bottom: 10px; font-family: Impact; font-size: 20px; line-height: 100%;}
+p {margin-top: 0px; margin-bottom: 20px; font-family: Georgia; font-size: 18px; line-height: 130%; text-align: left;}
+li {margin-top: 0px; margin-bottom: 0px; font-family: Georgia; font-size: 18px; font-style: normal; line-height: 130%; text-align: left;}
 img {max-width: 100%; margin: 10px 0 5px 0;}
 mark {background-color: #ffe680; font-weight: normal;}
-
-.meta {padding-top: 0px; padding-bottom: 0px; font-size: 11px; font-family: Georgia; font-weight: normal; text-transform: none;}
-.meta-tag {margin-bottom: 5px; margin-right: 5px; float:left;}
-.black-label-mini {background-color: #000000; color: #ffffff; padding: 2px 5px; line-height: 120%; text-transform: uppercase;}
-.red-label-mini {background-color: #AA151B; color: #ffffff; padding: 2px 5px; line-height: 120%; text-transform: uppercase;}
-.blue-label-mini {}
-.blue-label-mini a, .blue-label-mini a:visited {background-color: #2952a3; padding: 2px 5px; line-height: 120%; color: #fff; text-decoration: none;}
-.blue-label-mini a:hover {background-color: #0073e6;}
-
-.lede {margin-top: 5px; margin-bottom: 0px;}
-.lede-slug {font-weight: bold;}
-
-.article-audio {width: 100%; margin-left: 20px; background-color: #fff; margin-top: 15px; margin-bottom: 15px;}
-.article-audio-text {padding-left: 5px; font-family: Georgia; font-size: 15px; font-style: italic; margin-bottom: 3px;}
-
-.campaignimage {width: 200px; border-radius: 50%;}
-
-/* Admin pages */
-.content-admin {width: 1100px; margin: 0 auto; padding: 10px; border-left: 1px solid #AA151B; border-right: 1px solid #AA151B; }
-.content-admin-block {margin-bottom: 10px;}
-.content-admin-block-tr {width: 100%;}
-.content-admin-block-tr-left {width: 48%; float:left;}
-.content-admin-block-tr-left p {margin-top: 12px; margin-left: 10px; margin-bottom: 15px;}
-.content-admin-block-tr-right {width: 48%; float:right; margin-right: 20px;}
-
-input.content-admin-headline, input.content-admin-lede {width: 98%; padding:5px;}
-input.content-admin-image {width: 98%; padding:5px; font-family: Georgia; font-size: 13px; font-style: italic;}
-input.content-admin-audio {width: 98%; padding:5px;font-family: Georgia; font-size: 13px; font-style: italic;}
-input.content-admin-audioteaser {width: 98%; padding:5px; font-family: Georgia; font-size: 13px; font-style: italic;}
-textarea.content-admin-body {width: 98%; padding:10px; min-height: 600px;}
-
-/* Font styles */
-h1, h2 {font-family: Impact; font-size: 28px; line-height: 120%;}
-h3 {margin-top: 30px; margin-bottom: 10px; font-family: Impact; font-size: 20px; line-height: 100%;}
-input.content-admin-headline {font-family: Impact; font-size: 23px; line-height: 120%;}
-p, li, textarea.content-admin-body, .content-admin-block-tr-right {margin-top: 0px; margin-bottom: 20px; font-family: Georgia; font-size: 18px; line-height: 130%; text-align: left;}
-.lede, input.content-admin-lede {font-family: Georgia; font-size: 18px; font-style: italic;}
-
-/* Link styles */
-a { color: #2952a3;}
-a:visited { color: #930677;}
-a:hover{background-color: #0073e6; color: #fff;}
-a.button, a.button:visited {font-size: 18px; padding: 10px 50px;}
-a.topbutton, a.topbutton:visited {font-size: 15px; padding: 5px 40px;}
-a.button, a.button:visited, a.topbutton, a.topbutton:visited {
-  background-color: #2952a3; border: 1px solid #2952a3;
-  border-radius: 3px; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset;
-  color: white; line-height: 80%; cursor: pointer; text-align: center; text-decoration: none;
-  display: inline-block; font-family: Georgia; }
-a.button:hover, a.topbutton:hover {background-color: #0073e6;}
+a {color: #2952a3;}
+a:visited {color: #930677;}
+a:hover {background-color: #0073e6; color: #fff;}
+a.button, a.button:visited, a.topbutton, a.topbutton:visited, a.label, a.label:visited {background-color: #2952a3; color: #ffffff; font-family: Georgia; text-decoration: none;}
+a.button:hover, a.topbutton:hover, a.label:hover {background-color: #0073e6;}
+a.button, a.button:visited {font-size: 18px; padding: 5px 50px;}
+a.topbutton, a.topbutton:visited {font-size: 14px; padding: 5px 40px;}
+a.button, a.button:visited, a.topbutton, a.topbutton:visited {border: 1px solid #2952a3; border-radius: 3px; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset; cursor: pointer; text-align: center; display: inline-block;}
 a.editor-link, a.editor-link:visited, a.editor-link:hover {background-color: #fff; color: #000; text-decoration: none;}
+
+/* Appearances */
+.right {text-align: right;}
+.font-bold {font-weight: bold;}
+.font-italic {font-style: italic;}
+.font-main {font-family: Georgia;}
+.font-main-normal {font-size: 18px;}
+.font-main-small {font-size: 15px;}
+.font-main-tiny {font-size: 11px;}
+.font-header {font-family: Impact;}
+.font-header-normal {font-size: 28px;}
+.font-header-small {font-size: 23px;}
+.font-header-tiny {font-size: 16px;}
+.font-color-white {color: #ffffff;}
+.font-color-black {color: #000000;}
+.font-color-orange {color:#F1BF00;}
+.font-color-yellow {color:#ffe680;}
+.background-color-red {background-color: #AA151B;}
+.background-color-black {background-color: #000000;}
+.line-100 {line-height: 100%;}
+.line-115 {line-height: 114%;}
+.line-120 {line-height: 120%;}
+.line-130 {line-height: 140%;}
+
+/* Positioning */
+.clear {clear:both;}
+.float-left {float: left;}
+.float-right {float: right;}
+.width-100, input.width-100 {width: 100%;}
+.width-98, input.width-98 {width: 98%;}
+.width-48 {width: 48%;}
+.margin-centre {}
+.margin-top-0 {margin-top: 0px;}
+.margin-top-5 {margin-top: 5px;}
+.margin-top-10 {margin-top: 10px;}
+.margin-bottom-0 {margin-bottom: 0px;}
+.margin-bottom-5 {margin-bottom: 5px;}
+.margin-bottom-10 {margin-bottom: 10px;}
+.margin-bottom-20 {margin-bottom: 20px;}
+.margin-left-20 {margin-left: 20px;}
+.margin-right-5 {margin-right: 5px;}
+.margin-right-20 {margin-right: 20px;}
+.padding-5, input.padding-5 {padding: 5px;}
+.padding-10, input.padding-10 {padding: 10px;}
+.padding-top-0 {padding-top: 0px;}
+.padding-top-5 {padding-top: 5px;}
+.padding-bottom-0 {padding-bottom: 0px;}
+.padding-left-5 {padding-left: 5px;}
+
+/* Other stuff */
+.content {width: 650px; margin: 0 auto; padding: 10px 30px; border-left: 1px solid #AA151B; border-right: 1px solid #AA151B;}
+.content-admin {width: 1100px; margin: 0 auto; padding: 10px; border-left: 1px solid #AA151B; border-right: 1px solid #AA151B;}
+.meta {text-transform: uppercase;}
+.label {padding: 2px 5px;}
+.campaignimage {width: 200px; border-radius: 50%;}

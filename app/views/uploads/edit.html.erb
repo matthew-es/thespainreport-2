@@ -1,6 +1,12 @@
-<h1>Editing Upload</h1>
+<%= render "articles/admintop" %>
 
-<%= render 'form', upload: @upload %>
-
-<%= link_to 'Show', @upload %> |
-<%= link_to 'Back', uploads_path %>
+	<div class="margin-bottom-20">
+		Editing upload…
+	</div>
+	
+	<div class="margin-bottom-20">
+		<%= render 'form', upload: @upload %>
+	</div>
+	
+	<%= image_tag @upload.data %>
+</div>

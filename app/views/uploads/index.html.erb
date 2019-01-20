@@ -1,19 +1,8 @@
-<div class="content-admin">
+<%= render "articles/admintop" %>
 
-<div class="content-admin-block">
-	<%= link_to "Articles", articles_path %>
-	<%= link_to "Uploads", uploads_path %>
-	<%= link_to "Campaigns", campaigns_path %>
-	<%= link_to "Types", types_path %>
-	<%= link_to "Languages", languages_path %>
-	<%= link_to "Statuses", statuses_path %>
-</div>
+<h1 class="font-header font-header-normal line-115">Uploads</h1>
 
-<p id="notice"><%= notice %></p>
-
-<h1>Uploads</h1>
-
-<div class="content-admin-block">
+<div class="margin-bottom-20">
 	<%= form_with url: uploads_path do |f| %>
 		<%= f.file_field :data  %>
 		<%= f.submit 'Upload file' %>
@@ -22,13 +11,6 @@
 
 <div class="content-admin-block">
 <table>
-	<thead>
-		<tr>
-			<th>Data</th>
-			<th colspan="3"></th>
-		</tr>
-	</thead>
-
 	<tbody>
 		<% @uploads.each do |upload| %>
 			<tr>

@@ -1,0 +1,21 @@
+<%= render "articles/admintop" %>
+
+<h1 class="font-header font-header-normal line-115">Users</h1>
+
+<div class="margin-bottom-20">
+	<%= link_to 'New User', new_user_path %>
+</div>
+
+<table>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= link_to user.email, edit_user_path(user) %></td>
+        <td><%= user.email_confirmed %></td>
+        <td><%= user.role %></td>
+        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>

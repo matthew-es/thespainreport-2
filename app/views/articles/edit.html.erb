@@ -1,28 +1,18 @@
-<div class="content-admin">
-	<div class="content-admin-block">
-		<%= link_to "Articles", articles_path %>
-		<%= link_to "Uploads", uploads_path %>
-		<%= link_to "Campaigns", campaigns_path %>
-		<%= link_to "Types", types_path %>
-		<%= link_to "Languages", languages_path %>
-		<%= link_to "Statuses", statuses_path %>
-	</div>
-	
-	<div class="content-admin-block">
-		<div class="story-link">
-			Editing
-		    <% if @article.original.blank? %>
-				original…
-			<% else %>
-				translation…
-			<% end %>
-			<% if notice %>
-				<span class="notice"><%= notice %></span>
-			<% else %>
-			<% end %>
-		</div>
+<%= render "admintop" %>
+
+	<div class="margin-bottom-20">
+		Editing
+	    <% if @article.original.blank? %>
+			original…
+		<% else %>
+			translation…
+		<% end %>
+		<% if notice %>
+			<span class="notice"><%= notice %></span>
+		<% else %>
+		<% end %>
 	</div>
 
-<%= render 'form', article: @article %>
+	<%= render 'form', article: @article %>
 
 </div>

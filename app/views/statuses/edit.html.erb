@@ -1,6 +1,11 @@
-<h1>Editing Status</h1>
+<%= render "articles/admintop" %>
 
-<%= render 'form', status: @status %>
+	<h1 class="font-header font-header-normal line-115">Statuses</h1>
+	
+	<div class="margin-bottom-20">
+		<div style="border: 1 px solid #000; background-color: #<%= @status.colorbackground %>; color: #<%= @status.colortext %>;">Editing status…</div>
+	</div>
 
-<%= link_to 'Show', @status %> |
-<%= link_to 'Back', statuses_path %>
+	<%= render 'form', status: @status %>
+
+</div>
