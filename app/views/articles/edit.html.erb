@@ -1,16 +1,20 @@
 <%= render "admintop" %>
 
-	<div class="margin-bottom-20">
-		Editing
-	    <% if @article.original.blank? %>
+	<div class="margin-bottom-10">
+		<div style="border: 1 px solid #000; background-color: #<%= @article.status.colorbackground %>; color: #<%= @article.status.colortext %>;">
+			Editing
+	   <% if @article.original.blank? %>
 			original…
 		<% else %>
 			translation…
 		<% end %>
+			status is "<%= @article.status.name %>"
+		
 		<% if notice %>
-			<span class="notice"><%= notice %></span>
+			…<%= notice %>
 		<% else %>
-		<% end %>
+		<% end %>	
+		</div>
 	</div>
 
 	<%= render 'form', article: @article %>
