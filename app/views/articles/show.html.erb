@@ -23,7 +23,13 @@
 		<div class="clear"></div>
 	</div>
 
-<h1 class="font-header font-header-normal line-115"><%= link_to @article.headline, edit_article_path, class: "editor-link" %></h1>
+<h1 class="font-header font-header-normal line-115">
+	<% if current_user.nil? %>
+		<%= @article.headline %>
+	<% else %>
+		<%= link_to @article.headline, edit_article_path, class: "editor-link" %>
+	<% end %>
+</h1>
 
 <div class="meta font-main font-main-tiny">
     <div class="margin-right-5 float-left">
@@ -135,7 +141,13 @@
 	<%= markdown(@article.body).html_safe %>
 	
 	<% @article.updates.each do |u| %>
-		<h3 id="<%= u.id %>"><%= link_to u.headline, edit_article_path(u), class: "editor-link" %></h3>
+		<h3 id="<%= u.id %>">
+			<% if current_user.nil? %>
+				<%= u.headline %>
+			<% else %>
+				<%= link_to u.headline, edit_article_path(u), class: "editor-link" %>
+			<% end %>
+		</h3>
 		<div class="meta font-main font-main-tiny">
 			<div class="margin-right-5 float-left">
 				<% if u.language_id == 1 %>

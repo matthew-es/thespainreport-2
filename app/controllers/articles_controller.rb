@@ -38,6 +38,15 @@ class ArticlesController < ApplicationController
 	# GET /articles/1
 	# GET /articles/1.json
 	def show
+		if ["Published", "Updated"].include?@article.status.name
+		
+		elsif current_user.nil?
+			redirect_to root_url
+		elsif current_user
+			
+		else
+			redirect_to root_url
+		end
 	end
 
 	# GET /articles/new
@@ -112,6 +121,6 @@ class ArticlesController < ApplicationController
 
 		# Never trust parameters from the scary internet, only allow the white list through.
 		def article_params
-			params.require(:article).permit(:audio, :audioteaser, :body, :campaign_id, :headline, :image, :is_free, :language_id, :lede, :main_id, :original_id, :status_id, :story_id, :topstory, :type_id)
+			params.require(:article).permit(:audio, :audioteaser, :body, :created_at, :campaign_id, :headline, :image, :is_free, :language_id, :lede, :main_id, :original_id, :status_id, :story_id, :topstory, :type_id)
 		end
 end
