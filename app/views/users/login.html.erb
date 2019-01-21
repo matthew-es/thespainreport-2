@@ -1,16 +1,16 @@
+<div class="content">
 <%= form_tag '/login' do %>
-        <div class="top-login-input-float"><%= text_field_tag 'email', nil, class: 'input200', placeholder: 'Your e-mail...' %></div>
-        <div class="top-login-input-float"><%= password_field_tag 'password', nil, class: 'input170', placeholder: 'Your password...' %>
-          <% if flash[:password] %>
-            <br />
-            <div class="web-width">
-              <a href="<%= new_password_reset_path %>" style="font-size: 11px; color: #F1BF00 !important; padding: 2px 0px 0px 10px; text-decoration:underline !important;">Want a new password?</a>
-            </div>
-            <div class="mobile-width">
-              <a href="<%= new_password_reset_path %>" style="font-size: 11px; color: #AA151B !important; margin: 0px; padding: 0px 0px 0px 10px; text-decoration:underline !important;">New password?</a>
-            </div>
-          <% end %>
-        </div>
-        <div class="top-login-input-float-submit"><button type="submit" class="blueformbutton">Log In</button></div>
-        <div class="clear"></div>
-        <% end %>
+				<%= text_field_tag 'email', nil, class: 'input200', placeholder: 'Your e-mail...' %>
+				<%= password_field_tag 'password', nil, class: 'input170', placeholder: 'Your password...' %>
+					<% if flash[:password] %>
+						<br />
+						<div class="web-width">
+							<a href="<%= new_password_reset_path %>" style="font-size: 11px; color: #F1BF00 !important; padding: 2px 0px 0px 10px; text-decoration:underline !important;">Want a new password?</a>
+						</div>
+						<div class="mobile-width">
+							<a href="<%= new_password_reset_path %>" style="font-size: 11px; color: #AA151B !important; margin: 0px; padding: 0px 0px 0px 10px; text-decoration:underline !important;">New password?</a>
+						</div>
+					<% end %>
+			<button type="submit" class="blueformbutton">Log In</button>
+				<% end %>
+</div>
