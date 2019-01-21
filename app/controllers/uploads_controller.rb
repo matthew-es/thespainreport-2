@@ -52,7 +52,7 @@ class UploadsController < ApplicationController
 	# POST /uploads.json
 	def create
 		# Create a reference for the temporary file
-		tf = "#{Rails.root}/tmp/uploads/#{params[:data].original_filename}"
+		tf = "#{Rails.root}/tmp/#{params[:data].original_filename}"
   
 		# Writes tmp file if doesn't exist
 		File.open(tf, 'wb') do |f|

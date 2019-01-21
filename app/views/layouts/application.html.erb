@@ -3,7 +3,6 @@
 	<head>
 		<title><% if current_page?('/') %>The Spain Report | Understand Spain, In English<% else %><%= yield(:title) %> | The Spain Report<% end %></title>
 		<%= yield(:meta) %>
-		
 		<%= csrf_meta_tags %>
 		<%= csp_meta_tag %>
 		<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
