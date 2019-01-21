@@ -1,15 +1,57 @@
 <div class="content">
+
+	<div class="content-top">
+		<div class="topbutton float-right">
+			<a href="https://www.patreon.com/join/matthewbennett" class="topbutton">
+				Support now on Patreon
+			</a>
+		</div>
 	
-	<% if current_user %>
-		Logged in as <%= current_user.email %>.
-		<%= link_to 'Logout', users_logout_path %>
-	<% else %>
-	<% end %>
+		<div class="padding-top-5">
+			<span class="label font-main background-color-red" style="text-transform: uppercase;">
+    		<span class="font-color-yellow">The</span> <span class="font-color-orange">Spain</span> <span class="font-color-yellow">Report</span>
+    	</span>
+		</div>
+		<div class="clear"></div>
+	</div>
 
-<h1 class="font-header font-header-normal">The Spain Report 2019</h1>
+<% @lasttopstory.each do |article| %>
+	 <% if article.image? %>
+		<div class="no-hover-bg">
+		  <%= link_to(article) do %>
+			 <%= image_tag article.image unless article.image.nil? %>
+		  <% end %>
+		</div>
+	 <% else %>
+	 <% end %>
 
-<p><strong>xxxx</strong></p>
+	 <h1 class="font-header font-header-normal line-115 margin-top-0 margin-bottom-5">
+		 <%= link_to article do %>
+		  <%= link_to article.headline, article %>
+		<% end %>
+	 </h1>
+	 
+	 <div class="font-main font-main-normal font-italic"><span class="font-bold"><%= article.type.name %>:</span> <%= article.lede %></div>
+ <% end %>
+ 
+ <h3>Latest Stories</h3>
+ <ul class="font-main font-main-normal font-italic">
+ <% @lastten.english.not_latest_top_story.each do |article| %>
+ 	<li class="margin-bottom-10"><%= link_to article.headline, article %>
+		<br /><span class="font-bold font-italic"><%= article.type.name %>:</span> <span class="font-italic"><%= article.lede %></span>
+	</li>
+ <% end %>
+ </ul>
+ 
+<h3>Últimos Artículos</h3>
+<ul class="font-main font-main-normal">
+	<% @lastten.spanish.each do |article| %>
+		<li class="margin-bottom-10"><%= link_to article.headline, article %>
+			<br /><span class="font-bold font-italic"><%= article.type.name %>:</span> <span class="font-italic"><%= article.lede %></span>
+		</li>
+ <% end %>
+ </ul>
 
+<%= render "layouts/footer" %>
 
-<a type="button" class="button">Support the truth now</a>
 </div>

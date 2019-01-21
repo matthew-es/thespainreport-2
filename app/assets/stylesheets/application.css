@@ -13,7 +13,8 @@ a.button:hover, a.topbutton:hover, a.label:hover {background-color: #0073e6;}
 a.button, a.button:visited {font-size: 18px; padding: 5px 50px;}
 a.topbutton, a.topbutton:visited {font-size: 14px; padding: 5px 40px;}
 a.button, a.button:visited, a.topbutton, a.topbutton:visited {border: 1px solid #2952a3; border-radius: 3px; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset; cursor: pointer; text-align: center; display: inline-block;}
-a.editor-link, a.editor-link:visited, a.editor-link:hover {background-color: #fff; color: #000; text-decoration: none;}
+a.editor-link, a.editor-link:visited, a.editor-link:hover, h1 a, h1 a:visited, h1 a:hover {background-color: #fff; color: #000; text-decoration: none;}
+.no-hover-bg a {background-color: #fff;}
 
 /* Appearances */
 .right {text-align: right;}

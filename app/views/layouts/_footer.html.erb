@@ -1,0 +1,29 @@
+<div class="margin-top-10 margin-bottom-10">
+
+	<p>——</p>
+	<p>
+		<strong>What is The Spain Report?</strong><br />
+		Independent reporting and analysis of the most important stories changing the country,
+		written by Matthew Bennett, a British journalist who has been living and working in Spain for most of the past 20 years.
+		<a href="#">Read more</a>
+	</p>
+	<p>
+		<strong>Questions, stories, interviews, tips:</strong> matthew@thespainreport.com<br />
+		<strong>WhatsApp/Signal:</strong> (0034) 647 81 81 43<br />
+		<strong>Twitter:</strong> <a href="https://twitter.com/matthewbennett" title="Matthew Bennett on Twitter">@matthewbennett</a> <a href="https://twitter.com/thespainreport" title="The Spain Report on Twitter">@thespainreport</a>
+	</p>
+	<p style="text-align: center;">
+		&#169;<%= Time.new.year %> Matthew Bennett
+		<br />
+		<a href="<%= root_url %>" title="The Spain Report">The Spain Report</a>
+		<br />
+		<% if current_user %>
+			Logged in as <%= current_user.email %>.
+			<%= link_to 'Logout', users_logout_path %>
+		<% else %>
+		<% end %>
+	</p>
+
+	
+
+</div>
