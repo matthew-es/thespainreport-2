@@ -4,21 +4,47 @@ class LanguagesController < ApplicationController
   # GET /languages
   # GET /languages.json
   def index
-    @languages = Language.all
+    if current_user.nil? 
+			redirect_to root_url
+		elsif !current_user.nil?
+			@languages = Language.all
+		else
+			redirect_to root_url
+		end
   end
 
   # GET /languages/1
   # GET /languages/1.json
   def show
+    if current_user.nil? 
+			redirect_to root_url
+		elsif !current_user.nil?
+			
+		else
+			redirect_to root_url
+		end
   end
 
   # GET /languages/new
   def new
-    @language = Language.new
+    if current_user.nil? 
+			redirect_to root_url
+		elsif !current_user.nil?
+			@language = Language.new
+		else
+			redirect_to root_url
+		end
   end
 
   # GET /languages/1/edit
   def edit
+    if current_user.nil? 
+			redirect_to root_url
+		elsif !current_user.nil?
+			
+		else
+			redirect_to root_url
+		end
   end
 
   # POST /languages

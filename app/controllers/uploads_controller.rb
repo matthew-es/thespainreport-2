@@ -4,21 +4,47 @@ class UploadsController < ApplicationController
 	# GET /uploads
 	# GET /uploads.json
 	def index
-		@uploads = Upload.all
+		if current_user.nil? 
+			redirect_to root_url
+		elsif !current_user.nil?
+			@uploads = Upload.all
+		else
+			redirect_to root_url
+		end
 	end
 
 	# GET /uploads/1
 	# GET /uploads/1.json
 	def show
+		if current_user.nil? 
+			redirect_to root_url
+		elsif !current_user.nil?
+			
+		else
+			redirect_to root_url
+		end
 	end
 
 	# GET /uploads/new
 	def new
-		@upload = Upload.new
+		if current_user.nil? 
+			redirect_to root_url
+		elsif !current_user.nil?
+			@upload = Upload.new
+		else
+			redirect_to root_url
+		end
 	end
 
 	# GET /uploads/1/edit
 	def edit
+		if current_user.nil? 
+			redirect_to root_url
+		elsif !current_user.nil?
+			
+		else
+			redirect_to root_url
+		end
 	end
 	
 	

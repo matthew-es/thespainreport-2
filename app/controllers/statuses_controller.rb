@@ -4,21 +4,47 @@ class StatusesController < ApplicationController
   # GET /statuses
   # GET /statuses.json
   def index
-    @statuses = Status.all
+    if current_user.nil? 
+			redirect_to root_url
+		elsif !current_user.nil?
+			@statuses = Status.all
+		else
+			redirect_to root_url
+		end
   end
 
   # GET /statuses/1
   # GET /statuses/1.json
   def show
+    if current_user.nil? 
+			redirect_to root_url
+		elsif !current_user.nil?
+			
+		else
+			redirect_to root_url
+		end
   end
 
   # GET /statuses/new
   def new
-    @status = Status.new
+    if current_user.nil? 
+			redirect_to root_url
+		elsif !current_user.nil?
+			@status = Status.new
+		else
+			redirect_to root_url
+		end
   end
 
   # GET /statuses/1/edit
   def edit
+    if current_user.nil? 
+			redirect_to root_url
+		elsif !current_user.nil?
+			
+		else
+			redirect_to root_url
+		end
   end
 
   # POST /statuses

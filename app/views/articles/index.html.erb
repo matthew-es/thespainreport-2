@@ -49,7 +49,7 @@
 		<%= link_to 'Delete?', article, method: :delete, data: { confirm: 'Are you sure?' } %>
 		</div>
 		<div class="">
-			<span style="background-color: #<%= article.status.colorbackground %>; color: #<%= article.status.colortext %>;"><%= link_to article.headline, article, {:style => 'color: # article.status.colortext'}  %></span> in <span style="background-color: #<%= article.story.status.colorbackground unless article.story.nil? %>; color: #<%= article.story.status.colortext unless article.story.nil? %>;"><%= link_to article.story.headline, article.story unless article.story.nil? %></span>
+			<span style="background-color: #<%= article.status.colorbackground %>; color: #<%= article.status.colortext %>;"><%= link_to article.headline, article, {:style => 'color: # article.status.colortext'}  %></span>
 		</div>
 		<div class="" style="font-style: italic;">
 			<strong><%= article.type.try(:name) %>:</strong> <%= article.lede %>

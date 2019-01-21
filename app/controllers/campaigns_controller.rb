@@ -10,23 +10,48 @@ class CampaignsController < ApplicationController
   # GET /campaigns
   # GET /campaigns.json
   def index
-    campaign_elements
+    if current_user.nil? 
+			redirect_to root_url
+		elsif !current_user.nil?
+			campaign_elements
+		else
+			redirect_to root_url
+		end
   end
 
   # GET /campaigns/1
   # GET /campaigns/1.json
   def show
+    if current_user.nil? 
+			redirect_to root_url
+		elsif !current_user.nil?
+			
+		else
+			redirect_to root_url
+		end
   end
 
   # GET /campaigns/new
   def new
-    @campaign = Campaign.new
+    if current_user.nil? 
+			redirect_to root_url
+		elsif !current_user.nil?
+			@campaign = Campaign.new
     campaign_elements
+		else
+			redirect_to root_url
+		end
   end
 
   # GET /campaigns/1/edit
   def edit
-    campaign_elements
+    if current_user.nil? 
+			redirect_to root_url
+		elsif !current_user.nil?
+			campaign_elements
+		else
+			redirect_to root_url
+		end
   end
 
   # POST /campaigns

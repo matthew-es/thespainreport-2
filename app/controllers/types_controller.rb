@@ -4,23 +4,48 @@ class TypesController < ApplicationController
   # GET /types
   # GET /types.json
   def index
-    @types = Type.all
+    if current_user.nil? 
+			redirect_to root_url
+		elsif !current_user.nil?
+			@types = Type.all
+		else
+			redirect_to root_url
+		end
   end
 
   # GET /types/1
   # GET /types/1.json
   def show
+    if current_user.nil? 
+			redirect_to root_url
+		elsif !current_user.nil?
+			
+		else
+			redirect_to root_url
+		end
   end
 
   # GET /types/new
   def new
-    @type = Type.new
-    @languages = Language.all.order(:name)
+    if current_user.nil? 
+			redirect_to root_url
+		elsif !current_user.nil?
+			@type = Type.new
+      @languages = Language.all.order(:name)
+		else
+			redirect_to root_url
+		end
   end
 
   # GET /types/1/edit
   def edit
-    @languages = Language.all.order(:name)
+    if current_user.nil? 
+			redirect_to root_url
+		elsif !current_user.nil?
+			@languages = Language.all.order(:name)
+		else
+			redirect_to root_url
+		end
   end
 
   # POST /types

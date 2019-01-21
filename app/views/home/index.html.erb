@@ -1,4 +1,10 @@
 <div class="content">
+	
+	<% if current_user %>
+		Logged in as <%= current_user.email %>.
+	<%= link_to 'Logout', users_logout_path %>
+	<% else %>
+	<% end %>
 
 <h1 class="font-header font-header-normal">The Spain Report 2019</h1>
 
@@ -24,11 +30,11 @@
 <p><a href="#">Nulla mattis</a> sit amet enim at hendrerit. Pellentesque dictum nisl commodo, blandit sem quis, sagittis nunc. Maecenas mollis convallis imperdiet. Nulla ac blandit nibh. Phasellus imperdiet sem a tempor vulputate. Nam nec sodales lorem, quis rhoncus lectus. Morbi magna nisi, fringilla eget venenatis id, lobortis nec justo. Nam est elit, mattis vitae ultricies et, cursus id sem. Fusce ultrices lobortis nibh et commodo.</p>
 
 <ul>
-  <li><a href="#">One</a></li>
-  <li><a href="#">Two</a></li>
-  <li>Three</li>
-  <li>Four</li>
-  <li>Five</li>
+	<li><a href="#">One</a></li>
+	<li><a href="#">Two</a></li>
+	<li>Three</li>
+	<li>Four</li>
+	<li>Five</li>
 </ul>
 
 <p>Vestibulum in lacus turpis. Nunc fringilla vel magna eget hendrerit. Mauris placerat convallis risus laoreet dignissim. Nulla ullamcorper at mi at bibendum. Donec nulla sapien, fringilla sit amet rhoncus non, tristique in nulla. Quisque ullamcorper vulputate condimentum. Phasellus nec tempus turpis. Aliquam ut porttitor odio. Donec vel turpis sapien. Sed et risus nibh. Ut varius erat lacinia, ornare arcu ut, lobortis quam. Praesent a est sagittis, pharetra sem sit amet, commodo justo. Donec aliquam maximus pulvinar. Aliquam ut orci felis.</p>

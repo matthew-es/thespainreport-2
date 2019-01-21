@@ -1,11 +1,16 @@
 Rails.application.routes.draw do
-  resources :users
-  resources :uploads
   root 'home#index'
   
   get 'home/index'
   get 'articles/admin'
+  get 'users/signup'
+  post 'signup' => 'users#create'
+  get 'users/login'
+  post '/login' => 'users#newsession'
+  get '/users/logout' => 'users#destroysession'
   
+  resources :users
+  resources :uploads
   resources :campaigns
   resources :languages
   resources :statuses
