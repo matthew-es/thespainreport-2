@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+  
+  if Rails.env.production?
+    constraints(host: /^(?!www\.)/i) do
+      get '(*any)' => redirect { |params, request|
+        URI.parse(request.url).tap { |uri| uri.host = "www.#{uri.host}" }.to_s
+      }
+    end
+  else
+  end
+
   root 'home#index'
   
   get 'home/index'
