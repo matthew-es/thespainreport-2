@@ -144,7 +144,7 @@
 </div>
 
 <% if @article.image.present? %>
-	<%= image_tag @article.image %>
+	<%= image_tag ('http://image.thespainreport.es/' + @article.image) %>
 <% else %>
 <% end %>
 
@@ -161,7 +161,7 @@
 			</span> <%= @article.audioteaser %>
 		</div>
 		<audio controls>
-		  <source src="<%= @article.audio %>" type="audio/mpeg">
+		  <source src="<%= 'http://audio.thespainreport.es/' + @article.audio %>" type="audio/mpeg">
 		Your browser does not support the audio element.
 		</audio>
 	</div>
@@ -201,7 +201,7 @@
     	</div>
     	<div class="clear"></div>
     	<% if u.image.present? %>
-			<%= image_tag u.image %>
+			<%= image_tag ('http://image.thespainreport.es/' + u.image) %>
 		<% else %>
 		<% end %>
 		<%= markdown(u.body) %>
