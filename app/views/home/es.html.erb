@@ -41,7 +41,7 @@
 	 <% if article.image? %>
 		<div class="no-hover-bg">
 		  <%= link_to(article) do %>
-			 <%= image_tag article.image unless article.image.nil? %>
+			 <%= image_tag ('http://image.thespainreport.es/' + article.image) unless article.image.nil? %>
 		  <% end %>
 		</div>
 	 <% else %>

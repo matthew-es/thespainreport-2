@@ -215,7 +215,7 @@
 		<a href="https://www.patreon.com/join/matthewbennett" class="button"><%= @article.campaign.buttontext %></a>
 	</p>
 	<p class="float-right">
-		<%= image_tag @article.campaign.image, :class => "campaignimage" unless @article.campaign.image.nil? %>
+		<%= image_tag ('http://image.thespainreport.es/' + @article.campaign.image), :class => "campaignimage" unless @article.campaign.image.nil? %>
 	</p>
 	<p><%= markdown(@article.campaign.teaser) %></p>
 	<p><%= markdown(@article.campaign.deal) %></p>
