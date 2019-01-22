@@ -4,4 +4,6 @@ class Type < ApplicationRecord
     
     scope :story, -> {where(name: 'Story')}
     scope :notstory, -> {where.not(name: 'Story')}
+    scope :notes, -> {where(name: 'Notes')}
+    scope :notnotes, -> {where.not(name: 'Notes')}
 end

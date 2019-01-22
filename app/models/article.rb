@@ -21,12 +21,14 @@ class Article < ApplicationRecord
     scope :nottranslation, -> {where(original_id: '')}
     scope :story, -> {Article.joins(:type).merge(Type.story)}
     scope :notstory, -> {Article.joins(:type).merge(Type.notstory)}
+    scope :notes, -> {Article.joins(:type).merge(Type.notes)}
+    scope :notnotes, -> {Article.joins(:type).merge(Type.notnotes)}
     scope :toplevelstory, -> {where(story_id: '')}
-    scope :topstory, -> {where(:is_free => true)}
+    scope :topstory, -> {where(:topstory => true)}
     scope :lastone, -> {order('created_at DESC').limit(1)}
+    scope :notlatesttop, -> {where.not(id: topstory.lastone)}
     scope :lastten, -> {order('created_at DESC').limit(10)}
     scope :published, -> {where(status_id: 3)}
-    scope :not_latest_top_story, -> { where.not(id: topstory.lastone) }
     scope :english, -> {where(language_id: 1)}
     scope :spanish, -> {where(language_id: 2)}
 end

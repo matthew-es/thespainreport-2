@@ -58,7 +58,7 @@
  
  <h3>Latest Stories</h3>
  <ul class="font-main font-main-normal font-italic">
- <% @lastten.english.not_latest_top_story.each do |article| %>
+ <% @lastten_english.each do |article| %>
  	<li class="margin-bottom-10"><%= link_to article.headline, article %>
 		<br /><span class="font-bold font-italic"><%= article.type.name %>:</span> <span class="font-italic"><%= article.lede %></span>
 	</li>
@@ -67,7 +67,7 @@
  
 <h3>Últimos Artículos</h3>
 <ul class="font-main font-main-normal">
-	<% @lastten.spanish.each do |article| %>
+	<% @lastten_spanish.each do |article| %>
 		<li class="margin-bottom-10"><%= link_to article.headline, article %>
 			<br /><span class="font-bold font-italic"><%= article.type.name %>:</span> <span class="font-italic"><%= article.lede %></span>
 		</li>

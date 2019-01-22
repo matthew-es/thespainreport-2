@@ -2,13 +2,39 @@
 
 	<p>——</p>
 	<p>
-		<strong>What is The Spain Report?</strong><br />
-		Independent reporting and analysis of the most important stories changing the country,
-		written by Matthew Bennett, a British journalist who has been living and working in Spain for most of the past 20 years.
-		<a href="#">Read more</a>
+		<% if controller_name == 'home' && action_name == 'index' %>
+			<strong>What is The Spain Report?</strong><br />
+			Independent reporting and analysis of the most important stories changing the country,
+			written by Matthew Bennett, a British journalist who has been living and working in Spain for most of the past 20 years.
+			<a href="#">Read more</a>
+		<% elsif controller_name == 'articles' && action_name == 'show' %>
+			<% if @article.language_id == 1 %>
+				<strong>What is The Spain Report?</strong><br />
+				Independent reporting and analysis of the most important stories changing the country, 
+				written by Matthew Bennett, a British journalist who has been living and working in Spain for most of the past 20 years.
+				<a href="#">Read more</a>
+			<% elsif @article.language_id == 2 %>
+				<strong>¿Qué es The Spain Report?</strong><br />
+				Información y análisis independientes sobres las noticias y tendencias que están cambiando España.
+				Lo escribe Matthew Bennett, un periodista británico que vive y trabaja aquí desde hace 20 años.
+				<a href="#">Lea más</a>
+			<% else %>
+			<% end %>
+		<% else %>
+		<% end %>
 	</p>
 	<p>
-		<strong>Questions, stories, interviews, tips:</strong> matthew@thespainreport.com<br />
+		<% if controller_name == 'home' && action_name == 'index' %>
+			<strong>Questions, stories, interviews, tips:</strong> matthew@thespainreport.com<br />
+		<% elsif controller_name == 'articles' && action_name == 'show' %>
+			<% if @article.language_id == 1 %>
+				<strong>Questions, stories, interviews, tips:</strong> matthew@thespainreport.com<br />
+			<% elsif @article.language_id == 2 %>
+				<strong>Preguntas, temas, noticias, entrevistas:</strong> matthew@thespainreport.com<br />
+			<% else %>
+			<% end %>
+		<% else %>
+		<% end %>
 		<strong>WhatsApp/Signal:</strong> (0034) 647 81 81 43<br />
 		<strong>Twitter:</strong> <a href="https://twitter.com/matthewbennett" title="Matthew Bennett on Twitter">@matthewbennett</a> <a href="https://twitter.com/thespainreport" title="The Spain Report on Twitter">@thespainreport</a>
 	</p>
@@ -17,13 +43,5 @@
 		<br />
 		<a href="<%= root_url %>" title="The Spain Report">The Spain Report</a>
 		<br />
-		<% if current_user %>
-			Logged in as <%= current_user.email %>.
-			<%= link_to 'Logout', users_logout_path %>
-		<% else %>
-		<% end %>
 	</p>
-
-	
-
 </div>
