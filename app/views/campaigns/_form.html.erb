@@ -47,6 +47,6 @@
   </div>
   
   <div class="margin-bottom-10">
-    <%= image_tag @campaign.image unless @campaign.image.nil? %>
+    <%= image_tag ('http://image.thespainreport.es/' + @campaign.image) unless @campaign.image.nil? %>
   </div>
 <% end %>
