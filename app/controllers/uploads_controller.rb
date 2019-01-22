@@ -61,7 +61,13 @@ class UploadsController < ApplicationController
 		
 		# Put it on S3
 		s3 = Aws::S3::Resource.new()
-	    bucket = 'images.thespainreport.com'
+		if ['.png','.jpg'].include?File.extname(tf)
+	    	bucket = 'image.thespainreport.es'
+	    elsif ['.mp3','.wav'].include?File.extname(tf)
+	    	bucket = 'audio.thespainreport.es'
+	    elsif ['.pdf'].include?File.extname(tf)
+	    	bucket = 'pdf.thespainreport.es'
+	    end
 	    name = File.basename(tf)
 	    obj = s3.bucket(bucket).object(name)
 	    obj.upload_file(tf)
