@@ -41,7 +41,12 @@
 	
 		<div class="padding-top-5 font-header font-header-tiny">
 		<% if @article.story.nil? %>
-			<%= link_to "The Spain Report", '/' %>
+			<% if @article.language_id == 1 %>
+				<%= link_to "The Spain Report", '/' %>
+			<% elsif @article.language_id == 2 %>
+				<%= link_to "The Spain Report en español", '/' + 'es' %>
+			<% else %>
+			<% end %>
 		<% else %>
 			<%= link_to @article.story.headline, @article.story %>
 		<% end %>

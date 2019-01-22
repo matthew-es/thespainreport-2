@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   root 'home#index'
   
+  get 'es' => 'home#es'
   get 'home/index'
   get 'articles/admin'
   get 'users/signup'

@@ -1,7 +1,7 @@
-<% title "The Spain Report" %>
+<% title "The Spain Report en español" %>
 <% content_for :meta do %>
-	<meta name="description" content="The Spain Report" />
-	<link rel="canonical" href="<%= root_url %>" />
+	<meta name="description" content="The Spain Report en español" />
+	<link rel="canonical" href="<%= root_url + 'es' %>" />
 	<meta name="author" content="Matthew Bennett">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -9,15 +9,15 @@
 	<meta name="twitter:card" content="summary" />
 	<meta name="twitter:site" content="@thespainreport" />
 	<meta name="twitter:creator" content="@matthewbennett" />
-	<meta name="twitter:title" content="The Spain Report" />
-	<meta name="twitter:description" content="The Spain Report" />
-	<meta property="og:site_name" content="The Spain Report"/>
-	<meta property="og:url" content="<%= root_url %>"/>
+	<meta name="twitter:title" content="The Spain Report en español" />
+	<meta name="twitter:description" content="The Spain Report en español" />
+	<meta property="og:site_name" content="The Spain Report en español"/>
+	<meta property="og:url" content="<%= root_url + 'es' %>"/>
 	<meta property="og:type" content="article" />
-	<meta property="og:title" content="The Spain Report"/>
-  	<meta property="og:description" content="The Spain Report"/>
+	<meta property="og:title" content="The Spain Report en español"/>
+  	<meta property="og:description" content="The Spain Report en español"/>
  	<meta property="og:article:author" content="Matthew Bennett"/>
- 	<meta property="og:article:section" content="Spain"/>
+ 	<meta property="og:article:section" content="España"/>
 <% end %>
 
 <div class="content">
@@ -25,7 +25,7 @@
 	<div class="content-top">
 		<div class="topbutton float-right">
 			<a href="https://www.patreon.com/join/matthewbennett" class="topbutton">
-				Support now on Patreon
+				Apoye ahora en el Patreon
 			</a>
 		</div>
 	
@@ -55,17 +55,18 @@
 	 
 	 <div class="font-main font-main-normal font-italic"><span class="font-bold"><%= article.type.name %>:</span> <%= article.lede %></div>
  <% end %>
+
  
- <h3>Latest Stories</h3>
- <ul class="font-main font-main-normal font-italic">
- <% @lastten.each do |article| %>
- 	<li class="margin-bottom-10"><%= link_to article.headline, article %>
-		<br /><span class="font-bold font-italic"><%= article.type.name %>:</span> <span class="font-italic"><%= article.lede %></span>
-	</li>
+<h3>Últimos Artículos</h3>
+<ul class="font-main font-main-normal">
+	<% @lastten.each do |article| %>
+		<li class="margin-bottom-10"><%= link_to article.headline, article %>
+			<br /><span class="font-bold font-italic"><%= article.type.name %>:</span> <span class="font-italic"><%= article.lede %></span>
+		</li>
  <% end %>
  </ul>
  
- <h3>Latest Notes on Journalism</h3>
+  <h3>Últimos Apuntes Sobre Periodismo</h3>
  <ul class="font-main font-main-normal font-italic">
  <% @lasttennotes.each do |article| %>
  	<li class="margin-bottom-10"><%= link_to article.headline, article %>
