@@ -7,7 +7,7 @@ class UploadsController < ApplicationController
 		if current_user.nil? 
 			redirect_to root_url
 		elsif !current_user.nil?
-			@uploads = Upload.all
+			@uploads = Upload.all.order('created_at DESC')
 		else
 			redirect_to root_url
 		end
@@ -79,8 +79,8 @@ class UploadsController < ApplicationController
 
 		respond_to do |format|
 			if @upload.save
-				format.html { redirect_to @upload, notice: 'Upload was successfully created.' }
-				format.json { render :show, status: :created, location: @upload }
+				format.html { redirect_to uploads_path, notice: 'Upload was successfully created.' }
+				format.json { render :index, status: :created, location: @upload }
 			else
 				format.html { render :new }
 				format.json { render json: @upload.errors, status: :unprocessable_entity }
