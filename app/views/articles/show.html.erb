@@ -54,7 +54,7 @@
 		<div class="clear"></div>
 	</div>
 
-<h1 class="font-header font-header-normal line-115">
+<h1 class="font-header font-header-normal line-115 font-upper">
 	<% if current_user.nil? %>
 		<%= @article.headline %>
 	<% else %>
@@ -207,8 +207,6 @@
 		<%= markdown(u.body) %>
 	<% end %>
 	</div>
-	
-	<p>——</p>
 
 <% if !@article.campaign.nil? %>
 	<p style="text-align: center;">
