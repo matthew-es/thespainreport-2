@@ -27,7 +27,7 @@
 <div class="content">
 	
 	<div class="content-top">
-		<div class="topbutton float-right">
+		<div class="topbutton float-right mobile-100">
 			<a href="https://www.patreon.com/join/matthewbennett" class="topbutton">
 				<% if @article.language_id == 1 %>
 					Support now on Patreon
@@ -39,7 +39,7 @@
 			</a>
 		</div>
 	
-		<div class="padding-top-5 font-header font-header-tiny">
+		<div class="padding-top-5 font-header font-header-tiny mobile-100">
 		<% if @article.story.nil? %>
 			<% if @article.language_id == 1 %>
 				<%= link_to "The Spain Report", '/' %>
@@ -63,7 +63,7 @@
 </h1>
 
 <div class="meta font-main font-main-tiny">
-    <div class="margin-right-5 float-left">
+    <div class="margin-right-5 float-left mobile-bottom-10">
     	<% if @article.language_id == 1 %>
 			<%= @article.created_at.strftime("%b %d, %Y, %l:%M %P") %>
 		<% elsif @article.language_id == 2 %>
@@ -72,14 +72,14 @@
 		<% end %>
     </div>
     
-    <div class="margin-right-5 float-left">
+    <div class="margin-right-5 float-left mobile-bottom-10">
     	<span class="label background-color-red">
     		<span class="font-color-yellow">The</span> <span class="font-color-orange">Spain</span> <span class="font-color-yellow">Report</span>
     	</span>
     </div>
     
     <% if @article.topstory == true %>
-    	<div class="margin-right-5 float-left">
+    	<div class="margin-right-5 float-left mobile-bottom-10">
     		<span class="label background-color-red font-color-white">
     			<% if @article.language_id == 1 %>
     				Breaking News
@@ -92,7 +92,7 @@
     <% end %>
 
     <% if @article.updates.present? || @article.status.try(:name) == 'Updated' %>
-    	<div class="margin-right-5 float-left">
+    	<div class="margin-right-5 float-left mobile-bottom-10">
     		<span class="label background-color-black font-color-white">
     			<% if @article.language_id == 1 %>
     				Updated
@@ -105,7 +105,7 @@
     <% end %>
     
     <% if @article.audio.present? %>
-    	<div class="margin-right-5 float-left">
+    	<div class="margin-right-5 float-left mobile-bottom-10">
     		<span class="label background-color-black font-color-white">
     			Audio
     		</span>
@@ -114,16 +114,16 @@
     
 	<% if @article.original.blank? %>
 		<% @article.translations.where.not(id: @article).each do |tr| %>
-			<div class="margin-right-5 float-left">
+			<div class="margin-right-5 float-left mobile-bottom-10">
 				<%= link_to tr.language.prompt, tr, class: "label" %>
 			</div>
 		<% end %>
 	<% else %>
-		<div class="margin-right-5 float-left">
+		<div class="margin-right-5 float-left mobile-bottom-10">
 			<%= link_to @article.original.language.prompt, @article.original, class: "label" %>
 		</div>
 		<% @article.original.translations.where.not(id: @article).each do |tr| %>
-			<div class="margin-right-5 float-left">
+			<div class="margin-right-5 float-left mobile-bottom-10">
 				<%= link_to tr.language.prompt, tr, class: "label" %>
 			</div>
 		<% end %>

@@ -72,11 +72,18 @@ a.editor-link, a.editor-link:visited, a.editor-link:hover, h1 a, h1 a:visited, h
 .label {padding: 2px 5px;}
 .campaignimage {width: 200px; border-radius: 50%;}
 
+/* Mobile placeholders */
+.mobile-100 {}
+
 /* Responsive, mobiles */
 /* # Media Queries
 ---------------------------------------------------------------------------------------------------- */
 
 @media only screen and (max-width: 700px) {
-    .content {width: 100%; padding-top: 5px; padding-left: 10px;}
-    p, li {font-size: 20px;} 
+    body {width: 98%; margin: 0 auto;}
+    .content {width: 100%; margin: 0 auto; padding: 10px 0px 0px 10px; border-left: 0; border-right: 0;}
+    .mobile-100 {width: 100%; margin-bottom: 5px;}
+    p, li {width: 98%; font-size: 20px;}
+    img {width: 98%;}
+    .mobile-bottom-10 {margin-bottom: 5px;}
 }
