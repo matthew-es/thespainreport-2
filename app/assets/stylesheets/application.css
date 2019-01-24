@@ -83,7 +83,8 @@ a.editor-link, a.editor-link:visited, a.editor-link:hover, h1 a, h1 a:visited, h
     body {width: 98%; margin: 0 auto;}
     .content {width: 100%; margin: 0 auto; padding: 10px 0px 0px 10px; border-left: 0; border-right: 0;}
     .mobile-100 {width: 100%; margin-bottom: 5px;}
-    p, li {width: 98%; font-size: 20px;}
+    p, li {width: 98%; font-size: 19px;}
     img {width: 98%;}
     .mobile-bottom-10 {margin-bottom: 5px;}
+    .font-main-small {font-size: 17px;}
 }
