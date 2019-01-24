@@ -75,3 +75,7 @@ a.editor-link, a.editor-link:visited, a.editor-link:hover, h1 a, h1 a:visited, h
 /* Responsive, mobiles */
 /* # Media Queries
 ---------------------------------------------------------------------------------------------------- */
+
+@media only screen and (max-width: 700px) {
+    content {width: 100%; padding: 5px 5px;}
+}
