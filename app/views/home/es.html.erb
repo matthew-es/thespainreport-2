@@ -63,15 +63,18 @@
 		</li>
  <% end %>
  </ul>
- 
-  <h3>Últimos Apuntes Sobre Periodismo</h3>
- <ul class="">
- <% @lasttennotes.each do |article| %>
- 	<li class="margin-bottom-10 font-main font-main-small"><%= link_to article.headline, article %>
-		<br /><span class="font-bold font-italic"><%= article.type.name %>:</span> <span class="font-italic"><%= article.lede %></span>
-	</li>
- <% end %>
- </ul>
+
+<% if @lasttennotes.present? %>
+	<h3>Últimos Apuntes Sobre Periodismo</h3>
+	<ul class="">
+		<% @lasttennotes.each do |article| %>
+	 		<li class="margin-bottom-10 font-main font-main-small"><%= link_to article.headline, article %>
+				<br /><span class="font-bold font-italic"><%= article.type.name %>:</span> <span class="font-italic"><%= article.lede %></span>
+			</li>
+	 	<% end %>
+	</ul>
+<% else %>
+<% end %>
 
 <%= render "layouts/footer" %>
 
