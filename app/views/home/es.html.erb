@@ -30,9 +30,9 @@
 		</div>
 	
 		<div class="padding-top-5">
-			<span class="label font-main background-color-red" style="text-transform: uppercase;">
-    		<span class="font-color-yellow">The</span> <span class="font-color-orange">Spain</span> <span class="font-color-yellow">Report</span>
-    	</span>
+			<span class="label font-main font-main-normal font-upper background-color-red">
+    			<span class="font-color-yellow">The</span> <span class="font-color-orange">Spain</span> <span class="font-color-yellow">Report</span>
+    		</span>
 		</div>
 		<div class="clear"></div>
 	</div>
@@ -47,10 +47,8 @@
 	 <% else %>
 	 <% end %>
 
-	 <h1 class="font-header font-header-normal line-115 margin-top-0 margin-bottom-5">
-		 <%= link_to article do %>
+	 <h1 class="font-header font-header-normal font-upper line-115 margin-top-0 margin-bottom-5">
 		  <%= link_to article.headline, article %>
-		<% end %>
 	 </h1>
 	 
 	 <div class="font-main font-main-normal font-italic"><span class="font-bold"><%= article.type.name %>:</span> <%= article.lede %></div>
@@ -58,18 +56,18 @@
 
  
 <h3>Últimos Artículos</h3>
-<ul class="font-main font-main-normal">
+<ul class="">
 	<% @lastten.each do |article| %>
-		<li class="margin-bottom-10"><%= link_to article.headline, article %>
+		<li class="margin-bottom-10 font-main font-main-small"><%= link_to article.headline, article %>
 			<br /><span class="font-bold font-italic"><%= article.type.name %>:</span> <span class="font-italic"><%= article.lede %></span>
 		</li>
  <% end %>
  </ul>
  
   <h3>Últimos Apuntes Sobre Periodismo</h3>
- <ul class="font-main font-main-normal font-italic">
+ <ul class="">
  <% @lasttennotes.each do |article| %>
- 	<li class="margin-bottom-10"><%= link_to article.headline, article %>
+ 	<li class="margin-bottom-10 font-main font-main-small"><%= link_to article.headline, article %>
 		<br /><span class="font-bold font-italic"><%= article.type.name %>:</span> <span class="font-italic"><%= article.lede %></span>
 	</li>
  <% end %>

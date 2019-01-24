@@ -30,10 +30,11 @@
 		</div>
 	
 		<div class="padding-top-5">
-			<span class="label font-main background-color-red" style="text-transform: uppercase;">
-    		<span class="font-color-yellow">The</span> <span class="font-color-orange">Spain</span> <span class="font-color-yellow">Report</span>
-    	</span>
+			<span class="label font-main font-main-normal font-upper background-color-red">
+    			<span class="font-color-yellow">The</span> <span class="font-color-orange">Spain</span> <span class="font-color-yellow">Report</span>
+    		</span>
 		</div>
+		
 		<div class="clear"></div>
 	</div>
 
@@ -57,18 +58,18 @@
  <% end %>
  
  <h3>Latest Stories</h3>
- <ul class="font-main font-main-normal font-italic">
+ <ul class="">
  <% @lastten.each do |article| %>
- 	<li class="margin-bottom-10"><%= link_to article.headline, article %>
+ 	<li class="margin-bottom-10 font-main font-main-small"><%= link_to article.headline, article %>
 		<br /><span class="font-bold font-italic"><%= article.type.name %>:</span> <span class="font-italic"><%= article.lede %></span>
 	</li>
  <% end %>
  </ul>
  
  <h3>Latest Notes on Journalism</h3>
- <ul class="font-main font-main-normal font-italic">
+ <ul class="">
  <% @lasttennotes.each do |article| %>
- 	<li class="margin-bottom-10"><%= link_to article.headline, article %>
+ 	<li class="margin-bottom-10 font-main font-main-small"><%= link_to article.headline, article %>
 		<br /><span class="font-bold font-italic"><%= article.type.name %>:</span> <span class="font-italic"><%= article.lede %></span>
 	</li>
  <% end %>
