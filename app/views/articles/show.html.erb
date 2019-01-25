@@ -218,7 +218,7 @@
 			<% end %>
 		</h3>
 		 <ul class="">
-		<% @article.components.each do |c| %>
+		<% @article.components.published.order('created_at DESC').each do |c| %>
 		 	<li class="margin-bottom-10 font-main font-main-small"><%= link_to c.headline, c %>
 				<br /><span class="font-bold font-italic"><%= c.type.name %>:</span> <span class="font-italic"><%= c.lede %></span>
 			</li>
