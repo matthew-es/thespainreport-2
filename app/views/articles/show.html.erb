@@ -208,6 +208,25 @@
 	<% end %>
 	</div>
 
+	<% if @article.components.present? %>
+		<h3>
+			<% if @article.language_id == 1 %>
+				In this section…
+			<% elsif @article.language_id == 2 %>
+				En esta sección…
+			<% else %>
+			<% end %>
+		</h3>
+		 <ul class="">
+		<% @article.components.each do |c| %>
+		 	<li class="margin-bottom-10 font-main font-main-small"><%= link_to c.headline, c %>
+				<br /><span class="font-bold font-italic"><%= c.type.name %>:</span> <span class="font-italic"><%= c.lede %></span>
+			</li>
+		 
+		<% end %>
+		</ul>
+	<% end %>
+
 <% if !@article.campaign.nil? %>
 	<p style="text-align: center;">
 		<a href="https://www.patreon.com/join/matthewbennett" class="button"><%= @article.campaign.buttontext %></a>
