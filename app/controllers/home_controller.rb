@@ -20,4 +20,12 @@ class HomeController < ApplicationController
       format.rss { render :layout => false }
     end
   end
+  
+  def eng
+    @rss = Article.all.english.order('created_at DESC')
+    respond_to do |format|
+      format.html
+      format.rss { render :layout => false }
+    end
+  end
 end

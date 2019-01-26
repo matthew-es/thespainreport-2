@@ -11,6 +11,9 @@ Rails.application.routes.draw do
 
   root 'home#index'
   
+  get 'rss' => 'home#index', defaults: { format: 'rss' }
+  get 'rss/es' => 'home#es', defaults: { format: 'rss' }
+  get 'rss/eng' => 'home#eng', defaults: { format: 'rss' }
   get 'es' => 'home#es'
   get 'home/index'
   get 'articles/admin'
