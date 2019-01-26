@@ -46,6 +46,13 @@
 		</div>
 	 <% else %>
 	 <% end %>
+	 
+	 <% if article.video.present? %>
+		<div class="video-wrapper">
+			<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{article.video}?rel=0&amp;showinfo=0") %>
+		</div>
+	<% else %>
+	<% end %>
 
 	 <h1 class="font-header font-header-normal font-upper line-115 margin-top-0 margin-bottom-5">
 		  <%= link_to article.headline, article %>
