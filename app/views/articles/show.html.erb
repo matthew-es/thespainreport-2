@@ -148,6 +148,13 @@
 <% else %>
 <% end %>
 
+<% if @article.video.present? %>
+	<div class="video-wrapper">
+		<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{@article.video}?rel=0&amp;showinfo=0") %>
+	</div>
+<% else %>
+<% end %>
+
 <% if @article.audio.present? %>
 	<div class="margin-left-20 margin-top-10" >
 		<div class="padding-left-5 font-main font-main-small font-italic" >
