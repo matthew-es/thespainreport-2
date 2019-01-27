@@ -207,11 +207,13 @@
 	    	</div>
     	</div>
     	<div class="clear"></div>
-    	<% if u.image.present? %>
-			<%= image_tag ('http://image.thespainreport.es/' + u.image) %>
-		<% else %>
-		<% end %>
-		<%= markdown(u.body) %>
+    	<div class="margin-top-10">
+	    	<% if u.image.present? %>
+				<%= image_tag ('http://image.thespainreport.es/' + u.image) %>
+			<% else %>
+			<% end %>
+			<%= markdown(u.body) %>
+		</div>
 	<% end %>
 	</div>
 
