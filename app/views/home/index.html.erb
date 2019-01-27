@@ -63,7 +63,7 @@
 	 
 	 <div class="font-main font-main-normal font-italic"><span class="font-bold"><%= article.type.name %>:</span> <%= article.lede %></div>
  
-	<% if article.updates.present? %>
+	<% if article.updates.published.present? %>
 		<ul class="margin-top-5 margin-bottom-0 margin-left-20 margin-right-0">
 	      <% article.updates.each do |u| %>
 	        <li><%= link_to u.headline, article_path(article, anchor: u.id) %></li>

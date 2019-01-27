@@ -91,7 +91,7 @@
     	</div>
     <% end %>
 
-    <% if @article.updates.present? || @article.status.try(:name) == 'Updated' %>
+    <% if @article.updates.published.present? || @article.status.try(:name) == 'Updated' %>
     	<div class="margin-right-5 float-left mobile-bottom-10">
     		<span class="label background-color-black font-color-white">
     			<% if @article.language_id == 1 %>
@@ -133,7 +133,7 @@
 
 <div class="margin-top-5 font-main font-main-normal font-italic">
 	<span class="font-bold"><%= @article.type.try(:name) %>:</span> <%= @article.lede %>
-	<% if @article.updates.present? %>
+	<% if @article.updates.published.present? %>
 		<ul class="margin-top-5 margin-bottom-0 margin-left-20 margin-right-0">
 	      <% @article.updates.each do |u| %>
 	        <li><%= link_to u.headline, article_path(@article, anchor: u.id) %></li>
@@ -178,7 +178,7 @@
 	<div class="margin-top-10">
 	<%= markdown(@article.body).html_safe %>
 	
-	<% @article.updates.each do |u| %>
+	<% @article.updates.published.each do |u| %>
 		<h3 id="<%= u.id %>">
 			<% if current_user.nil? %>
 				<%= u.headline %>
