@@ -7,9 +7,9 @@ class ArticlesController < ApplicationController
 		@types = Type.all.order(:name)
 		@statuses = Status.all.order(:name)
 		@languages = Language.all.order(:name)
-		@stories = Article.story.order(:created_at)
-		@nottranslations = Article.nottranslation.order(:created_at)
-		@mains = Article.notupdate.order(:created_at)
+		@stories = Article.story.order('headline ASC')
+		@nottranslations = Article.nottranslation.english.order('created_at DESC')
+		@mains = Article.notupdate.order('created_at DESC')
 		@campaigns = Campaign.all.order(:name)
 	end
 	
