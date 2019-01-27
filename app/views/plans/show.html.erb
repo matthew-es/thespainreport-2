@@ -4,14 +4,16 @@
 	
 	<div class="margin-bottom-20">
 		<strong>Name:</strong> <%= link_to @plan.title, edit_plan_path(@plan) %><br />
-		<strong>Language:</strong> xxxx
+		<strong>Language:</strong> <%= @plan.language.name %>
 	</div>
 	
 	<div class="margin-bottom-20">
-		<%= @plan.price %>
+		<%= @plan.price %> / month
 		<%= markdown(@plan.description) %>
-		<%= markdown(@plan.link) %>
-		<%= @plan.image %><br />
+		<span class="font-bold">Link:</span> <%= @plan.link %><br />
+		<span class="font-bold">Image:</span> <%= @plan.image %><br />
+	</div>
+	<div class="margin-bottom-20">
 		<a href="https://www.patreon.com/join/matthewbennett" class="button"><%= @plan.buttontext %></a>
 	</div>
 	

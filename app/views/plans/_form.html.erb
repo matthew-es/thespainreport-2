@@ -12,8 +12,8 @@
   <% end %>
 
   <div class="margin-bottom-10 right">
-    <strong>Language:</strong> xxxx
-    <strong>Translation of:</strong> xxxx
+    <strong>Language:</strong> <%= f.collection_select :language_id, @languages, :id, :name, {:selected => @plan.language_id ? @plan.language_id : 1} %>
+    <strong>Translation of:</strong> <%= f.collection_select :original_id, @plans, :id, :title, {include_blank: true, :selected => @plan.original_id} %>
     <%= f.submit %>
     <%= link_to 'Go', @plan %>
   </div>
@@ -27,11 +27,11 @@
 	</div>
 	
 	<div class="margin-bottom-10">
-    <%= f.number_field :price, :class => "width-98 padding-15 font-main font-main-tiny" %>
+    <%= f.number_field :price, :class => "width-5 padding-15 font-main font-main-tiny" %> / month
   </div>
   
   <div class="margin-bottom-10">
-    <%= f.text_area :description, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Description, what do I get…" %>
+    <%= f.text_area :description, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 60px;", placeholder: "Description, what do I get…" %>
   </div>
   
   <div class="margin-bottom-10">
@@ -40,5 +40,9 @@
   
   <div class="margin-bottom-10">
 		<%= f.text_field :link, :class => "width-98 padding-5", placeholder: "Plan link…" %>
+	</div>
+	
+	<div class="margin-bottom-20">
+		<%= image_tag ('http://image.thespainreport.es/' + @plan.image) unless @plan.image.nil? %>
 	</div>
 <% end %>

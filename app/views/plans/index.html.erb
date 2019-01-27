@@ -12,7 +12,9 @@
 			<tr>
 				<td><%= link_to plan.title, plan %></td>
 				<td>
-					translations
+					<% plan.translations.each do |p| %>
+					 <%= link_to p.language.name, p %>
+					<% end %>
 				</td>
 				<td><%= plan.price %></td>
 				<td><%= plan.buttontext %></td>

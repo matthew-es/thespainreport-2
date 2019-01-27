@@ -23,7 +23,7 @@ a.editor-link, a.editor-link:visited, a.editor-link:hover, h1 a, h1 a:visited, h
 .font-upper {text-transform: uppercase;}
 .font-main {font-family: Georgia;}
 .font-main-normal {font-size: 18px;}
-.font-main-small {font-size: 15px;}
+.font-main-small, .plan-benefits ul li {font-size: 15px;}
 .font-main-tiny {font-size: 11px;}
 .font-header {font-family: 'Anton'; font-weight: 400; }
 .font-header-normal {font-size: 28px;}
@@ -50,6 +50,7 @@ a.editor-link, a.editor-link:visited, a.editor-link:hover, h1 a, h1 a:visited, h
 .width-98, input.width-98 {width: 98%;}
 .width-48 {width: 48%;}
 .width-33 {width: 32%;}
+.width-5 {width: 5%;}
 .margin-centre {margin: 0 auto;}
 .margin-top-0 {margin-top: 0px;}
 .margin-top-5 {margin-top: 5px;}
@@ -88,8 +89,13 @@ a.editor-link, a.editor-link:visited, a.editor-link:hover, h1 a, h1 a:visited, h
     body {width: 98%; margin: 0 auto;}
     .content {width: 100%; margin: 0 auto; padding: 10px 0px 0px 10px; border-left: 0; border-right: 0;}
     .mobile-100 {width: 100%; margin-bottom: 5px;}
+    .mobile-width {width: 48%;}
     p, li {width: 98%; font-size: 19px;}
     img {width: 98%;}
     .mobile-bottom-10 {margin-bottom: 5px;}
     .font-main-small {font-size: 17px;}
+}
+
+@media only screen and (max-width: 400px) {
+    .mobile-width {width: 50%;}
 }

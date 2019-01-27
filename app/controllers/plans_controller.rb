@@ -1,13 +1,16 @@
 class PlansController < ApplicationController
   before_action :set_plan, only: [:show, :edit, :update, :destroy]
 
-  # GET /plans
-  # GET /plans.json
+  def plan_elements
+    @languages = Language.all.order(:name)
+    @plans = Plan.original.order(:created_at)
+  end
+  
   def index
     if current_user.nil? 
 			redirect_to root_url
 		elsif !current_user.nil?
-			@plans = Plan.all
+			plan_elements
 		else
 			redirect_to root_url
 		end
@@ -25,6 +28,7 @@ class PlansController < ApplicationController
 			redirect_to root_url
 		elsif !current_user.nil?
 			@plan = Plan.new
+			plan_elements
 		else
 			redirect_to root_url
 		end
@@ -35,7 +39,7 @@ class PlansController < ApplicationController
     if current_user.nil? 
 			redirect_to root_url
 		elsif !current_user.nil?
-			
+			plan_elements
 		else
 			redirect_to root_url
 		end
@@ -89,6 +93,6 @@ class PlansController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def plan_params
-      params.require(:plan).permit(:title, :image, :price, :description, :buttontext, :link)
+      params.require(:plan).permit(:title, :image, :price, :description, :buttontext, :link, :language_id, :original_id)
     end
 end

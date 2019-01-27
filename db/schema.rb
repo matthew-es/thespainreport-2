@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_26_200602) do
+ActiveRecord::Schema.define(version: 2019_01_27_185428) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -101,6 +101,10 @@ ActiveRecord::Schema.define(version: 2019_01_26_200602) do
     t.string "description"
     t.string "buttontext"
     t.string "link"
+    t.integer "original_id"
+    t.integer "language_id"
+    t.index ["language_id"], name: "index_plans_on_language_id"
+    t.index ["original_id"], name: "index_plans_on_original_id"
   end
 
   create_table "statuses", force: :cascade do |t|
