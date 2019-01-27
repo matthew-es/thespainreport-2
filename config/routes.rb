@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :plans
   if Rails.env.production?
     constraints(host: /^(?!www\.)/i) do
       get '(*any)' => redirect { |params, request|

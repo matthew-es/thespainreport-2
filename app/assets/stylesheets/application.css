@@ -39,15 +39,18 @@ a.editor-link, a.editor-link:visited, a.editor-link:hover, h1 a, h1 a:visited, h
 .line-115 {line-height: 114%;}
 .line-120 {line-height: 120%;}
 .line-130 {line-height: 130%;}
+.border-bottom-1 {border-bottom: 1px solid #AA151B;}
 
 /* Positioning */
 .clear {clear:both;}
 .float-left {float: left;}
 .float-right {float: right;}
+.align-centre {text-align: center;}
 .width-100, input.width-100 {width: 100%;}
 .width-98, input.width-98 {width: 98%;}
 .width-48 {width: 48%;}
-.margin-centre {}
+.width-33 {width: 32%;}
+.margin-centre {margin: 0 auto;}
 .margin-top-0 {margin-top: 0px;}
 .margin-top-5 {margin-top: 5px;}
 .margin-top-10 {margin-top: 10px;}

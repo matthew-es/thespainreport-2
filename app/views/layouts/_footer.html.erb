@@ -2,9 +2,8 @@
 	<p>
 		<% if controller_name == 'home' && action_name == 'index' %>
 			<h5>What is The Spain Report?</h5>
-			<p>Independent reporting and analysis of the most important stories changing the country,
-			written by Matthew Bennett, a British journalist who has been living and working in Spain for most of the past 20 years.
-			<a href="#">Read more</a>
+			<p>
+				Independent reporting and analysis of the most important stories changing the country, written by Matthew Bennett, a British journalist who has been living and working in Spain for most of the past 20 years. <a href="#">Read more</a>
 			</p>
 		<% elsif controller_name == 'home' && action_name == 'es' %>
 			<h5>¿Qué es The Spain Report?</h5>
@@ -19,6 +18,8 @@
 				written by Matthew Bennett, a British journalist who has been living and working in Spain for most of the past 20 years.
 				<a href="#">Read more</a>
 				</p>
+				<h5>What is Patreon?</h5>
+				<p>Patreon is a platform that alllows readers to support creators whose work (journalism, in my case) they appreciate with a small contriubtion each month.</p>
 			<% elsif @article.language_id == 2 %>
 				<h5>¿Qué es The Spain Report?</h5>
 				<p>Información y análisis independientes sobres las noticias y tendencias que están cambiando España.
@@ -47,7 +48,7 @@
 		<strong>WhatsApp/Signal:</strong> (0034) 647 81 81 43<br />
 		<strong>Twitter:</strong> <a href="https://twitter.com/matthewbennett" title="Matthew Bennett on Twitter">@matthewbennett</a> <a href="https://twitter.com/thespainreport" title="The Spain Report on Twitter">@thespainreport</a>
 	</p>
-	<p style="text-align: center;">
+	<p class="margin-centre" style="text-align: center;">
 		&#169;<%= Time.new.year %> Matthew Bennett
 		<br />
 		<a href="<%= root_url %>" title="The Spain Report">The Spain Report</a> | <a href="<%= root_url + 'es' %>" title="The Spain Report en español">En español</a>

@@ -78,7 +78,7 @@
     	</span>
     </div>
     
-    <% if @article.topstory == true %>
+    <% if @article.is_free == true %>
     	<div class="margin-right-5 float-left mobile-bottom-10">
     		<span class="label background-color-red font-color-white">
     			<% if @article.language_id == 1 %>
@@ -245,6 +245,7 @@
 	<p><%= markdown(@article.campaign.deal) %></p>
 	<p><%= markdown(@article.campaign.social) %></p>
 	<p><%= markdown(@article.campaign.riskreversal) %></p>
+	
 <% end %>
 
 <%= render "layouts/footer" %>

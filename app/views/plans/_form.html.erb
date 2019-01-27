@@ -1,0 +1,44 @@
+<%= form_with(model: plan, local: true) do |f| %>
+  <% if plan.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(plan.errors.count, "error") %> prohibited this plan from being saved:</h2>
+
+      <ul>
+      <% plan.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="margin-bottom-10 right">
+    <strong>Language:</strong> xxxx
+    <strong>Translation of:</strong> xxxx
+    <%= f.submit %>
+    <%= link_to 'Go', @plan %>
+  </div>
+  
+  <div class="margin-bottom-10">
+		<%= f.text_field :title, :class => "width-98 padding-5 font-header font-header-small", placeholder: "Plan title…" %>
+	</div>
+	
+	<div class="margin-bottom-10">
+		<%= f.text_field :image, :class => "width-98 padding-5", placeholder: "Plan image file…" %>
+	</div>
+	
+	<div class="margin-bottom-10">
+    <%= f.number_field :price, :class => "width-98 padding-15 font-main font-main-tiny" %>
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_area :description, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Description, what do I get…" %>
+  </div>
+  
+  <div class="margin-bottom-10">
+		<%= f.text_field :buttontext, :class => "width-98 padding-5", placeholder: "Plan button text…" %>
+	</div>
+  
+  <div class="margin-bottom-10">
+		<%= f.text_field :link, :class => "width-98 padding-5", placeholder: "Plan link…" %>
+	</div>
+<% end %>

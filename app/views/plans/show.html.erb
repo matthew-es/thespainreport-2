@@ -1,0 +1,22 @@
+<%= render "articles/admintop" %>
+
+	<h1 class="font-header font-header-normal line-115">Plans</h1>
+	
+	<div class="margin-bottom-20">
+		<strong>Name:</strong> <%= link_to @plan.title, edit_plan_path(@plan) %><br />
+		<strong>Language:</strong> xxxx
+	</div>
+	
+	<div class="margin-bottom-20">
+		<%= @plan.price %>
+		<%= markdown(@plan.description) %>
+		<%= markdown(@plan.link) %>
+		<%= @plan.image %><br />
+		<a href="https://www.patreon.com/join/matthewbennett" class="button"><%= @plan.buttontext %></a>
+	</div>
+	
+	<div class="margin-bottom-20">
+		<%= image_tag ('http://image.thespainreport.es/' + @plan.image) unless @plan.image.nil? %>
+	</div>
+
+</div>
