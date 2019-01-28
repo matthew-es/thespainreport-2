@@ -39,6 +39,12 @@ class ArticlesController < ApplicationController
 	# GET /articles/1.json
 	def show
 		if ["Published", "Updated"].include?@article.status.name
+			Visit.create(
+				referer: request.headers["HTTP_REFERER"],
+				article_id: @article.id,
+				campaign_id: @article.campaign_id,
+				plan_ids: ''
+				)
 		
 		elsif current_user.nil?
 			redirect_to root_url

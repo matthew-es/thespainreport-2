@@ -1,0 +1,24 @@
+<%= render "articles/admintop" %>
+
+<h1 class="font-header font-header-small font-upper line-115">Visits</h1>
+
+<table>
+
+  <tbody>
+    <% @visits.each do |visit| %>
+      <tr>
+        <td><%= visit.article_id %></td>
+        <td><%= visit.campaign_id %></td>
+        <td><%= visit.referer %></td>
+        <td><%= visit.plan_ids %></td>
+        <td><%= link_to 'Show', visit %></td>
+        <td><%= link_to 'Edit', edit_visit_path(visit) %></td>
+        <td><%= link_to 'Destroy', visit, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Visit', new_visit_path %>

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :visits
   resources :plans
   if Rails.env.production?
     constraints(host: /^(?!www\.)/i) do
@@ -12,6 +13,7 @@ Rails.application.routes.draw do
 
   root 'home#index'
   
+  get 'twitterpatreon' => 'home#patreon'
   get 'rss' => 'home#index', defaults: { format: 'rss' }
   get 'rss/es' => 'home#es', defaults: { format: 'rss' }
   get 'rss/eng' => 'home#eng', defaults: { format: 'rss' }
