@@ -9,6 +9,7 @@ class VisitsController < ApplicationController
 		elsif !current_user.nil?
 			@visits = Visit.all.order('created_at DESC')
 			@articles = Visit.all.group(:article_id).count
+			@referers = Visit.all.group(:referer).count
 		else
 			redirect_to root_url
 		end

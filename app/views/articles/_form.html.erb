@@ -44,7 +44,7 @@
 		<div class="float-left" style="width:20%">
 			<%= f.text_field :audioteaser, :class => "width-98 padding-5", placeholder: "Audio teaser…" %>
 		</div>
-	<div class="clear"></div>
+		<div class="clear"></div>
 	</div>
 	
 	<div class="margin-bottom-10">
@@ -60,6 +60,17 @@
 	<div class="margin-bottom-10">
 		<% if @article.original.blank? %>
 			<%= f.text_area :body, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 600px;", placeholder: "Article text…" %>
+			<h3>Extras…</h3>
+			<div class="margin-bottom-10">
+		<div class="float-left" style="width:75%">
+			<%= f.text_field :extras_audio, :class => "width-98 padding-5", placeholder: "Extra audio file…" %>
+		</div>
+		<div class="float-left" style="width:20%">
+			<%= f.text_field :extras_audioteaser, :class => "width-98 padding-5", placeholder: "Extra audio teaser…" %>
+		</div>
+		<div class="clear"></div>
+	</div>
+			<%= f.text_area :extras_body, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 300px;", placeholder: "Extra text and links…" %>
 		<% else %>
 			<div class="width-100">
 			<div class="width-48 float-left padding-10">

@@ -178,6 +178,42 @@
 	<div class="margin-top-10">
 	<%= markdown(@article.body).html_safe %>
 	
+	<% if @article.extras_audio.present? || @article.extras_body.present? %>
+		<h5>
+			<% if @article.language_id == 1 %>
+				Extra stuff for patrons
+			<% elsif @article.language_id == 2 %>
+				Más cosas para los patronos
+			<% else %>
+			<% end %>
+		</h5>
+	<% else %>
+	<% end %>
+	
+	<% if @article.extras_audio.present? %>
+		<div class="margin-left-20 margin-top-20 margin-bottom-20" >
+			<div class="padding-left-5 font-main font-main-small font-italic" >
+				<span class="font-bold">
+					<% if @article.language_id == 1 %>
+	    				Listen now:
+	    			<% elsif @article.language_id == 2 %>
+	    				Escuche ahora:
+	    			<% else %>
+	    			<% end %>
+				</span> <%= @article.extras_audioteaser %>
+			</div>
+			<audio controls>
+			  <source src="<%= 'http://audio.thespainreport.es/' + @article.extras_audio %>" type="audio/mpeg">
+			Your browser does not support the audio element.
+			</audio>
+		</div>
+	<% else %>
+	<% end %>
+	
+	<% if @article.extras_body.present? %>
+		<%= markdown(@article.extras_body).html_safe %>
+	<% end %>
+	
 	<% @article.updates.published.each do |u| %>
 		<h3 id="<%= u.id %>">
 			<% if current_user.nil? %>

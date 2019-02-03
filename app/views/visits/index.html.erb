@@ -18,7 +18,10 @@
 		</li>
 		<% end %>
 	<% end %>
-
+	
+	<% @referers.each do |a, k| %>
+		<li><%= a %>: <%= k %></li>
+	<% end %>
 
 <table>
 	<tbody>

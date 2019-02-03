@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_28_170903) do
+ActiveRecord::Schema.define(version: 2019_02_03_181728) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -52,6 +52,9 @@ ActiveRecord::Schema.define(version: 2019_01_28_170903) do
     t.string "audio"
     t.string "audioteaser"
     t.string "video"
+    t.string "extras_audio"
+    t.string "extras_audioteaser"
+    t.text "extras_body"
     t.index ["campaign_id"], name: "index_articles_on_campaign_id"
     t.index ["language_id"], name: "index_articles_on_language_id"
     t.index ["main_id"], name: "index_articles_on_main_id"
