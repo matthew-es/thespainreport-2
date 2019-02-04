@@ -57,7 +57,7 @@
 
 
  <ul class="">
- <% @type.articles.order('created_at DESC').each do |article| %>
+ <% @type.articles.published.order('created_at DESC').each do |article| %>
  	<li class="margin-bottom-10 font-main font-main-small"><%= link_to article.headline, article %>
 		<br /><span class="font-bold font-italic"><%= article.type.name %>:</span> <span class="font-italic"><%= article.lede %></span>
 	</li>
