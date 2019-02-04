@@ -11,16 +11,8 @@ class TypesController < ApplicationController
 		end
 	end
 
-	# GET /types/1
-	# GET /types/1.json
 	def show
-		if current_user.nil? 
-			redirect_to root_url
-		elsif !current_user.nil?
-			
-		else
-			redirect_to root_url
-		end
+		@type = Type.find(params[:id])
 	end
 
 	# GET /types/new
