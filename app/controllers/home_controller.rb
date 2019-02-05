@@ -14,6 +14,7 @@ class HomeController < ApplicationController
     @lasttopstory = Article.notnotes.english.topstory.published.lastone
     @lastten = Article.notlatesttop.notupdate.notnotes.english.published.lastten
     @lasttennotes = Article.notes.english.published.lastten
+    @types = Type.english.notupdate.notstory
     @rss = Article.all.order('created_at DESC')
     
     respond_to do |format|
@@ -33,6 +34,7 @@ class HomeController < ApplicationController
     @lasttopstory = Article.notnotes.spanish.topstory.published.lastone
     @lastten = Article.notlatesttop.notupdate.notnotes.spanish.published.lastten
     @lasttennotes = Article.notes.spanish.published.lastten
+    @types = Type.spanish.notupdate.notstory
     @rss = Article.all.spanish.order('created_at DESC')
     
     respond_to do |format|

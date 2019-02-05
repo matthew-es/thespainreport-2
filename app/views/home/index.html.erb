@@ -63,7 +63,7 @@
 	 
 	 <div class="font-main font-main-normal font-italic"><span class="font-bold"><%= article.type.name %>:</span> <%= article.lede %></div>
  
-	<% if article.updates.published.present? %>
+	<% if article.updates.published.any? %>
 		<ul class="margin-top-5 margin-bottom-0 margin-left-20 margin-right-0">
 	      <% article.updates.each do |u| %>
 	        <li><%= link_to u.headline, article_path(article, anchor: u.id) %></li>
@@ -91,7 +91,15 @@
  <% end %>
  </ul>
  
- <% if @lasttennotes.present? %>
+ <h3>Articles by type</h3>
+ <% @types.each do |t| %>
+ 		<% if t.articles.any? %>
+ 			<%= link_to t.name, t %>
+ 		<% else %>
+ 		<% end %>
+ <% end %>
+ 
+ <% if @lasttennotes.any? %>
 	 <h3>Latest Notes on Journalism</h3>
 	 <ul class="">
 	 <% @lasttennotes.each do |article| %>

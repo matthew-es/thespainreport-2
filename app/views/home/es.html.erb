@@ -89,6 +89,14 @@
  <% end %>
  </ul>
 
+ <h3>Según el tipo de artículo</h3>
+ <% @types.each do |t| %>
+ 		<% if t.articles.any? %>
+ 			<%= link_to t.name, t %>
+ 		<% else %>
+ 		<% end %>
+ <% end %>
+
 <% if @lasttennotes.present? %>
 	<h3>Últimos Apuntes Sobre Periodismo</h3>
 	<ul class="">
