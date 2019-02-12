@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   root 'home#index'
   
+  get 'trial', to: redirect("http://www.thespainreport.es/articles/32-180101210225-catalan-separatism")
   get 'twitterpatreon' => 'home#patreon'
   get 'rss' => 'home#index', defaults: { format: 'rss' }
   get 'rss/es' => 'home#es', defaults: { format: 'rss' }
