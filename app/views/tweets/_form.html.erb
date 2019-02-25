@@ -27,5 +27,8 @@
 		<strong>Article:</strong> <%= f.collection_select :article_id, @articles, :id, :headline, {include_blank: true, :selected => @tweet.article_id}, {:style => "width: 400px;"} %>
 	</div>
 	
+	<div class="margin-bottom-10">
+		<strong>Twitter id:</strong> <%= f.text_field :twitter_tweet_id %>
+	</div>
 	
 <% end %>
