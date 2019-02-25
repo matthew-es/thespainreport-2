@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_24_215754) do
+ActiveRecord::Schema.define(version: 2019_02_25_141230) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -123,7 +123,7 @@ ActiveRecord::Schema.define(version: 2019_02_24_215754) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "previous_id"
-    t.integer "twitter_tweet_id"
+    t.integer "twitter_tweet_id", limit: 8
     t.string "image"
     t.integer "article_id"
     t.index ["article_id"], name: "index_tweets_on_article_id"
