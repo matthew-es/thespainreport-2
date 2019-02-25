@@ -1,0 +1,17 @@
+<%= render "articles/admintop" %>
+
+<p>
+	<strong>TSR:</strong><%= link_to @tweet.id, edit_tweet_path %>
+	<strong>Previous on TSR:</strong> <%= link_to @tweet.previous.id, tweet_path(@tweet.previous) unless @tweet.previous.nil? %>
+	<br />
+	<strong>Twitter:</strong> <%= link_to @tweet.twitter_tweet_id, 'https://twitter.com/matthewbennett/status/' + @tweet.twitter_tweet_id.to_s %>
+	<strong>Previous on Twitter:</strong> <%= link_to @tweet.previous.twitter_tweet_id, 'https://twitter.com/matthewbennett/status/' + @tweet.previous.twitter_tweet_id.to_s unless @tweet.previous.nil? %>
+</p>
+
+<p><%= @tweet.message %></p>
+	<% if @tweet.image.present? %>
+		<%= image_tag ('http://image.thespainreport.es/' + @tweet.image) %>
+	<% end %>
+</p>
+
+</div>

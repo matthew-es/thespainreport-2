@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :tweets
   resources :visits
   resources :plans
   if Rails.env.production?

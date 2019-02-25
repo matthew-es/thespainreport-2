@@ -1,0 +1,8 @@
+<%= render "articles/admintop" %>
+<%= render 'form', tweet: @tweet %>
+
+<% if @tweet.image.present? %>
+	<%= image_tag ('http://image.thespainreport.es/' + @tweet.image) %>
+<% else %>
+<% end %>
+</div>

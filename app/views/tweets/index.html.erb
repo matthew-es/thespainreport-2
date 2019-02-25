@@ -1,0 +1,16 @@
+<%= render "articles/admintop" %>
+<% @tweets.each do |tweet| %>
+	<div class="margin-bottom-20">
+		<div>
+			<%= tweet.message %>
+		</div>
+		<div>
+			<%= link_to 'Show', tweet %>
+			| <%= link_to 'Edit', edit_tweet_path(tweet) %>
+			| <%= link_to "On Twitter", 'https://twitter.com/matthewbennett/status/' + tweet.twitter_tweet_id.to_s %>
+			| <strong>Previous:</strong> <%= tweet.previous_id %>
+			| <strong>Image:</strong> <%= tweet.image %>
+			| <%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } %>
+		</div>
+	</div>
+<% end %>

@@ -3,6 +3,7 @@ class Article < ApplicationRecord
     belongs_to :status
     belongs_to :type, optional: true
     belongs_to :campaign, optional: true
+    has_many :tweets
     
     has_many :translations, class_name: "Article", foreign_key: "original_id"
     belongs_to :original, class_name: "Article", optional: true

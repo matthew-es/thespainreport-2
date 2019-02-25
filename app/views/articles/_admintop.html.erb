@@ -1,6 +1,7 @@
 <div class="content-admin font-admin">
 
 	<div class="margin-bottom-10">
+		<%= link_to "Tweets", tweets_path %>
 		<%= link_to "Articles", articles_path %>
 		<%= link_to "Uploads", uploads_path %>
 		<%= link_to "Campaigns", campaigns_path %>
@@ -14,5 +15,85 @@
 			Logged in as <%= current_user.email %>.
 			<%= link_to 'Logout', users_logout_path %>
 		<% else %>
+		<% end %>
+	</div>
+	
+	<h1 class="font-header font-header-small font-upper line-115">
+		<% if controller_name == "tweets" %>
+			Tweets, Threads
+		<% elsif controller_name == "articles" %>
+			Articles, Updates, Translations
+		<% elsif controller_name == "uploads" %>
+			Uploads
+		<% elsif controller_name == "campaigns" %>
+			Campaigns
+		<% elsif controller_name == "types" %>
+			Types
+		<% elsif controller_name == "languages" %>
+			Languages
+		<% elsif controller_name == "statuses" %>
+			Statuses
+		<% elsif controller_name == "visits" %>
+			Visits
+		<% elsif controller_name == "users" %>
+			Users
+		<% elsif controller_name == "plans" %>
+			Plans
+		<% end %>
+	</h1>
+	<div class="margin-bottom-20">
+		<% if action_name == "new" %>
+			New 
+		<% elsif action_name == "edit" %>
+			Editing
+		<% end %>
+		
+		<% if ["edit","new"].include?(action_name) %>
+			<% if controller_name == "tweets" %>
+				tweet…
+			<% elsif controller_name == "articles" %>
+				article…
+			<% elsif controller_name == "uploads" %>
+				upload…
+			<% elsif controller_name == "campaigns" %>
+				campaign…
+			<% elsif controller_name == "types" %>
+				type…
+			<% elsif controller_name == "languages" %>
+				language…
+			<% elsif controller_name == "statuses" %>
+				status…
+			<% elsif controller_name == "visits" %>
+				
+			<% elsif controller_name == "users" %>
+				user…
+			<% elsif controller_name == "plans" %>
+				plan…
+			<% end %>
+		<% end %>
+	</div>
+	<div class="margin-bottom-20">
+		<% if action_name == "index" %>
+			<% if controller_name == "tweets" %>
+				<%= link_to 'New tweet', new_tweet_path %>
+			<% elsif controller_name == "articles" %>
+				<%= link_to 'New article', new_article_path %>
+			<% elsif controller_name == "uploads" %>
+				
+			<% elsif controller_name == "campaigns" %>
+				<%= link_to 'New campaign', new_campaign_path %>
+			<% elsif controller_name == "types" %>
+				<%= link_to 'New type', new_type_path %>
+			<% elsif controller_name == "languages" %>
+				<%= link_to 'New language', new_language_path %>
+			<% elsif controller_name == "statuses" %>
+				<%= link_to 'New status', new_status_path %>
+			<% elsif controller_name == "visits" %>
+				
+			<% elsif controller_name == "users" %>
+				<%= link_to 'New user', new_user_path %>
+			<% elsif controller_name == "plans" %>
+				<%= link_to 'New plan', new_plan_path %>
+			<% end %>
 		<% end %>
 	</div>

@@ -1,11 +1,5 @@
 <%= render "articles/admintop" %>
 
-<h1 class="font-header font-header-small font-upper line-115">Articles, updates, translations</h1>
-
-<div class="margin-bottom-20">
-	<%= link_to 'New Article', new_article_path %>
-</div>
-
 <% @articles.each do |article| %>
 	<div class="" style="margin-bottom: 20px;">
 		<div class="" style="float:right;">

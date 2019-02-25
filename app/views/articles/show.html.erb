@@ -180,9 +180,21 @@
 	</div>
 <% else %>
 <% end %>
-
+	
 	<div class="margin-top-10">
 	<%= markdown(@article.body).html_safe %>
+	
+	<% if @article.tweets.present? %>
+		<% @article.tweets.order('created_at ASC').each do |t| %>
+			<p>
+				<%= t.message %>
+				<% if t.image.present? %>
+					<%= image_tag ('http://image.thespainreport.es/' + t.image) %>
+				<% end %>
+			</p>
+		<% end %>
+	<% end %>
+	
 	
 	<% if @article.extras_audio.present? || @article.extras_body.present? %>
 		<h5>

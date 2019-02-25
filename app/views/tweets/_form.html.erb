@@ -1,0 +1,31 @@
+<%= form_with(model: tweet, local: true) do |f| %>
+	<% if tweet.errors.any? %>
+		<div id="error_explanation">
+			<h2><%= pluralize(tweet.errors.count, "error") %> prohibited this tweet from being saved:</h2>
+
+			<ul>
+			<% tweet.errors.full_messages.each do |message| %>
+				<li><%= message %></li>
+			<% end %>
+			</ul>
+		</div>
+	<% end %>
+	
+	
+	
+	<div class="margin-bottom-10">
+		<strong>Previous:</strong> <%= f.collection_select :previous_id, @previoustweets, :id, :message, {include_blank: true, :selected => @tweet.previous_id}, {:style => "width: 400px;"} %>
+		<%= f.file_field :image  %>
+		<%= f.submit %>
+	</div>
+	
+	<div class="margin-bottom-10">
+		<%= f.text_area :message, :class => "width-70 padding-10 font-main font-main-normal", :style => "min-height: 60px;", placeholder: "Tweet text…", maxlength: 280 %>
+	</div>
+	
+	<div class="margin-bottom-10">
+		<strong>Article:</strong> <%= f.collection_select :article_id, @articles, :id, :headline, {include_blank: true, :selected => @tweet.article_id}, {:style => "width: 400px;"} %>
+	</div>
+	
+	
+<% end %>

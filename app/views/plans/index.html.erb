@@ -1,11 +1,5 @@
 <%= render "articles/admintop" %>
 
-<h1 class="font-header font-header-small font-upper line-115">Plans</h1>
-
-<div class="margin-bottom-20">
-	<%= link_to 'New Plan', new_plan_path %>
-</div>
-
 <table>
 	<tbody>
 		<% @plans.each do |plan| %>
