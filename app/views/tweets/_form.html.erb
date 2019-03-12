@@ -27,8 +27,22 @@
 		<strong>Article:</strong> <%= f.collection_select :article_id, @articles, :id, :headline, {include_blank: true, :selected => @tweet.article_id}, {:style => "width: 400px;"} %>
 	</div>
 	
-	<div class="margin-bottom-10">
-		<strong>Twitter id:</strong> <%= f.text_field :twitter_tweet_id %>
-	</div>
+	<% if action_name == "edit" %>
+		<div class="margin-bottom-10">
+			<strong>Twitter id:</strong> <%= f.text_field :twitter_tweet_id %>
+		</div>
+	<% end %>
 	
+	<% if action_name == "new" && !params[:article_id].present? %>
+		<div class="margin-bottom-10">
+			<%= f.text_field :new_article_headline, :class => "width-70 padding-5 font-header font-header-small line-10", placeholder: "New article headline…" %>
+		</div>
+		
+		<div class="margin-bottom-10">
+			<%= f.text_field :new_article_lede, :class => "width-70 padding-5 font-main font-main-normal font-italic", placeholder: "New article lede…" %>
+		</div>
+		
+		<strong>Language:</strong> <%= f.collection_select :language_id, @languages, :id, :name %>
+		<strong>Type:</strong> <%= f.collection_select :type_id, @types, :id, :name %>
+	<% end %>
 <% end %>

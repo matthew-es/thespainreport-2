@@ -10,7 +10,9 @@
 			| <%= link_to "On Twitter", 'https://twitter.com/matthewbennett/status/' + tweet.twitter_tweet_id.to_s %>
 			| <strong>Previous:</strong> <%= tweet.previous_id %>
 			| <strong>Image:</strong> <%= tweet.image %>
+			| <strong>Article:</strong> <%= link_to tweet.article.id, tweet.article unless tweet.article.nil? %>
 			| <%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } %>
+			| <%= link_to "New in thread", new_tweet_path(previous_id: tweet, article_id: tweet.article_id) %>
 		</div>
 	</div>
 <% end %>

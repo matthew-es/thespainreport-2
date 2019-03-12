@@ -11,6 +11,7 @@ class Type < ApplicationRecord
     scope :notupdate, -> {where.not(name: ['Update', 'Actualización'])}
     scope :notes, -> {where(name: ['Notes', 'Apuntes'])}
     scope :notnotes, -> {where.not(name: ['Notes', 'Apuntes'])}
+    scope :thread, -> {where(name: ['Thread', 'Hilo'])}
     scope :english, -> {where(language_id: 1)}
     scope :spanish, -> {where(language_id: 2)}
 end

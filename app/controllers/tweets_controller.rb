@@ -4,6 +4,8 @@ class TweetsController < ApplicationController
 	def tweetelements
 		@previoustweets = Tweet.all.order("created_at DESC")
 		@articles = Article.all.order("created_at DESC")
+		@languages = Language.all.order(:name)
+		@types = Type.thread.order(:name)
 	end
 	
 	def index
@@ -34,6 +36,11 @@ class TweetsController < ApplicationController
 			redirect_to root_url
 		elsif !current_user.nil?
 			@tweet = Tweet.new
+			if params
+				@tweet.previous_id = params[:previous_id]
+				@tweet.article_id = params[:article_id]
+			end
+			
 			tweetelements
 		else
 			redirect_to root_url
@@ -55,6 +62,22 @@ class TweetsController < ApplicationController
 	# POST /tweets.json
 	def create
 		@tweet = Tweet.new(tweet_params)
+		
+		# Create a new article for the first tweet in the thread…
+		if params[:tweet][:new_article_headline].present?
+			a = Article.create(
+			headline: params[:tweet][:new_article_headline],
+			lede: params[:tweet][:new_article_lede],
+			body: "",
+			status_id: 3,
+			language_id: params[:tweet][:language_id],
+			type_id: params[:tweet][:type_id]
+			)
+			
+			@tweet.update(
+				article_id: a.id
+			)
+		end
 		
 		if @tweet.image
 			# Grab the image from the form field, write it to temporary folder
@@ -101,7 +124,7 @@ class TweetsController < ApplicationController
 		
 		respond_to do |format|
 			if @tweet.save
-				format.html { redirect_to @tweet, notice: 'Tweet was successfully created.' }
+				format.html { redirect_to tweets_path, notice: 'Tweet was successfully created.' }
 				format.json { render :show, status: :created, location: @tweet }
 			else
 				format.html { render :new }
