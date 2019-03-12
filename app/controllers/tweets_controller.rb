@@ -124,8 +124,13 @@ class TweetsController < ApplicationController
 		
 		respond_to do |format|
 			if @tweet.save
-				format.html { redirect_to tweets_path, notice: 'Tweet was successfully created.' }
-				format.json { render :show, status: :created, location: @tweet }
+				if @tweet.previous_id.present?
+					format.html { redirect_to new_tweet_path(previous_id: @tweet, article_id: @tweet.article_id), notice: 'Tweet was successfully created.' }
+					format.json { render :show, status: :created, location: @tweet }
+				else
+					format.html { redirect_to tweets_path, notice: 'Tweet was successfully created.' }
+					format.json { render :show, status: :created, location: @tweet }
+				end
 			else
 				format.html { render :new }
 				format.json { render json: @tweet.errors, status: :unprocessable_entity }
