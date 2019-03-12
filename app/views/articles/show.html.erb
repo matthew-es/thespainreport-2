@@ -27,7 +27,7 @@
 <div class="content">
 	
 	<div class="content-top">
-		<div class="topbutton float-right mobile-100">
+		<div class="topbutton float-left mobile-100">
 			<a href="https://www.patreon.com/join/matthewbennett" class="topbutton">
 				<% if @article.language_id == 1 %>
 					Support now on Patreon
@@ -39,7 +39,7 @@
 			</a>
 		</div>
 	
-		<div class="padding-top-5 font-header font-header-tiny mobile-100">
+		<div class="padding-top-5 float-right font-header font-header-tiny mobile-100">
 		<% if @article.story.nil? %>
 			<% if @article.language_id == 1 %>
 				<%= link_to "The Spain Report", '/' %>
