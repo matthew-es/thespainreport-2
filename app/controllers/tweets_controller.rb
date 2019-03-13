@@ -103,6 +103,27 @@ class TweetsController < ApplicationController
 		else
 		end
 		
+		# Grab a quick translation
+		if @tweet.article.present?
+			tr = Aws::Translate::Client.new()
+			if @tweet.article.language_id == 1
+				reply = tr.translate_text(
+				  text: @tweet.message, # required
+				  source_language_code: "en", # required
+				  target_language_code: "es", # required
+				)
+			elsif @tweet.article.language_id == 2
+				reply = tr.translate_text(
+				  text: @tweet.message, # required
+				  source_language_code: "es", # required
+				  target_language_code: "en", # required
+				)
+			else
+			end
+			@tweet.update(
+				quicktranslation: reply.translated_text
+				)
+		end 
 		# Now send the tweet
 		if @tweet.previous.present?
 			if @tweet.image
@@ -172,6 +193,6 @@ class TweetsController < ApplicationController
 
 		# Never trust parameters from the scary internet, only allow the white list through.
 		def tweet_params
-			params.require(:tweet).permit(:article_id, :image, :message, :previous_id, :twitter_tweet_id)
+			params.require(:tweet).permit(:article_id, :image, :message, :previous_id, :quicktranslation, :twitter_tweet_id)
 		end
 end
