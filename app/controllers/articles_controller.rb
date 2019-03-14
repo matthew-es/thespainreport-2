@@ -66,7 +66,8 @@ class ArticlesController < ApplicationController
 			redirect_to root_url
 		elsif !current_user.nil?
 			@article = Article.new
-		article_elements
+			article_elements
+			@translationof = Article.spanish.order('created_at DESC')
 		else
 			redirect_to root_url
 		end
