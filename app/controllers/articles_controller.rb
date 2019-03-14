@@ -8,7 +8,12 @@ class ArticlesController < ApplicationController
 		@statuses = Status.all.order(:name)
 		@languages = Language.all.order(:name)
 		@stories = Article.story.order('headline ASC')
-		@nottranslations = Article.nottranslation.english.order('created_at DESC')
+		if @article.language_id == 1
+			@translationof = Article.spanish.order('created_at DESC')
+		elsif @article.language_id == 2
+			@translationof = Article.english.order('created_at DESC')
+		else
+		end
 		@mains = Article.notupdate.order('created_at DESC')
 		@campaigns = Campaign.all.order(:name)
 	end

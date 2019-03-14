@@ -2,12 +2,12 @@
 <%= render 'form', tweet: @tweet %>
 
 <% if params.has_key?(:article_id) %>
-<% @tweet.article.tweets.order("created_at DESC").each do |tweet| %>
-    <div class="width-100 margin-bottom-10">
-        <div class="width-48 float-left"><%= tweet.message %></div>
-        <div class="width-48 float-left"><%= tweet.quicktranslation %></div>
-        <div class="clear"></div>
-    </div>
-<% end %>
+    <% @tweet.article.tweets.order("created_at DESC").each do |tweet| %>
+        <div class="width-100 margin-bottom-10">
+            <div class="width-48 float-left"><%= tweet.message %></div>
+            <div class="width-48 float-left"><%= tweet.quicktranslation %></div>
+            <div class="clear"></div>
+        </div>
+    <% end %>
 <% end %>
 </div>
