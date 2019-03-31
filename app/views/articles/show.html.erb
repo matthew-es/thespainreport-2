@@ -150,7 +150,7 @@
 <% end %>
 
 <% if @article.image.present? %>
-	<%= image_tag ('http://image.thespainreport.es/' + @article.image) %>
+	<%= image_tag ('https://image.thespainreport.es/' + @article.image) %>
 <% else %>
 <% end %>
 
@@ -189,7 +189,7 @@
 			<p>
 				<%= t.message %>
 				<% if t.image.present? %>
-					<%= image_tag ('http://image.thespainreport.es/' + t.image) %>
+					<%= image_tag ('https://image.thespainreport.es/' + t.image) %>
 				<% end %>
 			</p>
 		<% end %>
@@ -263,7 +263,7 @@
     	<div class="clear"></div>
     	<div class="margin-top-10">
 	    	<% if u.image.present? %>
-				<%= image_tag ('http://image.thespainreport.es/' + u.image) %>
+				<%= image_tag ('https://image.thespainreport.es/' + u.image) %>
 			<% else %>
 			<% end %>
 			<%= markdown(u.body) %>
