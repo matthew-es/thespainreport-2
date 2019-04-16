@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   get 'rss' => 'home#index', defaults: { format: 'rss' }
   get 'rss/es' => 'home#es', defaults: { format: 'rss' }
   get 'rss/eng' => 'home#eng', defaults: { format: 'rss' }
+  get 'audio' => 'home#audio'
+  get 'es/audio' => 'home#audio_es'
   get 'es' => 'home#es'
   get 'home/index'
   get 'articles/admin'

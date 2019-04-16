@@ -1,0 +1,60 @@
+<% title "Audio" %>
+<% content_for :meta do %>
+	<meta name="description" content="The Spain Report" />
+	<link rel="canonical" href="<%= root_url %>" />
+	<meta name="author" content="Matthew Bennett">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@thespainreport" />
+	<meta name="twitter:creator" content="@matthewbennett" />
+	<meta name="twitter:title" content="The Spain Report" />
+	<meta name="twitter:description" content="The Spain Report" />
+	<meta property="og:site_name" content="The Spain Report"/>
+	<meta property="og:url" content="<%= root_url %>"/>
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="The Spain Report"/>
+  	<meta property="og:description" content="The Spain Report"/>
+ 	<meta property="og:article:author" content="Matthew Bennett"/>
+ 	<meta property="og:article:section" content="Spain"/>
+<% end %>
+
+<div class="content">
+
+	<div class="content-top">
+		<div class="topbutton float-left mobile-100">
+			<a href="https://www.patreon.com/join/matthewbennett" class="topbutton">
+				Support now on Patreon
+			</a>
+		</div>
+	
+		<div class="padding-top-5 float-right mobile-100">
+			<span class="label font-main font-main-normal font-upper background-color-red">
+    			<span class="font-color-yellow">The</span> <span class="font-color-orange">Spain</span> <span class="font-color-yellow">Report</span>
+    		</span>
+		</div>
+		
+		<div class="clear"></div>
+	</div>
+ 
+ <h3>Latest Articles with Audio</h3>
+ <ul class="">
+ <% @audioarticles.each do |article| %>
+ 	<li class="margin-bottom-10 font-main font-main-small"><%= link_to article.headline, article %>
+		<br /><span class="font-bold font-italic"><%= article.type.name %>:</span> <span class="font-italic"><%= article.lede %></span>
+		<% if article.updates.published.present? %>
+			<ul class="margin-top-5 margin-bottom-0 margin-left-20 margin-right-0">
+		      <% article.updates.each do |u| %>
+		        <li class="margin-bottom-0 font-main font-main-small"><%= link_to u.headline, article_path(article, anchor: u.id) %></li>
+		      <% end %>
+		    </ul>
+	   <% else %>
+	   <% end %>
+	</li>
+ <% end %>
+ </ul>
+
+<%= render "layouts/footer" %>
+
+</div>

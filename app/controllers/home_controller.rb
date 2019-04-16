@@ -50,4 +50,13 @@ class HomeController < ApplicationController
       format.rss { render :layout => false }
     end
   end
+  
+  def audio
+    @audioarticles = Article.audio.english.order('created_at DESC')
+  end 
+
+def audio_es
+    @audioarticles = Article.audio.spanish.order('created_at DESC')
+end 
+
 end
