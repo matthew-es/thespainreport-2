@@ -35,7 +35,7 @@ class HomeController < ApplicationController
     @lastten = Article.notlatesttop.notupdate.notnotes.spanish.published.lastten
     @lasttennotes = Article.notes.spanish.published.lastten
     @types = Type.spanish.notupdate.notstory
-    @rss = Article.all.spanish.order('created_at DESC')
+    @rss = Article.all.spanish.published.order('created_at DESC')
     
     respond_to do |format|
       format.html
@@ -44,7 +44,7 @@ class HomeController < ApplicationController
   end
   
   def eng
-    @rss = Article.all.english.order('created_at DESC')
+    @rss = Article.all.english.published.order('created_at DESC')
     respond_to do |format|
       format.html
       format.rss { render :layout => false }
@@ -52,11 +52,11 @@ class HomeController < ApplicationController
   end
   
   def audio
-    @audioarticles = Article.audio.english.order('created_at DESC')
+    @audioarticles = Article.audio.published.english.order('created_at DESC')
   end 
 
 def audio_es
-    @audioarticles = Article.audio.spanish.order('created_at DESC')
+    @audioarticles = Article.audio.published.spanish.order('created_at DESC')
 end 
 
 end
