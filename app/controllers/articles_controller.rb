@@ -83,7 +83,34 @@ class ArticlesController < ApplicationController
 			redirect_to root_url
 		end
 	end
-
+	
+	def tweet_article
+		if params[:tweet] == '1'
+			$client.update(tweet)
+		else
+		end
+	end
+	
+	def tweet
+		if @article.alertmessage?
+      	@article.alertmessage + ' ' + article_url(@article)
+   	else
+      	@article.type.name + ': ' + @article.headline + ' ' + article_url(@article)
+   	end
+	end
+	
+	def email_article
+		if params[:article][:email_to] == 'none'
+					
+		elsif params[:article][:email_to] == 'alert'
+			User.all.each do |user|
+				ArticleMailer.send_article_full(@article, user).deliver_now
+			end
+		else
+		end
+	end
+	
+	
 	# POST /articles
 	# POST /articles.json
 	def create
@@ -104,8 +131,16 @@ class ArticlesController < ApplicationController
 	# PATCH/PUT /articles/1.json
 	def update
 		params[:article][:story_ids] ||= []
+		
 		respond_to do |format|
 			if @article.update(article_params)
+				if ["Draft", "Editing"].include?(@article.status.name)
+					
+				elsif ["Published", "Updated"].include?(@article.status.name)
+					email_article
+					tweet_article
+				else
+				end
 				format.html { redirect_to edit_article_path(@article), notice: 'Article was successfully updated.' }
 				format.json { render :edit, status: :ok, location: @article }
 			else
@@ -133,6 +168,6 @@ class ArticlesController < ApplicationController
 
 		# Never trust parameters from the scary internet, only allow the white list through.
 		def article_params
-			params.require(:article).permit(:audio, :audioteaser, :body, :created_at, :campaign_id, :extras_audio, :extras_audioteaser, :extras_body, :headline, :image, :is_free, :language_id, :lede, :main_id, :original_id, :status_id, :story_id, :topstory, :type_id, :video)
+			params.require(:article).permit(:alertmessage, :audio, :audioteaser, :body, :created_at, :campaign_id, :extras_audio, :extras_audioteaser, :extras_body, :headline, :image, :is_free, :language_id, :lede, :main_id, :original_id, :status_id, :story_id, :topstory, :type_id, :video)
 		end
 end

@@ -31,10 +31,19 @@ Rails.application.configure do
   # .active_storage.service = :amazon
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
-
   config.action_mailer.perform_caching = false
-
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default_url_options = { host: 'https://www.thespainreport.es' }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: 'email-smtp.eu-west-1.amazonaws.com',
+    port: 587,
+    domain: 'thespainreport.es',
+    user_name: "AKIAVOBRX3C6PABFANJ3",
+    password: "BGM5jjqKeMxhOqZKsZcQGeM8uNXM0T3//5TG1w2gra2V",
+    authentication: 'plain',
+    enable_starttls_auto: true}
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 

@@ -62,9 +62,19 @@ Rails.application.configure do
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "tsr2_#{Rails.env}"
-
   config.action_mailer.perform_caching = false
-
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default_url_options = { host: 'https://www.thespainreport.es' }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: 'email-smtp.eu-west-1.amazonaws.com',
+    port: 587,
+    domain: 'thespainreport.es',
+    user_name: "AKIAVOBRX3C6PABFANJ3",
+    password: "BGM5jjqKeMxhOqZKsZcQGeM8uNXM0T3//5TG1w2gra2V",
+    authentication: 'plain',
+    enable_starttls_auto: true}
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false

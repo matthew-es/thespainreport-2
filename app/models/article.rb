@@ -1,4 +1,5 @@
 class Article < ApplicationRecord
+    
     belongs_to :language
     belongs_to :status
     belongs_to :type, optional: true

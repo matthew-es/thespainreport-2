@@ -1,0 +1,116 @@
+<p><strong><%= @article.headline %></strong></p>
+
+<p>
+	<em>
+		<% if @article.language_id == 1 %>
+			<%= @article.created_at.strftime("%b %d, %Y, %l:%M %P") %>
+		<% elsif @article.language_id == 2 %>
+			<%= @article.created_at.strftime("%d/%m/%Y, %H:%M") %>
+		<% else %>
+		<% end %>
+		<br />
+		<%= @article.lede %>
+	</em>
+</p>
+
+<p>
+	<% if @article.updates.published.present? %>
+		<ul class="margin-top-5 margin-bottom-0 margin-left-20 margin-right-0">
+	      <% @article.updates.each do |u| %>
+	        <li><%= u.headline %></li>
+	      <% end %>
+	    </ul>
+    <% else %>
+    <% end %>
+</p>
+
+<% if @article.image.present? %>
+	<%= image_tag ('https://image.thespainreport.es/' + @article.image) %>
+<% else %>
+<% end %>
+
+<%= markdown(@article.body) %>
+
+<% if @article.tweets.present? %>
+	<% @article.tweets.order('created_at ASC').each do |t| %>
+		<p>
+			<%= t.message %>
+			<% if t.image.present? %>
+				<%= image_tag ('https://image.thespainreport.es/' + t.image) %>
+			<% end %>
+		</p>
+	<% end %>
+<% end %>
+
+<% @article.updates.published.each do |u| %>
+		<p>
+			<strong><%= u.headline %></strong>
+		</p>
+		
+		<p>
+			<% if u.language_id == 1 %>
+				<em><%= u.created_at.strftime("%b %d, %Y, %l:%M %P") %></em>
+			<% elsif u.language_id == 2 %>
+				<em><%= u.created_at.strftime("%d/%m/%Y, %H:%M") %></em>
+			<% else %>
+			<% end %>
+			<br />
+			<em><%= u.lede %></em>
+		</p>
+		
+		<% if u.image.present? %>
+			<%= image_tag ('https://image.thespainreport.es/' + u.image) %>
+		<% else %>
+		<% end %>
+		
+		<%= markdown(u.body) %>
+<% end %>
+
+<ul>
+	<li>
+		<% if @article.language_id == 1 %>
+			<%= link_to "Read this article on The Spain Report", article_url(@article) %>
+		<% elsif @article.language_id == 2 %>
+			<%= link_to "Lea este artículo en The Spain Report", article_url(@article) %>
+		<% else %>
+		<% end %>
+	</li>
+	
+	<% if @article.audio.present? %>
+		<li>
+			<strong>
+				<% if @article.language_id == 1 %>
+					Audio:
+				<% elsif @article.language_id == 2 %>
+					Audio:
+				<% else %>
+				<% end %>
+			</strong>
+			<%= link_to "Audio" + @article.audio, ('https://audio.thespainreport.es/' + @article.audio) %>
+		</li>
+	<% else %>
+	<% end %>
+	
+	<% if @article.original.blank? %>
+		<% @article.translations.where.not(id: @article).each do |tr| %>
+				<li><%= link_to tr.language.prompt, tr %></li>
+		<% end %>
+	<% else %>
+			<li><%= link_to @article.original.language.prompt, @article.original, class: "label" %></li>
+	<% end %>
+	
+	<% if @article.story.nil? %>
+	<% else %>
+		<li>
+			<strong>
+				<% if @article.language_id == 1 %>
+					More:
+				<% elsif @article.language_id == 2 %>
+					Más:
+				<% else %>
+				<% end %>
+			</strong>
+			<%= link_to @article.story.headline, @article.story %>
+		</li>
+	<% end %>
+</ul>

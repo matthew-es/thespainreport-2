@@ -13,20 +13,29 @@
 	<% end %>
 	
 	<div class="margin-bottom-10 right">
-		Breaking <%= f.check_box :is_free %>
-		Top <%= f.check_box :topstory %>
-		<%= f.collection_select :type_id, @types.where(language_id: @article.language_id || 1), :id, :name, {:selected => @article.type_id ? @article.type_id : 1}, {:style => "width: 100px;"} %>
-		<strong>Update of?</strong> <%= f.collection_select :main_id, @mains.where(language_id: @article.language_id || 1), :id, :headline, {include_blank: true, :selected => @article.main_id}, {:style => "width: 200px;"} %>
-		<strong>Belongs to:</strong> <%= f.collection_select :story_id, @stories.where(language_id: @article.language_id || 1), :id, :headline, {include_blank: true, :selected => @article.story_id}, {:style => "width: 200px;"} %>
-		<%= f.text_field :created_at %>
-	</div>
-	<div class="margin-bottom-10 right">
-		<strong>Language:</strong> <%= f.collection_select :language_id, @languages, :id, :name, {:selected => @article.language_id ? @article.language_id : 1} %>
-		<strong>Translation of:</strong> <%= f.collection_select :original_id, @translationof, :id, :headline, {include_blank: true, :selected => @article.original_id}, {:style => "width: 200px;"} %>
-		<strong>Campaign:</strong> <%= f.collection_select :campaign_id, @campaigns.where(language_id: @article.language_id || 1), :id, :name, {:selected => @article.campaign_id ? @article.campaign_id : 1} %>
-		<%= f.collection_select :status_id, @statuses, :id, :name, {:selected => @article.status_id ? @article.status_id : 1} %>
+		<%= f.text_field :alertmessage, :class => "width-37 padding-5", placeholder: "Alert message…" %>
+		<%= check_box_tag 'tweet' %>
+		<%= f.select :email_to, options_for_select([["None", "none"], ["E-Mail Alert", "alert"], ["Test", "test"], ["Readers", "readers"], ["Subscribers", "subscribers"]]) %>
 		<%= f.submit %>
 		<%= link_to 'Go', @article %>
+	</div>
+	
+	<div class="margin-bottom-10 right">
+		Breaking <%= f.check_box :is_free %>
+		Top <%= f.check_box :topstory %>
+		<strong>Language:</strong> <%= f.collection_select :language_id, @languages, :id, :name, {:selected => @article.language_id ? @article.language_id : 1} %>
+		<%= f.collection_select :type_id, @types.where(language_id: @article.language_id || 1), :id, :name, {:selected => @article.type_id ? @article.type_id : 1}, {:style => "width: 100px;"} %>
+		<%= f.text_field :created_at %>
+		<%= f.collection_select :status_id, @statuses, :id, :name, {:selected => @article.status_id ? @article.status_id : 1} %>
+	</div>
+	
+	<div class="margin-bottom-10 right">
+		<strong>Update of?</strong> <%= f.collection_select :main_id, @mains.where(language_id: @article.language_id || 1), :id, :headline, {include_blank: true, :selected => @article.main_id}, {:style => "width: 200px;"} %>
+		<strong>Story:</strong> <%= f.collection_select :story_id, @stories.where(language_id: @article.language_id || 1), :id, :headline, {include_blank: true, :selected => @article.story_id}, {:style => "width: 200px;"} %>
+		<strong>Translation of:</strong> <%= f.collection_select :original_id, @translationof, :id, :headline, {include_blank: true, :selected => @article.original_id}, {:style => "width: 200px;"} %>
+		<strong>Campaign:</strong> <%= f.collection_select :campaign_id, @campaigns.where(language_id: @article.language_id || 1), :id, :name, {:selected => @article.campaign_id ? @article.campaign_id : 1} %>
+		
+		
 	</div>
 
 	<div class="margin-bottom-10">

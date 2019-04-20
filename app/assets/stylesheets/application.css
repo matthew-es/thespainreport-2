@@ -49,8 +49,10 @@ a.editor-link, a.editor-link:visited, a.editor-link:hover, h1 a, h1 a:visited, h
 .width-100, input.width-100 {width: 100%;}
 .width-98, input.width-98 {width: 98%;}
 .width-70, input.width-70 {width: 70%;}
-.width-48 {width: 48%;}
-.width-33 {width: 32%;}
+.width-48, input.width-48 {width: 48%;}
+.width-40, input.width-40 {width: 40%;}
+.width-37, input.width-37 {width: 37%;}
+.width-33, input.width-33 {width: 37%;}
 .width-5 {width: 5%;}
 .margin-centre {margin: 0 auto;}
 .margin-top-0 {margin-top: 0px;}
