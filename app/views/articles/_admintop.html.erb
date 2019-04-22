@@ -96,7 +96,7 @@
 			<% elsif controller_name == "users" %>
 				<%= form_with url: 'editor_creates_new_user' do |f| %>
 					<div class="margin-bottom-10">
-						<%= f.text_area :email, :class => "width-48 padding-10 font-main font-main-normal", :style => "min-height: 60px;", placeholder: "Add new users here…", maxlength: 280 %>
+						<%= f.text_area :email, :class => "width-48 padding-10 font-main font-main-normal", :style => "min-height: 60px;", placeholder: "Add new users here…" %>
 					</div>
 					<div class="margin-bottom-10">
 				   	Emails: <%= f.select :emails, options_for_select([["Everything", "1"], ["Full articles only", "2"], ["No news articles", "3"]]) %>

@@ -35,7 +35,7 @@ class UsersController < ApplicationController
 		if current_user.nil? 
 			redirect_to root_url
 		elsif !current_user.nil?
-			@users = User.all
+			@users = User.all.order("email ASC")
 		else
 			redirect_to root_url
 		end
