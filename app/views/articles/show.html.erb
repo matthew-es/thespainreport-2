@@ -91,7 +91,7 @@
     	</div>
     <% end %>
 
-    <% if @article.updates.published.present? || @article.status.try(:name) == 'Updated' %>
+    <% if @articleupdates.present? || @article.status.try(:name) == 'Updated' %>
     	<div class="margin-right-5 float-left mobile-bottom-10">
     		<span class="label background-color-black font-color-white">
     			<% if @article.language_id == 1 %>
@@ -133,9 +133,9 @@
 
 <div class="margin-top-5 font-main font-main-normal font-italic">
 	<span class="font-bold"><%= @article.type.try(:name) %>:</span> <%= @article.lede %>
-	<% if @article.updates.published.present? %>
+	<% if @articleupdates.present? %>
 		<ul class="margin-top-5 margin-bottom-0 margin-left-20 margin-right-0">
-	      <% @article.updates.each do |u| %>
+	      <% @articleupdates.each do |u| %>
 	        <li><%= link_to u.headline, article_path(@article, anchor: u.id) %></li>
 	      <% end %>
 	    </ul>
@@ -184,8 +184,8 @@
 	<div class="margin-top-10">
 	<%= markdown(@article.body).html_safe %>
 	
-	<% if @article.tweets.present? %>
-		<% @article.tweets.order('created_at ASC').each do |t| %>
+	<% if @articletweets.present? %>
+		<% @articletweets.each do |t| %>
 			<p>
 				<%= t.message %>
 				<% if t.image.present? %>
@@ -194,7 +194,6 @@
 			</p>
 		<% end %>
 	<% end %>
-	
 	
 	<% if @article.extras_audio.present? || @article.extras_body.present? %>
 		<h5>
@@ -232,7 +231,8 @@
 		<%= markdown(@article.extras_body).html_safe %>
 	<% end %>
 	
-	<% @article.updates.published.each do |u| %>
+	<% if @articleupdates.present? %>
+	<% @articleupdates.each do |u| %>
 		<h3 id="<%= u.id %>">
 			<% if current_user.nil? %>
 				<%= u.headline %>
@@ -270,7 +270,8 @@
 		</div>
 	<% end %>
 	</div>
-
+	<% end %>
+	
 	<% if @article.components.present? %>
 		<h3>
 			<% if @article.language_id == 1 %>

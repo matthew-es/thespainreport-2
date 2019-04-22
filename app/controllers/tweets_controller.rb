@@ -1,4 +1,5 @@
 class TweetsController < ApplicationController
+
 	before_action :set_tweet, only: [:show, :edit, :update, :destroy]
 
 	def tweetelements
@@ -55,6 +56,24 @@ class TweetsController < ApplicationController
 			tweetelements
 		else
 			redirect_to root_url
+		end
+	end
+	
+	def email_tweet
+		if params[:tweet][:email_to] == 'none'
+		
+		elsif params[:tweet][:email_to] == 'alert'
+			if @tweet.language_id == 1
+				User.emailsall.emailsenglish.each do |user|
+					TweetMailer.send_tweet(@tweet, user).deliver_now
+				end
+			elsif @tweet.language_id == 2
+				User.emailsall.emailsspanish.each do |user|
+					TweetMailer.send_tweet(@tweet, user).deliver_now
+				end
+			else
+			end
+		else
 		end
 	end
 
@@ -124,6 +143,7 @@ class TweetsController < ApplicationController
 				quicktranslation: reply.translated_text
 				)
 		end 
+		
 		# Now send the tweet
 		if @tweet.previous.present?
 			if @tweet.image
@@ -145,6 +165,8 @@ class TweetsController < ApplicationController
 		
 		respond_to do |format|
 			if @tweet.save
+				email_tweet
+				
 				if @tweet.previous_id.present?
 					format.html { redirect_to new_tweet_path(previous_id: @tweet, article_id: @tweet.article_id), notice: 'Tweet was successfully created.' }
 					format.json { render :show, status: :created, location: @tweet }
@@ -193,6 +215,6 @@ class TweetsController < ApplicationController
 
 		# Never trust parameters from the scary internet, only allow the white list through.
 		def tweet_params
-			params.require(:tweet).permit(:article_id, :image, :message, :previous_id, :quicktranslation, :twitter_tweet_id)
+			params.require(:tweet).permit(:article_id, :image, :language_id, :message, :previous_id, :quicktranslation, :twitter_tweet_id)
 		end
 end

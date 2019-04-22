@@ -1,0 +1,6 @@
+<%= @tweet.message %>
+
+<% if @tweet.image.present? %>
+	<%= image_tag ('https://image.thespainreport.es/' + @tweet.image) %>
+<% else %>
+<% end %>

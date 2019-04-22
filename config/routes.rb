@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   get 'home/index'
   get 'articles/admin'
   get 'users/signup'
+  post 'editor_creates_new_user' => 'users#editor_creates_new_user'
   post 'signup' => 'users#create'
   get 'users/login'
   post '/login' => 'users#newsession'

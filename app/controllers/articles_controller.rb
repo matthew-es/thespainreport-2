@@ -50,6 +50,8 @@ class ArticlesController < ApplicationController
 				campaign_id: @article.campaign_id,
 				plan_ids: ''
 				)
+		@articletweets = @article.tweets.order('created_at ASC')
+		@articleupdates = @article.updates.published.order('created_at ASC')
 		
 		elsif current_user.nil?
 			redirect_to root_url
@@ -103,8 +105,33 @@ class ArticlesController < ApplicationController
 		if params[:article][:email_to] == 'none'
 					
 		elsif params[:article][:email_to] == 'alert'
-			User.all.each do |user|
-				ArticleMailer.send_article_full(@article, user).deliver_now
+			if ["Notes"].include?@article.type.name
+				User.emailsenglish.find_each(batch_size: 50) do |user|
+					ArticleMailer.send_article_full(@article, user).deliver_now
+				end
+			elsif ["Apuntes"].include?@article.type.name
+				User.emailsspanish.find_each(batch_size: 50) do |user|
+					ArticleMailer.send_article_full(@article, user).deliver_now
+				end
+			elsif ["Update"].include?@article.type.name
+				User.emailsall.emailsenglish.find_each(batch_size: 50) do |user|
+					ArticleMailer.send_article_full(@article, user).deliver_now
+				end
+			elsif ["Actualización"].include?@article.type.name
+				User.emailsall.emailsspanish.find_each(batch_size: 50) do |user|
+					ArticleMailer.send_article_full(@article, user).deliver_now
+				end
+			elsif !["Notes", "Apuntes","Update", "Actualización"].include?@article.type.name
+				if @article.language_id == 1
+					User.emailsfull.emailsenglish.find_each(batch_size: 50) do |user|
+						ArticleMailer.send_article_full(@article, user).deliver_now
+					end
+				elsif @article.language_id == 2
+					User.emailsfull.emailsspanish.find_each(batch_size: 50) do |user|
+						ArticleMailer.send_article_full(@article, user).deliver_now
+					end
+				end
+			else
 			end
 		else
 		end

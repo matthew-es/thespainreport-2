@@ -16,6 +16,8 @@
 	<div class="margin-bottom-10">
 		<strong>Previous:</strong> <%= f.collection_select :previous_id, @previoustweets, :id, :message, {include_blank: true, :selected => @tweet.previous_id}, {:style => "width: 400px;"} %>
 		<%= f.file_field :image  %>
+		<%= f.collection_select :language_id, @languages, :id, :name %>
+		<%= f.select :email_to, options_for_select([["None", "none"], ["E-Mail Alert", "alert"]]) %>
 		<%= f.submit %>
 	</div>
 	
@@ -44,8 +46,7 @@
 		<div class="margin-bottom-10">
 			<%= f.text_field :new_article_lede, :class => "width-70 padding-5 font-main font-main-normal font-italic", placeholder: "New article lede…" %>
 		</div>
-		
-		<strong>Language:</strong> <%= f.collection_select :language_id, @languages, :id, :name %>
+
 		<strong>Type:</strong> <%= f.collection_select :type_id, @types, :id, :name %>
 	<% end %>
 <% end %>

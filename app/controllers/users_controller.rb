@@ -52,7 +52,30 @@ class UsersController < ApplicationController
 			redirect_to root_url
 		end
 	end
-
+	
+	def editor_creates_new_user
+		autopassword = 'L e @ 4' + SecureRandom.hex(32)
+		generate_token = SecureRandom.urlsafe_base64
+		
+		array2 = params[:email].split(/\n/)
+		array2.each do |e|
+		user = User.create!(
+			email: e,
+			password: autopassword,
+			password_confirmation: autopassword,
+			password_reset_token: generate_token,
+			password_reset_sent_at: Time.zone.now,
+			role: params[:role],
+			sitelanguage: params[:sitelanguage],
+			emails: params[:emails],
+			emaillanguage: params[:emaillanguage],
+			email_confirmed: 1
+			)
+		end 
+		
+		redirect_to users_path
+	end
+	
 	# GET /users/new
 	def new
 		if current_user.nil? 
@@ -68,7 +91,7 @@ class UsersController < ApplicationController
 	def edit
 		if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.role?
+		elsif current_user.role == 1
 			
 		else
 			redirect_to root_url
@@ -96,7 +119,7 @@ class UsersController < ApplicationController
 	def update
 		respond_to do |format|
 			if @user.update(user_params)
-				format.html { redirect_to @user, notice: 'User was successfully updated.' }
+				format.html { redirect_to edit_user_path(@user), notice: 'Reader was successfully updated.' }
 				format.json { render :show, status: :ok, location: @user }
 			else
 				format.html { render :edit }
@@ -123,6 +146,6 @@ class UsersController < ApplicationController
 
 		# Never trust parameters from the scary internet, only allow the white list through.
 		def user_params
-			params.require(:user).permit(:email, :email_confirmed, :password, :password_confirmation, :password_digest, :role, :confirm_token)
+			params.require(:user).permit(:email, :email_confirmed, :emails, :emaillanguage, :password, :password_confirmation, :password_digest, :password_reset_token, :password_reset_sent_at, :role, :sitelanguage, :confirm_token)
 		end
 end

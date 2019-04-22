@@ -2,11 +2,52 @@
 
 <table>
   <tbody>
+    <tr style="font-weight: bold;">
+        <td>Email</td>
+        <td>Role</td>
+        <td>Site</td>
+        <td>Emails</td>
+        <td>Email language</td>
+        <td>Confirmed</td>
+      </tr>
     <% @users.each do |user| %>
       <tr>
         <td><%= link_to user.email, edit_user_path(user) %></td>
+        <td>
+          <% if user.role == 1 %>
+            Editor
+          <% elsif user.role == 2 %>
+            Patron
+          <% elsif user.role == 3 %>
+            Reader
+          <% else end %>
+        </td>
+        <td>
+          <% if user.sitelanguage == 1 %>
+            English
+          <% elsif user.sitelanguage == 2 %>
+            Spanish
+          <% else end %>
+        </td>
+        <td>
+          <% if user.emails == 1 %>
+            Everything
+          <% elsif user.emails == 2 %>
+            Articles
+          <% elsif user.emails == 3 %>
+            No emails
+          <% else end %>
+        </td>
+        <td>
+          <% if user.emaillanguage == 1 %>
+            English
+          <% elsif user.emaillanguage == 2 %>
+            Spanish
+          <% elsif user.emaillanguage == 3 %>
+            Both
+          <% else end %>
+        </td>
         <td><%= user.email_confirmed %></td>
-        <td><%= user.role %></td>
         <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

@@ -12,7 +12,7 @@
 		<%= link_to "Languages", languages_path %>
 		<%= link_to "Statuses", statuses_path %>
 		| <%= link_to "Visits", visits_path %>
-		| <%= link_to "Users", users_path %>
+		| <%= link_to "Readers", users_path %>
 		<%= link_to "Plans", plans_path %>
 		| <% if current_user %>
 			Logged in as <%= current_user.email %>.
@@ -39,7 +39,7 @@
 		<% elsif controller_name == "visits" %>
 			Visits
 		<% elsif controller_name == "users" %>
-			Users
+			Readers
 		<% elsif controller_name == "plans" %>
 			Plans
 		<% end %>
@@ -69,7 +69,7 @@
 			<% elsif controller_name == "visits" %>
 				
 			<% elsif controller_name == "users" %>
-				user…
+				reader…
 			<% elsif controller_name == "plans" %>
 				plan…
 			<% end %>
@@ -94,7 +94,24 @@
 			<% elsif controller_name == "visits" %>
 				
 			<% elsif controller_name == "users" %>
-				<%= link_to 'New user', new_user_path %>
+				<%= form_with url: 'editor_creates_new_user' do |f| %>
+					<div class="margin-bottom-10">
+						<%= f.text_area :email, :class => "width-48 padding-10 font-main font-main-normal", :style => "min-height: 60px;", placeholder: "Add new users here…", maxlength: 280 %>
+					</div>
+					<div class="margin-bottom-10">
+				   	Emails: <%= f.select :emails, options_for_select([["Everything", "1"], ["Full articles only", "2"], ["No news articles", "3"]]) %>
+				  	</div>
+					<div class="margin-bottom-10">
+						Email language: <%= f.select :emaillanguage, options_for_select([["English", "1"], ["Spanish", "2"], ["English & Spanish", "3"]]) %>
+					</div>
+					<div class="margin-bottom-10">
+						Site language: <%= f.select :sitelanguage, options_for_select([["English", "1"], ["Spanish", "2"]]) %>
+					</div>
+					<div class="margin-bottom-10">
+			    		Role: <%= f.select :role, options_for_select([["Editor", "1"], ["Patron", "2"], ["Reader", "3"]]) %> <%= f.submit %>
+			    		<hr />
+			  		</div>
+				<% end %>
 			<% elsif controller_name == "plans" %>
 				<%= link_to 'New plan', new_plan_path %>
 			<% end %>

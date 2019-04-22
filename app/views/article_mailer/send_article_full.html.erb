@@ -14,9 +14,9 @@
 </p>
 
 <p>
-	<% if @article.updates.published.present? %>
+	<% if @articleupdates.present? %>
 		<ul class="margin-top-5 margin-bottom-0 margin-left-20 margin-right-0">
-	      <% @article.updates.each do |u| %>
+	      <% @articleupdates.each do |u| %>
 	        <li><%= u.headline %></li>
 	      <% end %>
 	    </ul>
@@ -31,10 +31,11 @@
 
 <%= markdown(@article.body) %>
 
-<% if @article.tweets.present? %>
-	<% @article.tweets.order('created_at ASC').each do |t| %>
+<% if @articletweets.present? %>
+	<% @articletweets.each do |t| %>
 		<p>
 			<%= t.message %>
+			<br />
 			<% if t.image.present? %>
 				<%= image_tag ('https://image.thespainreport.es/' + t.image) %>
 			<% end %>
@@ -42,7 +43,7 @@
 	<% end %>
 <% end %>
 
-<% @article.updates.published.each do |u| %>
+<% @articleupdates.each do |u| %>
 		<p>
 			<strong><%= u.headline %></strong>
 		</p>

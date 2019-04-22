@@ -15,7 +15,7 @@
 	<div class="margin-bottom-10 right">
 		<%= f.text_field :alertmessage, :class => "width-37 padding-5", placeholder: "Alert message…" %>
 		<%= check_box_tag 'tweet' %>
-		<%= f.select :email_to, options_for_select([["None", "none"], ["E-Mail Alert", "alert"], ["Test", "test"], ["Readers", "readers"], ["Subscribers", "subscribers"]]) %>
+		<%= f.select :email_to, options_for_select([["None", "none"], ["E-Mail Alert", "alert"]]) %>
 		<%= f.submit %>
 		<%= link_to 'Go', @article %>
 	</div>
