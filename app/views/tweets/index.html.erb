@@ -12,7 +12,7 @@
 			| <strong>Image:</strong> <%= tweet.image %>
 			| <strong>Article:</strong> <%= link_to tweet.article.id, tweet.article unless tweet.article.nil? %>
 			| <%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } %>
-			| <%= link_to "New in thread", new_tweet_path(previous_id: tweet, article_id: tweet.article_id) %>
+			| <%= link_to "New in thread", new_tweet_path(previous_id: tweet, article_id: tweet.article_id, language_id: tweet.language_id) %>
 		</div>
 	</div>
 <% end %>
