@@ -3,7 +3,7 @@ class TweetsController < ApplicationController
 	before_action :set_tweet, only: [:show, :edit, :update, :destroy]
 
 	def tweetelements
-		@previoustweets = Tweet.all.order("created_at DESC")
+		@previoustweets = Tweet.last50
 		@articles = Article.all.order("created_at DESC")
 		@languages = Language.all.order(:name)
 		@types = Type.thread.order(:name)
@@ -13,7 +13,7 @@ class TweetsController < ApplicationController
 		if current_user.nil? 
 			redirect_to root_url
 		elsif !current_user.nil?
-			@tweets = Tweet.all.order("created_at DESC")
+			@tweets = Tweet.last50
 		else
 			redirect_to root_url
 		end
@@ -40,6 +40,7 @@ class TweetsController < ApplicationController
 			if params
 				@tweet.previous_id = params[:previous_id]
 				@tweet.article_id = params[:article_id]
+				@tweet.language_id = params[:language_id]
 			end
 			
 			tweetelements
@@ -168,7 +169,7 @@ class TweetsController < ApplicationController
 				email_tweet
 				
 				if @tweet.previous_id.present?
-					format.html { redirect_to new_tweet_path(previous_id: @tweet, article_id: @tweet.article_id), notice: 'Tweet was successfully created.' }
+					format.html { redirect_to new_tweet_path(previous_id: @tweet, article_id: @tweet.article_id, language_id: @tweet.language_id), notice: 'Tweet was successfully created.' }
 					format.json { render :show, status: :created, location: @tweet }
 				else
 					format.html { redirect_to tweets_path, notice: 'Tweet was successfully created.' }
