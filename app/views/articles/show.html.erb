@@ -187,7 +187,7 @@
 	<% if @articletweets.present? %>
 		<% @articletweets.each do |t| %>
 			<p>
-				<%= t.message %>
+				<%= markdown(t.message) %>
 				<% if t.image.present? %>
 					<%= image_tag ('https://image.thespainreport.es/' + t.image) %>
 				<% end %>

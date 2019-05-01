@@ -1,4 +1,5 @@
 class ArticlesController < ApplicationController
+	
 	before_action :set_article, only: [:show, :edit, :update, :destroy]
 	
 	# GET /articles
@@ -136,7 +137,7 @@ class ArticlesController < ApplicationController
 		else
 		end
 	end
-	
+
 	
 	# POST /articles
 	# POST /articles.json
@@ -161,6 +162,9 @@ class ArticlesController < ApplicationController
 		
 		respond_to do |format|
 			if @article.update(article_params)
+				format.html { redirect_to edit_article_path(@article), notice: 'Article was successfully updated.' }
+				format.json { render :edit, status: :ok, location: @article }
+				
 				if ["Draft", "Editing"].include?(@article.status.name)
 					
 				elsif ["Published", "Updated"].include?(@article.status.name)
@@ -168,8 +172,7 @@ class ArticlesController < ApplicationController
 					tweet_article
 				else
 				end
-				format.html { redirect_to edit_article_path(@article), notice: 'Article was successfully updated.' }
-				format.json { render :edit, status: :ok, location: @article }
+				
 			else
 				format.html { render :edit }
 				format.json { render json: @article.errors, status: :unprocessable_entity }

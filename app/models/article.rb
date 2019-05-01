@@ -5,13 +5,10 @@ class Article < ApplicationRecord
     belongs_to :type, optional: true
     belongs_to :campaign, optional: true
     has_many :tweets
-    
     has_many :translations, class_name: "Article", foreign_key: "original_id"
     belongs_to :original, class_name: "Article", optional: true
-    
     has_many :updates, class_name: "Article", foreign_key: "main_id"
     belongs_to :main, class_name: "Article", optional: true
-    
     has_many :components, class_name: "Article", foreign_key: "story_id"
     belongs_to :story, class_name: "Article", optional: true
     
