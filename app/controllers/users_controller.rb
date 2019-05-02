@@ -72,7 +72,7 @@ class UsersController < ApplicationController
 	def reset_tokens
 		if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			User.all.each do |u|
 				u.update(confirm_token: SecureRandom.urlsafe_base64.to_s)
 			end
@@ -85,7 +85,7 @@ class UsersController < ApplicationController
 	def index
 		if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			@users = User.all.order("email ASC")
 		else
 			redirect_to root_url
@@ -97,7 +97,7 @@ class UsersController < ApplicationController
 	def show
 		if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			@user = User.find(params[:id])
 		else
 			redirect_to root_url
@@ -132,7 +132,7 @@ class UsersController < ApplicationController
 	def new
 		if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			@user = User.new
 		else
 			redirect_to root_url

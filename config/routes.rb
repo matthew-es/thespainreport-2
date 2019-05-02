@@ -23,7 +23,6 @@ Rails.application.routes.draw do
   get 'es/audio' => 'home#audio_es'
   get 'es' => 'home#es'
   get 'home/index'
-  get 'articles/admin'
   get 'users/signup'
   post 'editor_creates_new_user' => 'users#editor_creates_new_user'
   post 'signup' => 'users#create'

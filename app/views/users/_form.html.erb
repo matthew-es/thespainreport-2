@@ -16,7 +16,11 @@
   </div>
   
   <div class="margin-bottom-10">
-    Emails: <%= form.select :emails, options_for_select([["Articles & Headlines", "1"], ["Articles only", "2"], ["Announcements only", "3"], ["No email at all", "4"]], :selected => @user.emails) %>
+    Password: <%= form.password_field :password %> <%= form.password_field :password_confirmation %>
+  </div>
+  
+  <div class="margin-bottom-10">
+    Emails: <%= form.select :emails, options_for_select([["Articles & Latest News", "1"], ["Articles only", "2"], ["Announcements only", "3"], ["No email at all", "4"]], :selected => @user.emails) %>
   </div>
   
   <div class="margin-bottom-10">

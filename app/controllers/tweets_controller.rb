@@ -12,7 +12,7 @@ class TweetsController < ApplicationController
 	def index
 		if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			@tweets = Tweet.last50
 		else
 			redirect_to root_url
@@ -24,7 +24,7 @@ class TweetsController < ApplicationController
 	def show
 		if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			
 		else
 			redirect_to root_url
@@ -35,14 +35,13 @@ class TweetsController < ApplicationController
 	def new
 		if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			@tweet = Tweet.new
 			if params
 				@tweet.previous_id = params[:previous_id]
 				@tweet.article_id = params[:article_id]
 				@tweet.language_id = params[:language_id]
 			end
-			
 			tweetelements
 		else
 			redirect_to root_url
@@ -53,7 +52,7 @@ class TweetsController < ApplicationController
 	def edit
 		if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			tweetelements
 		else
 			redirect_to root_url

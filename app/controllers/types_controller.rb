@@ -4,7 +4,7 @@ class TypesController < ApplicationController
 	def index
 		if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			@types = Type.all
 		else
 			redirect_to root_url
@@ -19,7 +19,7 @@ class TypesController < ApplicationController
 	def new
 		if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			@type = Type.new
 			@languages = Language.all.order(:name)
 		else
@@ -31,7 +31,7 @@ class TypesController < ApplicationController
 	def edit
 		if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			@languages = Language.all.order(:name)
 		else
 			redirect_to root_url

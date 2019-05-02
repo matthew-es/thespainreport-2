@@ -6,7 +6,7 @@ class VisitsController < ApplicationController
   def index
     if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			@visits = Visit.all.order('created_at DESC')
 			@articles = Visit.all.group(:article_id).count
 			@referers = Visit.all.group(:referer).count
@@ -20,7 +20,7 @@ class VisitsController < ApplicationController
   def show
     if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			
 		else
 			redirect_to root_url
@@ -31,7 +31,7 @@ class VisitsController < ApplicationController
   def new
     if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			
 		else
 			redirect_to root_url
@@ -42,7 +42,7 @@ class VisitsController < ApplicationController
   def edit
     if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 		  
 		else
 			redirect_to root_url

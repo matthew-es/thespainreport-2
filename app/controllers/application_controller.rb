@@ -5,6 +5,6 @@ class ApplicationController < ActionController::Base
 	rescue ActiveRecord::RecordNotFound
    	session[:user_id] = nil # or reset_session
 	end
-		helper_method :current_user
+	helper_method :current_user
 
 end

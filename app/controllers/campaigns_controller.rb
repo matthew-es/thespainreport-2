@@ -12,7 +12,7 @@ class CampaignsController < ApplicationController
   def index
     if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			campaign_elements
 		else
 			redirect_to root_url
@@ -24,7 +24,7 @@ class CampaignsController < ApplicationController
   def show
     if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			
 		else
 			redirect_to root_url
@@ -35,9 +35,9 @@ class CampaignsController < ApplicationController
   def new
     if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			@campaign = Campaign.new
-    campaign_elements
+      campaign_elements
 		else
 			redirect_to root_url
 		end
@@ -47,7 +47,7 @@ class CampaignsController < ApplicationController
   def edit
     if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			campaign_elements
 		else
 			redirect_to root_url

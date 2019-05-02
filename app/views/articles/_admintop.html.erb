@@ -99,7 +99,7 @@
 						<%= f.text_area :email, :class => "width-48 padding-10 font-main font-main-normal", :style => "min-height: 60px;", placeholder: "Add new users here…" %>
 					</div>
 					<div class="margin-bottom-10">
-				   	Emails: <%= f.select :emails, options_for_select([["Articles & Headlines", "1"], ["Articles only", "2"], ["Announcements only", "3"], ["No email at all", "3"]]) %>
+				   	Emails: <%= f.select :emails, options_for_select([["Articles & Latest News", "1"], ["Articles only", "2"], ["Announcements only", "3"], ["No email at all", "3"]]) %>
 				  	</div>
 					<div class="margin-bottom-10">
 						Email language: <%= f.select :emaillanguage, options_for_select([["English", "1"], ["Spanish", "2"], ["English & Spanish", "3"]]) %>

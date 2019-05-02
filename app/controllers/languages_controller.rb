@@ -6,7 +6,7 @@ class LanguagesController < ApplicationController
   def index
     if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			@languages = Language.all
 		else
 			redirect_to root_url
@@ -18,7 +18,7 @@ class LanguagesController < ApplicationController
   def show
     if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			
 		else
 			redirect_to root_url
@@ -29,7 +29,7 @@ class LanguagesController < ApplicationController
   def new
     if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			@language = Language.new
 		else
 			redirect_to root_url
@@ -40,7 +40,7 @@ class LanguagesController < ApplicationController
   def edit
     if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			
 		else
 			redirect_to root_url

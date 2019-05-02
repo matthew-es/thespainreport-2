@@ -7,9 +7,11 @@ class User < ApplicationRecord
 	validates :password_confirmation, :presence => true, :on => :create
 	validates :password_confirmation, :presence => true, :on => :update, allow_blank: true
 	
-	scope :emailsall, -> {where(emails: 1)}
-	scope :emailsfull, -> {where(emails: [1, 2])}
-	scope :emailsenglish, -> {where(emaillanguage: [1, 3])}
-   scope :emailsspanish, -> {where(emaillanguage: [2, 3])}
+	scope :emails_all, -> {where(emails: 1)}
+	scope :emails_full, -> {where(emails: [1, 2])}
+	scope :emails_notes, -> {where(emails: [1, 2, 3])}
+	scope :emails_english, -> {where(emaillanguage: [1, 3])}
+   scope :emails_spanish, -> {where(emaillanguage: [2, 3])}
+   scope :patrons, -> {where(role: 2)}
 
 end

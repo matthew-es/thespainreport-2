@@ -57,8 +57,10 @@
 <h1 class="font-header font-header-normal line-120 font-upper">
 	<% if current_user.nil? %>
 		<%= @article.headline %>
-	<% else %>
+	<% elsif current_user.role == 1 %>
 		<%= link_to @article.headline, edit_article_path, class: "editor-link" %>
+	<% else %>
+		<%= @article.headline %>
 	<% end %>
 </h1>
 
@@ -182,7 +184,18 @@
 <% end %>
 	
 	<div class="margin-top-10">
-	<%= markdown(@article.body).html_safe %>
+	
+	<% if current_user.nil? %>
+		<%= markdown(truncate(@article.body, length: 400)) %>
+	<% elsif ["Patrons only", "Sólo patronos"].include?@article.type.name %>
+		<% if [1, 2].include?current_user.role %>
+			<%= markdown(@article.body).html_safe %>
+		<% elsif ![1, 2].include?current_user.role %>
+			<%= markdown(truncate(@article.body, length: 400)) %>
+		<% end %>
+	<% else %>
+		<%= markdown(@article.body).html_safe %>
+	<% end %>
 	
 	<% if @articletweets.present? %>
 		<% @articletweets.each do |t| %>
@@ -236,8 +249,10 @@
 		<h3 id="<%= u.id %>">
 			<% if current_user.nil? %>
 				<%= u.headline %>
-			<% else %>
+			<% elsif current_user.role == 1 %>
 				<%= link_to u.headline, edit_article_path(u), class: "editor-link" %>
+			<% else %>
+				<%= u.headline %>
 			<% end %>
 		</h3>
 		<div class="meta font-main font-main-tiny">

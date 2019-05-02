@@ -22,20 +22,10 @@ class ArticlesController < ApplicationController
 	def index
 		if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			@articles = Article.notupdate.nottranslation.notstory.order('created_at DESC')
 			@stories = Article.notupdate.nottranslation.story.order('created_at DESC')
 			@toplevelstories = Article.notupdate.nottranslation.story.toplevelstory.order('created_at DESC')
-		else
-			redirect_to root_url
-		end
-	end
-	
-	def admin
-		if current_user.nil? 
-			redirect_to root_url
-		elsif !current_user.nil?
-			
 		else
 			redirect_to root_url
 		end
@@ -56,7 +46,7 @@ class ArticlesController < ApplicationController
 		
 		elsif current_user.nil?
 			redirect_to root_url
-		elsif current_user
+		elsif current_user.role == 1
 			
 		else
 			redirect_to root_url
@@ -67,7 +57,7 @@ class ArticlesController < ApplicationController
 	def new
 		if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			@article = Article.new
 			article_elements
 			@translationof = Article.spanish.order('created_at DESC')
@@ -80,7 +70,7 @@ class ArticlesController < ApplicationController
 	def edit
 		if current_user.nil? 
 			redirect_to root_url
-		elsif !current_user.nil?
+		elsif current_user.role == 1
 			article_elements
 		else
 			redirect_to root_url
@@ -107,28 +97,36 @@ class ArticlesController < ApplicationController
 					
 		elsif params[:article][:email_to] == 'alert'
 			if ["Notes"].include?@article.type.name
-				User.emailsenglish.find_each(batch_size: 50) do |user|
+				User.emails_notes.emails_english.find_each(batch_size: 50) do |user|
 					ArticleMailer.send_article_full(@article, user).deliver_now
 				end
 			elsif ["Apuntes"].include?@article.type.name
-				User.emailsspanish.find_each(batch_size: 50) do |user|
+				User.emails_notes.emails_spanish.find_each(batch_size: 50) do |user|
 					ArticleMailer.send_article_full(@article, user).deliver_now
 				end
 			elsif ["Update"].include?@article.type.name
-				User.emailsall.emailsenglish.find_each(batch_size: 50) do |user|
+				User.emails_all.emails_english.find_each(batch_size: 50) do |user|
 					ArticleMailer.send_article_full(@article, user).deliver_now
 				end
 			elsif ["Actualización"].include?@article.type.name
-				User.emailsall.emailsspanish.find_each(batch_size: 50) do |user|
+				User.emails_all.emails_spanish.find_each(batch_size: 50) do |user|
 					ArticleMailer.send_article_full(@article, user).deliver_now
 				end
-			elsif !["Notes", "Apuntes","Update", "Actualización"].include?@article.type.name
+			elsif ["Patrons only"].include?@article.type.name
+				User.patrons.emails_full.emails_english.find_each(batch_size: 50) do |user|
+					ArticleMailer.send_article_full(@article, user).deliver_now
+				end
+			elsif ["Sólo patronos"].include?@article.type.name
+				User.patrons.emails_full.emails_spanish.find_each(batch_size: 50) do |user|
+					ArticleMailer.send_article_full(@article, user).deliver_now
+				end
+			elsif !["Notes", "Apuntes","Update", "Actualización", "Patrons only", "Sólo patronos"].include?@article.type.name
 				if @article.language_id == 1
-					User.emailsfull.emailsenglish.find_each(batch_size: 50) do |user|
+					User.emails_full.emails_english.find_each(batch_size: 50) do |user|
 						ArticleMailer.send_article_full(@article, user).deliver_now
 					end
 				elsif @article.language_id == 2
-					User.emailsfull.emailsspanish.find_each(batch_size: 50) do |user|
+					User.emails_full.emails_spanish.find_each(batch_size: 50) do |user|
 						ArticleMailer.send_article_full(@article, user).deliver_now
 					end
 				end
