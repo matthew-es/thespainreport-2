@@ -35,6 +35,8 @@
           <% elsif user.emails == 2 %>
             Articles
           <% elsif user.emails == 3 %>
+            Announcements
+          <% elsif user.emails == 4 %>
             No emails
           <% else end %>
         </td>
@@ -47,7 +49,7 @@
             Both
           <% else end %>
         </td>
-        <td><%= user.email_confirmed %></td>
+        <td><%= user.email_confirmed %> | <%= user.confirm_token %> | <%= user.password_reset_token %></td>
         <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

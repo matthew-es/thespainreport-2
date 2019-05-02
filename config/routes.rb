@@ -29,9 +29,18 @@ Rails.application.routes.draw do
   post 'signup' => 'users#create'
   get 'users/login'
   post '/login' => 'users#newsession'
-  get '/users/logout' => 'users#destroysession'
+  get 'users/logout' => 'users#destroysession'
+  get 'users/reset_tokens' => 'users#reset_tokens'
+  get 'users/updated' => 'users#updated'
   
-  resources :users
+  resources :users do
+    member do
+      get :first_email
+      get :password_reset
+      get :update_email_amount
+      get :update_email_language
+    end
+  end
   resources :uploads
   resources :campaigns
   resources :languages

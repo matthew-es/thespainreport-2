@@ -16,7 +16,7 @@
   </div>
   
   <div class="margin-bottom-10">
-    Emails: <%= form.select :emails, options_for_select([["Everything", "1"], ["Full articles only", "2"], ["No article emails", "3"]], :selected => @user.emails) %>
+    Emails: <%= form.select :emails, options_for_select([["Articles & Headlines", "1"], ["Articles only", "2"], ["Announcements only", "3"], ["No email at all", "4"]], :selected => @user.emails) %>
   </div>
   
   <div class="margin-bottom-10">

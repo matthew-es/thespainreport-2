@@ -67,18 +67,16 @@
 		<%= markdown(u.body) %>
 <% end %>
 
-<ul>
-	<li>
-		<% if @article.language_id == 1 %>
-			<%= link_to "Read this article on The Spain Report", article_url(@article) %>
-		<% elsif @article.language_id == 2 %>
-			<%= link_to "Lea este artículo en The Spain Report", article_url(@article) %>
-		<% else %>
-		<% end %>
-	</li>
+<p>
+	<% if @article.language_id == 1 %>
+		<%= link_to "Read this on The Spain Report", article_url(@article) %>
+	<% elsif @article.language_id == 2 %>
+		<%= link_to "Lea esto en The Spain Report", article_url(@article) %>
+	<% else %>
+	<% end %>
 	
 	<% if @article.audio.present? %>
-		<li>
+			| 
 			<strong>
 				<% if @article.language_id == 1 %>
 					Audio:
@@ -87,31 +85,51 @@
 				<% else %>
 				<% end %>
 			</strong>
-			<%= link_to "Audio" + @article.audio, ('https://audio.thespainreport.es/' + @article.audio) %>
-		</li>
+			<%= link_to @article.audio, ('https://audio.thespainreport.es/' + @article.audio) %>
 	<% else %>
 	<% end %>
 	
 	<% if @article.original.blank? %>
 		<% @article.translations.where.not(id: @article).each do |tr| %>
-				<li><%= link_to tr.language.prompt, tr %></li>
+		| <%= link_to tr.language.prompt, tr %>
 		<% end %>
 	<% else %>
-			<li><%= link_to @article.original.language.prompt, @article.original, class: "label" %></li>
+		| <%= link_to @article.original.language.prompt, @article.original, class: "label" %>
 	<% end %>
 	
 	<% if @article.story.nil? %>
 	<% else %>
-		<li>
-			<strong>
-				<% if @article.language_id == 1 %>
-					More:
-				<% elsif @article.language_id == 2 %>
-					Más:
-				<% else %>
-				<% end %>
-			</strong>
-			<%= link_to @article.story.headline, @article.story %>
-		</li>
+		| <%= link_to @article.story.headline, @article.story %>
 	<% end %>
-</ul>
+</p>
+
+<% if @article.language_id == 1 %>
+	<p><strong>Email amount:</strong></p>
+	<ul>
+		<li><%= link_to "I want all articles & latest news", update_email_amount_user_url(@user.confirm_token, emails: 1) %></li>
+		<li><%= link_to "I only want full articles", update_email_amount_user_url(@user.confirm_token, emails: 2) %></li>
+		<li><%= link_to "I only want announcements from Matthew", update_email_amount_user_url(@user.confirm_token, emails: 3) %></li>
+		<li><%= link_to "I don't want any emails at all", update_email_amount_user_url(@user.confirm_token, emails: 4) %></li>
+	</ul>
+	<p><strong>Email language:</strong></p>
+	<ul>
+		<li><%= link_to "I only want emails in English", update_email_language_user_url(@user.confirm_token, emaillanguage: 1) %></li>
+		<li><%= link_to "I only want emails in Spanish", update_email_language_user_url(@user.confirm_token, emaillanguage: 2) %></li>
+		<li><%= link_to "I want emails in English & Spanish", update_email_language_user_url(@user.confirm_token, emaillanguage: 3) %></li>
+	</ul>
+<% elsif @article.language_id == 2 %>
+	<p><strong>Cantidad de correo:</strong></p>
+	<ul>
+		<li><%= link_to "Quiero artículos y la última hora", update_email_amount_user_url(@user.confirm_token, emails: 1) %></li>
+		<li><%= link_to "Sólo quiero artículos completos", update_email_amount_user_url(@user.confirm_token, emails: 2) %></li>
+		<li><%= link_to "Sólo quiero avisos de Matthew", update_email_amount_user_url(@user.confirm_token, emails: 3) %></li>
+		<li><%= link_to "No quiero ningún correo", update_email_amount_user_url(@user.confirm_token, emails: 4) %></li>
+	</ul>
+	<p><strong>Idioma de los correos:</strong></p>
+	<ul>
+		<li><%= link_to "Sólo quiero los correos en inglés", update_email_language_user_url(@user.confirm_token, emaillanguage: 1) %></li>
+		<li><%= link_to "Sólo quiero los correos en español", update_email_language_user_url(@user.confirm_token, emaillanguage: 2) %></li>
+		<li><%= link_to "Quiero los correos en inglés y en español", update_email_language_user_url(@user.confirm_token, emaillanguage: 3) %></li>
+	</ul>
+<% else %>
+<% end %>

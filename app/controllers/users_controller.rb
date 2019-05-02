@@ -12,8 +12,7 @@ class UsersController < ApplicationController
 		user = User.find_by_email(params[:email])
 		# If the user exists AND the password entered is correct.
 		if user && user.authenticate(params[:password])
-			# Save the user id inside the browser cookie. This is how we keep the user 
-			# logged in when they navigate around our website.
+			# Save the user id inside the browser cookie. This is how we keep the user logged in
 			session[:user_id] = user.id
 			redirect_to '/'
 			flash[:success] = "Welcome back!"
@@ -29,6 +28,58 @@ class UsersController < ApplicationController
 		reset_session
 		redirect_to '/'
 		flash[:success] = "Thanks for reading!"
+	end
+	
+	def first_email
+	end
+	
+	def password_reset
+	end
+	
+	def updated
+	end
+	
+	def update_email_amount
+		u = User.find_by_confirm_token(params[:id])
+		if u
+   		u.update(emails: params[:emails])
+   		if [1, 3].include?u.emaillanguage
+	   		flash[:success] = "Well done! You have successfully updated the amount of email you want."
+	   	elsif u.emaillanguage == 2
+	   		flash[:success] = "¡Olé! Ha actualizado correctamente la cantidad de correos que quiere."
+	   	end
+   		redirect_to '/users/updated'
+		else
+   		redirect_to root_url
+		end
+	end
+	
+	def update_email_language
+   	u = User.find_by_confirm_token(params[:id])
+	   if u
+	   	u.update(emaillanguage: params[:emaillanguage])
+	   	if [1, 3].include?u.emaillanguage
+	   		flash[:success] = "Well done! You have successfully updated the language you want the emails in."
+	   	elsif u.emaillanguage == 2
+	   		flash[:success] = "¡Olé! Ha actualizado correctamente el idioma en el que desea recibir los correos."
+	   	end
+	   	redirect_to '/users/updated'
+	   else
+	   	redirect_to root_url
+	   end
+	end
+	
+	def reset_tokens
+		if current_user.nil? 
+			redirect_to root_url
+		elsif !current_user.nil?
+			User.all.each do |u|
+				u.update(confirm_token: SecureRandom.urlsafe_base64.to_s)
+			end
+			redirect_to users_path and return
+		else
+			redirect_to root_url
+		end
 	end
 	
 	def index
@@ -55,12 +106,13 @@ class UsersController < ApplicationController
 	
 	def editor_creates_new_user
 		autopassword = 'L e @ 4' + SecureRandom.hex(32)
-		generate_token = SecureRandom.urlsafe_base64
+		generate_token = SecureRandom.urlsafe_base64.to_s
 		
 		array2 = params[:email].split(/\n/)
 		array2.each do |e|
 		user = User.create!(
 			email: e,
+			confirm_token: generate_token,
 			password: autopassword,
 			password_confirmation: autopassword,
 			password_reset_token: generate_token,
