@@ -185,17 +185,20 @@
 	
 	<div class="margin-top-10">
 	
-	<% if current_user.nil? %>
-		<%= markdown(truncate(@article.body, length: 400)) %>
-	<% elsif ["Patrons only", "Sólo patronos"].include?@article.type.name %>
-		<% if [1, 2].include?current_user.role %>
-			<%= markdown(@article.body).html_safe %>
+	
+	<% if ["Patrons only", "Sólo patronos"].include?@article.type.name %>
+		<% if current_user.nil? %>
+			<%= markdown(truncate(@article.body, length: 400)) %>
 		<% elsif ![1, 2].include?current_user.role %>
 			<%= markdown(truncate(@article.body, length: 400)) %>
+		<% elsif [1, 2].include?current_user.role %>
+			<%= markdown(@article.body).html_safe %>
 		<% end %>
 	<% else %>
 		<%= markdown(@article.body).html_safe %>
 	<% end %>
+	
+	
 	
 	<% if @articletweets.present? %>
 		<% @articletweets.each do |t| %>
