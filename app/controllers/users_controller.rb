@@ -19,7 +19,7 @@ class UsersController < ApplicationController
 		else
 		# If user's login doesn't work, send them back to the login form.
 			redirect_back(fallback_location: root_path)
-			flash[:password] = "<a href=\"#{new_password_reset_path}\" style=\"color: #AA151B !important; text-decoration:underline !important;\">Forgotten your password?</a>"
+			flash[:tryagain] = "Try again…"
 		end
 	end
 
