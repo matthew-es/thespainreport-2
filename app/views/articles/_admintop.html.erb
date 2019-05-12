@@ -1,5 +1,4 @@
-<div class="content-admin font-admin">
-
+<div class="content-wide font-admin">
 	<div class="margin-bottom-10">
 		<%= link_to "Tweet", new_tweet_path %>
 		|| <%= link_to "Article", new_article_path %>
@@ -15,12 +14,12 @@
 		| <%= link_to "Readers", users_path %>
 		<%= link_to "Plans", plans_path %>
 		| <% if current_user %>
-			Logged in as <%= current_user.email %>.
-			<%= link_to 'Logout', users_logout_path %>
+			<%= current_user.email %>
+		| <%= link_to 'My Account', edit_user_path(current_user) %>
+		| <%= link_to 'Logout', users_logout_path %>
 		<% else %>
 		<% end %>
 	</div>
-	
 	<h1 class="font-header font-header-small font-upper line-115">
 		<% if controller_name == "tweets" %>
 			Tweets, Threads

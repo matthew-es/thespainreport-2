@@ -24,35 +24,13 @@
  	<meta property="og:article:section" content="<%= @article.story.headline unless @article.story.nil? %>"/>
 <% end %>
 
-<div class="content">
+<% if ["Photos", "Fotos"].include?(@article.type.name) %>
+	<div class="content-wide">
+<% else %>
+	<div class="content">
+<% end %>
 	
-	<div class="content-top">
-		<div class="topbutton float-left mobile-100">
-			<a href="https://www.patreon.com/join/matthewbennett" class="topbutton">
-				<% if @article.language_id == 1 %>
-					Support now on Patreon
-				<% elsif @article.language_id == 2 %>
-					Apoye ahora en el Patreon
-				<% else %>
-				<% end %>
-				
-			</a>
-		</div>
-	
-		<div class="padding-top-5 float-right font-header font-header-tiny mobile-100">
-		<% if @article.story.nil? %>
-			<% if @article.language_id == 1 %>
-				<%= link_to "The Spain Report", '/' %>
-			<% elsif @article.language_id == 2 %>
-				<%= link_to "The Spain Report en español", '/' + 'es' %>
-			<% else %>
-			<% end %>
-		<% else %>
-			<%= link_to @article.story.headline, @article.story %>
-		<% end %>
-		</div>
-		<div class="clear"></div>
-	</div>
+<%= render "articles/logo_account" %>
 
 <h1 class="font-header font-header-normal line-120 font-upper">
 	<% if current_user.nil? %>
@@ -65,6 +43,7 @@
 </h1>
 
 <div class="meta font-main font-main-tiny">
+    
     <div class="margin-right-5 float-left mobile-bottom-10">
     	<% if @article.language_id == 1 %>
 			<%= @article.created_at.strftime("%b %d, %Y, %l:%M %P") %>
@@ -72,12 +51,6 @@
 			<%= @article.created_at.strftime("%d/%m/%Y, %H:%M") %>
 		<% else %>
 		<% end %>
-    </div>
-    
-    <div class="margin-right-5 float-left mobile-bottom-10">
-    	<span class="label background-color-red">
-    		<span class="font-color-yellow">The</span> <span class="font-color-orange">Spain</span> <span class="font-color-yellow">Report</span>
-    	</span>
     </div>
     
     <% if @article.is_free == true %>
@@ -130,6 +103,17 @@
 			</div>
 		<% end %>
 	<% end %>
+	
+	<% if !current_user.nil? %>
+		<div class="margin-right-5 float-left mobile-bottom-10">
+			<% if current_user.sitelanguage == 1 %>
+				<%= link_to 'Email article to me', articles_touser_path(article_id: @article.id), class: 'label' %>
+			<% elsif current_user.sitelanguage == 2 %>
+				<%= link_to 'Envíame artículo', articles_touser_path(article_id: @article.id), class: 'label' %>
+			<% else end %>
+		</div>
+	<% else end %>
+    	
 	<div class="clear"></div>
 </div>
 

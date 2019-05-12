@@ -22,21 +22,7 @@
 
 <div class="content">
 
-	<div class="content-top">
-		<div class="topbutton float-left mobile-100">
-			<a href="https://www.patreon.com/join/matthewbennett" class="topbutton">
-				Support now on Patreon
-			</a>
-		</div>
-	
-		<div class="padding-top-5 float-right mobile-100">
-			<span class="label font-main font-main-normal font-upper background-color-red">
-    			<span class="font-color-yellow">The</span> <span class="font-color-orange">Spain</span> <span class="font-color-yellow">Report</span>
-    		</span>
-		</div>
-		
-		<div class="clear"></div>
-	</div>
+<%= render "articles/logo_account" %>
 
 <% @lasttopstory.each do |article| %>
 	 <% if article.image? %>

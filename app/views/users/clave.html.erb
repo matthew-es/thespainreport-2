@@ -1,0 +1,13 @@
+<div class="content">
+	
+	<%= render "articles/logo_account" %>
+	
+	<% flash.each do |key, value| %>
+		<div class="alert alert-<%= key %>"><p><%= value %></p></div>
+	<% end %>
+	
+	<%= form_tag '/password_link' do %>
+		<%= text_field_tag 'email', nil, class: 'padding-10 width-40', placeholder: 'Su correo electrónico…' %>
+		<button type="submit" class="blueformbutton">Enviar enlace para clave nueva</button>
+	<% end %>
+</div>

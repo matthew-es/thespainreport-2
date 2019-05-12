@@ -14,11 +14,11 @@ class UsersController < ApplicationController
 		if user && user.authenticate(params[:password])
 			# Save the user id inside the browser cookie. This is how we keep the user logged in
 			session[:user_id] = user.id
-			redirect_to '/'
+			redirect_back(fallback_location: root_path)
 			flash[:success] = "Welcome back!"
 		else
 		# If user's login doesn't work, send them back to the login form.
-			redirect_to :back
+			redirect_back(fallback_location: root_path)
 			flash[:password] = "<a href=\"#{new_password_reset_path}\" style=\"color: #AA151B !important; text-decoration:underline !important;\">Forgotten your password?</a>"
 		end
 	end
@@ -26,17 +26,99 @@ class UsersController < ApplicationController
 	def destroysession
 		session[:user_id] = nil
 		reset_session
-		redirect_to '/'
+		redirect_back(fallback_location: root_path)
 		flash[:success] = "Thanks for reading!"
 	end
 	
 	def first_email
 	end
 	
-	def password_reset
+	def password
 	end
 	
-	def updated
+	def clave
+	end
+	
+	def password_link
+		user = User.find_by_email(params[:email])
+		if user
+			user.password_reset_sent_at = Time.zone.now
+			user.save!(:validate => false)
+			
+			if URI(request.referer).path == '/password'
+	   		UserMailer.password_link(user).deliver_now
+	   		flash[:success] = "Well done! Check your email for the link to create a new password"
+	   	elsif URI(request.referer).path == '/clave'
+	   		UserMailer.password_link_es(user).deliver_now
+	   		flash[:success] = "Correcto. Compruebe su correo para el enlace para crear una clave nueva"
+	   	else
+	   	end
+			redirect_to '/users/updated'
+		else
+	   	if URI(request.referer).path == '/password'
+	   		flash[:tryagain] = "See if you have typed that correctly and try again…"
+	   	elsif URI(request.referer).path == '/clave'
+	   		flash[:tryagain] = "Mire si lo ha escrito bien e inténtelo de nuevo…"
+	   	else
+	   	end
+	   	redirect_back(fallback_location: root_path)
+		end
+	end
+	
+	def new_password
+		@user = User.find_by_confirm_token(params[:id])
+		if @user.password_reset_sent_at < 30.minutes.ago
+			flash[:success] = "More than 30 minutes have passed since you asked to change your password. To protect your account, we limit this function.<br /><br /><a href=\"/password\">Request a new link to change your password</a>"
+			redirect_to '/users/updated'
+		else
+		end
+	end
+	
+	def clave_nueva
+		@user = User.find_by_confirm_token(params[:id])
+		if @user.password_reset_sent_at < 30.minutes.ago
+				flash[:success] = "Han pasado más de 30 minutos desde que pidió en enlace para cambiar su clave. Para proteger su cuenta, limitamos esta función.<br /><br /><a href=\"/clave\">Pide un enlace nuevo para cambiar su clave</a>"
+			redirect_to '/users/updated'
+		else
+		end
+	end
+	
+	def cambiar_clave
+		@user = User.find_by_confirm_token(params[:confirm_token])
+		@user.update(
+			password: params[:password],
+			password_confirmation: params[:password_confirmation]
+			)
+		
+		if params[:password].blank? || !@user.save
+			flash[:tryagain] = "Inténtelo de nuevo…"
+			redirect_back(fallback_location: root_path)
+		elsif @user.save
+			flash[:success] = "Ha actualizado su clave con éxito."
+			redirect_to '/users/updated'
+		else
+			flash[:tryagain] = "Inténtelo de nuevo…"
+			redirect_back(fallback_location: root_path)
+		end
+	end
+	
+	def change_password
+		@user = User.find_by_confirm_token(params[:confirm_token])
+		@user.update(
+			password: params[:password],
+			password_confirmation: params[:password_confirmation]
+			)
+		
+		if params[:password].blank? || !@user.save
+			flash[:tryagain] = "Try again…"
+			redirect_back(fallback_location: root_path)
+		elsif @user.save
+			flash[:success] = "You have successfully updated your password."
+			redirect_to '/users/updated'
+		else
+			flash[:tryagain] = "Try again…"
+			redirect_back(fallback_location: root_path)
+		end
 	end
 	
 	def update_email_amount
@@ -67,6 +149,9 @@ class UsersController < ApplicationController
 	   else
 	   	redirect_to root_url
 	   end
+	end
+	
+	def updated
 	end
 	
 	def reset_tokens
@@ -141,10 +226,14 @@ class UsersController < ApplicationController
 
 	# GET /users/1/edit
 	def edit
-		if current_user.nil? 
+		if current_user.nil?
 			redirect_to root_url
 		elsif current_user.role == 1
-			
+			@user = User.find_by_id(params[:id])
+		elsif User.find_by_id(params[:id]) != current_user
+			redirect_to edit_user_path(current_user)
+		elsif User.find_by_id(params[:id]) == current_user
+			@user = current_user
 		else
 			redirect_to root_url
 		end
@@ -160,7 +249,7 @@ class UsersController < ApplicationController
 				format.html { redirect_to @user, notice: 'User was successfully created.' }
 				format.json { render :show, status: :created, location: @user }
 			else
-				format.html { render :new }
+				format.html { render :tryagain }
 				format.json { render json: @user.errors, status: :unprocessable_entity }
 			end
 		end
@@ -171,7 +260,7 @@ class UsersController < ApplicationController
 	def update
 		respond_to do |format|
 			if @user.update(user_params)
-				format.html { redirect_to edit_user_path(@user), notice: 'Reader was successfully updated.' }
+		   	format.html { redirect_to edit_user_path(@user), notice: 'Reader was successfully updated.' }
 				format.json { render :show, status: :ok, location: @user }
 			else
 				format.html { render :edit }

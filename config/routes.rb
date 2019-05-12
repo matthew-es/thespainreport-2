@@ -23,9 +23,16 @@ Rails.application.routes.draw do
   get 'es/audio' => 'home#audio_es'
   get 'es' => 'home#es'
   get 'home/index'
-  post 'editor_creates_new_user' => 'users#editor_creates_new_user'
+  get 'articles/touser' => 'articles#touser'
+  
   get 'users/signup'
+  get 'signup' => 'users#signup'
   post 'signup' => 'users#create'
+  get 'password' => 'users#password'
+  get 'clave' => 'users#clave'
+  post 'password_link' => 'users#password_link'
+  post 'change_password' => 'users#change_password'
+  post 'cambiar_clave' => 'users#cambiar_clave'
   get 'users/login'
   get 'login' => 'users#login'
   post 'login' => 'users#newsession'
@@ -33,11 +40,12 @@ Rails.application.routes.draw do
   get 'logout' => 'users#destroysession'
   get 'users/reset_tokens' => 'users#reset_tokens'
   get 'users/updated' => 'users#updated'
-  
+  post 'editor_creates_new_user' => 'users#editor_creates_new_user'
   resources :users do
     member do
       get :first_email
-      get :password_reset
+      get :new_password
+      get :clave_nueva
       get :update_email_amount
       get :update_email_language
     end

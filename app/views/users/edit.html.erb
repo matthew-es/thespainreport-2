@@ -1,3 +1,6 @@
-<%= render "articles/admintop" %>
-<%= render 'form', user: @user %>
+<div class="content">
+    <%= render "articles/logo_account" %>
+    <h1 class="font-header font-header-normal line-120"><%= @user.email %></h1>
+    <%= render 'form', user: @user %>
+</div>
 </div>

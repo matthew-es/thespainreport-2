@@ -43,7 +43,7 @@ class ArticlesController < ApplicationController
 				)
 		@articletweets = @article.tweets.order('created_at ASC')
 		@articleupdates = @article.updates.published.order('created_at ASC')
-		
+	
 		elsif current_user.nil?
 			redirect_to root_url
 		elsif current_user.role == 1
@@ -90,6 +90,12 @@ class ArticlesController < ApplicationController
    	else
       	@article.type.name + ': ' + @article.headline + ' ' + article_url(@article)
    	end
+	end
+	
+	def touser
+		@article = Article.find(params[:article_id])
+		ArticleMailer.send_article_full(@article, current_user).deliver_now
+		redirect_back(fallback_location: root_path)
 	end
 	
 	def email_article

@@ -12,32 +12,103 @@
   <% end %>
 
   <div class="margin-bottom-10">
-    Email: <%= form.text_field :email %>
+    <% if current_user.nil? %>
+    <% elsif current_user.sitelanguage == 1 %>
+      Email: 
+    <% elsif current_user.sitelanguage == 2 %>
+      Correo:
+    <% else end %>
+    <%= form.text_field :email %>
   </div>
   
   <div class="margin-bottom-10">
-    Password: <%= form.password_field :password %> <%= form.password_field :password_confirmation %>
+    <% if current_user.nil? %>
+    <% elsif current_user.sitelanguage == 1 %>
+      New password: 
+    <% elsif current_user.sitelanguage == 2 %>
+      Clave nueva:
+    <% else end %> 
+    <%= form.password_field :password %>
   </div>
   
   <div class="margin-bottom-10">
-    Emails: <%= form.select :emails, options_for_select([["Articles & Latest News", "1"], ["Articles only", "2"], ["Announcements only", "3"], ["No email at all", "4"]], :selected => @user.emails) %>
+    <% if current_user.nil? %>
+    <% elsif current_user.sitelanguage == 1 %>
+      Confirm new password: 
+    <% elsif current_user.sitelanguage == 2 %>
+      Confirmar clave nueva:
+    <% else end %>
+    <%= form.password_field :password_confirmation %>
   </div>
   
   <div class="margin-bottom-10">
-    Email language: <%= form.select :emaillanguage, options_for_select([["English", "1"], ["Spanish", "2"], ["English & Spanish", "3"]], :selected => @user.emaillanguage) %>
+    <% if current_user.nil? %>
+    <% elsif current_user.sitelanguage == 1 %>
+      Email amount:
+      <%= form.select :emails, options_for_select([["I want all articles & latest news", "1"], ["I only want full articles", "2"], ["I only want announcements from Matthew", "3"], ["I don't want any emails at all", "4"]], :selected => @user.emails) %>
+    <% elsif current_user.sitelanguage == 2 %>
+      Cantidad de correos:
+      <%= form.select :emails, options_for_select([["Quiero artículos y la última hora", "1"], ["Sólo quiero artículos completos", "2"], ["Sólo quiero avisos de Matthew", "3"], ["No quiero ningún correo", "4"]], :selected => @user.emails) %>
+    <% else end %> 
+    
   </div>
   
   <div class="margin-bottom-10">
-    Site language: <%= form.select :sitelanguage, options_for_select([["English", "1"], ["Spanish", "2"]], :selected => @user.sitelanguage) %>
+    <% if current_user.nil? %>
+    <% elsif current_user.sitelanguage == 1 %>
+      Email language: 
+      <%= form.select :emaillanguage, options_for_select([["I only want emails in English", "1"], ["I only want emails in Spanish", "2"], ["I want emails in English & Spanish", "3"]], :selected => @user.emaillanguage) %>
+    <% elsif current_user.sitelanguage == 2 %>
+      Idioma de los correos:
+      <%= form.select :emaillanguage, options_for_select([["Sólo quiero los correos en inglés", "1"], ["Sólo quiero los correos en español", "2"], ["Quiero los correos en inglés y en español", "3"]], :selected => @user.emaillanguage) %>
+    <% else end %> 
+    
+  </div>
+  
+  <div class="margin-bottom-10">
+    <% if current_user.nil? %>
+    <% elsif current_user.sitelanguage == 1 %>
+      Site language: 
+      <%= form.select :sitelanguage, options_for_select([["English", "1"], ["Spanish", "2"]], :selected => @user.sitelanguage) %>
+    <% elsif current_user.sitelanguage == 2 %>
+      Idioma para la página web:
+      <%= form.select :sitelanguage, options_for_select([["Inglés", "1"], ["Español", "2"]], :selected => @user.sitelanguage) %>
+    <% else end %>  
   </div>
 
-  <div class="margin-bottom-10">
-    <hr />
-    Role: <%= form.select :role, options_for_select([["Editor", "1"], ["Patron", "2"], ["Reader", "3"]], :selected => @user.role) %> | Email confirmed? <%= form.check_box :email_confirmed %>
-    <hr />
-  </div>
+  
+    <div class="margin-bottom-10">
+      <hr />
+      <% if current_user.nil? %>
+      <% elsif current_user.role == 1 %>
+        Role: <%= form.select :role, options_for_select([["Editor", "1"], ["Patron", "2"], ["Reader", "3"]], :selected => @user.role) %> | Email confirmed? <%= form.check_box :email_confirmed %>
+      <% else %>
+        <% if current_user.sitelanguage == 1 %>
+          You are a
+          <% if current_user.role == 2 %>
+            patron. Thank you for guaranteeing this independent journalism.
+          <% elsif current_user.role == 3 %>
+            reader. Become a patron here now.
+          <% else end %>
+        <% elsif current_user.sitelanguage == 2 %>
+          Ud. es
+          <% if current_user.role == 2 %>
+             mecenas. Gracias por garantizar este periodismo independiente.
+          <% elsif current_user.role == 3 %>
+             lector. Convíertate en mecenas aquí.
+          <% else end %>
+        <% else end %>
+      <% end %>
+      <hr />
+    </div>
+  
 
   <div class="margin-bottom-10">
-    <%= form.submit %>
+    <% if current_user.nil? %>
+    <% elsif current_user.sitelanguage == 1 %>
+      <%= form.submit "Save" %>
+    <% elsif current_user.sitelanguage == 2 %>
+      <%= form.submit "Guardar" %>
+    <% else end %>
   </div>
 <% end %>
