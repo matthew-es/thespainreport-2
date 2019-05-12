@@ -136,7 +136,16 @@
 <% end %>
 
 <% if @article.image.present? %>
-	<%= image_tag ('https://image.thespainreport.es/' + @article.image) %>
+	<% if ['.png','.jpg'].include?File.extname(@article.image) %> 
+		<%= image_tag ('https://image.thespainreport.es/' + @article.image) %>
+	<% elsif ['.pdf'].include?File.extname(@article.image) %>
+		<% if current_user.nil? || current_user.role == 3 %>
+			<div class="alert-success padding-10 margin-top-10"><em>Please log in to see the pdf…</em></div>
+		<% elsif [1, 2].include?(current_user.role) %>
+			<iframe src="<%= 'https://docs.google.com/viewer?url=https://pdf.thespainreport.es/' + @article.image + '&embedded=true' %>" class="margin-top-10" style="width:100%; height:950px;" frameborder="0"></iframe>
+		<% else end %>
+	<% else %>
+	<% end %>
 <% else %>
 <% end %>
 
@@ -198,9 +207,9 @@
 	<% if @article.extras_audio.present? || @article.extras_body.present? %>
 		<h5>
 			<% if @article.language_id == 1 %>
-				Extra stuff for subscribers
+				Extra audio for patrons
 			<% elsif @article.language_id == 2 %>
-				Más cosas para los suscriptores
+				Más audio para los mecenas
 			<% else %>
 			<% end %>
 		</h5>
@@ -208,7 +217,10 @@
 	<% end %>
 	
 	<% if @article.extras_audio.present? %>
-		<div class="margin-left-20 margin-top-20 margin-bottom-20" >
+		<% if current_user.nil? || current_user.role == 3 %>
+			<div class="alert-success padding-10 margin-top-10 margin-bottom-10"><em>Please log in to listen to the extra audio…</em></div>
+		<% elsif [1, 2].include?(current_user.role) %>
+			<div class="margin-left-20 margin-top-20 margin-bottom-20" >
 			<div class="padding-left-5 font-main font-main-small font-italic" >
 				<span class="font-bold">
 					<% if @article.language_id == 1 %>
@@ -224,6 +236,7 @@
 			Your browser does not support the audio element.
 			</audio>
 		</div>
+		<% else end %>
 	<% else %>
 	<% end %>
 	
