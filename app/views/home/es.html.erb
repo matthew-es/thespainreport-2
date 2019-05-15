@@ -87,7 +87,7 @@
 <% if @latestnotes.present? %>
 	<h3>Últimos Apuntes Sobre Periodismo</h3>
 	<ul class="no-points">
-		<% @lasttennotes.each do |article| %>
+		<% @latestnotes.each do |article| %>
 	 		<li class="margin-bottom-5 font-main font-main-small">
 	 			<%= article.type.name %>: <%= link_to article.headline, article %>
 			</li>
