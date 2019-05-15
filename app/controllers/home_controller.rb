@@ -11,9 +11,9 @@ class HomeController < ApplicationController
 				plan_ids: ''
 				)
     
-    @lasttopstory = Article.notnotes.english.topstory.published.lastone
-    @lastten = Article.notlatesttop.notupdate.notnotes.english.published.lastten
-    @lasttennotes = Article.notes.english.published.lastten
+    @latesttop = Article.notnotes.english.topstory.published.lastone
+    @latest = Article.notlatesttop.notupdate.notnotes.english.published.lasttwenty
+    @latestnotes = Article.notes.english.published.lastten
     @types = Type.english.notupdate.notstory
     @rss = Article.all.order('created_at DESC')
     
@@ -31,9 +31,9 @@ class HomeController < ApplicationController
 				plan_ids: ''
 				)
     
-    @lasttopstory = Article.notnotes.spanish.topstory.published.lastone
-    @lastten = Article.notlatesttop.notupdate.notnotes.spanish.published.lastten
-    @lasttennotes = Article.notes.spanish.published.lastten
+    @latesttop = Article.notnotes.spanish.topstory.published.lastone
+    @latest = Article.notlatesttop.notupdate.notnotes.spanish.published.lasttwenty
+    @latestnotes = Article.notes.spanish.published.lastten
     @types = Type.spanish.notupdate.notstory
     @rss = Article.all.spanish.published.order('created_at DESC')
     

@@ -49,6 +49,7 @@ a.editor-link, a.editor-link:visited, a.editor-link:hover, h1 a, h1 a:visited, h
 .alert p {padding: 0; margin: 0;}
 .alert-success {background-color: #d9ffb3; color: green; border: 1px solid green;}
 .alert-tryagain {background-color: #ffcccc; color: #990000; border: 1px solid #990000;}
+.no-points {list-style: none; margin: 0px; padding: 0px;}
 
 /* Positioning */
 .clear {clear:both;}

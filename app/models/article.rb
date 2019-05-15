@@ -28,6 +28,7 @@ class Article < ApplicationRecord
     scope :lastone, -> {order('created_at DESC').limit(1)}
     scope :notlatesttop, -> {where.not(id: topstory.lastone)}
     scope :lastten, -> {order('created_at DESC').limit(10)}
+    scope :lasttwenty, -> {order('created_at DESC').limit(20)}
     scope :published, -> {where(status_id: [3, 4])}
     scope :english, -> {where(language_id: 1)}
     scope :spanish, -> {where(language_id: 2)}

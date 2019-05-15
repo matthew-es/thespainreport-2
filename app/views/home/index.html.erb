@@ -24,7 +24,7 @@
 
 <%= render "articles/logo_account" %>
 
-<% @lasttopstory.each do |article| %>
+<% @latesttop.each do |article| %>
 	 <% if article.image? %>
 		<div class="no-hover-bg">
 		  <%= link_to(article) do %>
@@ -60,11 +60,10 @@
 
  <% end %>
  
- <h3>Latest Stories</h3>
- <ul class="">
- <% @lastten.each do |article| %>
- 	<li class="margin-bottom-10 font-main font-main-small"><%= link_to article.headline, article %>
-		<br /><span class="font-bold font-italic"><%= article.type.name %>:</span> <span class="font-italic"><%= article.lede %></span>
+ <h3>Latest</h3>
+ <ul class="no-points">
+ <% @latest.each do |article| %>
+ 	<li class="margin-bottom-5 font-main font-main-small"><%= article.type.name %>: <%= link_to article.headline, article %>
 		<% if article.updates.published.present? %>
 			<ul class="margin-top-5 margin-bottom-0 margin-left-20 margin-right-0">
 		      <% article.updates.each do |u| %>
@@ -85,12 +84,12 @@
  		<% end %>
  <% end %>
  
- <% if @lasttennotes.any? %>
+ <% if @latestnotes.any? %>
 	 <h3>Latest Notes on Journalism</h3>
 	 <ul class="">
-	 <% @lasttennotes.each do |article| %>
-	 	<li class="margin-bottom-10 font-main font-main-small"><%= link_to article.headline, article %>
-			<br /><span class="font-bold font-italic"><%= article.type.name %>:</span> <span class="font-italic"><%= article.lede %></span>
+	 <% @latestnotes.each do |article| %>
+	 	<li class="margin-bottom-5 font-main font-main-small">
+ 			<%= article.type.name %>: <%= link_to article.headline, article %>
 		</li>
 	 <% end %>
 	 </ul>
