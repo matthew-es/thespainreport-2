@@ -21,30 +21,8 @@
 <% end %>
 
 <div class="content">
-
-	<div class="content-top">
-		<div class="topbutton float-left mobile-100">
-			<a href="https://www.patreon.com/join/matthewbennett" class="topbutton">
-				<% if @type.language_id == 1 %>
-					Support now on Patreon
-				<% elsif @type.language_id == 2 %>
-					Apoye ahora en el Patreon
-				<% else %>
-				<% end %>
-				
-			</a>
-		</div>
 	
-		<div class="padding-top-5 float-right font-header font-header-tiny mobile-100">
-			<% if @type.language_id == 1 %>
-				<%= link_to "The Spain Report", '/' %>
-			<% elsif @type.language_id == 2 %>
-				<%= link_to "The Spain Report en español", '/' + 'es' %>
-			<% else %>
-			<% end %>
-		</div>
-		<div class="clear"></div>
-	</div>
+<%= render "articles/logo_account" %>
 
 <h1 class="font-header font-header-normal line-120 font-upper">
 	<% if current_user.nil? %>
@@ -56,10 +34,10 @@
 
 
 
- <ul class="">
+ <ul class="no-points">
  <% @type.articles.published.notupdate.order('created_at DESC').each do |article| %>
- 	<li class="margin-bottom-10 font-main font-main-small"><%= link_to article.headline, article %>
-		<br /><span class="font-bold font-italic"><%= article.type.name %>:</span> <span class="font-italic"><%= article.lede %></span>
+ 	<li class="margin-bottom-10 font-main font-main-small">
+ 		<%= article.type.name %>: <%= link_to article.headline, article %>
 		<% if article.updates.published.present? %>
 			<ul class="margin-top-5 margin-bottom-0 margin-left-20 margin-right-0">
 		      <% article.updates.each do |u| %>
