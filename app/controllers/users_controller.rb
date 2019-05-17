@@ -30,7 +30,22 @@ class UsersController < ApplicationController
 		flash[:success] = "Thanks for reading!"
 	end
 	
-	def first_email
+	def confirm_email
+		@user = User.find_by_confirm_token(params[:id])
+		@user.update(
+			email_confirmed: true
+			)
+		
+		if @user.emaillanguage == 1
+			UserMailer.password_link(@user).deliver_now
+			flash[:success] = "Well done, email confirmed! Now you can set a password. Check your inbox…"
+			redirect_to '/users/updated'
+		elsif @user.emaillanguage == 2
+			UserMailer.password_link_es(@user).deliver_now
+			flash[:success] = "¡Enhorabuena, ha confirmado su correo! Ahora puede elegir una clave. Mire su correo…"
+			redirect_to '/users/updated'
+		else
+		end
 	end
 	
 	def password
@@ -77,7 +92,7 @@ class UsersController < ApplicationController
 	def clave_nueva
 		@user = User.find_by_confirm_token(params[:id])
 		if @user.password_reset_sent_at < 30.minutes.ago
-				flash[:success] = "Han pasado más de 30 minutos desde que pidió en enlace para cambiar su clave. Para proteger su cuenta, limitamos esta función.<br /><br /><a href=\"/clave\">Pide un enlace nuevo para cambiar su clave</a>"
+			flash[:success] = "Han pasado más de 30 minutos desde que pidió en enlace para cambiar su clave. Para proteger su cuenta, limitamos esta función.<br /><br /><a href=\"/clave\">Pide un enlace nuevo para cambiar su clave</a>"
 			redirect_to '/users/updated'
 		else
 		end
@@ -211,6 +226,62 @@ class UsersController < ApplicationController
 		end 
 		
 		redirect_to users_path
+	end
+	
+	def new_reader
+		autopassword = 'L e @ 4' + SecureRandom.hex(32)
+		generate_token = SecureRandom.urlsafe_base64.to_s
+		@article = Article.find_by_id(params[:article_id])
+		
+		if @article.nil?
+			setlanguage = 1
+		elsif @article.language_id == 1
+			setlanguage = 1
+		elsif @article.language_id == 2
+			setlanguage = 2
+		else
+		end
+		
+		begin
+			user = User.create!(
+			email: params[:email],
+			confirm_token: generate_token,
+			password: autopassword,
+			password_confirmation: autopassword,
+			password_reset_sent_at: Time.zone.now,
+			role: 3,
+			sitelanguage: setlanguage,
+			emails: 1,
+			emaillanguage: setlanguage,
+			email_confirmed: false
+			)
+		
+			if user.emaillanguage == 1
+	   		UserMailer.welcome_link(user).deliver_now
+	   		flash[:warning] = "Well done! Please check your inbox now and click on the link to confirm your email address"
+	   	elsif user.emaillanguage == 2
+	   		UserMailer.welcome_link_es(user).deliver_now
+	   		flash[:warning] = "¡Enhorabuena!. Compruebe su correo ahora y haga clic en el enlace para confirmar la dirección"
+	   	else
+			end
+			
+			redirect_to '/users/updated'
+		rescue Exception => e
+			if @article.nil?
+				flash[:tryagain] = "Try again…"
+				redirect_to '/signup'
+			elsif @article.language_id == 1
+				flash[:tryagain] = "Try again…"
+				redirect_to '/signup'
+			elsif @article.language_id == 2
+				flash[:tryagain] = "Inténtelo de nuevo…"
+				redirect_to '/signup'
+			else
+			end
+		else
+		ensure
+		end
+		
 	end
 	
 	# GET /users/new

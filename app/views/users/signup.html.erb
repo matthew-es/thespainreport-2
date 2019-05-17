@@ -1,10 +1,20 @@
-
 <div class="content">
-<%= form_for(@user) do |f| %>
-		<%= f.text_field :email, placeholder: "E-mail" %>
-		<%= f.password_field :password, placeholder: "Password…" %>
-		<%= f.password_field :password_confirmation, placeholder: "Confirm password…" %>
-		<button type="submit" class="">Join</button> 
+	
+	<%= render "articles/logo_account" %>
+
+  <% flash.each do |key, value| %>
+    <div class="alert alert-<%= key %>"><p><%= value.html_safe %></p></div>
+  <% end %>
+	
+<%= form_tag '/new_reader' do |f| %>
+		<div class="float-left">
+			<input type="email" name="email" id="email" class="width-90 padding-10" placeholder="Enter your email…" />
+		</div>
+		
+		<div class="float-left">
+			<button type="submit" class="">Join Now</button>
+		</div>
 		<div class="clear"></div>
-<% end %>
+
+	<% end %>
 </div>

@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   get 'users/signup'
   get 'signup' => 'users#signup'
   post 'signup' => 'users#create'
+  post 'new_reader' => 'users#new_reader'
   get 'password' => 'users#password'
   get 'clave' => 'users#clave'
   post 'password_link' => 'users#password_link'
@@ -43,7 +44,7 @@ Rails.application.routes.draw do
   post 'editor_creates_new_user' => 'users#editor_creates_new_user'
   resources :users do
     member do
-      get :first_email
+      get :confirm_email
       get :new_password
       get :clave_nueva
       get :update_email_amount

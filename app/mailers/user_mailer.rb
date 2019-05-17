@@ -15,5 +15,19 @@ class UserMailer < ApplicationMailer
         headers 'X-SES-CONFIGURATION-SET' => "Emails"
         mail(to: @user.email, subject: "Clave nueva: haga clic en este enlace para elegir una clave nueva")
     end
+    
+    def welcome_link(user)
+        @user = user
+        
+        headers 'X-SES-CONFIGURATION-SET' => "Emails"
+        mail(to: @user.email, subject: "Welcome: click this link to confirm your email")
+    end
+    
+    def welcome_link_es(user)
+        @user = user
+        
+        headers 'X-SES-CONFIGURATION-SET' => "Emails"
+        mail(to: @user.email, subject: "Bienvenido: haga clic en este enlace para confirmar su correo")
+    end
 
 end

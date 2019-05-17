@@ -1,6 +1,8 @@
 <div class="content">
     <%= render "articles/logo_account" %>
-    <h1 class="font-header font-header-normal line-120"><%= @user.email %></h1>
+    <div class="margin-top-30">
+        <h1 class="font-header font-header-normal line-120"><%= @user.email %></h1>
+    </div>
     <%= render 'form', user: @user %>
 </div>
 </div>

@@ -1,0 +1,15 @@
+Hola,
+
+<p>Gracias por apuntarse. Haga clic en este enlace para confirmar su dirección de correo:</p>
+
+<p><%= link_to "Haga clic aquí para confirmar su correo", confirm_email_user_url(@user.confirm_token) %></p>
+
+<p>Si no ha solicitado este correo, puede ignorarlo.</p>
+
+<p>Saludos cordiales,</p>
+
+<p>
+    Matthew Bennett
+    <br />
+    The Spain Report
+</p>

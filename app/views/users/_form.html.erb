@@ -88,14 +88,14 @@
           <% if current_user.role == 2 %>
             patron. Thank you for guaranteeing this independent journalism.
           <% elsif current_user.role == 3 %>
-            reader. Become a patron here now.
+            reader. <a href="https://www.patreon.com/join/matthewbennett">Become a patron here</a>.
           <% else end %>
         <% elsif current_user.sitelanguage == 2 %>
           Ud. es
           <% if current_user.role == 2 %>
              mecenas. Gracias por garantizar este periodismo independiente.
           <% elsif current_user.role == 3 %>
-             lector. Convíertate en mecenas aquí.
+             lector. <a href="https://www.patreon.com/join/matthewbennett">Conviértase en mecenas aquí</a>.
           <% else end %>
         <% else end %>
       <% end %>
