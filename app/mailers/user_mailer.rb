@@ -30,4 +30,10 @@ class UserMailer < ApplicationMailer
         mail(to: @user.email, subject: "Bienvenido: haga clic en este enlace para confirmar su correo")
     end
 
+    def admin_new_reader(user)
+        @user = user
+        
+        headers 'X-SES-CONFIGURATION-SET' => "Emails"
+        mail(to: "matthew@thespainreport.es", subject: "New reader…!")
+    end
 end

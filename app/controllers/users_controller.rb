@@ -265,6 +265,7 @@ class UsersController < ApplicationController
 	   	else
 			end
 			
+			UserMailer.admin_new_reader(user).deliver_now
 			redirect_to '/users/updated'
 		rescue Exception => e
 			if @article.nil?
