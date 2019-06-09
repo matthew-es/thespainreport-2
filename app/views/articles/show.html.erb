@@ -341,6 +341,10 @@
 			<% end %>
 		</div>
 	<% elsif @article.language_id == 2 %>
+		<h5><%= @article.campaign.name %></h5>
+		<p style="text-align: center;">
+ 			<a href="https://www.patreon.com/join/matthewbennett" class="button"><%= @article.campaign.buttontext %></a>
+ 		</p>
 		<div class="margin-bottom-20 background-color-yellow padding-20">
 			<span class="font-header font-header-small font-upper">Apúntese Al Spain Report</span>
 			<p class="margin-top-10">
