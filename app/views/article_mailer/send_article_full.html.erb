@@ -1,3 +1,8 @@
+<table border="0" cellspacing="0" width="100%">
+<tr>
+<td></td>
+<td width="750">
+	
 <p><strong><%= @article.headline %></strong></p>
 
 <p>
@@ -25,19 +30,30 @@
 </p>
 
 <% if @article.image.present? %>
-	<%= image_tag ('https://image.thespainreport.es/' + @article.image) %>
+	<% if ['.png','.jpg'].include?File.extname(@article.image) %> 
+		<%= image_tag ('https://image.thespainreport.es/' + @article.image), style: 'max-width: 700px;' %>
+	<% else %>
+	<% end %>
 <% else %>
 <% end %>
 
 <%= markdown(@article.body) %>
 
+	<% if @article.image.present? %>
+		<% if ['.pdf'].include?File.extname(@article.image) %>
+			<strong>Documento:</strong> <%= link_to @article.image, 'https://pdf.thespainreport.es/' + @article.image %>
+		<% else %>
+		<% end %>
+	<% else %>
+	<% end %>
+
 <% if @articletweets.present? %>
 	<% @articletweets.each do |t| %>
 		<p>
 			<%= t.message %>
-			<br />
+			<br /><br />
 			<% if t.image.present? %>
-				<%= image_tag ('https://image.thespainreport.es/' + t.image) %>
+				<%= image_tag ('https://image.thespainreport.es/' + t.image), style: 'max-width: 700px;' %>
 			<% end %>
 		</p>
 	<% end %>
@@ -60,7 +76,7 @@
 		</p>
 		
 		<% if u.image.present? %>
-			<%= image_tag ('https://image.thespainreport.es/' + u.image) %>
+			<%= image_tag ('https://image.thespainreport.es/' + u.image), style: 'max-width: 700px;' %>
 		<% else %>
 		<% end %>
 		
@@ -133,3 +149,8 @@
 	</ul>
 <% else %>
 <% end %>
+
+</td>
+<td></td>
+</tr>
+</table>
