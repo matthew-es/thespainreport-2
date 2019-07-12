@@ -6,14 +6,15 @@
 <p><strong><%= @article.headline %></strong></p>
 
 <p>
+	<% if @article.language_id == 1 %>
+		<%= @article.created_at.strftime("%b %d, %Y, %l:%M %P") %>
+	<% elsif @article.language_id == 2 %>
+		<%= @article.created_at.strftime("%d/%m/%Y, %H:%M") %>
+	<% else %>
+	<% end %>
+	| <%= link_to @article.story.headline, @article.story unless @article.story.nil? %>
+	<br />
 	<em>
-		<% if @article.language_id == 1 %>
-			<%= @article.created_at.strftime("%b %d, %Y, %l:%M %P") %>
-		<% elsif @article.language_id == 2 %>
-			<%= @article.created_at.strftime("%d/%m/%Y, %H:%M") %>
-		<% else %>
-		<% end %>
-		<br />
 		<%= @article.lede %>
 	</em>
 </p>

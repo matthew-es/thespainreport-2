@@ -135,12 +135,6 @@
 	</div>
 </div>
 
-<% if @article.id == 32 %>
-<div class="margin-top-10" style="width:100%;padding-top:64%;position:relative;border-bottom:1px solid #aaa;display:inline-block;background:#eee;background:rgba(255,255,255,0.9);" >
-	<iframe frameborder="0" src="https://secure-embed.rtve.es/drmn/embed/video/3658839?autoplay=true" name="Señal Institucional" scrolling="no" style="width:100%;height:90%;position:absolute;left:0;top:0;overflow:hidden;" allowfullscreen></iframe>
-</div>
-<% end %>
-
 <% if @article.image.present? %>
 	<% if ['.png','.jpg'].include?File.extname(@article.image) %> 
 		<%= image_tag ('https://image.thespainreport.es/' + @article.image) %>
