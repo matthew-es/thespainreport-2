@@ -86,6 +86,6 @@ class TypesController < ApplicationController
 
 		# Never trust parameters from the scary internet, only allow the white list through.
 		def type_params
-			params.require(:type).permit(:name, :language_id)
+			params.require(:type).permit(:name, :name_plural, :language_id)
 		end
 end

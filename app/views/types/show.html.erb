@@ -26,9 +26,9 @@
 
 <h1 class="font-header font-header-normal line-120 font-upper">
 	<% if current_user.nil? %>
-		<%= @type.name %>
+		<%= @type.name_plural %>
 	<% else %>
-		<%= link_to @type.name, edit_type_path, class: "editor-link" %>
+		<%= link_to @type.name_plural, edit_type_path, class: "editor-link" %>
 	<% end %>
 </h1>
 

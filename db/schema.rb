@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_22_193157) do
+ActiveRecord::Schema.define(version: 2019_07_12_114317) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -138,6 +138,7 @@ ActiveRecord::Schema.define(version: 2019_04_22_193157) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "language_id"
+    t.string "name_plural"
     t.index ["language_id"], name: "index_types_on_language_id"
   end
 

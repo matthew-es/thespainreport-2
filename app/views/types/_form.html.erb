@@ -14,6 +14,7 @@
 
 	<div class="field">
 		Name: <%= f.text_field :name %>
+		Plural Name: <%= f.text_field :name_plural %>
 		<%= f.collection_select :language_id, @languages, :id, :name, {:selected => @type.language_id ? @type.language_id : 1} %>
 		<%= f.submit %>
 	</div>
