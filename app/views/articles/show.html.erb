@@ -204,6 +204,16 @@
 				<% if t.image.present? %>
 					<%= image_tag ('https://image.thespainreport.es/' + t.image) %>
 				<% end %>
+				<br />
+				<span class="font-main font-main-tiny">
+					<% if @article.language_id == 1 %>
+							<strong>Published:</strong> <%= t.created_at.strftime("%b %d, %Y, %l:%M %P") %> | <%= link_to "On Twitter", "https://twitter.com/matthewbennett/status/" + t.twitter_tweet_id.to_s %>
+					<% elsif @article.language_id == 2 %>
+						<strong>Publicado:</strong> <%= t.created_at.strftime("%d/%m/%Y, %H:%M") %> | <%= link_to "En Twitter", "https://twitter.com/matthewbennett/status/" + t.twitter_tweet_id.to_s %>
+						
+					<% else %>
+					<% end %>
+				</span>
 			</p>
 		<% end %>
 	<% end %>
