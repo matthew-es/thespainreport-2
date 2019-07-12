@@ -42,7 +42,14 @@
 
 	<% if @article.image.present? %>
 		<% if ['.pdf'].include?File.extname(@article.image) %>
-			<strong>Documento:</strong> <%= link_to @article.image, 'https://pdf.thespainreport.es/' + @article.image %>
+			<% if @article.language_id == 1 %>
+				<strong>Original document:</strong>
+			<% elsif @article.language_id == 2 %>
+				<strong>Documento original:</strong>
+			<% else %>
+			<% end %>
+			
+			<%= link_to @article.image, 'https://pdf.thespainreport.es/' + @article.image %>
 		<% else %>
 		<% end %>
 	<% else %>
@@ -84,43 +91,26 @@
 		<%= markdown(u.body) %>
 <% end %>
 
-<p>
-	<% if @article.language_id == 1 %>
-		<%= link_to "Read this on The Spain Report", article_url(@article) %>
-	<% elsif @article.language_id == 2 %>
-		<%= link_to "Lea esto en The Spain Report", article_url(@article) %>
-	<% else %>
-	<% end %>
-	
-	<% if @article.audio.present? %>
-			| 
-			<strong>
-				<% if @article.language_id == 1 %>
-					Audio:
-				<% elsif @article.language_id == 2 %>
-					Audio:
-				<% else %>
-				<% end %>
-			</strong>
-			<%= link_to @article.audio, ('https://audio.thespainreport.es/' + @article.audio) %>
-	<% else %>
-	<% end %>
-	
-	<% if @article.original.blank? %>
-		<% @article.translations.where.not(id: @article).each do |tr| %>
-		| <%= link_to tr.language.prompt, tr %>
-		<% end %>
-	<% else %>
-		| <%= link_to @article.original.language.prompt, @article.original, class: "label" %>
-	<% end %>
-	
-	<% if @article.story.nil? %>
-	<% else %>
-		| <%= link_to @article.story.headline, @article.story %>
-	<% end %>
-</p>
-
 <% if @article.language_id == 1 %>
+	<p><strong>This article:</strong></p>
+	<ul>
+		<li><%= link_to "Read this on The Spain Report", article_url(@article) %></li>
+		
+		<% if ['.pdf'].include?File.extname(@article.image) %>
+			<li>Document: <%= link_to @article.image, 'https://pdf.thespainreport.es/' + @article.image %></li>
+		<% else %>
+		<% end %>
+		
+		<% if @article.audio.present? %>
+			<li>Audio: <%= link_to @article.audio, ('https://audio.thespainreport.es/' + @article.audio) %></li>
+		<% else %>
+		<% end %>
+		
+		<% if @article.story.nil? %>
+		<% else %>
+			<li>Story: <%= link_to @article.story.headline, @article.story %></li>
+		<% end %>
+	</ul>
 	<p><strong>Email amount:</strong></p>
 	<ul>
 		<li><%= link_to "I want all articles & latest news", update_email_amount_user_url(@user.confirm_token, emails: 1) %></li>
@@ -135,6 +125,25 @@
 		<li><%= link_to "I want emails in English & Spanish", update_email_language_user_url(@user.confirm_token, emaillanguage: 3) %></li>
 	</ul>
 <% elsif @article.language_id == 2 %>
+	<p><strong>Este artículo:</strong></p>
+	<ul>
+		<li><%= link_to "Lea esto en The Spain Report", article_url(@article) %></li>
+		
+		<% if ['.pdf'].include?File.extname(@article.image) %>
+			<li>Documento: <%= link_to @article.image, 'https://pdf.thespainreport.es/' + @article.image %></li>
+		<% else %>
+		<% end %>
+		
+		<% if @article.audio.present? %>
+			<li>Audio: <%= link_to @article.audio, ('https://audio.thespainreport.es/' + @article.audio) %></li>
+		<% else %>
+		<% end %>
+		
+		<% if @article.story.nil? %>
+		<% else %>
+			<li>Tema: <%= link_to @article.story.headline, @article.story %></li>
+		<% end %>
+	</ul>
 	<p><strong>Cantidad de correo:</strong></p>
 	<ul>
 		<li><%= link_to "Quiero artículos y la última hora", update_email_amount_user_url(@user.confirm_token, emails: 1) %></li>
