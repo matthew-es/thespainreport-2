@@ -108,13 +108,17 @@
 		<% if !current_user.nil? %>
 			<div class="margin-right-5 float-left mobile-bottom-10">
 				<% if current_user.sitelanguage == 1 %>
-					<%= link_to 'Email article to me', articles_touser_path(article_id: @article.id), class: 'label' %>
+					<%= link_to 'Email article', articles_touser_path(article_id: @article.id), class: 'label' %>
 				<% elsif current_user.sitelanguage == 2 %>
 					<%= link_to 'Envíame artículo', articles_touser_path(article_id: @article.id), class: 'label' %>
 				<% else end %>
 			</div>
 		<% else end %>
-	    	
+	    
+	    <div class="margin-right-5 float-left mobile-bottom-10">
+	    	<%= link_to @article.story.headline, @article.story, class: "label" unless @article.story.nil? %>
+	    </div>
+	    
 		<div class="clear"></div>
 	</div>
 
