@@ -7,7 +7,7 @@ class AccountsController < ApplicationController
     if current_user.nil? 
 			redirect_to root_url
 		elsif current_user.role == 1
-			@accounts = Account.all
+			@accounts = Account.all.order('created_at DESC')
 		else
 			redirect_to root_url
 		end
