@@ -1,0 +1,10 @@
+<%= render "articles/admintop" %>
+
+<div class="margin-bottom-10">
+    <% @accountowner.each do |u| %>
+        <%= u.email %>
+    <% end %>
+</div>
+
+<%= render 'form', account: @account %>
+</div>

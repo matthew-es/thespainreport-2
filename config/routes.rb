@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   get 'users/reset_tokens' => 'users#reset_tokens'
   get 'users/updated' => 'users#updated'
   post 'editor_creates_new_user' => 'users#editor_creates_new_user'
+  post 'editor_modifies_accounts' => 'accounts#editor_modifies_accounts'
   resources :users do
     member do
       get :confirm_email
@@ -57,5 +58,6 @@ Rails.application.routes.draw do
   resources :statuses
   resources :types
   resources :articles
+  resources :accounts
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

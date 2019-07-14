@@ -12,11 +12,12 @@
 		<%= link_to "Languages", languages_path %>
 		<%= link_to "Statuses", statuses_path %>
 		| <%= link_to "Visits", visits_path %>
+		| <%= link_to "Accounts", accounts_path %>
 		| <%= link_to "Readers", users_path %>
 		<%= link_to "Plans", plans_path %>
 		| <% if current_user %>
 			<%= current_user.email %>
-		| <%= link_to 'My Account', edit_user_path(current_user) %>
+		| <%= link_to 'My Details', edit_user_path(current_user) %>
 		| <%= link_to 'Logout', users_logout_path %>
 		<% else %>
 		<% end %>
@@ -38,6 +39,8 @@
 			Statuses
 		<% elsif controller_name == "visits" %>
 			Visits
+		<% elsif controller_name == "accounts" %>
+			Accounts
 		<% elsif controller_name == "users" %>
 			Readers
 		<% elsif controller_name == "plans" %>
@@ -68,6 +71,8 @@
 				status…
 			<% elsif controller_name == "visits" %>
 				
+			<% elsif controller_name == "accounts" %>
+				account…
 			<% elsif controller_name == "users" %>
 				reader…
 			<% elsif controller_name == "plans" %>
@@ -93,6 +98,16 @@
 				<%= link_to 'New status', new_status_path %>
 			<% elsif controller_name == "visits" %>
 				
+			<% elsif controller_name == "accounts" %>
+				<%= form_with url: 'editor_modifies_accounts' do |f| %>
+					<div class="margin-bottom-10">
+						<%= f.text_area :email, :class => "width-48 padding-10 font-main font-main-normal", :style => "min-height: 60px;", placeholder: "Add account owners to modify here…" %>
+					</div>
+					<div class="margin-bottom-10">
+				   	Status: <%= f.select :account_status, options_for_select([["Up-to-date", "1"], ["Payment Declined", "2"], ["Cancelled", "3"]]) %> <%= f.submit %>
+				  	</div>
+				<% end %>
+				<%= link_to 'New account', new_account_path %>
 			<% elsif controller_name == "users" %>
 				<%= form_with url: 'editor_creates_new_user' do |f| %>
 					<div class="margin-bottom-10">

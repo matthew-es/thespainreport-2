@@ -1,0 +1,52 @@
+<%= render "articles/admintop" %>
+
+<table>
+  <thead>
+    <tr>
+      <th align="left">Account</th>
+      <th align="left">Owner</th>
+      <th align="left">Status</th>
+      <th align="left">Status Date</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @accounts.each do |account| %>
+      <tr>
+        <td><%= link_to account.id, edit_account_path(account) %></td>
+        <td>
+          <% account.users.account_owner.each do |u| %>
+            <%= link_to u.email, edit_user_path(u) %>
+          <% end %>
+        </td>
+        <td>
+          <% if account.account_status == 1 %>
+            Up-to-date
+          <% elsif account.account_status == 2 %>
+            Payment declined
+          <% elsif account.account_status == 3 %>
+            Cancelled
+          <% else end %>
+        </td>
+        <td><%= account.account_status_date.strftime("%b %d, %Y, %l:%M %P") %></td>
+        <td>
+          <% if account.conversation_status == 1 %>
+            Everybody happy
+          <% elsif account.conversation_status == 2 %>
+            Decline email sent
+          <% elsif account.conversation_status == 3 %>
+            Cancel email sent
+          <% elsif account.conversation_status == 4 %>
+            In conversation
+          <% elsif account.conversation_status == 5 %>
+            Stop - not interested
+          <% else end %>
+        </td>
+        <td><%= link_to 'Destroy', account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+</div>

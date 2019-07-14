@@ -1,6 +1,8 @@
 class User < ApplicationRecord
 	require 'bcrypt'
 	has_secure_password
+	belongs_to :account, optional: true
+	
 	
 	validates :email, :uniqueness => {:case_sensitive => false, message: "—try your e-mail again…"}
 	validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, message: "—try your e-mail again…"
@@ -16,6 +18,7 @@ class User < ApplicationRecord
 	scope :emails_english, -> {where(emaillanguage: [1, 3])}
    scope :emails_spanish, -> {where(emaillanguage: [2, 3])}
    scope :patrons, -> {where(role: 2)}
+   scope :account_owner, -> {where(account_role: 1)}
    
 	def password_complexity
 		if password.present? and not password.match(/^(?=.*[A-Z])./) and not password.match(/^(?=.*[\s])./)

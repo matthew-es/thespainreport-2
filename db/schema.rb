@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_12_114317) do
+ActiveRecord::Schema.define(version: 2019_07_14_115819) do
+
+  create_table "accounts", force: :cascade do |t|
+    t.integer "account_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "account_status_date"
+    t.integer "conversation_status"
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -161,6 +169,8 @@ ActiveRecord::Schema.define(version: 2019_07_12_114317) do
     t.integer "sitelanguage"
     t.string "password_reset_token"
     t.datetime "password_reset_sent_at"
+    t.integer "account_id"
+    t.integer "account_role"
   end
 
   create_table "visits", force: :cascade do |t|

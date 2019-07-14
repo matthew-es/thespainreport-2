@@ -1,0 +1,23 @@
+<%= form_with(model: account, local: true) do |f| %>
+  <% if account.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(account.errors.count, "error") %> prohibited this account from being saved:</h2>
+
+      <ul>
+      <% account.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="margin-bottom-10">
+    <%= f.select :account_status, options_for_select([["Up-to-date", "1"], ["Payment Declined", "2"], ["Cancelled", "3"]], :selected => @account.account_status) %>
+    | <%= f.text_field :account_status_date %>
+    | <%= f.select :conversation_status, options_for_select([["Everybody happy", "1"], ["Decline message sent", "2"], ["Cancel message sent", "3"], ["In conversation", "3"], ["Stop - not interested", "5"]], :selected => @account.conversation_status) %>
+  </div>
+
+  <div class="margin-bottom-10">
+    <%= f.submit %>
+  </div>
+<% end %>
