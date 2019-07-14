@@ -48,6 +48,7 @@ class AccountsController < ApplicationController
     		if user.account_id.nil?
     		  account = Account.create!(
     		    account_status: params[:account_status],
+    		    conversation_status: params[:conversation_status],
     		    account_status_date: Time.zone.now
     		    )
     		    
@@ -58,6 +59,7 @@ class AccountsController < ApplicationController
     		elsif !Account.find_by_id(user.account_id).present?
     		  account = Account.create!(
     		    account_status: params[:account_status],
+    		    conversation_status: params[:conversation_status],
     		    account_status_date: Time.zone.now
     		    )
     		    
@@ -69,6 +71,7 @@ class AccountsController < ApplicationController
       		account = Account.find_by_id(user.account_id)
       		account.update(
       		  account_status: params[:account_status],
+      		  conversation_status: params[:conversation_status],
       		  account_status_date: Time.zone.now
       		  )
     		end
