@@ -62,6 +62,7 @@ a.editor-link, a.editor-link:visited, a.editor-link:hover, h1 a, h1 a:visited, h
 .width-98, input.width-98 {width: 98%;}
 .width-90, input.width-90 {width: 90%;}
 .width-70, input.width-70 {width: 70%;}
+.width-50, input.width-50 {width: 50%;}
 .width-48, input.width-48 {width: 48%;}
 .width-40, input.width-40 {width: 40%;}
 .width-37, input.width-37 {width: 37%;}
@@ -70,6 +71,7 @@ a.editor-link, a.editor-link:visited, a.editor-link:hover, h1 a, h1 a:visited, h
 .height-15 {height: 15px;}
 .margin-centre {margin: 0 auto;}
 .margin-top-0 {margin-top: 0px;}
+.margin-top-2 {margin-top: 2px;}
 .margin-top-5 {margin-top: 5px;}
 .margin-top-10 {margin-top: 10px;}
 .margin-top-20 {margin-top: 20px;}
