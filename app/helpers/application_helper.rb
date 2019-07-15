@@ -23,7 +23,8 @@ module ApplicationHelper
 			strikethrough: true,
 			superscript: true,
 			disable_indented_code_blocks: true,
-			highlight: true
+			highlight: true,
+			autolink: true
 		}
 
 		renderer = Redcarpet::Render::HTML.new(options)
