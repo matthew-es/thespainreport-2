@@ -109,7 +109,7 @@
       <% elsif current_user.role == 1 %>
         <div class="margin-bottom-10">
           <hr />
-            Account ID: <%= form.number_field :account_id %> | Account role: <%= form.select :account_role, options_for_select([["Owner", "1"], ["Member", "2"]], :selected => @user.account_role) %> | Account status: <%= @user.account.account_status %>
+            Account ID: <%= form.number_field :account_id %> | Account role: <%= form.select :account_role, options_for_select([["Owner", "1"], ["Member", "2"]], :selected => @user.account_role) %> | Account status: <%= @user.account.account_status unless @user.account.nil? %>
           <hr />
         </div>
       <% else %>
