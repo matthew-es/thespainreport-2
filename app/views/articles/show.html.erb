@@ -339,9 +339,7 @@
 				</div>
 				<div class="clear"></div>
 				</div>
-				<% if controller_name == 'articles' && action_name == 'show' %>
-					<%= hidden_field_tag 'article_id', @article.id %>
-				<% end %> 
+				<%= hidden_field_tag 'set_language', '1' %>
 			<% end %>
 		</div>
 	<% elsif @article.language_id == 2 %>
@@ -368,9 +366,7 @@
 					</div>
 					<div class="clear"></div>
 				</div>
-				<% if controller_name == 'articles' && action_name == 'show' %>
-					<%= hidden_field_tag 'article_id', @article.id %>
-				<% end %> 
+				<%= hidden_field_tag 'set_language', '2' %>
 			<% end %>
 		</div>
 	<% else end %>

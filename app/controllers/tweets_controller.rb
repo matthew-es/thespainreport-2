@@ -7,6 +7,8 @@ class TweetsController < ApplicationController
 		@articles = Article.all.order("created_at DESC")
 		@languages = Language.all.order(:name)
 		@types = Type.thread.order(:name)
+		@stories = Article.story.order('headline ASC')
+		@translationof = Article.lastten.order('created_at DESC')
 	end
 	
 	def index
@@ -90,7 +92,9 @@ class TweetsController < ApplicationController
 			body: "",
 			status_id: 3,
 			language_id: params[:tweet][:language_id],
-			type_id: params[:tweet][:type_id]
+			type_id: params[:tweet][:type_id],
+			story_id: params[:tweet][:story_id],
+			original_id: params[:tweet][:original_id]
 			)
 			
 			@tweet.update(

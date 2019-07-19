@@ -7,6 +7,10 @@ class UsersController < ApplicationController
 	def signup
 		@user = User.new
 	end
+	
+	def apuntese
+		@user = User.new
+	end
   
 	def newsession
 		user = User.find_by_email(params[:email])
@@ -231,16 +235,6 @@ class UsersController < ApplicationController
 	def new_reader
 		autopassword = 'L e @ 4' + SecureRandom.hex(32)
 		generate_token = SecureRandom.urlsafe_base64.to_s
-		@article = Article.find_by_id(params[:article_id])
-		
-		if @article.nil?
-			setlanguage = 1
-		elsif @article.language_id == 1
-			setlanguage = 1
-		elsif @article.language_id == 2
-			setlanguage = 2
-		else
-		end
 		
 		begin
 			user = User.create!(
@@ -250,9 +244,9 @@ class UsersController < ApplicationController
 			password_confirmation: autopassword,
 			password_reset_sent_at: Time.zone.now,
 			role: 3,
-			sitelanguage: setlanguage,
+			sitelanguage: params[:set_language],
 			emails: 1,
-			emaillanguage: setlanguage,
+			emaillanguage: params[:set_language],
 			email_confirmed: false
 			)
 		

@@ -48,5 +48,8 @@
 		</div>
 
 		<strong>Type:</strong> <%= f.collection_select :type_id, @types, :id, :name %>
+		
+		<strong>Story:</strong> <%= f.collection_select :story_id, @stories, :id, :headline, {include_blank: true}, {:style => "width: 200px;"} %>
+		<strong>Translation of:</strong> <%= f.collection_select :original_id, @translationof, :id, :headline, {include_blank: true}, {:style => "width: 200px;"} %>
 	<% end %>
 <% end %>

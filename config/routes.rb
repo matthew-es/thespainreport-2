@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   
   get 'users/signup'
   get 'signup' => 'users#signup'
+  get 'apuntese' => 'users#apuntese'
   post 'signup' => 'users#create'
   post 'new_reader' => 'users#new_reader'
   get 'password' => 'users#password'
