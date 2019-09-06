@@ -1,0 +1,45 @@
+<div class="content">
+	
+	<%= render "articles/logo_account" %>
+
+	<% flash.each do |key, value| %>
+		<div class="alert alert-<%= key %>"><p><%= value.html_safe %></p></div>
+	<% end %>
+
+	<div class="form-row">
+		<input id="customer_email" name="customer_email" value="<%= @user %>" type="text" class="StripeElement" onkeyup="readyServer()" onchange="readyServer()" onclick="readyServer()"/>
+	</div>
+	
+	<div class="">
+		Payment for €<%= @payment_intent.amount %> needs to be confirmed.<br />
+		Current status is: <%= @payment_intent.status %>
+	</div>
+
+	<button id="card-button" data-secret="<%= @payment_intent.client_secret %>">Confirm now</button>
+
+</div>
+
+	<form id="send_stuff_to_server" action="/stripe_payment">
+		<input type="hidden" name="pm_for_server" id="pm_for_server" value="" />
+		<input type="hidden" name="email_for_server" id="email_for_server" value="" />
+	</form>
+
+<script src="https://js.stripe.com/v3"></script>
+<script>
+	var stripe = Stripe('pk_test_oUZEXSyy5GEIblpAxKNIvs5X');
+
+	// Send
+	var cardButton = document.getElementById('card-button');
+	var clientSecret = cardButton.dataset.secret;
+	
+	cardButton.addEventListener('click', function(ev) {
+		stripe.handleCardPayment(
+			  clientSecret,
+			  {
+			    payment_method: '<%= @payment_method %>',
+			  }
+			).then(function(result) {
+			  // Handle result.error or result.paymentIntent
+			});
+	});
+</script>

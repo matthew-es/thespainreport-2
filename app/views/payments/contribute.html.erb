@@ -1,0 +1,100 @@
+<div class="content">
+	
+	<%= render "articles/logo_account" %>
+
+	<% flash.each do |key, value| %>
+		<div class="alert alert-<%= key %>"><p><%= value.html_safe %></p></div>
+	<% end %>
+
+	<div class="form-row">
+		<input id="customer_email" name="customer_email" type="text" class="StripeElement" onkeyup="readyServer()" onchange="readyServer()" onclick="readyServer()"/>
+	</div>
+
+	<div class="form-row">
+		<label for="card-element">
+			Credit or debit card
+		</label>
+		<div id="card-element">
+			<!-- A Stripe Element will be inserted here. -->
+		</div>
+
+		<!-- Used to display form errors. -->
+		<div id="card-errors" role="alert"></div>
+	</div>
+	<button id="card-button" data-secret="<%= @setup_intent.client_secret %>">Contribute now</button>
+
+</div>
+
+	<form id="send_stuff_to_server" action="/stripe_first_payment" method="post">
+		<input type="hidden" name="pm_for_server" id="pm_for_server" value="" />
+		<input type="hidden" name="email_for_server" id="email_for_server" value="" />
+	</form>
+
+<script>
+	function readyServer() { 
+		document.getElementById("email_for_server").value = document.getElementById("customer_email").value; 
+		}
+</script>
+
+<script src="https://js.stripe.com/v3"></script>
+<script>
+	var stripe = Stripe('pk_test_oUZEXSyy5GEIblpAxKNIvs5X');
+	
+	var elements = stripe.elements({
+		locale: 'en'
+	});
+	
+	var style = {
+		base: {
+			color: '#32325d',
+			fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+			fontSmoothing: 'antialiased',
+			fontSize: '16px',
+			'::placeholder': {
+				color: '#aab7c4'
+			}
+		},
+		invalid: {
+			color: '#fa755a',
+			iconColor: '#fa755a'
+		}
+	};
+
+	// Create an instance of the card Element.
+	var card = elements.create('card', {
+		hidePostalCode: true,
+		style: style
+	});
+
+	// Add an instance of the card Element into the `card-element` <div>.
+	card.mount('#card-element');
+
+	// Handle real-time validation errors from the card Element.
+	card.addEventListener('change', function(event) {
+		var displayError = document.getElementById('card-errors');
+		if (event.error) {
+			displayError.textContent = event.error.message;
+		} else {
+			displayError.textContent = '';
+		}
+	});
+
+	// Send
+	var cardButton = document.getElementById('card-button');
+	var clientSecret = cardButton.dataset.secret;
+	
+	cardButton.addEventListener('click', function(ev) {
+		stripe.handleCardSetup(
+			clientSecret, card
+		).then(function(result) {
+			var displayError = document.getElementById('card-errors');
+			if (result.error) {
+				displayError.textContent = result.error.message;
+			} else {
+				document.getElementById("pm_for_server").value = result.setupIntent.payment_method;
+				document.getElementById('send_stuff_to_server').submit();
+			}
+		});
+	});
+
+</script>

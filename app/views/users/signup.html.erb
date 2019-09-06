@@ -1,10 +1,10 @@
 <div class="content">
 	
 	<%= render "articles/logo_account" %>
-
-  <% flash.each do |key, value| %>
-    <div class="alert alert-<%= key %>"><p><%= value.html_safe %></p></div>
-  <% end %>
+	
+	<% flash.each do |key, value| %>
+		<div class="alert alert-<%= key %>"><p><%= value.html_safe %></p></div>
+	<% end %>
 	
 	<%= form_tag '/new_reader' do |f| %>
 		<div class="width-100">
@@ -21,5 +21,3 @@
 		
 		<%= hidden_field_tag 'set_language', '1' %>
 	<% end %>
-
-</div>
