@@ -20,7 +20,7 @@ gem 'aws-sdk'
 gem 'redcarpet'
 gem 'bcrypt', '~> 3.1.7'
 gem 'twitter'
-gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+gem 'stripe'
 
 group :development, :test do
 	gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
