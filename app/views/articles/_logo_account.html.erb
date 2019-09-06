@@ -6,6 +6,8 @@
 	</span>
 <% end %>
 
+
+
 <div class="float-right padding-top-2 font-main font-main-small">
 <% if controller_name == "articles" && action_name == "show" || controller_name == "home" && ["index", "es"].include?(action_name) || controller_name == "users" && action_name == "edit" %>
 	<% if current_user.nil? %>
