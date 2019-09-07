@@ -17,10 +17,10 @@ Rails.application.routes.draw do
   
   get 'trial', to: redirect("http://www.thespainreport.es/articles/32-180101210225-catalan-separatism")
   get 'twitterpatreon' => 'home#patreon'
-  get 'contribute' => 'payments#contribute'
-  get 'contribuir' => 'payments#contribuir'
-  post 'stripe_first_payment' => 'payments#stripe_first_payment'
-  get 'confirm' => 'payments#stripe_confirm_payment'
+  get 'contribute', to: redirect("/")
+  get 'contribuir', to: redirect("/")
+  post 'stripe_first_payment', to: redirect("/")
+  get 'confirm', to: redirect("/")
   post 'stripe_webhook' => 'payments#stripe_webhook'
   
   get 'rss' => 'home#index', defaults: { format: 'rss' }

@@ -4,12 +4,20 @@
 		<div class="">
 			<div class="topbutton mobile-100"> 
 				<a href="https://www.patreon.com/join/matthewbennett" class="topbutton"> 
-					Support The Spain Report
+					<% if controller_name == 'home' && action_name == 'es' || controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 %>
+						Apoye al Spain Report
+					<% else %>
+						Support The Spain Report
+					<% end %>
 				</a> 
 			</div>
 		</div>
 		<div class="margin-top-2 font-main font-italic font-main-small">
-			Guarantee independent journalism.
+			<% if controller_name == 'home' && action_name == 'es' || controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 %>
+				Garantice el periodismo independiente.
+			<% else %>
+				Gurantee independent journalism.
+			<% end %>
 		</div>
 	</div>
 	

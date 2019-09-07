@@ -4,7 +4,7 @@ class PaymentsController < ApplicationController
 	protect_from_forgery :except => :stripe_webhook
 	
 	def contribute
-		Stripe.api_key = 'sk_test_FVIuGU1W0mHIFIgS4uxtNJB5'
+		Stripe.api_key = 'xxxxx'
 		
 		@setup_intent = Stripe::SetupIntent.create({
 			usage: 'off_session'
@@ -15,7 +15,7 @@ class PaymentsController < ApplicationController
 	end
 	
 	def stripe_first_payment
-		Stripe.api_key = 'sk_test_FVIuGU1W0mHIFIgS4uxtNJB5'
+		Stripe.api_key = 'xxxx'
 		
 		# create new Stripe customer, add new payment method, set default payment method
 		@customer = Stripe::Customer.create({
@@ -62,7 +62,7 @@ class PaymentsController < ApplicationController
 	end
 	
 	def stripe_confirm_payment
-		Stripe.api_key = 'sk_test_FVIuGU1W0mHIFIgS4uxtNJB5'
+		Stripe.api_key = 'xxxx'
 		
 		Stripe::PaymentIntent.update(
 				  'pi_1FBPkVAKYHByLBAAEdqBzxrK',
@@ -77,7 +77,7 @@ class PaymentsController < ApplicationController
 	end
 	
 	def stripe_webhook
-		Stripe.api_key = 'sk_test_FVIuGU1W0mHIFIgS4uxtNJB5'
+		Stripe.api_key = 'xxxx'
 		webhook_endpoint_secret = 'whsec_5IuCz8Ecp0PwQVMIXybJV9YtN0fqu1XV'
 		webhook = request.raw_post
 		webhook_header = request.env['HTTP_STRIPE_SIGNATURE']

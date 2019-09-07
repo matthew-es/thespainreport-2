@@ -30,7 +30,7 @@
 	<div class="content">
 <% end %>
 	
-<%= render "articles/logo_account" %>
+<%= render "layouts/logo_account" %>
 
 <div class="margin-top-30">
 	<h1 class="font-header font-header-normal line-120 font-upper">
@@ -300,7 +300,7 @@
 	<% end %>
 	
 	
-	<%= render 'log_in_logic' %>
+	<%= render 'layouts/log_in_logic' %>
 	
 	
 	<% if @article.components.present? %>
@@ -380,9 +380,9 @@
 			<% end %>
 		</div>
 	<% elsif @article.language_id == 2 %>
-		<h5><%= @article.campaign.name %></h5>
+		<h5><%= @article.campaign.name unless @article.campaign.nil? %></h5>
 		<p style="text-align: center;">
- 			<a href="https://www.patreon.com/join/matthewbennett" class="button"><%= @article.campaign.buttontext %></a>
+ 			<a href="https://www.patreon.com/join/matthewbennett" class="button"><%= @article.campaign.buttontext unless @article.campaign.nil? %></a>
  		</p>
 		<div class="margin-bottom-20 background-color-yellow padding-20">
 			<span class="font-header font-header-small font-upper">Apúntese Al Spain Report</span>
