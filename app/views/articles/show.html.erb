@@ -323,7 +323,7 @@
 	<% end %>
 
 <% if !@article.campaign.nil? %>
-	<h5><%= @article.campaign.name %></h5>
+	<h5 class="margin-top-50"><%= @article.campaign.name %></h5>
 	<p class="float-right">
 		<%= image_tag ('https://image.thespainreport.es/' + @article.campaign.image), :class => "campaignimage" unless @article.campaign.image.nil? %>
 	</p>
@@ -408,8 +408,6 @@
 		</div>
 	<% else end %>
 <% else end %>
-
-<p>--</p>
 
 <%= render "layouts/footer" %>
 

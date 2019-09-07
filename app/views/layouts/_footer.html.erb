@@ -1,55 +1,32 @@
 <div class="margin-top-10 margin-bottom-10">
-	<p>
-		<% if controller_name == 'home' && action_name == 'index' %>
-			<h5>What is The Spain Report?</h5>
-			<p>
-				Independent reporting and analysis of the most important stories changing the country, written by Matthew Bennett, a British journalist who has been living and working in Spain for most of the past 20 years. <a href="#">Read more</a>
-			</p>
-		<% elsif controller_name == 'home' && action_name == 'es' %>
-			<h5>¿Qué es The Spain Report?</h5>
-			<p>Información y análisis independientes sobres las noticias y tendencias que están cambiando España.
+	
+	<% if controller_name == 'home' && action_name == 'index' || controller_name == 'articles' && action_name == 'show' && @article.language_id == 1 %>
+		<h5 class="margin-top-50">What is The Spain Report?</h5>
+		<p>
+			Independent reporting and analysis of the most important stories changing the country, 
+			written by Matthew Bennett, a British journalist who has been living and working in Spain for most of the past 20 years.
+			<a href="#">Read more</a>
+		</p>
+		<p>
+			<strong>Questions, stories, interviews, tips:</strong> matthew@thespainreport.com<br />
+	<% elsif controller_name == 'home' && action_name == 'es' || controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 %>
+		<h5 class="margin-top-50">¿Qué es The Spain Report?</h5>
+		<p>
+			Información y análisis independientes sobres las noticias y tendencias que están cambiando España.
 			Lo escribe Matthew Bennett, un periodista británico que vive y trabaja aquí desde hace 20 años.
 			<a href="#">Lea más</a>
-			</p>
-		<% elsif controller_name == 'articles' && action_name == 'show' %>
-			<% if @article.language_id == 1 %>
-				<h5>What is The Spain Report?</h5>
-				<p>Independent reporting and analysis of the most important stories changing the country, 
-				written by Matthew Bennett, a British journalist who has been living and working in Spain for most of the past 20 years.
-				<a href="#">Read more</a>
-				</p>
-			<% elsif @article.language_id == 2 %>
-				<h5>¿Qué es The Spain Report?</h5>
-				<p>Información y análisis independientes sobres las noticias y tendencias que están cambiando España.
-				Lo escribe Matthew Bennett, un periodista británico que vive y trabaja aquí desde hace 20 años.
-				<a href="#">Lea más</a>
-				</p>
-			<% else %>
-			<% end %>
-		<% else %>
-		<% end %>
-	</p>
-	<p>
-		<% if controller_name == 'home' && action_name == 'index' %>
-			<strong>Questions, stories, interviews, tips:</strong> matthew@thespainreport.com<br />
-		<% elsif controller_name == 'home' && action_name == 'es' %>
+		</p>
+		<p>
 			<strong>Preguntas, temas, noticias, entrevistas:</strong> matthew@thespainreport.com<br />
-		<% elsif controller_name == 'articles' && action_name == 'show' %>
-			<% if @article.language_id == 1 %>
-				<strong>Questions, stories, interviews, tips:</strong> matthew@thespainreport.com<br />
-			<% elsif @article.language_id == 2 %>
-				<strong>Preguntas, temas, noticias, entrevistas:</strong> matthew@thespainreport.com<br />
-			<% else %>
-			<% end %>
-		<% else %>
-		<% end %>
-		<strong>WhatsApp/Signal:</strong> (0034) 647 81 81 43<br />
-		<strong>Twitter:</strong> <a href="https://twitter.com/matthewbennett" title="Matthew Bennett on Twitter">@matthewbennett</a> <a href="https://twitter.com/thespainreport" title="The Spain Report on Twitter">@thespainreport</a>
-	</p>
+	<% else %>
+	<% end %>
+			<strong>WhatsApp/Signal:</strong> (0034) 647 81 81 43<br />
+			<strong>Twitter:</strong> <a href="https://twitter.com/matthewbennett" title="Matthew Bennett on Twitter">@matthewbennett</a>
+		</p>
+
 	<p class="margin-centre" style="text-align: center;">
-		&#169;<%= Time.new.year %> Matthew Bennett
-		<br />
-		<a href="<%= root_url %>" title="The Spain Report">The Spain Report</a> | <a href="<%= root_url + 'es' %>" title="The Spain Report en español">En español</a>
-		<br />
+		&#169;<%= Time.new.year %> Matthew Bennett<br />
+		<a href="<%= root_url %>" title="The Spain Report">The Spain Report</a>
+		| <a href="<%= root_url + 'es' %>" title="The Spain Report en español">En español</a>
 	</p>
 </div>
