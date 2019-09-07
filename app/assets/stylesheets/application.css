@@ -18,14 +18,14 @@ a.button, a.button:visited {font-size: 18px; padding: 5px 50px;}
 a.topbutton, a.topbutton:visited {font-size: 14px; padding: 5px 40px;}
 a.button, a.button:visited, a.topbutton, a.topbutton:visited, button {border: 1px solid #2952a3; border-radius: 3px; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset; cursor: pointer; text-align: center; display: inline-block;}
 a.editor-link, a.editor-link:visited, a.editor-link:hover, h1 a, h1 a:visited, h1 a:hover {background-color: #fff; color: #000; text-decoration: none;}
-.no-hover-bg a {background-color: #fff;}
+a.no-hover-bg:hover {background-color: #fff;}
 
 /* Appearances */
-.right {text-align: right;}
 .font-bold {font-weight: bold;}
 .font-italic {font-style: italic;}
 .font-upper {text-transform: uppercase;}
 .font-main {font-family: Georgia;}
+.font-main-big {font-size: 21px;}
 .font-main-normal {font-size: 18px;}
 .font-main-small, .plan-benefits ul li {font-size: 15px;}
 .font-main-tiny {font-size: 11px;}
@@ -58,6 +58,8 @@ a.editor-link, a.editor-link:visited, a.editor-link:hover, h1 a, h1 a:visited, h
 .float-right {float: right;}
 .align-centre {text-align: center;}
 .align-right {text-align: right;}
+.align-left {text-align: left;}
+.display-block {display: block;}
 .width-100, input.width-100 {width: 100%;}
 .width-98, input.width-98 {width: 98%;}
 .width-90, input.width-90 {width: 90%;}
@@ -68,6 +70,7 @@ a.editor-link, a.editor-link:visited, a.editor-link:hover, h1 a, h1 a:visited, h
 .width-37, input.width-37 {width: 37%;}
 .width-33, input.width-33 {width: 32%;}
 .width-5 {width: 5%;}
+.width-fixed-logo {width: 212px;}
 .height-15 {height: 15px;}
 .margin-centre {margin: 0 auto;}
 .margin-top-0 {margin-top: 0px;}

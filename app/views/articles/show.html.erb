@@ -299,6 +299,10 @@
 	</div>
 	<% end %>
 	
+	
+	<%= render 'log_in_logic' %>
+	
+	
 	<% if @article.components.present? %>
 		<h3>
 			<% if @article.language_id == 1 %>
@@ -317,6 +321,39 @@
 		<% end %>
 		</ul>
 	<% end %>
+
+<% if !@article.campaign.nil? %>
+	<h5><%= @article.campaign.name %></h5>
+	<p class="float-right">
+		<%= image_tag ('https://image.thespainreport.es/' + @article.campaign.image), :class => "campaignimage" unless @article.campaign.image.nil? %>
+	</p>
+	<p><%= markdown(@article.campaign.teaser) %></p>
+	<p><%= markdown(@article.campaign.deal) %></p>
+	<p><%= markdown(@article.campaign.social) %></p>
+	
+	<div class="width-98">
+		<% Plan.all.where(language_id: @article.language_id).each do |p| %>
+			<div class="width-33 float-left margin-right-5 border-bottom-1 mobile-width">
+				<h5 class="margin-bottom-0"><%= p.title %></h5>
+				<div class="">
+					<a href="<%= p.link %>" class="no-hover-bg">
+						<%= image_tag ('https://image.thespainreport.es/' + p.image) %>
+					</a>
+					<p class="margin-top-10 margin-bottom-0 align-centre">$<%= p.price %>/<% if p.language_id == 1 %>month<% else %>mes<% end %></p>
+					<div class="plan-benefits"><%= markdown(p.description) %></div>
+					<p class="align-centre line-100">
+						<a href="<%= p.link %>" class="topbutton">
+							<%= p.buttontext %>
+						</a>
+					</p>
+				</div>
+			</div>
+		<% end %>
+		<div class="clear"></div>
+	</div>
+	
+	<p><%= markdown(@article.campaign.riskreversal) %></p>
+<% end %>
 
 <% if current_user.nil? %>
 	<% if @article.language_id == 1 %>
@@ -371,39 +408,6 @@
 		</div>
 	<% else end %>
 <% else end %>
-
-<% if !@article.campaign.nil? %>
-	<h5><%= @article.campaign.name %></h5>
-	<p class="float-right">
-		<%= image_tag ('https://image.thespainreport.es/' + @article.campaign.image), :class => "campaignimage" unless @article.campaign.image.nil? %>
-	</p>
-	<p><%= markdown(@article.campaign.teaser) %></p>
-	<p><%= markdown(@article.campaign.deal) %></p>
-	<p><%= markdown(@article.campaign.social) %></p>
-	
-	<div class="width-98">
-		<% Plan.all.where(language_id: @article.language_id).each do |p| %>
-			<div class="width-33 float-left margin-right-5 border-bottom-1 mobile-width">
-				<h5 class="margin-bottom-0"><%= p.title %></h5>
-				<div class="no-hover-bg">
-					<a href="<%= p.link %>">
-						<%= image_tag ('https://image.thespainreport.es/' + p.image) %>
-					</a>
-					<p class="margin-top-10 margin-bottom-0 align-centre">$<%= p.price %>/<% if p.language_id == 1 %>month<% else %>mes<% end %></p>
-					<div class="plan-benefits"><%= markdown(p.description) %></div>
-					<p class="align-centre line-100">
-						<a href="<%= p.link %>" class="topbutton">
-							<%= p.buttontext %>
-						</a>
-					</p>
-				</div>
-			</div>
-		<% end %>
-		<div class="clear"></div>
-	</div>
-	
-	<p><%= markdown(@article.campaign.riskreversal) %></p>
-<% end %>
 
 <p>--</p>
 

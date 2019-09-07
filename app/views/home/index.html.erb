@@ -26,8 +26,8 @@
 
 <% @latesttop.each do |article| %>
 	 <% if article.image? %>
-		<div class="no-hover-bg">
-		  <%= link_to(article) do %>
+		<div class="">
+		  <%= link_to(article, class: "no-hover-bg") do %>
 			 <%= image_tag ('https://image.thespainreport.es/' + article.image) unless article.image.nil? %>
 		  <% end %>
 	 <% else %>
@@ -74,6 +74,8 @@
 	</li>
  <% end %>
  </ul>
+ 
+ <%= render 'articles/log_in_logic' %>
  
  <h3>Articles by type</h3>
  <% @types.each do |t| %>
