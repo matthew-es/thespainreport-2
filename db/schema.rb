@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_06_151356) do
+ActiveRecord::Schema.define(version: 2019_10_06_153247) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(version: 2019_10_06_151356) do
     t.text "social"
     t.text "riskreversal"
     t.string "subtitle"
+    t.string "slug"
     t.index ["language_id"], name: "index_campaigns_on_language_id"
     t.index ["original_id"], name: "index_campaigns_on_original_id"
   end

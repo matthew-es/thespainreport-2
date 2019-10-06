@@ -4,10 +4,10 @@
 		<div class="">
 			<div class="topbutton mobile-100"> 
 				<% if controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 && @article.campaign.present? %>
-					<a href="/garantizar" class="topbutton"> 
+					<a href="<%= '/' + @article.campaign.slug %>" class="topbutton"> 
 						<%= @article.campaign.name %>
 				<% elsif controller_name == 'articles' && action_name == 'show' && @article.language_id == 1 && @article.campaign.present? %>
-					<a href="/guarantee" class="topbutton"> 
+					<a href="<%= '/' + @article.campaign.slug %>" class="topbutton"> 
 						<%= @article.campaign.name %>
 				<% elsif controller_name == 'home' && action_name == 'es' || controller_name == 'payments' && action_name == 'pagar' || controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 %>
 					<a href="/garantizar" class="topbutton"> 

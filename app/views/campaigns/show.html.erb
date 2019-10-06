@@ -5,6 +5,7 @@
 	<div class="margin-bottom-20">
 		<strong>Name:</strong> <%= link_to @campaign.name, edit_campaign_path(@campaign) %><br />
 		<strong>Subtitle:</strong> <%= @campaign.subtitle %><br />
+		<strong>Payment page slug:</strong> <%= link_to @campaign.slug, '/' + @campaign.slug %><br />
 		<strong>Language:</strong> <%= @campaign.language.try(:name) %>
 	</div>
 	
