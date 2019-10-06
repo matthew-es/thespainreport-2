@@ -26,13 +26,20 @@
 					<% Country.all.each do |c| %>
 						country_flags["<%= c.country_code %>"] = {image: '<%= asset_path(c.country_code + '.jpg') %>', tax_percent: <%= c.tax_percent %>}
 					<% end %>
+						country_flags["UN"] = {image: '<%= asset_path('UN.jpg') %>', tax_percent: 0.0}
 
 				document.getElementById('ip_address').value = ip;
 				document.getElementById('ip_country_code').value = country_code;
 				document.getElementById('ip_country_name').value = country_name;
-				document.getElementById('vat').innerHTML = country_flags[country_code].tax_percent.toFixed(1) + "%";
 				document.getElementById('purchase_ip').innerHTML = ip;
-				document.getElementById('country_flag').src = country_flags[country_code].image;
+				
+				if(country_flags.hasOwnProperty(country_code)) {
+					document.getElementById('vat').innerHTML = country_flags[country_code].tax_percent.toFixed(1) + "%";
+					document.getElementById('country_flag').src = country_flags[country_code].image;
+				} else {
+					document.getElementById('vat').innerHTML = country_flags["UN"].tax_percent.toFixed(1) + "%";
+					document.getElementById('country_flag').src = country_flags["UN"].image;
+				}
 			};
 			
 			var onError = function(error){
