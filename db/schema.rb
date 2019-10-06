@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_24_201603) do
+ActiveRecord::Schema.define(version: 2019_10_06_120851) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -95,6 +95,14 @@ ActiveRecord::Schema.define(version: 2019_08_24_201603) do
     t.text "riskreversal"
     t.index ["language_id"], name: "index_campaigns_on_language_id"
     t.index ["original_id"], name: "index_campaigns_on_original_id"
+  end
+
+  create_table "countries", force: :cascade do |t|
+    t.string "country_code"
+    t.string "name_en"
+    t.string "name_es"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "languages", force: :cascade do |t|

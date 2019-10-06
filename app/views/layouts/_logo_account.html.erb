@@ -3,34 +3,50 @@
 	<div class="float-left align-left mobile-100">
 		<div class="">
 			<div class="topbutton mobile-100"> 
-				<a href="https://www.patreon.com/join/matthewbennett" class="topbutton"> 
-					<% if controller_name == 'home' && action_name == 'es' || controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 %>
-						Apoye al Spain Report
-					<% else %>
-						Support The Spain Report
-					<% end %>
-				</a> 
+				<% if controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 && @article.campaign.present? %>
+					<a href="/garantizar" class="topbutton"> 
+					Nombre de campaña aquí
+				<% elsif controller_name == 'articles' && action_name == 'show' && @article.language_id == 1 && @article.campaign.present? %>
+					<a href="/guarantee" class="topbutton"> 
+					Campaign name here
+				<% elsif controller_name == 'home' && action_name == 'es' || controller_name == 'payments' && action_name == 'pagar' || controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 %>
+					<a href="/garantizar" class="topbutton"> 
+					Garantice el periodismo indpendiente
+				<% else %>
+					<a href="/guarantee" class="topbutton"> 
+					Guarantee independent journalism
+				<% end %>
+					</a> 
 			</div>
 		</div>
 		<div class="margin-top-2 font-main font-italic font-main-small">
-			<% if controller_name == 'home' && action_name == 'es' || controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 %>
-				Garantice el periodismo independiente.
-			<% else %>
-				Guarantee independent journalism.
-			<% end %>
+			<% if controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 && @article.campaign.present? %>
+					Subtítulo de campaña
+				<% elsif controller_name == 'articles' && action_name == 'show' && @article.language_id == 1 && @article.campaign.present? %>
+					Campaign subtitle
+				<% elsif controller_name == 'home' && action_name == 'es' || controller_name == 'payments' && action_name == 'pagar' || controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 %>
+					Rigor frente a la propaganda interesada
+				<% else %>
+					The detailed truth about Spain, not spin and fake news
+				<% end %>
 		</div>
 	</div>
 	
 	<div class="float-right align-right mobile-100">
 		<div class="width-fixed-logo">
-			<%= link_to(root_url, class: 'logo') do %>
+			<% if controller_name == 'payments' && action_name == 'pay' %>
+				<a href="/guarantee" class="logo">
+			<% elsif controller_name == 'payments' && action_name == 'pagar' %>
+				<a href="/garantizar" class="logo">
+			<% elsif controller_name == 'home' && action_name == 'es' || controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 %>
+				<a href="/es" class="logo">
+			<% else %>
+				<a href="/" class="logo">
+			<% end %>
 				<span class="display-block label font-main font-main-big font-upper background-color-red">
 					<span class="font-color-yellow">The</span> <span class="font-color-orange">Spain</span> <span class="font-color-yellow">Report</span>
 				</span>
-			<% end %>
-		</div>
-		<div class="">
-			
+			</a>
 		</div>
 	</div>
 	<div class="clear"></div>

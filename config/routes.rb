@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :countries
   resources :payments, to: redirect("/")
   resources :tweets
   resources :visits
@@ -15,10 +16,17 @@ Rails.application.routes.draw do
 
   root 'home#index'
   
+  # get 'contribute', to: redirect("/")
   get 'trial', to: redirect("http://www.thespainreport.es/articles/32-180101210225-catalan-separatism")
   get 'twitterpatreon' => 'home#patreon'
-  get 'contribute', to: redirect("/")
-  get 'contribuir', to: redirect("/")
+  get 'guarantee' => "payments#pay"
+  get 'garantizar' => "payments#pagar"
+  get 'support' => "payments#pay"
+  get 'apoyar' => "payments#pagar"
+  get 'contribute' => "payments#pay"
+  get 'contribuir' => "payments#pagar"
+  get 'pay' => "payments#pay"
+  get 'pagar' => "payments#pagar"
   post 'stripe_first_payment', to: redirect("/")
   get 'confirm', to: redirect("/")
   post 'stripe_webhook' => 'payments#stripe_webhook'
