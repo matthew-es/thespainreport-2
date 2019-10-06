@@ -5,10 +5,10 @@
 			<div class="topbutton mobile-100"> 
 				<% if controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 && @article.campaign.present? %>
 					<a href="/garantizar" class="topbutton"> 
-					Nombre de campaña aquí
+						<%= @article.campaign.name %>
 				<% elsif controller_name == 'articles' && action_name == 'show' && @article.language_id == 1 && @article.campaign.present? %>
 					<a href="/guarantee" class="topbutton"> 
-					Campaign name here
+						<%= @article.campaign.name %>
 				<% elsif controller_name == 'home' && action_name == 'es' || controller_name == 'payments' && action_name == 'pagar' || controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 %>
 					<a href="/garantizar" class="topbutton"> 
 					Garantice el periodismo indpendiente
@@ -20,15 +20,13 @@
 			</div>
 		</div>
 		<div class="margin-top-2 font-main font-italic font-main-small">
-			<% if controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 && @article.campaign.present? %>
-					Subtítulo de campaña
-				<% elsif controller_name == 'articles' && action_name == 'show' && @article.language_id == 1 && @article.campaign.present? %>
-					Campaign subtitle
-				<% elsif controller_name == 'home' && action_name == 'es' || controller_name == 'payments' && action_name == 'pagar' || controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 %>
-					Rigor frente a la propaganda interesada
-				<% else %>
-					The detailed truth about Spain, not spin and fake news
-				<% end %>
+			<% if controller_name == 'articles' && action_name == 'show' && @article.campaign.present? %>
+				<%= @article.campaign.subtitle %>
+			<% elsif controller_name == 'home' && action_name == 'es' || controller_name == 'payments' && action_name == 'pagar' || controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 %>
+				Rigor frente a la propaganda interesada
+			<% else %>
+				The detailed truth about Spain, not spin and fake news
+			<% end %>
 		</div>
 	</div>
 	
