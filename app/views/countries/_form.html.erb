@@ -12,19 +12,21 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :country_code %>
-    <%= form.text_field :country_code %>
+    Country code: <%= form.text_field :country_code %>
   </div>
 
   <div class="field">
-    <%= form.label :name_en %>
-    <%= form.text_field :name_en %>
+    English: <%= form.text_field :name_en %>
   </div>
 
   <div class="field">
-    <%= form.label :name_es %>
-    <%= form.text_field :name_es %>
+    Spain: <%= form.text_field :name_es %>
   </div>
+  
+  <div class="field">
+    VAT: <%= form.number_field :tax_percent, :step => 0.1 %>
+  </div>
+  
 
   <div class="actions">
     <%= form.submit %>

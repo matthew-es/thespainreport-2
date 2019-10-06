@@ -68,7 +68,7 @@ class CountriesController < ApplicationController
   def update
     respond_to do |format|
       if @country.update(country_params)
-        format.html { redirect_to @country, notice: 'Country was successfully updated.' }
+        format.html { redirect_to countries_url, notice: 'Country was successfully updated.' }
         format.json { render :show, status: :ok, location: @country }
       else
         format.html { render :edit }
@@ -95,6 +95,6 @@ class CountriesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def country_params
-      params.require(:country).permit(:country_code, :name_en, :name_es)
+      params.require(:country).permit(:country_code, :name_en, :name_es, :tax_percent)
     end
 end

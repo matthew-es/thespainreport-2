@@ -6,6 +6,7 @@
       <th>Country code</th>
       <th>English</th>
       <th>Español</th>
+      <th>VAT</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -18,6 +19,7 @@
           <%= country.country_code %></td>
         <td><%= country.name_en %></td>
         <td><%= country.name_es %></td>
+        <td><%= country.tax_percent %></td>
         <td><%= link_to 'Show', country %></td>
         <td><%= link_to 'Edit', edit_country_path(country) %></td>
         <td><%= link_to 'Destroy', country, method: :delete, data: { confirm: 'Are you sure?' } %></td>
