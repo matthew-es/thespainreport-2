@@ -4,21 +4,47 @@ class CountriesController < ApplicationController
   # GET /countries
   # GET /countries.json
   def index
-    @countries = Country.all
+    if current_user.nil? 
+			redirect_to root_url
+		elsif current_user.role == 1
+			@countries = Country.all.order("country_code ASC")
+		else
+			redirect_to root_url
+		end
   end
 
   # GET /countries/1
   # GET /countries/1.json
   def show
+    if current_user.nil? 
+			redirect_to root_url
+		elsif current_user.role == 1
+			
+		else
+			redirect_to root_url
+		end
   end
 
   # GET /countries/new
   def new
-    @country = Country.new
+    if current_user.nil? 
+			redirect_to root_url
+		elsif current_user.role == 1
+			@country = Country.new
+		else
+			redirect_to root_url
+		end
   end
 
   # GET /countries/1/edit
   def edit
+    if current_user.nil? 
+			redirect_to root_url
+		elsif current_user.role == 1
+			
+		else
+			redirect_to root_url
+		end
   end
 
   # POST /countries

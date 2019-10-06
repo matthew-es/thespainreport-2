@@ -1,24 +1,25 @@
 <div class="content-wide font-admin">
 	<div class="margin-bottom-10">
 		<%= link_to "Site", root_path %>
-		|| <%= link_to "Tweet", new_tweet_path %>
-		|| <%= link_to "Article", new_article_path %>
+		| <%= link_to "Tweet", new_tweet_path %>
+		| <%= link_to "Article", new_article_path %>
+		|| <% if current_user %>
+			<%= current_user.email %>
+		| <%= link_to 'My Details', edit_user_path(current_user) %>
+		| <%= link_to 'Logout', users_logout_path %>
 		<br />
 		<%= link_to "Tweets", tweets_path %>
 		<%= link_to "Articles", articles_path %>
 		<%= link_to "Uploads", uploads_path %>
-		<%= link_to "Campaigns", campaigns_path %>
-		<%= link_to "Types", types_path %>
-		<%= link_to "Languages", languages_path %>
-		<%= link_to "Statuses", statuses_path %>
-		| <%= link_to "Visits", visits_path %>
-		| <%= link_to "Accounts", accounts_path %>
+		|| <%= link_to "Accounts", accounts_path %>
 		| <%= link_to "Readers", users_path %>
-		<%= link_to "Plans", plans_path %>
-		| <% if current_user %>
-			<%= current_user.email %>
-		| <%= link_to 'My Details', edit_user_path(current_user) %>
-		| <%= link_to 'Logout', users_logout_path %>
+		|| <%= link_to "Campaigns", campaigns_path %>
+		| <%= link_to "Types", types_path %>
+		| <%= link_to "Languages", languages_path %>
+		| <%= link_to "Statuses", statuses_path %>
+		| <%= link_to "Visits", visits_path %>
+		| <%= link_to "Plans", plans_path %>
+		| <%= link_to "Countries", countries_path %>
 		<% else %>
 		<% end %>
 	</div>
@@ -45,6 +46,8 @@
 			Readers
 		<% elsif controller_name == "plans" %>
 			Plans
+		<% elsif controller_name == "countries" %>
+			Countries
 		<% end %>
 	</h1>
 	<div class="margin-bottom-20">
@@ -77,6 +80,8 @@
 				reader…
 			<% elsif controller_name == "plans" %>
 				plan…
+			<% elsif controller_name == "countries" %>
+				country…
 			<% end %>
 		<% end %>
 	</div>
@@ -131,6 +136,8 @@
 				<% end %>
 			<% elsif controller_name == "plans" %>
 				<%= link_to 'New plan', new_plan_path %>
+			<% elsif controller_name == "countries" %>
+				<%= link_to 'New country', new_country_path %>
 			<% end %>
 		<% end %>
 	</div>

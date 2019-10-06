@@ -1,13 +1,11 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Countries</h1>
+<%= render "articles/admintop" %>
 
 <table>
   <thead>
     <tr>
       <th>Country code</th>
-      <th>Name en</th>
-      <th>Name es</th>
+      <th>English</th>
+      <th>Español</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -15,7 +13,9 @@
   <tbody>
     <% @countries.each do |country| %>
       <tr>
-        <td><%= country.country_code %></td>
+        <td>
+          <img src="<%= asset_path(country.country_code + '.jpg') %>" />
+          <%= country.country_code %></td>
         <td><%= country.name_en %></td>
         <td><%= country.name_es %></td>
         <td><%= link_to 'Show', country %></td>
@@ -25,7 +25,3 @@
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Country', new_country_path %>
