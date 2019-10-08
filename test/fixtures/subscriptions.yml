@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  account_id: 1
+  amount: 1
+  card_country: MyString
+  latest_paid_date: 2019-10-08 16:37:43
+  ip_country: MyString
+  ip_address: MyString
+  residence_country: MyString
+
+two:
+  account_id: 1
+  amount: 1
+  card_country: MyString
+  latest_paid_date: 2019-10-08 16:37:43
+  ip_country: MyString
+  ip_address: MyString
+  residence_country: MyString

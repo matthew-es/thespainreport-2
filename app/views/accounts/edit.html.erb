@@ -7,4 +7,8 @@
 </div>
 
 <%= render 'form', account: @account %>
+
+Stripe ID: <%= @account.stripe_customer_id %><br />
+Stripe payment method: <%= @account.stripe_payment_method %>
+
 </div>

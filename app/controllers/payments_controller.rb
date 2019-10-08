@@ -3,43 +3,41 @@ class PaymentsController < ApplicationController
 	skip_before_action :verify_authenticity_token, only: :stripe_webhook
 	protect_from_forgery :except => :stripe_webhook
 	
-	def pay
+	def how_much
+		if !params[:amount]
+			@amount = 25
+		elsif params[:amount].to_i.between?(0, 5)
+			@amount = 5
+		elsif params[:amount].to_i.between?(6, 300)
+			@amount = params[:amount]
+		elsif params[:amount].to_i > 300
+			@amount = 300
+		end
+	end
+	
+	def stripe_api
 		Stripe.api_key = 'sk_test_FVIuGU1W0mHIFIgS4uxtNJB5'
-		
+	end
+	
+	def stripe_setup_intent
 		@setup_intent = Stripe::SetupIntent.create({
 			usage: 'off_session'
 		})
+	end
+	
+	def pay
+		how_much
+		stripe_api
+		stripe_setup_intent
 	end
 	
 	def pagar
-		Stripe.api_key = 'sk_test_FVIuGU1W0mHIFIgS4uxtNJB5'
-		
-		@setup_intent = Stripe::SetupIntent.create({
-			usage: 'off_session'
-		})
+		how_much
+		stripe_api
+		stripe_setup_intent
 	end
 	
-	def stripe_first_payment
-		Stripe.api_key = 'sk_test_FVIuGU1W0mHIFIgS4uxtNJB5'
-		
-		# create new Stripe customer, add new payment method, set default payment method
-		@customer = Stripe::Customer.create({
-			email: params[:email_for_server],
-			payment_method: params[:pm_for_server],
-			invoice_settings: {default_payment_method: params[:pm_for_server]}
-		})
-		
-		# charge new Stripe customer for first payment
-		@first_payment = Stripe::PaymentIntent.create({
-			amount: 1000,
-			currency: 'eur',
-			customer: @customer,
-			payment_method: @customer.invoice_settings.default_payment_method,
-			off_session: true,
-			confirm: true
-		})
-		
-		# create TSR user, role to Patron, add Stripe customer_id
+	def tsr_new_user_patron
 		autopassword = 'L e @ 4' + SecureRandom.hex(32)
 		generate_token = SecureRandom.urlsafe_base64.to_s
 		@new_tsr_user = User.create!(
@@ -54,13 +52,73 @@ class PaymentsController < ApplicationController
 			emaillanguage: 1,
 			email_confirmed: false
 			)
+	end
+	
+	def tsr_new_account
+		@account = Account.create!(
+		    account_status: 1,
+		    conversation_status: 1,
+		    account_status_date: Time.zone.now
+		    )
+	end
+	
+	def tsr_user_to_account
+		user = User.find_by_email(params[:email_for_server])
+		user.update(
+		    account_id: @account.id,
+		    account_role: 1
+		    )
+	end
+	
+	def stripe_first_payment
+		stripe_api
 		
-		# create TSR payment method, attach to TSR user
+		# create new Stripe customer, add new payment method, set default payment method
+		@customer = Stripe::Customer.create({
+			email: params[:email_for_server],
+			payment_method: params[:pm_for_server],
+			invoice_settings: {default_payment_method: params[:pm_for_server]},
+			expand: ['invoice_settings.default_payment_method']
+		})
 		
-		# create TSR invoice for Patron, with Tax Rate
+		# charge new Stripe customer for first payment
+		@first_payment = Stripe::PaymentIntent.create({
+			amount: params[:total_amount_for_server],
+			currency: 'eur',
+			customer: @customer,
+			payment_method: @customer.invoice_settings.default_payment_method,
+			off_session: true,
+			confirm: true
+		})
 		
+		# create new TSR user patron
+		tsr_new_user_patron
+		
+		# create new TSR account
+		tsr_new_account
+		
+		# add new TSR user patron to new TSR account
+		tsr_user_to_account
+		
+		# add Stripe customer number and payment method number to new TSR account
+		stripe_account = Account.find_by(id: @account.id)
+		stripe_account.update(
+			stripe_customer_id: @customer.id,
+			stripe_payment_method: @customer.invoice_settings.default_payment_method.id
+			)
+		
+		# create TSR subscription, account, amount, purchase country, latest_paid_date, etc.
+		@subscription = Subscription.create(
+			account_id: @account.id,
+			amount: params[:total_amount_for_server],
+			ip_address: params[:ip_address_for_server],
+			ip_country: params[:country_code_for_server],
+			card_country: @customer.invoice_settings.default_payment_method.card.country,
+			latest_paid_date: Time.zone.now
+			)
+		
+		# create TSR invoice for Patron, with current country.tax_rate
 		# create TSR payment from Patron for invoice
-		
 	end
 	
 	def stripe_next_payments

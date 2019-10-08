@@ -29,7 +29,7 @@
             Cancelled
           <% else end %>
         </td>
-        <td><%= account.account_status_date.strftime("%b %d, %Y, %l:%M %P") %></td>
+        <td><%= account.account_status_date.strftime("%d/%m/%Y %H:%M") %></td>
         <td>
           <% if account.conversation_status == 1 %>
             Everybody happy
@@ -43,7 +43,13 @@
             Stop - not interested
           <% else end %>
         </td>
-        <td><%= link_to 'Destroy', account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <%= account.stripe_customer_id %>
+        </td>
+        <td>
+          <%= account.stripe_payment_method %>
+        </td>
+        <td><%= link_to 'D?', account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

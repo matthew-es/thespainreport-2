@@ -1,0 +1,66 @@
+<script src="https://js.stripe.com/v3"></script>
+<script>
+	var stripe = Stripe('pk_test_oUZEXSyy5GEIblpAxKNIvs5X');
+	
+	var elements = stripe.elements({
+		<% if action_name == "pagar" %>
+			locale: 'es'
+		<% else %>
+			locale: 'en'
+		<% end %>
+	});
+	
+	var style = {
+		base: {
+			color: '#32325d',
+			fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+			fontSmoothing: 'antialiased',
+			fontSize: '16px',
+			'::placeholder': {
+				color: '#aab7c4'
+			}
+		},
+		invalid: {
+			color: '#fa755a',
+			iconColor: '#fa755a'
+		}
+	};
+
+	// Create an instance of the card Element.
+	var card = elements.create('card', {
+		hidePostalCode: true,
+		style: style
+	});
+
+	// Add an instance of the card Element into the `card-element` <div>.
+	card.mount('#card-element');
+
+	// Handle real-time validation errors from the card Element.
+	card.addEventListener('change', function(event) {
+		var displayError = document.getElementById('card-errors');
+		if (event.error) {
+			displayError.textContent = event.error.message;
+		} else {
+			displayError.textContent = '';
+		}
+	});
+
+	// Handle form submission.
+	var cardButton = document.getElementById('card-button');
+	var clientSecret = cardButton.dataset.secret;
+	
+	cardButton.addEventListener('click', function(ev) {
+	 		stripe.handleCardSetup(
+ 			clientSecret, card
+ 		).then(function(result) {
+ 			var displayError = document.getElementById('card-errors');
+ 			if (result.error) {
+ 				displayError.textContent = result.error.message;
+ 			} else {
+ 				document.getElementById("pm_for_server").value = result.setupIntent.payment_method;
+ 				document.getElementById('send_stuff_to_server').submit();
+ 			}
+ 		});
+	
+	});
+</script>

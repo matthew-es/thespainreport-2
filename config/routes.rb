@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :subscriptions
   resources :countries
   resources :payments, to: redirect("/")
   resources :tweets
@@ -17,27 +18,27 @@ Rails.application.routes.draw do
   root 'home#index'
   
   
-  get 'guarantee', to: redirect("/")
-  get 'garantizar', to: redirect("/")
-  get 'support', to: redirect("/")
-  get 'apoyar', to: redirect("/")
-  get 'contribute', to: redirect("/")
-  get 'contribuir', to: redirect("/")
-  get 'pay', to: redirect("/")
-  get 'pagar', to: redirect("/")
+  # get 'guarantee', to: redirect("/")
+  # get 'garantizar', to: redirect("/")
+  # get 'support', to: redirect("/")
+  # get 'apoyar', to: redirect("/")
+  # get 'contribute', to: redirect("/")
+  # get 'contribuir', to: redirect("/")
+  # get 'pay', to: redirect("/")
+  # get 'pagar', to: redirect("/")
   
-  # get 'guarantee' => "payments#pay"
-  # get 'garantizar' => "payments#pagar"
-  # get 'support' => "payments#pay"
-  # get 'apoyar' => "payments#pagar"
-  # get 'contribute' => "payments#pay"
-  # get 'contribuir' => "payments#pagar"
-  # get 'pay' => "payments#pay"
-  # get 'pagar' => "payments#pagar"
+  get 'guarantee' => "payments#pay"
+  get 'garantizar' => "payments#pagar"
+  get 'support' => "payments#pay"
+  get 'apoyar' => "payments#pagar"
+  get 'contribute' => "payments#pay"
+  get 'contribuir' => "payments#pagar"
+  get 'pay' => "payments#pay"
+  get 'pagar' => "payments#pagar"
   
   get 'trial', to: redirect("http://www.thespainreport.es/articles/32-180101210225-catalan-separatism")
   get 'twitterpatreon' => 'home#patreon'
-  post 'stripe_first_payment', to: redirect("/")
+  post 'stripe_first_payment' => 'payments#stripe_first_payment'
   get 'confirm', to: redirect("/")
   post 'stripe_webhook' => 'payments#stripe_webhook'
   

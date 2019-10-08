@@ -11,14 +11,18 @@
 		<%= link_to "Tweets", tweets_path %>
 		<%= link_to "Articles", articles_path %>
 		<%= link_to "Uploads", uploads_path %>
-		|| <%= link_to "Accounts", accounts_path %>
-		| <%= link_to "Readers", users_path %>
-		|| <%= link_to "Campaigns", campaigns_path %>
-		| <%= link_to "Types", types_path %>
+		|| <%= link_to "Readers", users_path %>
+		| <%= link_to "Accounts", accounts_path %>
+		| <%= link_to "Campaigns", campaigns_path %>
+		| <%= link_to "Plans", plans_path %>
+		| <%= link_to "Subscriptions", subscriptions_path %>
+		| <%= link_to "Invoices", plans_path %>
+		| <%= link_to "Payments", plans_path %>
+		|| <%= link_to "Types", types_path %>
 		| <%= link_to "Languages", languages_path %>
 		| <%= link_to "Statuses", statuses_path %>
 		| <%= link_to "Visits", visits_path %>
-		| <%= link_to "Plans", plans_path %>
+		
 		| <%= link_to "Countries", countries_path %>
 		<% else %>
 		<% end %>
@@ -48,6 +52,8 @@
 			Plans
 		<% elsif controller_name == "countries" %>
 			Countries
+		<% elsif controller_name == "subscriptions" %>
+			Subscriptions
 		<% end %>
 	</h1>
 	<div class="margin-bottom-20">

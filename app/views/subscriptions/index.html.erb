@@ -1,0 +1,34 @@
+<%= render "articles/admintop" %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Account</th>
+      <th>Amount</th>
+      <th>Card country</th>
+      <th>Latest paid date</th>
+      <th>Ip country</th>
+      <th>Ip address</th>
+      <th>Residence country</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @subscriptions.each do |subscription| %>
+      <tr>
+        <td><%= subscription.account_id %></td>
+        <td><%= subscription.amount %></td>
+        <td><%= subscription.card_country %></td>
+        <td><%= subscription.latest_paid_date %></td>
+        <td><%= subscription.ip_country %></td>
+        <td><%= subscription.ip_address %></td>
+        <td><%= subscription.residence_country %></td>
+        <td><%= link_to 'Edit', edit_subscription_path(subscription) %></td>
+        <td><%= link_to 'Destroy', subscription, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+</div>
