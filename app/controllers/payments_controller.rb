@@ -60,65 +60,94 @@ class PaymentsController < ApplicationController
 		    conversation_status: 1,
 		    account_status_date: Time.zone.now
 		    )
-	end
-	
-	def tsr_user_to_account
-		user = User.find_by_email(params[:email_for_server])
-		user.update(
+		
+		@user = User.find_by_email(params[:email_for_server])
+		@user.update(
 		    account_id: @account.id,
 		    account_role: 1
 		    )
 	end
 	
-	def stripe_first_payment
-		stripe_api
-		
-		# create new Stripe customer, add new payment method, set default payment method
+	def new_stripe_customer
 		@customer = Stripe::Customer.create({
 			email: params[:email_for_server],
 			payment_method: params[:pm_for_server],
 			invoice_settings: {default_payment_method: params[:pm_for_server]},
 			expand: ['invoice_settings.default_payment_method']
 		})
+	
+		@stripe_to_account = Account.find_by(id: @user.account.id)
+		@stripe_to_account.update(
+			stripe_customer_id: @customer.id,
+			stripe_payment_method: @customer.invoice_settings.default_payment_method.id,
+			stripe_payment_method_card_country: @customer.invoice_settings.default_payment_method.card.country
+			)
+	end
+
+	def stripe_payment
+		stripe_api
+		@user = User.find_by(email: params[:email_for_server])
 		
-		# charge new Stripe customer for first payment
-		@first_payment = Stripe::PaymentIntent.create({
+		if !@user.nil? # the user exists
+			if !current_user.nil? # …and is logged in
+				if @user.account_id.present? # …and already has an account
+					if @user.account.stripe_customer_id.present? # …and even has a Stripe customer id
+						@customer = Stripe::Customer.retrieve(@user.account.stripe_customer_id)
+					else
+						new_stripe_customer
+					end	
+				else
+					tsr_new_account
+					new_stripe_customer
+				end
+			else # user exists but is not logged in…
+				redirect_to '/login' and return
+				flash[:warning] = "Please log in first…"
+			end
+		else
+			tsr_new_user_patron
+			tsr_new_account
+			new_stripe_customer
+		end
+		
+		@user = User.find_by_email(params[:email_for_server])
+		@account = @user.account
+		
+		@stripe_payment = Stripe::PaymentIntent.create({
 			amount: params[:total_amount_for_server],
 			currency: 'eur',
-			customer: @customer,
-			payment_method: @customer.invoice_settings.default_payment_method,
+			customer: @account.stripe_customer_id,
+			payment_method: @account.stripe_payment_method,
 			off_session: true,
 			confirm: true
 		})
-		
-		# create new TSR user patron
-		tsr_new_user_patron
-		
-		# create new TSR account
-		tsr_new_account
-		
-		# add new TSR user patron to new TSR account
-		tsr_user_to_account
-		
-		# add Stripe customer number and payment method number to new TSR account
-		stripe_account = Account.find_by(id: @account.id)
-		stripe_account.update(
-			stripe_customer_id: @customer.id,
-			stripe_payment_method: @customer.invoice_settings.default_payment_method.id
-			)
-		
-		# create TSR subscription, account, amount, purchase country, latest_paid_date, etc.
+
 		@subscription = Subscription.create(
 			account_id: @account.id,
 			amount: params[:total_amount_for_server],
 			ip_address: params[:ip_address_for_server],
 			ip_country: params[:country_code_for_server],
-			card_country: @customer.invoice_settings.default_payment_method.card.country,
+			card_country: @account.stripe_payment_method_card_country,
 			latest_paid_date: Time.zone.now
 			)
 		
-		# create TSR invoice for Patron, with current country.tax_rate
-		# create TSR payment from Patron for invoice
+		@invoice = Invoice.create(
+			plan_amount: params[:plan_amount_for_server],
+			tax_percent: params[:vat_percent_for_server],
+			tax_amount: params[:vat_amount_for_server],
+		    total_amount: @subscription.amount,
+		    account_id: @account.id,
+		    subscription_id: @subscription.id
+			)
+
+		@payment = Payment.create(
+			card_country: @subscription.card_country,
+			total_amount: @invoice.total_amount,
+			payment_method: @account.stripe_payment_method,
+			account_id: @account.id,
+			invoice_id: @invoice.id,
+			subscription_id: @subscription.id
+			)
 	end
 	
 	def stripe_next_payments
@@ -253,6 +282,6 @@ class PaymentsController < ApplicationController
 
 		# Never trust parameters from the scary internet, only allow the white list through.
 		def payment_params
-			params.fetch(:payment, {})
+			params.require(:payment).permit(:card_country, :total_amount, :payment_method, :account_id, :invoice_id, :subscription_id)
 		end
 end

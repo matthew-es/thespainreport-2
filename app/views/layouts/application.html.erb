@@ -61,18 +61,20 @@
 					document.getElementById('total_amount_for_server').value = Math.round(preciseTaxes(TotalAmount, 2)*100);
 				};
 				
-			var onError = function(error){
-			  alert(
-			      "Error:\n\n"
-			      + JSON.stringify(error, undefined, 4)
-			  );
-			};
-			
-			geoip2.country(onSuccess, onError);
-			
-			function readyServer() { 
-			 		document.getElementById("email_for_server").value = document.getElementById("customer_email").value; 
-			 	}
+				var onError = function(error){
+				  alert(
+				      "Error:\n\n"
+				      + JSON.stringify(error, undefined, 4)
+				  );
+				};
+				
+				geoip2.country(onSuccess, onError);
+				
+				function readyServer() { 
+				 		document.getElementById("email_for_server").value = document.getElementById("customer_email").value; 
+				 	}
+				
+				window.onload = readyServer;
 			</script>
 		<% else end %>
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_08_204735) do
+ActiveRecord::Schema.define(version: 2019_10_09_170715) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2019_10_08_204735) do
     t.integer "conversation_status"
     t.string "stripe_customer_id"
     t.string "stripe_payment_method"
+    t.string "stripe_payment_method_card_country"
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -131,6 +132,12 @@ ActiveRecord::Schema.define(version: 2019_10_08_204735) do
   create_table "payments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "card_country"
+    t.integer "total_amount"
+    t.integer "account_id"
+    t.integer "invoice_id"
+    t.integer "subscription_id"
+    t.string "payment_method"
   end
 
   create_table "plans", force: :cascade do |t|

@@ -10,9 +10,18 @@
   <tbody>
     <% @payments.each do |payment| %>
       <tr>
+        <td><%= payment.card_country %></td>
+        <td><%= payment.payment_method %></td>
+        <td><%= payment.total_amount %></td>
+        <td><%= payment.invoice_id %></td>
+        <td><%= payment.account_id %></td>
+        <td><%= payment.subscription_id %></td>
         <td><%= link_to 'Show', payment %></td>
         <td><%= link_to 'Edit', edit_payment_path(payment) %></td>
         <td><%= link_to 'Destroy', payment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        
+
+        
       </tr>
     <% end %>
   </tbody>

@@ -38,7 +38,7 @@ Rails.application.routes.draw do
   
   get 'trial', to: redirect("http://www.thespainreport.es/articles/32-180101210225-catalan-separatism")
   get 'twitterpatreon' => 'home#patreon'
-  post 'stripe_first_payment' => 'payments#stripe_first_payment'
+  post 'stripe_payment' => 'payments#stripe_payment'
   get 'confirm', to: redirect("/")
   post 'stripe_webhook' => 'payments#stripe_webhook'
   
