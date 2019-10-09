@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tax_percent: 9.99
+  plan_amount: 1
+  tax_amount: 1
+  total_amount: 1
+  account_id: 1
+  subscription_id: 1
+
+two:
+  tax_percent: 9.99
+  plan_amount: 1
+  tax_amount: 1
+  total_amount: 1
+  account_id: 1
+  subscription_id: 1

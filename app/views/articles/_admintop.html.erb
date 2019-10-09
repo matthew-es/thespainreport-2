@@ -16,8 +16,8 @@
 		| <%= link_to "Campaigns", campaigns_path %>
 		| <%= link_to "Plans", plans_path %>
 		| <%= link_to "Subscriptions", subscriptions_path %>
-		| <%= link_to "Invoices", plans_path %>
-		| <%= link_to "Payments", plans_path %>
+		| <%= link_to "Invoices", invoices_path %>
+		| <%= link_to "Payments", payments_path %>
 		|| <%= link_to "Types", types_path %>
 		| <%= link_to "Languages", languages_path %>
 		| <%= link_to "Statuses", statuses_path %>
@@ -54,6 +54,10 @@
 			Countries
 		<% elsif controller_name == "subscriptions" %>
 			Subscriptions
+		<% elsif controller_name == "payments" %>
+			Payments
+		<% elsif controller_name == "invoices" %>
+			Invoices
 		<% end %>
 	</h1>
 	<div class="margin-bottom-20">

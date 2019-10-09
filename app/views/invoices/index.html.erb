@@ -1,0 +1,33 @@
+<%= render "articles/admintop" %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tax percent</th>
+      <th>Plan amount</th>
+      <th>Tax amount</th>
+      <th>Total amount</th>
+      <th>Account</th>
+      <th>Subscription</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @invoices.each do |invoice| %>
+      <tr>
+        <td><%= invoice.tax_percent %></td>
+        <td><%= invoice.plan_amount %></td>
+        <td><%= invoice.tax_amount %></td>
+        <td><%= invoice.total_amount %></td>
+        <td><%= invoice.account_id %></td>
+        <td><%= invoice.subscription_id %></td>
+        <td><%= link_to 'Show', invoice %></td>
+        <td><%= link_to 'Edit', edit_invoice_path(invoice) %></td>
+        <td><%= link_to 'Destroy', invoice, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+</div>
