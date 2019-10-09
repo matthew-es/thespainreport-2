@@ -217,21 +217,47 @@ class PaymentsController < ApplicationController
 	# GET /payments
 	# GET /payments.json
 	def index
-		@payments = Payment.all
+		if current_user.nil? 
+			redirect_to root_url
+		elsif current_user.role == 1
+			@payments = Payment.all
+		else
+			redirect_to root_url
+		end
 	end
 
 	# GET /payments/1
 	# GET /payments/1.json
 	def show
+		if current_user.nil? 
+			redirect_to root_url
+		elsif current_user.role == 1
+			
+		else
+			redirect_to root_url
+		end
 	end
 
 	# GET /payments/new
 	def new
-		@payment = Payment.new
+		if current_user.nil? 
+			redirect_to root_url
+		elsif current_user.role == 1
+			@payment = Payment.new
+		else
+			redirect_to root_url
+		end
 	end
 
 	# GET /payments/1/edit
 	def edit
+		if current_user.nil? 
+			redirect_to root_url
+		elsif current_user.role == 1
+			
+		else
+			redirect_to root_url
+		end
 	end
 
 	# POST /payments

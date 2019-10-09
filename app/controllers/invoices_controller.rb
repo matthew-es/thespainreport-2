@@ -4,21 +4,47 @@ class InvoicesController < ApplicationController
   # GET /invoices
   # GET /invoices.json
   def index
-    @invoices = Invoice.all
+    if current_user.nil? 
+			redirect_to root_url
+		elsif current_user.role == 1
+			@invoices = Invoice.all
+		else
+			redirect_to root_url
+		end
   end
 
   # GET /invoices/1
   # GET /invoices/1.json
   def show
+    if current_user.nil? 
+			redirect_to root_url
+		elsif current_user.role == 1
+			
+		else
+			redirect_to root_url
+		end
   end
 
   # GET /invoices/new
   def new
-    @invoice = Invoice.new
+    if current_user.nil? 
+			redirect_to root_url
+		elsif current_user.role == 1
+			@invoice = Invoice.new
+		else
+			redirect_to root_url
+		end
   end
 
   # GET /invoices/1/edit
   def edit
+    if current_user.nil? 
+			redirect_to root_url
+		elsif current_user.role == 1
+			
+		else
+			redirect_to root_url
+		end
   end
 
   # POST /invoices
