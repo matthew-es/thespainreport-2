@@ -5,34 +5,66 @@
 		<div class="alert alert-<%= key %>"><p><%= value.html_safe %></p></div>
 	<% end %>
 	
+	<% Plan.all.each do |p| %>
+		<button type="submit" class="width-100 padding-10 font-main-normal" id="price" value="<%= p.price %>" onclick="setAmount(this.value)"><%= number_to_currency((p.price/100.to_f), unit: "€") %></button>
+	<% end %>
+
+	<p>Plan amount: €<span id="plan_amount"></span> / month<br /></p>
 	
-	
+	<div id="ajax_step_1">
+	Which country do you pay taxes in? <select name="select_residence_country" id="select_residence_country" onchange="changeResidence()" onclick="changeResidence()">
+		<% Country.all.each do |c| %>
+			<option id="<%= c.country_code %>" value="<%= c.country_code %>"><%= c.name_en %></option>
+		<% end %>
+	</select><br />
+	<img src="" name="residence_country_flag" id="residence_country_flag" /><br />
+	<br /><br />
+
 	<div class="form-row">
 		<% if current_user.nil? %>
-			<input id="customer_email" name="customer_email" type="text" class="StripeElement" value="" onkeyup="readyServer()" onchange="readyServer()" onclick="readyServer()" />
+			<input id="customer_email" name="customer_email" type="text" class="StripeElement" value="" onfocus="getSetup()" onkeyup="setEmail()" onchange="setEmail()" onclick="setEmail()" />
 		<% else %>
-			<input id="customer_email" name="customer_email" type="text" class="StripeElement" value="<%= current_user.email %>" onkeyup="readyServer()" onchange="readyServer()" onclick="readyServer()" readonly/>
+			<input id="customer_email" name="customer_email" type="text" class="StripeElement" value="<%= current_user.email %>" onfocus="getSetup()" onkeyup="setEmail()" onchange="setEmail()" onclick="setEmail()" readonly/>
 		<% end %>
  	</div>
 	
-	<div class="form-row">
+	<div class="form-row" >
 		<label for="card-element">
 			Credit or debit card
 		</label>
-		<div id="card-element">
+		<div id="card-element" onmouseover="getSetup(); this.onmouseover = null">
 			<!-- A Stripe Element will be inserted here. -->
 		</div>
 		<div id="card-errors" role="alert"></div>
 	</div>
-	<button id="card-button" data-secret="<%= @setup_intent.client_secret %>">Contribute now</button>
-	<br />
-	Purchase IP address: <span id="ip_address"></span><br />
-	Purchase country code: <span id="country_code"></span><br />
-	<img src="" name="country_flag" id="country_flag" /><br />
-	Plan amount: €<span id="plan_amount"></span><br />
-	VAT rate: <span id="vat_rate"></span><br />
-	VAT amount: €<span id="vat_amount"></span><br />
-	Total: €<span id="total_amount"></span><br />
+	<button id="card-button" data-secret="">Contribute now</button>
+	</div>
+	
+	<div id="ajax_message" class="margin-top-10" style="border: 1px solid orange; display:none;">
+		
+	</div>
+	
+	<div id="ajax_confirm" class="margin-top-10" style="border: 1px solid #990000; padding: 5px; display: none;">
+		VAT amount: <span id="vat_amount"></span><br />
+		Total amount: <span id="total_amount" value=""></span><br />
+		<button id="confirm_first_payment" onclick="confirmFirstpayment()">Confirm Payment</button>
+	</div>
+	
+	<div id="ajax_welcome" class="margin-top-10" style="border: 1px solid green; display:none;">
+		
+	</div>
+	
+	<div style="margin-top-10">
+		<ol>
+			<li>Click on the price you wish to pay</li>
+			<li>Make sure your tax country is correct</li>
+			<li>Enter your email address and credit card details</li>
+			<li>Wait a second for the server to do some sums…</li>
+			<li>Click "confirm payment"</li>
+			<li>That's it, welcome aboard, you will get a welcome email</li>
+		</ol>
+		
+	</div>
 </div>
 
 <%= render "server_stuff" %>

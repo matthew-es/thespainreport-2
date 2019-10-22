@@ -114,7 +114,7 @@
 			<% elsif controller_name == "visits" %>
 				
 			<% elsif controller_name == "accounts" %>
-				<%= form_with url: 'editor_modifies_accounts' do |f| %>
+				<%= form_with(url: 'editor_modifies_accounts', local: true) do |f| %>
 					<div class="margin-bottom-10">
 						<%= f.text_area :email, :class => "width-48 padding-10 font-main font-main-normal", :style => "min-height: 60px;", placeholder: "Add account owners to modify here…" %>
 					</div>
@@ -126,7 +126,7 @@
 				<% end %>
 				<%= link_to 'New account', new_account_path %>
 			<% elsif controller_name == "users" %>
-				<%= form_with url: 'editor_creates_new_user' do |f| %>
+				<%= form_with(url: 'editor_creates_new_user', local: true) do |f| %>
 					<div class="margin-bottom-10">
 						<%= f.text_area :email, :class => "width-48 padding-10 font-main font-main-normal", :style => "min-height: 60px;", placeholder: "Add new users here…" %>
 					</div>

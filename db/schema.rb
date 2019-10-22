@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_09_170715) do
+ActiveRecord::Schema.define(version: 2019_10_16_135915) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2019_10_09_170715) do
     t.string "stripe_customer_id"
     t.string "stripe_payment_method"
     t.string "stripe_payment_method_card_country"
+    t.string "residence_country"
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -108,7 +109,7 @@ ActiveRecord::Schema.define(version: 2019_10_09_170715) do
     t.string "name_es"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "tax_percent"
+    t.decimal "tax_percent", precision: 5, scale: 3
   end
 
   create_table "invoices", force: :cascade do |t|
@@ -165,7 +166,7 @@ ActiveRecord::Schema.define(version: 2019_10_09_170715) do
 
   create_table "subscriptions", force: :cascade do |t|
     t.integer "account_id"
-    t.integer "amount"
+    t.integer "plan_amount"
     t.string "card_country"
     t.datetime "latest_paid_date"
     t.string "ip_country"
@@ -173,6 +174,10 @@ ActiveRecord::Schema.define(version: 2019_10_09_170715) do
     t.string "residence_country"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "vat_rate"
+    t.integer "vat_amount"
+    t.integer "total_amount"
+    t.integer "campaign_id"
   end
 
   create_table "tweets", force: :cascade do |t|
@@ -219,6 +224,8 @@ ActiveRecord::Schema.define(version: 2019_10_09_170715) do
     t.datetime "password_reset_sent_at"
     t.integer "account_id"
     t.integer "account_role"
+    t.string "country"
+    t.string "mailing_address"
   end
 
   create_table "visits", force: :cascade do |t|

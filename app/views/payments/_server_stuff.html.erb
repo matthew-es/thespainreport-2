@@ -1,12 +1,13 @@
-<form id="send_stuff_to_server" action="/stripe_payment" method="post">
-	<input type="hidden" name="pm_for_server" id="pm_for_server" value="" />
+<form id="send_stuff_to_server" action="/stripe_credit_card" method="post" data-remote="true">
 	<input type="hidden" name="email_for_server" id="email_for_server" value="" />
 	
-	<input type="hidden" name="country_code_for_server" id="country_code_for_server" value="">
+	<input type="hidden" name="ip_country_code_for_server" id="ip_country_code_for_server" value="">
 	<input type="hidden" name="ip_address_for_server" id="ip_address_for_server" value="">
+	<input type="hidden" name="residence_country_code_for_server" id="residence_country_code_for_server" value="">
 	
-	<input type="hidden" name="vat_rate_for_server" id="vat_rate_for_server" value="" />
-	<input type="hidden" name="vat_amount_for_server" id="vat_amount_for_server" value="" />
+	<input type="hidden" name="stripe_secret_for_server" id="stripe_secret_for_server" value="" />
+	<input type="hidden" name="stripe_pm_for_server" id="stripe_pm_for_server" value="" />
 	<input type="hidden" name="plan_amount_for_server" id="plan_amount_for_server" value="" />
-	<input type="hidden" name="total_amount_for_server" id="total_amount_for_server" value="" />
+	
+	<%= hidden_field_tag 'authenticity_token', form_authenticity_token %>
 </form>

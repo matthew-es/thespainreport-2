@@ -47,18 +47,62 @@
 
 	// Handle form submission.
 	var cardButton = document.getElementById('card-button');
-	var clientSecret = cardButton.dataset.secret;
 	
 	cardButton.addEventListener('click', function(ev) {
 	 		stripe.handleCardSetup(
- 			clientSecret, card
+ 			document.getElementById('card-button').dataset.secret, card
  		).then(function(result) {
  			var displayError = document.getElementById('card-errors');
  			if (result.error) {
  				displayError.textContent = result.error.message;
  			} else {
- 				document.getElementById("pm_for_server").value = result.setupIntent.payment_method;
- 				document.getElementById('send_stuff_to_server').submit();
+ 				document.getElementById("stripe_pm_for_server").value = result.setupIntent.payment_method;
+ 				
+ 				var e = 'matthew@thespainreport.com';
+ 				var at = document.getElementById("authenticity_token").value;
+ 				var pa = document.getElementById("plan_amount_for_server").value;
+ 				var pm = result.setupIntent.payment_method;
+ 				var ipc = document.getElementById("ip_country_code_for_server").value;
+ 				var rc = document.getElementById("residence_country_code_for_server").value;
+ 				
+ 				var string_for_server = 
+ 				'email_for_server=' + e 
+ 				+ '&authenticity_token=' + at 
+ 				+ '&plan_amount_for_server=' + pa 
+ 				+ '&stripe_pm_for_server=' + pm 
+ 				+ '&ip_country_code_for_server=' + ipc 
+ 				+ '&residence_country_code_for_server=' + rc;
+ 				
+				var xhttp = new XMLHttpRequest();
+				  xhttp.onreadystatechange = function() {
+				    if (this.readyState == 1 || 2 || 3) {
+				    	document.getElementById("ajax_message").style.display = "block";
+				    	document.getElementById("ajax_message").innerHTML = "This is a message…";
+				    }
+				    
+				    if (this.readyState == 4 && this.status == 200) {
+					     var details = JSON.parse(this.responseText)
+					     var details_vat = details["vat"]
+					     var details_total = details["total"]
+					     
+					     if (details_vat == "0") {
+					     	document.getElementById("vat_amount").innerHTML = "Exempt";
+					     } else {
+					     	document.getElementById("vat_amount").innerHTML = "€ " + preciseTaxes(details_vat/100, 2);
+					     }
+					     
+					     document.getElementById("total_amount").innerHTML = "€ " + preciseTaxes(details_total/100, 2);
+					     document.getElementById("total_amount").value = details_total;
+					     document.getElementById("ajax_step_1").style.display = "none";
+					     document.getElementById("ajax_message").style.display = "none";
+					     document.getElementById("ajax_confirm").style.display = "block";
+				    }
+				  };
+ 				xhttp.open("POST", "/stripe_credit_card", true);
+				xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				xhttp.setRequestHeader('X-CSRF-TOKEN', at);
+				xhttp.send(string_for_server);
+ 				
  			}
  		});
 	

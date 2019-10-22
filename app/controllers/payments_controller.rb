@@ -21,20 +21,31 @@ class PaymentsController < ApplicationController
 	
 	def stripe_setup_intent
 		@setup_intent = Stripe::SetupIntent.create({
-			usage: 'off_session'
+			usage: 'off_session',
+			expand: ['payment_method.card']
 		})
 	end
 	
 	def pay
 		how_much
 		stripe_api
-		stripe_setup_intent
 	end
 	
 	def pagar
 		how_much
 		stripe_api
 		stripe_setup_intent
+	end
+	
+	def ajax_test
+		@setup_intent = Stripe::SetupIntent.create({
+			usage: 'off_session'
+		})
+		@text = @setup_intent.client_secret
+		
+		respond_to do |format|
+			format.json { render json: @text }
+		end
 	end
 	
 	def tsr_new_user_patron
@@ -71,8 +82,8 @@ class PaymentsController < ApplicationController
 	def new_stripe_customer
 		@customer = Stripe::Customer.create({
 			email: params[:email_for_server],
-			payment_method: params[:pm_for_server],
-			invoice_settings: {default_payment_method: params[:pm_for_server]},
+			payment_method: params[:stripe_pm_for_server],
+			invoice_settings: {default_payment_method: params[:stripe_pm_for_server]},
 			expand: ['invoice_settings.default_payment_method']
 		})
 	
@@ -83,33 +94,8 @@ class PaymentsController < ApplicationController
 			stripe_payment_method_card_country: @customer.invoice_settings.default_payment_method.card.country
 			)
 	end
-
-	def stripe_payment
-		stripe_api
-		@user = User.find_by(email: params[:email_for_server])
-		
-		if !@user.nil? # the user exists
-			if !current_user.nil? # …and is logged in
-				if @user.account_id.present? # …and already has an account
-					if @user.account.stripe_customer_id.present? # …and even has a Stripe customer id
-						@customer = Stripe::Customer.retrieve(@user.account.stripe_customer_id)
-					else
-						new_stripe_customer
-					end	
-				else
-					tsr_new_account
-					new_stripe_customer
-				end
-			else # user exists but is not logged in…
-				redirect_to '/login' and return
-				flash[:warning] = "Please log in first…"
-			end
-		else
-			tsr_new_user_patron
-			tsr_new_account
-			new_stripe_customer
-		end
-		
+	
+	def stripe_card_payment_and_details
 		@user = User.find_by_email(params[:email_for_server])
 		@account = @user.account
 		
@@ -149,8 +135,56 @@ class PaymentsController < ApplicationController
 			subscription_id: @subscription.id
 			)
 	end
+
+	def stripe_calculate_total_amount
+		plan_amount = params[:plan_amount_for_server]
+		
+		ip_country = params[:ip_country_code_for_server]
+		residence_country = params[:residence_country_code_for_server]
+		pm = Stripe::PaymentMethod.retrieve(params[:stripe_pm_for_server])
+		card_country = pm.card.country
+
+		puts card_country
+		puts residence_country
+		puts ip_country
+		
+		if (card_country != residence_country) && (card_country != ip_country) && (residence_country == ip_country)
+			vat_country = residence_country
+		else
+			vat_country = card_country
+		end
+		puts vat_country
+		
+		vat_rate = Country.find_by(country_code: vat_country).tax_percent
+		vat_amount = plan_amount.to_f * vat_rate
+		total_amount = plan_amount.to_f + vat_amount
+		
+		puts plan_amount
+		puts vat_rate
+		puts vat_amount
+		puts total_amount
+		puts total_amount.round
+		@vat_amount = vat_amount.round
+		@total_amount = total_amount.round
+		
+		render json: {total: @total_amount, vat: @vat_amount}
+	end
 	
-	def stripe_next_payments
+	def stripe_first_payment
+		@total_amount = params[:total_amount]
+		@user = User.find_by_email(params[:email_for_server])
+		@account = @user.account
+		
+		@stripe_payment = Stripe::PaymentIntent.create({
+			amount: @total_amount,
+			currency: 'eur',
+			customer: @account.stripe_customer_id,
+			payment_method: @account.stripe_payment_method,
+			off_session: true,
+			confirm: true
+		})
+		
+		render json: {total: "Well done…!"}
 	end
 	
 	def stripe_confirm_payment
@@ -166,6 +200,40 @@ class PaymentsController < ApplicationController
 		@payment_intent = Stripe::PaymentIntent.retrieve('pi_1FBPkVAKYHByLBAAEdqBzxrK')
 		@user = "matthew@thespainreport.com"
 		@payment_method = 'pm_1FC83OAKYHByLBAAtbpqh0VE'
+	end
+
+	def stripe_credit_card
+		stripe_api
+		@user = User.find_by(email: params[:email_for_server])
+		
+		if !@user.nil?
+			if !current_user.nil? && current_user == @user
+				if @user.account_id.present?
+					if @user.account.stripe_customer_id.present?
+						@customer = Stripe::Customer.retrieve(@user.account.stripe_customer_id)
+						stripe_calculate_total_amount
+					else
+						new_stripe_customer
+						stripe_card_payment_and_details
+					end	
+				else
+					tsr_new_account
+					new_stripe_customer
+					stripe_card_payment_and_details
+				end
+			else
+				redirect_to '/login'
+				flash[:success] = "Please log in to continue."
+			end
+		else
+			tsr_new_user_patron
+			tsr_new_account
+			new_stripe_customer
+			stripe_calculate_total_amount
+		end
+	end
+	
+	def stripe_next_payments
 	end
 	
 	def stripe_webhook
