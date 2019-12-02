@@ -65,7 +65,7 @@ class ArticlesController < ApplicationController
 				@frameoriginal = @frame.original
 			end
 			
-			unless current_user.nil? || !current_user.account.stripe_payment_method.present?
+			unless current_user.nil? || current_user.account.blank? || !current_user.account.stripe_payment_method.present?
 			 @existing_pm = Stripe::PaymentMethod.retrieve(current_user.account.stripe_payment_method)
 			 @existing_pm_brand = @existing_pm.card.brand
 			 @existing_pm_last4 = @existing_pm.card.last4
