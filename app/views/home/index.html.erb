@@ -62,7 +62,7 @@
 <div class="alert-warning padding-20 margin-top-20">
 	<span class="label background-color-patrons font-main-tiny font-color-white">PATRONS ONLY</span>
 	<% if @latest_patrons_only %>
-		<ul>
+		<ul class="font-main-small">
 			<% @latest_patrons_only.each do |l| %>
 				<li><%= link_to l.short_headline, l %></li>
 			<% end %>
