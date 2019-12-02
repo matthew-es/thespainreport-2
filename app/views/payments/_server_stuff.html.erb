@@ -1,13 +1,25 @@
 <form id="send_stuff_to_server" action="/stripe_credit_card" method="post" data-remote="true">
-	<input type="hidden" name="email_for_server" id="email_for_server" value="" />
+	<input type="hidden" name="stripe_pm_for_server" id="stripe_pm_for_server" value="" />
+	<input type="hidden" name="stripe_setup_intent_for_server" id="stripe_setup_intent_for_server" value="" />
+	<input type="hidden" name="stripe_payment_intent_for_server" id="stripe_payment_intent_for_server" value="" />
 	
 	<input type="hidden" name="ip_country_code_for_server" id="ip_country_code_for_server" value="">
 	<input type="hidden" name="ip_address_for_server" id="ip_address_for_server" value="">
 	<input type="hidden" name="residence_country_code_for_server" id="residence_country_code_for_server" value="">
+	<input type="hidden" name="email_for_server" id="email_for_server" value="" />
 	
-	<input type="hidden" name="stripe_secret_for_server" id="stripe_secret_for_server" value="" />
-	<input type="hidden" name="stripe_pm_for_server" id="stripe_pm_for_server" value="" />
 	<input type="hidden" name="plan_amount_for_server" id="plan_amount_for_server" value="" />
+	<input type="hidden" name="vat_rate_for_server" id="vat_rate_for_server" value="" />
+	<input type="hidden" name="vat_amount_for_server" id="vat_amount_for_server" value="" />
+	<input type="hidden" name="total_amount_for_server" id="total_amount_for_server" value="" />
+	
+	<input type="hidden" name="frame_id_for_server" id="frame_id_for_server" value="<%= @frame.id %>" />
+	<input type="hidden" name="frame_link_slug_for_server" id="frame_link_slug_for_server" value="<%= @frame.link_slug %>" />
+	<input type="hidden" name="frame_emotional_quest_action_for_server" id="frame_emotional_quest_action_for_server" value="<%= @frame.emotional_quest_action %>" />
+	<input type="hidden" name="frame_money_word_singular_for_server" id="frame_money_word_singular_for_server" value="<%= @frame.money_word_singular %>" />
+	<input type="hidden" name="frame_button_cta_for_server" id="frame_button_cta_for_server" value="<%= @frame.button_cta %>" />
+	<input type="hidden" name="article_id_for_server" id="article_id_for_server" value="<%= @article_id %>" />
+	<input type="hidden" name="referrer_for_server" id="referrer_for_server" value="<%= request.referrer %>" />
 	
 	<%= hidden_field_tag 'authenticity_token', form_authenticity_token %>
 </form>

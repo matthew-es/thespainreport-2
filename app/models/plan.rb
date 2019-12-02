@@ -5,4 +5,6 @@ class Plan < ApplicationRecord
     belongs_to :original, class_name: "Plan", optional: true
     
     scope :original, -> {where(original_id: '')}
+    scope :english, -> {where(language_id: 1)}
+    scope :spanish, -> {where(language_id: 2)}
 end

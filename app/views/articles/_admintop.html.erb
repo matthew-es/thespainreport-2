@@ -13,7 +13,7 @@
 		<%= link_to "Uploads", uploads_path %>
 		|| <%= link_to "Readers", users_path %>
 		| <%= link_to "Accounts", accounts_path %>
-		| <%= link_to "Campaigns", campaigns_path %>
+		| <%= link_to "Frames", frames_path %>
 		| <%= link_to "Plans", plans_path %>
 		| <%= link_to "Subscriptions", subscriptions_path %>
 		| <%= link_to "Invoices", invoices_path %>
@@ -34,8 +34,8 @@
 			Articles, Updates, Translations
 		<% elsif controller_name == "uploads" %>
 			Uploads
-		<% elsif controller_name == "campaigns" %>
-			Campaigns
+		<% elsif controller_name == "frames" %>
+			Frames
 		<% elsif controller_name == "types" %>
 			Types
 		<% elsif controller_name == "languages" %>
@@ -74,8 +74,8 @@
 				article…
 			<% elsif controller_name == "uploads" %>
 				upload…
-			<% elsif controller_name == "campaigns" %>
-				campaign…
+			<% elsif controller_name == "frames" %>
+				frame…
 			<% elsif controller_name == "types" %>
 				type…
 			<% elsif controller_name == "languages" %>
@@ -103,8 +103,8 @@
 				<%= link_to 'New article', new_article_path %>
 			<% elsif controller_name == "uploads" %>
 				
-			<% elsif controller_name == "campaigns" %>
-				<%= link_to 'New campaign', new_campaign_path %>
+			<% elsif controller_name == "frames" %>
+				<%= link_to 'New frame', new_frame_path %>
 			<% elsif controller_name == "types" %>
 				<%= link_to 'New type', new_type_path %>
 			<% elsif controller_name == "languages" %>

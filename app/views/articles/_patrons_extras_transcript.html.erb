@@ -1,0 +1,13 @@
+<% if @article.extras_transcription_file.present? %>
+	<div class="margin-left-20 margin-top-30 margin-bottom-20" >
+		<div class="padding-left-5 font-main font-main-small font-italic" >
+			<span class="font-bold">
+				<% if @article.language_id == 1 %>
+					Transcript:
+				<% elsif @article.language_id == 2 %>
+					Transcripción:
+				<% else end %>
+			</span> <%= link_to @article.extras_transcription_intro, 'http://pdf.thespainreport.es/' + @article.extras_transcription_file %>
+		</div>
+	</div>
+<% else end %>

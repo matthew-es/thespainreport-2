@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_16_135915) do
+ActiveRecord::Schema.define(version: 2019_12_02_113231) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -22,6 +22,10 @@ ActiveRecord::Schema.define(version: 2019_10_16_135915) do
     t.string "stripe_payment_method"
     t.string "stripe_payment_method_card_country"
     t.string "residence_country"
+    t.string "vat_country"
+    t.integer "user_id"
+    t.datetime "stripe_payment_method_expiry_reminder"
+    t.integer "total_support"
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -54,21 +58,26 @@ ActiveRecord::Schema.define(version: 2019_10_16_135915) do
     t.integer "type_id"
     t.integer "status_id"
     t.boolean "topstory"
-    t.boolean "is_free"
+    t.boolean "is_breaking"
     t.integer "language_id"
     t.integer "original_id"
-    t.integer "campaign_id"
+    t.integer "frame_id"
     t.integer "main_id"
     t.integer "story_id"
     t.string "image"
-    t.string "audio"
-    t.string "audioteaser"
+    t.string "audio_file"
+    t.string "audio_intro"
     t.string "video"
-    t.string "extras_audio"
-    t.string "extras_audioteaser"
-    t.text "extras_body"
+    t.string "extras_audio_file"
+    t.string "extras_audio_intro"
+    t.text "extras_notes"
     t.string "alertmessage"
-    t.index ["campaign_id"], name: "index_articles_on_campaign_id"
+    t.string "extras_notes_teaser"
+    t.string "extras_audio_teaser"
+    t.string "extras_transcription_file"
+    t.string "extras_transcription_intro"
+    t.string "extras_transcription_teaser"
+    t.index ["frame_id"], name: "index_articles_on_frame_id"
     t.index ["language_id"], name: "index_articles_on_language_id"
     t.index ["main_id"], name: "index_articles_on_main_id"
     t.index ["original_id"], name: "index_articles_on_original_id"
@@ -85,24 +94,6 @@ ActiveRecord::Schema.define(version: 2019_10_16_135915) do
     t.integer "type_id"
   end
 
-  create_table "campaigns", force: :cascade do |t|
-    t.text "teaser"
-    t.integer "language_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "name"
-    t.integer "original_id"
-    t.string "buttontext"
-    t.string "image"
-    t.text "deal"
-    t.text "social"
-    t.text "riskreversal"
-    t.string "subtitle"
-    t.string "slug"
-    t.index ["language_id"], name: "index_campaigns_on_language_id"
-    t.index ["original_id"], name: "index_campaigns_on_original_id"
-  end
-
   create_table "countries", force: :cascade do |t|
     t.string "country_code"
     t.string "name_en"
@@ -110,6 +101,32 @@ ActiveRecord::Schema.define(version: 2019_10_16_135915) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "tax_percent", precision: 5, scale: 3
+  end
+
+  create_table "frames", force: :cascade do |t|
+    t.text "short_story"
+    t.integer "language_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "emotional_quest_action"
+    t.integer "original_id"
+    t.string "button_cta"
+    t.string "image"
+    t.text "social_proof"
+    t.text "risk_reversal"
+    t.string "emotional_quest_role"
+    t.string "link_slug"
+    t.string "money_word_singular"
+    t.string "money_word_plural"
+    t.string "money_word_verb"
+    t.string "access_patrons_only"
+    t.string "access_more_for_patrons"
+    t.string "access_readers_to_patrons"
+    t.string "access_patrons_below_10"
+    t.string "access_patrons_below_25"
+    t.string "access_patrons_above_25"
+    t.index ["language_id"], name: "index_frames_on_language_id"
+    t.index ["original_id"], name: "index_frames_on_original_id"
   end
 
   create_table "invoices", force: :cascade do |t|
@@ -130,6 +147,17 @@ ActiveRecord::Schema.define(version: 2019_10_16_135915) do
     t.string "prompt"
   end
 
+  create_table "payment_errors", force: :cascade do |t|
+    t.integer "payment_id"
+    t.string "payment_error_message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "payment_error_source"
+    t.string "payment_error_status"
+    t.string "payment_error_code"
+    t.string "payment_error_object"
+  end
+
   create_table "payments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -139,6 +167,9 @@ ActiveRecord::Schema.define(version: 2019_10_16_135915) do
     t.integer "invoice_id"
     t.integer "subscription_id"
     t.string "payment_method"
+    t.string "external_payment_id"
+    t.string "external_payment_status"
+    t.string "external_payment_error"
   end
 
   create_table "plans", force: :cascade do |t|
@@ -168,7 +199,7 @@ ActiveRecord::Schema.define(version: 2019_10_16_135915) do
     t.integer "account_id"
     t.integer "plan_amount"
     t.string "card_country"
-    t.datetime "latest_paid_date"
+    t.datetime "last_payment_date"
     t.string "ip_country"
     t.string "ip_address"
     t.string "residence_country"
@@ -177,7 +208,17 @@ ActiveRecord::Schema.define(version: 2019_10_16_135915) do
     t.decimal "vat_rate"
     t.integer "vat_amount"
     t.integer "total_amount"
-    t.integer "campaign_id"
+    t.integer "frame_id"
+    t.string "vat_country"
+    t.string "frame_link_slug"
+    t.integer "article_id"
+    t.string "frame_emotional_quest_action"
+    t.string "frame_button_cta"
+    t.string "referrer_url"
+    t.datetime "next_payment_date"
+    t.string "frame_money_word_singular"
+    t.text "motivation_general_environment"
+    t.text "motivation_specific_brand"
   end
 
   create_table "tweets", force: :cascade do |t|
@@ -226,15 +267,29 @@ ActiveRecord::Schema.define(version: 2019_10_16_135915) do
     t.integer "account_role"
     t.string "country"
     t.string "mailing_address"
+    t.integer "level_amount"
+    t.integer "frame_id"
   end
 
   create_table "visits", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "article_id"
-    t.integer "campaign_id"
+    t.integer "frame_id"
     t.integer "plan_ids"
     t.string "referer"
+  end
+
+  create_table "webhook_events", force: :cascade do |t|
+    t.string "source"
+    t.string "external_id"
+    t.json "data"
+    t.integer "state", default: 0
+    t.text "processing_errors"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["external_id"], name: "index_webhook_events_on_external_id"
+    t.index ["source"], name: "index_webhook_events_on_source"
   end
 
 end

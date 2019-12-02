@@ -1,0 +1,154 @@
+	<% if controller_name == "payments" %>
+		<h1 class="font-header font-header-normal line-120 font-upper"><%= @frame.emotional_quest_action %> Now</h1>
+	<% elsif controller_name == "articles" %>
+		<h3 class="margin-top-0"><%= @frame.emotional_quest_action %> Now</h3>
+	<% else end %>
+	
+	<div class="font-main font-main-normal"><%= @frame.short_story %><strong> <%= @frame.emotional_quest_role %>.</strong></div>
+		<div class="width-98">
+			<% Plan.english.each do |p| %>
+				<div class="width-33 float-left margin-right-5 mobile-width">
+					<h5 class="margin-bottom-0"><%= p.title %></h5>
+					<div class="">
+						<%= image_tag ('https://image.thespainreport.es/' + p.image) %>
+						<div class="mobile-margins font-main-small"><%= markdown(p.description) %></div>
+						<p class="align-centre line-100">
+							<button type="submit" class="width-100 padding-10 font-main-normal" id="price" value="<%= p.price %>" onclick="setAmount(this.value)"><%= number_to_currency((p.price/100.to_f), unit: "€") %></button>
+						</p>
+					</div>
+				</div>
+			<% end %>
+			<div class="clear"></div>
+		</div>
+	
+	<div class="margin-top-10 margin-bottom-10 padding-10 background-color-yellow background-color-yellow-border">
+		<div id="ajax_form_one">
+			<% if current_user.nil? || !current_user.account.present? || !current_user.account.stripe_payment_method.present? %>
+				<div class="margin-top-10">
+					<ul class="font-main-small">
+						<li>Your <%= @frame.money_word_singular %>: €<span id="plan_amount"></span>/month</li>
+						<li>
+							Which country do you pay taxes in? 
+							<select name="select_residence_country" id="select_residence_country" onchange="changeResidence()" onclick="changeResidence()">
+								<% Country.all.each do |c| %>
+									<option id="<%= c.country_code %>" value="<%= c.country_code %>"><%= c.name_en %></option>
+								<% end %>
+							</select>
+						</li>
+					</ul>
+				</div>
+				<%# <img src="" name="residence_country_flag" id="residence_country_flag" /><br />%>
+				
+				<div class="font-payment margin-top-10">
+					<% if current_user.nil? %>
+						<input id="customer_email" name="customer_email" type="text" class="StripeElement stripe_email width-100" placeholder="Enter your email address…" value="" onfocus="getSetup()" onkeyup="setEmail()" onchange="setEmail()" onclick="setEmail()" />
+					<% else %>
+						<div id ="customer_email" name="customer_email" value="<%= current_user.email %>">Hi, <%= current_user.email %></div>
+						<% if current_user.account.present? %>
+							<div id ="customer_support" name="customer_email">—Your current total support is: <%= number_to_currency((current_user.account.total_support/100.to_f), unit: "€") %>/month</div>
+						<% end %>
+					<% end %>
+			 	</div>
+				
+				<div class="font-payment margin-top-10">
+					<% if current_user.nil? || !current_user.account.present? || !current_user.account.stripe_payment_method.present? %>
+						<div id="card-element" onmouseover="getSetup(); this.onmouseover = null">
+						<!-- A Stripe Element will be inserted here. -->
+						</div>
+						<div id="card-errors" role="alert"></div>
+					<% else %>
+						<div id="current_user_existing_payment_method" value="<%= current_user.account.stripe_payment_method %>" class="">
+							—Use <%= @existing_pm_brand.capitalize %> **** <%= @existing_pm_last4 %> expiring in <%= @existing_pm_month %>/<%= @existing_pm_year %>? (<%= link_to "change card", edit_user_path(current_user) %>)
+						</div>
+					<% end %>
+				</div>
+			<% else %>
+				<div id ="customer_email" name="customer_email">Hi, <%= current_user.email %></div>
+				<div id ="" name="">
+					<ul class="font-main-small">
+						<li>Your current total <%= @frame.money_word_singular %> is: <%= number_to_currency((current_user.account.total_support/100.to_f), unit: "€") %>/month</li>
+						<li>You pay taxes in <%= Country.find_by(country_code: current_user.account.residence_country).name_en %> (<%= link_to "change", edit_user_path(current_user) %>)</li>
+						<li>Your card is <%= @existing_pm_brand.capitalize %> **** <%= @existing_pm_last4 %>, expiring in <%= @existing_pm_month %>/<%= @existing_pm_year %> (<%= link_to "change card", edit_user_path(current_user) %>)</li>
+					</ul>
+				</div>
+				<div class="font-payment">Increase your <%= @frame.money_word_singular %> by € <input type="number" /> €<span id="plan_amount"></span>/month:</div>
+			<% end %>
+			
+			<div id="ajax_form_message" class="margin-top-10 padding-10 alert-warning" style="display:none;">
+			</div>
+			
+			<div id="ajax_form_confirm" class="margin-top-10 alert-warning padding-10" style="display: none;">
+				<div class="width-50 align-left margin-centre">
+					Plan amount: <span id="confirm_plan_amount"></span><br />
+					VAT rate: <span id="confirm_vat_rate"></span><br />
+					VAT amount: <span id="confirm_vat_amount"></span><br />
+					Total amount: <span id="confirm_total_amount"></span><br />
+					<button id="confirm_first_payment" class="margin-top-10 width-50 padding-5 font-main-small" onclick="confirmPayment()">Confirm <%= @frame.money_word_singular %></button>
+					<button id="confirm_sca_payment" onclick="ConfirmScaPayment()" style="display:none;" data-secret="">Re-confirm SCA Payment</button>
+				</div>
+			</div>
+		
+		<div id="ajax_form_welcome" class="margin-top-10 alert-success padding-10" style="display:none;">
+			<div id="ajax_form_welcome_new" style="display: none;">Well done! Your payment has succeeded. Welcome aboard. Please check your email now.</div>
+			<div id="ajax_form_welcome_existing" style="display: none;">Thank you very much for your extra support. You are a hero of free journalism.</div>
+			
+			<% if false %>
+				<div class="float-left margin-top-10"><textarea class="width-98 padding-10 font-main font-main-normal", style="min-height: 35px;"></textarea></div>
+				<div class="float-left margin-top-10"><%= text_area_tag 'motivation_specific_brand', nil, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;" %></div>
+				<div class="float-left margin-top-10"><textarea class="width-98 padding-10 font-main font-main-normal", style="min-height: 35px;"></textarea></div>
+				<%= form_tag '/subscription_motivation' do %>
+				<%= text_area_tag :body, :class => "width-100 padding-10 font-main font-main-normal", :style => "min-height: 600px;" %>
+					<div class="float-left margin-top-10"><%= text_area_tag 'motivation_general_environment', nil, :class => 'width-98 padding-10 font-main font-main-normal', :style => "min-height: 35px;" %></div>
+					<div class="float-left margin-top-10"><%= text_area_tag 'motivation_specific_brand', nil, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;" %></div>
+					<div class="float-left"><button type="submit" class="padding-5 font-main-small">Send</button></div>
+					<div class="clear"></div>
+				<% end %>
+			<% end %>
+		</div>
+	
+	
+			<div class="font-payment margin-top-10 align-centre">
+				<% if current_user.nil? || !current_user.account.present? || !current_user.account.stripe_payment_method.present? %>
+					<button id="card-button" class="width-50 padding-5 font-main-normal" data-secret=""><%= @frame.button_cta %></button>
+				<% elsif current_user.account.stripe_payment_method.present? %>
+					<button id="button_existing_payment_method" class="width-33 padding-5 font-main-normal" onClick="setupExistingpayment()"><%= @frame.button_cta %></button>
+				<% end %>
+			</div>
+		</div>
+
+		<div id="ajax_form_login" class="margin-top-10 padding-10 alert-warning" style="display:none;">
+			<p>Please log in first…</p>
+			<%= form_tag '/login' do %>
+				<div class="float-left"><%= text_field_tag 'email', nil, class: 'padding-5 font-main font-main-small', placeholder: 'Your e-mail...' %></div>
+				<div class="float-left"><%= password_field_tag 'password', nil, class: 'padding-5 font-main font-main-small', placeholder: 'Your password...' %></div>
+				<div class="float-left"><button type="submit" class="padding-5 font-main-small">Log In</button></div>
+				<div class="float-left"><a href="/password">New password?</a></div>
+				<div class="clear"></div>
+			<% end %>
+		</div>
+		
+	</div>
+	
+		<div style="margin-top-10">
+			<p class="font-bold margin-bottom-0 font-main-small">Instructions:</p>
+			<ol class="instructions margin-top-5">
+				<li>Click on the <%= @frame.money_word_singular %> you wish to <%= @frame.money_word_verb %></li>
+				<li>Make sure your tax country is correct</li>
+				<li>Enter your email address and credit card details</li>
+				<li>The server will check your card and do some sums…</li>
+				<li>Click "<%= @frame.button_cta %>"</li>
+				<li>That's it, welcome aboard, you will get a couple of emails</li>
+			</ol>
+		</div>
+		
+		<div style="margin-top-10">
+			<p class="font-bold margin-bottom-0 font-main-small">Notes:</p>
+			<ol class="instructions margin-top-5">
+				<li>If you would like to <%= @frame.money_word_verb %> a larger <%= @frame.money_word_singular %>, please click here</li>
+				<li>You can print receipts or invoices for all your <%= @frame.money_word_plural %> in "My Account"</li>
+				<li>Any problems or questions, email: matthew@thespainreport.es</li>
+			</ol>
+		</div>
+
+<%= render "payments/server_stuff" %>
+<%= render "payments/stripe_stuff" %>

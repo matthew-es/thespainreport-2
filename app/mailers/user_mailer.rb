@@ -29,11 +29,21 @@ class UserMailer < ApplicationMailer
         headers 'X-SES-CONFIGURATION-SET' => "Emails"
         mail(to: @user.email, subject: "Bienvenido: haga clic en este enlace para confirmar su correo")
     end
-
-    def admin_new_reader(user)
+    
+    def user_alert(user, user_subject, user_message)
         @user = user
+        @subject = user_subject
+        @message = user_message
         
         headers 'X-SES-CONFIGURATION-SET' => "Emails"
-        mail(to: "matthew@thespainreport.es", subject: "New reader…!")
+        mail(to: @user, subject: @subject)
+    end
+    
+    def admin_alert(admin_subject, admin_message)
+        @subject = admin_subject
+        @message = admin_message
+        
+        headers 'X-SES-CONFIGURATION-SET' => "Emails"
+        mail(to: "matthew@thespainreport.es", subject: @subject)
     end
 end

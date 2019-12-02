@@ -7,7 +7,7 @@ class SubscriptionsController < ApplicationController
     if current_user.nil? 
 			redirect_to root_url
 		elsif current_user.role == 1
-			@subscriptions = Subscription.all
+			@subscriptions = Subscription.all.order('created_at DESC')
 		else
 			redirect_to root_url
 		end
@@ -95,6 +95,10 @@ class SubscriptionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def subscription_params
-      params.require(:subscription).permit(:account_id, :plan_amount, :vat_rate, :vat_amount, :total_amount, :campaign_id, :card_country, :latest_paid_date, :ip_country, :ip_address, :residence_country)
+      params.require(:subscription).permit(
+        :account_id, :article_id, :plan_amount, :vat_country, :vat_rate, :vat_amount, :total_amount, :frame_id, :frame_name, :frame_buttontext, 
+        :frame_slug, :card_country, :latest_paid_date, :ip_country, :ip_address, :residence_country, :next_payment_date, :last_payment_date,
+        :motivation_general_environment, :motivation_specific_brand
+        )
     end
 end

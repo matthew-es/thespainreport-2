@@ -12,7 +12,7 @@
 		</div>
 	<% end %>
 	
-	<div class="margin-bottom-10 right">
+	<div class="margin-bottom-10 align-right">
 		<%= f.text_field :alertmessage, :class => "width-37 padding-5", placeholder: "Alert message…" %>
 		<%= check_box_tag 'tweet' %>
 		<%= f.select :email_to, options_for_select([["None", "none"], ["E-Mail Alert", "alert"]]) %>
@@ -20,8 +20,8 @@
 		<%= link_to 'Go', @article %>
 	</div>
 	
-	<div class="margin-bottom-10 right">
-		Breaking <%= f.check_box :is_free %>
+	<div class="margin-bottom-10 align-right">
+		Breaking <%= f.check_box :is_breaking %>
 		Top <%= f.check_box :topstory %>
 		<strong>Language:</strong> <%= f.collection_select :language_id, @languages, :id, :name, {:selected => @article.language_id ? @article.language_id : 1} %>
 		<%= f.collection_select :type_id, @types.where(language_id: @article.language_id || 1), :id, :name, {:selected => @article.type_id ? @article.type_id : 1}, {:style => "width: 100px;"} %>
@@ -29,11 +29,11 @@
 		<%= f.collection_select :status_id, @statuses, :id, :name, {:selected => @article.status_id ? @article.status_id : 1} %>
 	</div>
 	
-	<div class="margin-bottom-10 right">
-		<strong>Update of?</strong> <%= f.collection_select :main_id, @mains.where(language_id: @article.language_id || 1), :id, :headline, {include_blank: true, :selected => @article.main_id}, {:style => "width: 200px;"} %>
-		<strong>Story:</strong> <%= f.collection_select :story_id, @stories.where(language_id: @article.language_id || 1), :id, :headline, {include_blank: true, :selected => @article.story_id}, {:style => "width: 200px;"} %>
-		<strong>Translation of:</strong> <%= f.collection_select :original_id, @translationof, :id, :headline, {include_blank: true, :selected => @article.original_id}, {:style => "width: 200px;"} %>
-		<strong>Campaign:</strong> <%= f.collection_select :campaign_id, @campaigns.where(language_id: @article.language_id || 1), :id, :name, {:selected => @article.campaign_id ? @article.campaign_id : 1} %>
+	<div class="margin-bottom-10 align-right">
+		<strong>Update of:</strong> <%= f.collection_select :main_id, @mains.where(language_id: @article.language_id || 1), :id, :headline, {include_blank: true, :selected => @article.main_id}, {:style => "width: 190px;"} %>
+		<strong>Story:</strong> <%= f.collection_select :story_id, @stories.where(language_id: @article.language_id || 1), :id, :headline, {include_blank: true, :selected => @article.story_id}, {:style => "width: 190px;"} %>
+		<strong>Translation of:</strong> <%= f.collection_select :original_id, @translationof, :id, :headline, {include_blank: true, :selected => @article.original_id}, {:style => "width: 190px;"} %>
+		<strong>Frame:</strong> <%= f.collection_select :frame_id, @frames.where(language_id: @article.language_id || 1), :id, :emotional_quest_action, {:selected => @article.frame_id ? @article.frame_id : 1}, {:style => "width: 190px;"}  %>
 		
 		
 	</div>
@@ -48,10 +48,10 @@
 	
 	<div class="margin-bottom-10">
 		<div class="float-left" style="width:75%">
-			<%= f.text_field :audio, :class => "width-98 padding-5", placeholder: "Audio file…" %>
+			<%= f.text_field :audio_file, :class => "width-98 padding-5", placeholder: "Audio file…" %>
 		</div>
 		<div class="float-left" style="width:20%">
-			<%= f.text_field :audioteaser, :class => "width-98 padding-5", placeholder: "Audio teaser…" %>
+			<%= f.text_field :audio_intro, :class => "width-98 padding-5", placeholder: "Audio intro…" %>
 		</div>
 		<div class="clear"></div>
 	</div>
@@ -68,27 +68,56 @@
 	
 	<div class="margin-bottom-10">
 		<% if @article.original.blank? %>
-			<%= f.text_area :body, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 600px;", placeholder: "Article text…" %>
-			<h3>Extras…</h3>
-			<div class="margin-bottom-10">
-		<div class="float-left" style="width:75%">
-			<%= f.text_field :extras_audio, :class => "width-98 padding-5", placeholder: "Extra audio file…" %>
-		</div>
-		<div class="float-left" style="width:20%">
-			<%= f.text_field :extras_audioteaser, :class => "width-98 padding-5", placeholder: "Extra audio teaser…" %>
-		</div>
-		<div class="clear"></div>
-	</div>
-			<%= f.text_area :extras_body, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 300px;", placeholder: "Extra text and links…" %>
+			<%= f.text_area :body, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 570px;", placeholder: "Article text…" %>
 		<% else %>
 			<div class="width-100">
-			<div class="width-48 float-left padding-10">
-				<%= markdown(@article.original.body) %>
-			</div>
-			<div class="width-48 float-left">
-				<%= f.text_area :body, :class => "width-100 padding-10 font-main font-main-normal", :style => "min-height: 600px;" %>
-			</div>
+				<div class="width-48 float-left padding-10">
+					<%= markdown(@article.original.body) %>
+				</div>
+				<div class="width-48 float-left">
+					<%= f.text_area :body, :class => "width-100 padding-10 font-main font-main-normal", :style => "min-height: 600px;" %>
+				</div>
+				<div class="clear"></div>
 			</div>
 		<% end %>
-	</div><div class="clear"></div>
+	</div>	
+	
+	<div class="margin-bottom-10">	
+		<h3>Patrons only notes & audio</h3>
+			<% if @article.original.blank? %>
+				<%= f.text_area :extras_notes, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 270px;", placeholder: "Patrons only notes…" %>
+				<div class="margin-bottom-10 width-20">
+					<%= f.text_field :extras_notes_teaser, :class => "width-98 padding-5", placeholder: "Patrons notes teaser…" %>
+				</div>
+				<div class="margin-bottom-10 width-20 margin-right-20">
+					<%= f.text_field :extras_audio_file, :class => "width-100 padding-5", placeholder: "Patrons audio file…" %>
+				</div>
+				<div class="margin-bottom-10 width-20 margin-right-20">
+					<%= f.text_field :extras_audio_intro, :class => "width-100 padding-5", placeholder: "Patrons audio intro…" %>
+				</div>
+				<div class="margin-bottom-10 width-20 margin-right-20">
+					<%= f.text_field :extras_audio_teaser, :class => "width-100 padding-5", placeholder: "Patrons audio teaser…" %>
+				</div>
+				<div class="margin-bottom-10 width-20 margin-right-20">
+					<%= f.text_field :extras_transcription_file, :class => "width-100 padding-5", placeholder: "Patrons transcript file…" %>
+				</div>
+				<div class="margin-bottom-10 width-20 margin-right-20">
+					<%= f.text_field :extras_transcription_intro, :class => "width-100 padding-5", placeholder: "Patrons transcript intro…" %>
+				</div>
+				<div class="margin-bottom-10 width-20 margin-right-20">
+					<%= f.text_field :extras_transcription_teaser, :class => "width-100 padding-5", placeholder: "Patrons transcript teaser…" %>
+				</div>
+			<% else %>
+				<div class="width-100">
+				<div class="width-48 float-left padding-10">
+					<%= markdown(@article.original.extras_notes) %>
+				</div>
+				<div class="width-48 float-left">
+					<%= f.text_area :extras_notes, :class => "width-100 padding-10 font-main font-main-normal", :style => "min-height: 530px;" %>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<% end %>
+	</div>	
+	<div class="clear"></div>
 <% end %>

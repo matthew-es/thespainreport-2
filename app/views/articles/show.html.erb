@@ -54,7 +54,28 @@
 			<% end %>
 	    </div>
 	    
-	    <% if @article.is_free == true %>
+	    <% if ["Sólo mecenas", "Patrons only"].include?@article.type.name %>
+	    	<div class="margin-right-5 float-left mobile-bottom-10">
+	    		<span class="label background-color-patrons font-color-white">
+	    				<%= @article.type.name %>
+	    		</span>
+	    	</div>
+	    <% end %>
+	    
+	    <% if @article.extras_notes.present? || @article.extras_audio_file.present? %>
+	    	<div class="margin-right-5 float-left mobile-bottom-10">
+	    		<span class="label background-color-patrons font-color-white">
+	    			<% if @article.language_id == 1 %>
+						More for patrons
+					<% elsif @article.language_id == 2 %>
+						Más para mecenas
+					<% else %>
+					<% end %>
+	    		</span>
+	    	</div>
+	    <% end %>
+	    
+	    <% if @article.is_breaking == true %>
 	    	<div class="margin-right-5 float-left mobile-bottom-10">
 	    		<span class="label background-color-red font-color-white">
 	    			<% if @article.language_id == 1 %>
@@ -80,7 +101,7 @@
 	    	</div>
 	    <% end %>
 	    
-	    <% if @article.audio.present? %>
+	    <% if @article.audio_file.present? %>
 	    	<div class="margin-right-5 float-left mobile-bottom-10">
 	    		<span class="label background-color-black font-color-white">
 	    			Audio
@@ -115,23 +136,60 @@
 			</div>
 		<% else end %>
 	    
+	    <% if false %>
 	    <div class="margin-right-5 float-left mobile-bottom-10">
 	    	<%= link_to @article.story.headline, @article.story, class: "label" unless @article.story.nil? %>
 	    </div>
+	    <% end %>
 	    
 		<div class="clear"></div>
 	</div>
-
+	
 	<div class="margin-top-5 font-main font-main-normal font-italic">
 		<span class="font-bold"><%= @article.type.try(:name) %>:</span> <%= @article.lede %>
-		<% if @articleupdates.present? %>
+		
+		<% if @articleupdates.present? || @article.extras_notes.present? || @article.extras_audio_file.present? %>
 			<ul class="margin-top-5 margin-bottom-0 margin-left-20 margin-right-0">
-		      <% @articleupdates.each do |u| %>
-		        <li><%= link_to u.headline, article_path(@article, anchor: u.id) %></li>
-		      <% end %>
-		    </ul>
-	    <% else %>
-	    <% end %>
+				<% if @article.extras_audio_file.present? %>
+					<li><strong>
+						<% if @article.language_id == 1 %>
+							Audio:
+						<% elsif @article.language_id == 2 %>
+							Audio:
+						<% else end %>
+						</strong> <%= link_to @article.extras_audio_teaser, article_path(@article, anchor: 'patrons') %>
+					</li>
+				<% else end %>
+				
+				<% if @article.extras_transcription_file.present? %>
+					<li><strong>
+						<% if @article.language_id == 1 %>
+							Transcript:
+						<% elsif @article.language_id == 2 %>
+							Transcripción:
+						<% else end %>
+						</strong> <%= link_to @article.extras_transcription_teaser, article_path(@article, anchor: 'patrons') %>
+					</li>
+				<% else end %>
+				
+				<% if @article.extras_notes.present? %>
+					<li><strong>
+						<% if @article.language_id == 1 %>
+							Notes:
+						<% elsif @article.language_id == 2 %>
+							Apuntes:
+						<% else end %>
+						</strong> <%= link_to @article.extras_notes_teaser, article_path(@article, anchor: 'patrons') %>
+					</li>
+				<% else end %>
+				
+				<% if @articleupdates.present? %>
+					<% @articleupdates.each do |u| %>
+						<li><%= link_to u.headline, article_path(@article, anchor: u.id) %></li>
+					<% end %>
+				<% else end %>
+			</ul>
+		<% else end %>
 	</div>
 </div>
 
@@ -150,7 +208,7 @@
 <% else %>
 <% end %>
 
-<% if @article.audio.present? %>
+<% if @article.audio_file.present? %>
 	<div class="margin-left-20 margin-top-10" >
 		<div class="padding-left-5 font-main font-main-small font-italic" >
 			<span class="font-bold">
@@ -158,12 +216,11 @@
     				Listen now:
     			<% elsif @article.language_id == 2 %>
     				Escuche ahora:
-    			<% else %>
-    			<% end %>
-			</span> <%= @article.audioteaser %>
+    			<% else end %>
+			</span> <%= @article.audio_intro %>
 		</div>
 		<audio controls>
-		  <source src="<%= 'https://audio.thespainreport.es/' + @article.audio %>" type="audio/mpeg">
+		  <source src="<%= 'https://audio.thespainreport.es/' + @article.audio_file %>" type="audio/mpeg">
 		Your browser does not support the audio element.
 		</audio>
 	</div>
@@ -172,19 +229,20 @@
 	
 	<div class="margin-top-20">
 	
-	
-	<% if ["Patrons only", "Sólo patronos"].include?@article.type.name %>
+	<% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
 		<% if current_user.nil? %>
-			<%= markdown(truncate(@article.body, length: 400)) %>
-			<div class="alert-success padding-10 margin-top-10"><em>Please log in to read this article…</em></div>
-		<% elsif ![1, 2].include?current_user.role %>
-			<%= markdown(truncate(@article.body, length: 400)) %>
-			<div class="alert-success padding-10 margin-top-10"><em>Please log in to read this article…</em></div>
-		<% elsif [1, 2].include?current_user.role %>
+			<%= markdown(truncate(@article.body, length: 550)) %>
+			Patrons only—not logged in
+		<% elsif current_user.level_amount == 0 %>
+			<%= markdown(truncate(@article.body, length: 550)) %>
+			Patrons only—non-paying reader
+		<% elsif current_user.level_amount >= 1 %>
 			<%= markdown(@article.body).html_safe %>
+			Patrons only-patron
 		<% end %>
 	<% else %>
 		<%= markdown(@article.body).html_safe %>
+		95% free
 	<% end %>
 	
 	<% if @article.image.present? %>
@@ -215,46 +273,12 @@
 			</p>
 		<% end %>
 	<% end %>
-	
-	<% if @article.extras_audio.present? || @article.extras_body.present? %>
-		<h5>
-			<% if @article.language_id == 1 %>
-				More for patrons
-			<% elsif @article.language_id == 2 %>
-				Más para los mecenas
-			<% else %>
-			<% end %>
-		</h5>
-	<% else %>
-	<% end %>
-	
-	<% if @article.extras_audio.present? %>
-		<% if current_user.nil? || current_user.role == 3 %>
-			<div class="alert-success padding-10 margin-top-10 margin-bottom-10"><em>Please log in to listen to the extra audio…</em></div>
-		<% elsif [1, 2].include?(current_user.role) %>
-			<div class="margin-left-20 margin-top-20 margin-bottom-20" >
-			<div class="padding-left-5 font-main font-main-small font-italic" >
-				<span class="font-bold">
-					<% if @article.language_id == 1 %>
-	    				Listen now:
-	    			<% elsif @article.language_id == 2 %>
-	    				Escuche ahora:
-	    			<% else %>
-	    			<% end %>
-				</span> <%= @article.extras_audioteaser %>
-			</div>
-			<audio controls>
-			  <source src="<%= 'https://audio.thespainreport.es/' + @article.extras_audio %>" type="audio/mpeg">
-			Your browser does not support the audio element.
-			</audio>
-		</div>
-		<% else end %>
-	<% else %>
-	<% end %>
-	
-	<% if @article.extras_body.present? %>
-		<%= markdown(@article.extras_body).html_safe %>
-	<% end %>
+
+	<% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
+		<%= render "articles/patrons_logic" %>
+	<% elsif @article.extras_notes.present? || @article.extras_audio_file.present? %>
+		<%= render "articles/patrons_logic" %>
+	<% else end %>
 	
 	<% if @articleupdates.present? %>
 	<% @articleupdates.each do |u| %>
@@ -299,10 +323,6 @@
 	</div>
 	<% end %>
 	
-	
-	<%= render 'layouts/log_in_logic' %>
-	
-	
 	<% if @article.components.present? %>
 		<h3>
 			<% if @article.language_id == 1 %>
@@ -322,40 +342,12 @@
 		</ul>
 	<% end %>
 
-<% if !@article.campaign.nil? %>
-	<h5 class="margin-top-50"><%= @article.campaign.name %></h5>
-	<p class="margin-top-5 font-main font-main-normal font-italic"><%= @article.campaign.subtitle %></p>
-	<p class="float-right">
-		<%= image_tag ('https://image.thespainreport.es/' + @article.campaign.image), :class => "campaignimage" unless @article.campaign.image.nil? %>
-	</p>
-	<p><%= markdown(@article.campaign.teaser) %></p>
-	<p><%= markdown(@article.campaign.deal) %></p>
-	<p><%= markdown(@article.campaign.social) %></p>
-	
-	<div class="width-98">
-		<% Plan.all.where(language_id: @article.language_id).each do |p| %>
-			<div class="width-33 float-left margin-right-5 border-bottom-1 mobile-width">
-				<h5 class="margin-bottom-0"><%= p.title %></h5>
-				<div class="">
-					<a href="<%= '/' + @article.campaign.slug %>" class="no-hover-bg">
-						<%= image_tag ('https://image.thespainreport.es/' + p.image) %>
-					</a>
-					<p class="margin-top-10 margin-bottom-0 align-centre">$<%= p.price %>/<% if p.language_id == 1 %>month<% else %>mes<% end %></p>
-					<div class="plan-benefits"><%= markdown(p.description) %></div>
-					<p class="align-centre line-100">
-						<a href="<%= '/' + @article.campaign.slug + '?amount=' + p.price.to_s %>" class="topbutton">
-							<%= p.buttontext %>
-						</a>
-					</p>
-				</div>
-			</div>
-		<% end %>
-		<div class="clear"></div>
-	</div>
-	
-	<p><%= markdown(@article.campaign.riskreversal) %></p>
-<% end %>
+<div id="patrons" class="padding-20 border-patrons margin-top-20">
+	<%= render "payments/pay" %>
+</div>
 
+
+<% if false %>
 <% if current_user.nil? %>
 	<% if @article.language_id == 1 %>
 		<div class="margin-bottom-20 background-color-yellow padding-20">
@@ -381,9 +373,9 @@
 			<% end %>
 		</div>
 	<% elsif @article.language_id == 2 %>
-		<h5><%= @article.campaign.name unless @article.campaign.nil? %></h5>
+		<h5><%= @article.frame.emotional_quest_action unless @article.frame.nil? %></h5>
 		<p style="text-align: center;">
- 			<a href="https://www.patreon.com/join/matthewbennett" class="button"><%= @article.campaign.buttontext unless @article.campaign.nil? %></a>
+ 			<a href="https://www.patreon.com/join/matthewbennett" class="button"><%= @article.frame.button_cta unless @article.frame.nil? %></a>
  		</p>
 		<div class="margin-bottom-20 background-color-yellow padding-20">
 			<span class="font-header font-header-small font-upper">Apúntese Al Spain Report</span>
@@ -409,6 +401,7 @@
 		</div>
 	<% else end %>
 <% else end %>
+<% end %>
 
 <%= render "layouts/footer" %>
 

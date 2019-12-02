@@ -10,7 +10,11 @@
 			</ul>
 		</div>
 	<% end %>
-
+	
+	<div class="margin-bottom-10">
+		<%= f.text_field :user_id %> <%= @account.user.email unless @account.user.nil? %>
+	</div>
+	
 	<div class="margin-bottom-10">
 		<%= f.select :account_status, options_for_select([["Up-to-date", "1"], ["Payment Declined", "2"], ["Cancelled", "3"]], :selected => @account.account_status) %>
 		| <%= f.text_field :account_status_date %>
@@ -20,6 +24,8 @@
 	<div class="margin-bottom-10">
 		<%= f.text_field :stripe_customer_id %>
 		| <%= f.text_field :stripe_payment_method %>
+		| <%= f.text_field :stripe_payment_method_card_country %>
+		| <%= f.text_field :stripe_payment_method_expiry_reminder %>
 	</div>
 
 	<div class="margin-bottom-10">

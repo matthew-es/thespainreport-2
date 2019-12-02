@@ -2,7 +2,7 @@ class User < ApplicationRecord
 	require 'bcrypt'
 	has_secure_password
 	belongs_to :account, optional: true
-	
+	belongs_to :frame, optional: true
 	
 	validates :email, :uniqueness => {:case_sensitive => false, message: "—try your e-mail again…"}
 	validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, message: "—try your e-mail again…"

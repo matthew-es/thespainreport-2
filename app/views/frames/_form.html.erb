@@ -1,0 +1,97 @@
+<%= form_with(model: frame, local: true) do |f| %>
+  <% if frame.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(frame.errors.count, "error") %> prohibited this frame from being saved:</h2>
+
+      <ul>
+      <% frame.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <div class="margin-bottom-10 right">
+    <strong>Language:</strong> <%= f.collection_select :language_id, @languages, :id, :name, {:selected => @frame.language_id ? @frame.language_id : 1} %>
+    <strong>Translation of:</strong> <%= f.collection_select :original_id, @frames, :id, :emotional_quest_action, {include_blank: true, :selected => @frame.original_id} %>
+    <%= f.submit %>
+    <%= link_to 'Go', @frame %>
+  </div>
+  
+  <div class="margin-bottom-10">
+		<%= f.text_field :emotional_quest_action, :class => "width-33 padding-5 font-header font-header-small", placeholder: "Emotional quest goal…" %>
+	</div>
+	
+	<div class="margin-bottom-10">
+		<%= f.text_field :emotional_quest_role, :class => "width-33 padding-5 font-main font-main-normal font-italic", placeholder: "because…explain reader role…" %>
+	</div>
+	
+	<div class="margin-bottom-10">
+    <%= f.text_area :short_story, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Short story…surroundings, antagonists, threats, risk to treasure…" %>
+  </div>
+	
+	<div class="margin-bottom-10">
+		<%= f.text_field :link_slug, :class => "width-20 padding-5", placeholder: "Payment page link slug…" %> (pay, subscribe, guarantee, support, contribute, x)
+	</div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_field :money_word_singular, :class => "width-20 padding-5", placeholder: "Money word singular…" %> "There was a problem with your [payment, subscription, fund, contribution, x]…"
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_field :money_word_plural, :class => "width-20 padding-5", placeholder: "Money word plural…" %> "All of the regular X from hundreds of reader patrons…"
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_field :money_word_verb, :class => "width-20 padding-5", placeholder: "Money word verb…" %> "Click on the [money_word] you wish to X…"
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_field :button_cta, :class => "width-20 padding-5", placeholder: "Button CTA NOW…" %> (Pay now, contribute now, fund now, insure now, x)
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_area :social_proof, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Social proof & momentum…" %>
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_area :risk_reversal, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Risk reversal, guarantee…" %>
+  </div>
+  
+  <% if false %>
+    <div class="margin-bottom-10">
+  		<%= f.text_field :image, :class => "width-98 padding-5", placeholder: "Frame image file…" %>
+  	</div>
+  	
+    <div class="margin-bottom-10">
+      <%= image_tag ('http://image.thespainreport.es/' + @frame.image) unless @frame.image.nil? %>
+    </div>
+  <% end %>
+  
+  <h3>More access</h3>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_area :access_patrons_only, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Access patrons only…" %>
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_area :access_more_for_patrons, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Access more for patrons…" %>
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_area :access_readers_to_patrons, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Access readers to patrons…" %>
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_area :access_patrons_below_10, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Access patrons below 10…" %>
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_area :access_patrons_below_25, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Access patrons below 25…" %>
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_area :access_patrons_above_25, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Access patrons above 25…" %>
+  </div>
+  
+<% end %>

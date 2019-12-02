@@ -7,7 +7,7 @@ class HomeController < ApplicationController
     Visit.create(
 				referer: request.headers["HTTP_REFERER"],
 				article_id: 1000000,
-				campaign_id: 1000000,
+				frame_id: 1000000,
 				plan_ids: ''
 				)
     
@@ -27,7 +27,7 @@ class HomeController < ApplicationController
     Visit.create(
 				referer: request.headers["HTTP_REFERER"],
 				article_id: 1000001,
-				campaign_id: 1000001,
+				frame_id: 1000001,
 				plan_ids: ''
 				)
     

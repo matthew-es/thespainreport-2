@@ -16,7 +16,7 @@ class ArticlesController < ApplicationController
 		else
 		end
 		@mains = Article.notupdate.order('created_at DESC')
-		@campaigns = Campaign.all.order(:name)
+		@frames = Frame.all.order(:emotional_quest_action)
 	end
 	
 	def index
@@ -38,12 +38,41 @@ class ArticlesController < ApplicationController
 			Visit.create(
 				referer: request.headers["HTTP_REFERER"],
 				article_id: @article.id,
-				campaign_id: @article.campaign_id,
+				frame_id: @article.frame_id,
 				plan_ids: ''
 				)
-		@articletweets = @article.tweets.order('created_at ASC')
-		@articleupdates = @article.updates.published.order('created_at ASC')
-	
+				
+			@articletweets = @article.tweets.order('created_at ASC')
+			@articleupdates = @article.updates.published.order('created_at ASC')
+			
+			if current_user.nil?
+				if @article.frame.blank?
+					@frame = Frame.find_by(link_slug: "guarantee")
+				else
+					@frame = Frame.find_by(id: @article.frame)
+				end
+				@frame_article = (@frame.language_id == @article.language_id)
+				@frametranslation = @frame.translations.where(language_id: @article.language_id).first
+				@frameoriginal = @frame.original
+			else
+				if current_user.frame.blank?
+					@frame = Frame.find_by(id: @article.frame)
+				else
+					@frame = current_user.frame
+				end
+				@frame_article = (@frame.language_id == @article.language_id)
+				@frametranslation = @frame.translations.where(language_id: @article.language_id).first
+				@frameoriginal = @frame.original
+			end
+			
+			unless current_user.nil? || !current_user.account.stripe_payment_method.present?
+			 @existing_pm = Stripe::PaymentMethod.retrieve(current_user.account.stripe_payment_method)
+			 @existing_pm_brand = @existing_pm.card.brand
+			 @existing_pm_last4 = @existing_pm.card.last4
+			 @existing_pm_month = @existing_pm.card.exp_month
+			 @existing_pm_year = @existing_pm.card.exp_year
+			end
+		
 		elsif current_user.nil?
 			redirect_to root_url
 		elsif current_user.role == 1
@@ -202,6 +231,6 @@ class ArticlesController < ApplicationController
 
 		# Never trust parameters from the scary internet, only allow the white list through.
 		def article_params
-			params.require(:article).permit(:alertmessage, :audio, :audioteaser, :body, :created_at, :campaign_id, :extras_audio, :extras_audioteaser, :extras_body, :headline, :image, :is_free, :language_id, :lede, :main_id, :original_id, :status_id, :story_id, :topstory, :type_id, :video)
+			params.require(:article).permit(:alertmessage, :audio_file, :audio_intro, :body, :created_at, :frame_id, :extras_audio_file, :extras_audio_intro, :extras_audio_teaser, :extras_notes, :extras_notes_teaser, :extras_transcription_file, :extras_transcription_intro, :extras_transcription_teaser, :headline, :image, :is_breaking, :language_id, :lede, :main_id, :original_id, :status_id, :story_id, :topstory, :type_id, :video)
 		end
 end

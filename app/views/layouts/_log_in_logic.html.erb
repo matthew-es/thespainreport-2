@@ -1,13 +1,4 @@
-<h3 class="margin-top-50">
-	<% if controller_name == 'home' && action_name == 'es' || controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 %>
-		Para los lectores mecenas
-	<% else %>
-		For reader patrons
-	<% end %>
-	
-	
-</h3>
-<div class="margin-top-5 margin-bottom-5 background-color-yellow padding-10">
+<div class="margin-top-5 margin-bottom-5 padding-10">
 	<% if current_user.nil? %>
 		<%= form_tag '/login' do %>
 			<%= text_field_tag 'email', nil, class: 'padding-5 font-main font-main-small', placeholder: 'Your e-mail...' %>

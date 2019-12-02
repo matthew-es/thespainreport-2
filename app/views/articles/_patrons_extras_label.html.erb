@@ -1,0 +1,7 @@
+<div id="patrons" class="alert-warning padding-20 margin-top-10 margin-bottom-10">
+	<div class="float-left margin-right-5 label background-color-patrons font-main-tiny font-bold font-color-white">
+		<% if @article.language_id == 1 %> PATRONS ONLY
+		<% elsif @article.language_id == 2 %> SÓLO MECENAS
+		<% else %>
+		<% end %>
+	</div>

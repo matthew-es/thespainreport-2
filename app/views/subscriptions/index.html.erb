@@ -1,31 +1,33 @@
 <%= render "articles/admintop" %>
 
-<table>
+<table class="font-main-vsmall">
   <thead>
     <tr>
-      <th>Account</th>
-      <th>Amount</th>
-      <th>Card country</th>
-      <th>Latest paid date</th>
-      <th>Ip country</th>
-      <th>Ip address</th>
-      <th>Residence country</th>
+      <th>ID</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Total</th>
+      <th>Frame</th>
+      <th>Tax %</th>
+      <th>Tax</th>
       <th colspan="2"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @subscriptions.each do |subscription| %>
-      <tr>
+      <tr class="<%= cycle("odd", "even") -%>">
+        <td><%= link_to subscription.id, edit_subscription_path(subscription) %></td>
+        <td><%= subscription.created_at.strftime("%d/%m/%Y") %></td>
+        <td><%= subscription.created_at.strftime("%H:%M") %></td>
+        <td class="align-right"><%= number_to_currency((subscription.total_amount.to_f/100.to_f), unit: "€") %></td>
+        <td><%= link_to subscription.frame_emotional_quest_action, subscription.frame %></td>
+        <td><%= subscription.residence_country %> | <%= subscription.card_country %> | <%= subscription.ip_country %> | <%= subscription.vat_country %></td>
+        <td class="align-right"><%= number_to_percentage((subscription.vat_rate.to_f*100), precision: 1) %></td>
+        <td class="align-right"><%= number_to_currency((subscription.vat_amount.to_f/100.to_f), unit: "€") %></td>
         <td><%= subscription.account_id %></td>
-        <td><%= subscription.amount %></td>
-        <td><%= subscription.card_country %></td>
-        <td><%= subscription.latest_paid_date %></td>
-        <td><%= subscription.ip_country %></td>
-        <td><%= subscription.ip_address %></td>
-        <td><%= subscription.residence_country %></td>
-        <td><%= link_to 'Edit', edit_subscription_path(subscription) %></td>
-        <td><%= link_to 'Destroy', subscription, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= subscription.last_payment_date.strftime("%d/%m/%Y %H:%M") %></td>
+        <td><%= link_to 'D?', subscription, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

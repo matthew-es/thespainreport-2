@@ -1,0 +1,22 @@
+<%= render "articles/admintop" %>
+
+<table>
+	<tbody>
+		<% @frames.each do |frame| %>
+			<tr>
+				<td><%= link_to frame.emotional_quest_action, edit_frame_path(frame) %></td>
+				<td><%= frame.link_slug %></td>
+				<td><%= frame.money_word_singular %></td>
+				<td><%= frame.button_cta %></td>
+				<td>
+					<% frame.translations.each do |tr| %>
+					 <%= link_to tr.language.name, tr %>
+					<% end %>
+				</td>
+				<td><%= link_to 'D?', frame, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+
+</div>

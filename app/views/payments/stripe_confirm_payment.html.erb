@@ -1,6 +1,6 @@
 <div class="content">
 	
-	<%= render "articles/logo_account" %>
+	<%= render "layouts/logo_account" %>
 
 	<% flash.each do |key, value| %>
 		<div class="alert alert-<%= key %>"><p><%= value.html_safe %></p></div>
@@ -11,11 +11,14 @@
 	</div>
 	
 	<div class="">
-		Payment for €<%= @payment_intent.amount %> needs to be confirmed.<br />
-		Current status is: <%= @payment_intent.status %>
+		Customer email: <%= @accountowner.email %></br >
+		Payment for €<%= @payment.total_amount %> needs to be confirmed.<br />
+		Current status is: <%= @payment.external_payment_status %><br />
+		Stripe amount: <%= @stripe_payment_intent.amount %></br >
+		Stripe status: <%= @stripe_payment_intent.status %></br >
 	</div>
 
-	<button id="card-button" data-secret="<%= @payment_intent.client_secret %>">Confirm now</button>
+	<button id="card-button" data-secret="<%= @stripe_payment_intent.amount %>">Confirm now</button>
 
 </div>
 

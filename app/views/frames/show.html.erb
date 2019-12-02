@@ -1,0 +1,24 @@
+<%= render "articles/admintop" %>
+
+	<h1 class="font-header font-header-normal line-115">Frames</h1>
+	
+	<div class="margin-bottom-20">
+		<strong>Name:</strong> <%= link_to @frame.name, edit_frame_path(@frame) %><br />
+		<strong>Subtitle:</strong> <%= @frame.subtitle %><br />
+		<strong>Payment page slug:</strong> <%= link_to @frame.slug, '/' + @frame.slug %><br />
+		<strong>Language:</strong> <%= @frame.language.try(:name) %>
+	</div>
+	
+	<div class="margin-bottom-20">
+		<%= markdown(@frame.teaser) %>
+		<%= markdown(@frame.deal) %>
+		<%= markdown(@frame.social) %>
+		<%= markdown(@frame.riskreversal) %>
+		<a href="https://www.patreon.com/join/matthewbennett" class="button"><%= @frame.buttontext %></a>
+	</div>
+	
+	<div class="margin-bottom-20">
+		<%= image_tag ('http://image.thespainreport.es/' + @frame.image) unless @frame.image.nil? %>
+	</div>
+
+</div>

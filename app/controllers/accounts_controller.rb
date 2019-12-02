@@ -88,7 +88,7 @@ class AccountsController < ApplicationController
     if current_user.nil? 
 			redirect_to root_url
 		elsif current_user.role == 1
-			@accountowner = User.where(account_id: @account).where(account_role: 1)
+			@accountowner = User.find_by(account_id: @account, account_role: 1)
 		else
 			redirect_to root_url
 		end
@@ -142,6 +142,6 @@ class AccountsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def account_params
-      params.require(:account).permit(:account_status, :account_status_date, :conversation_status, :residence_country, :stripe_customer_id, :stripe_payment_method, :stripe_payment_method_card_country)
+      params.require(:account).permit(:user_id, :account_status, :account_status_date, :conversation_status, :residence_country, :stripe_customer_id, :stripe_payment_method, :stripe_payment_method_card_country, :vat_country, :total_support)
     end
 end

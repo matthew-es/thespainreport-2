@@ -97,6 +97,6 @@ class VisitsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def visit_params
-      params.require(:visit).permit(:article_id, :campaign_id, :referer, :plan_ids => [])
+      params.require(:visit).permit(:article_id, :frame_id, :referer, :plan_ids => [])
     end
 end

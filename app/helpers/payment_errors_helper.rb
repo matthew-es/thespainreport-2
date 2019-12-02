@@ -1,0 +1,2 @@
+module PaymentErrorsHelper
+end
