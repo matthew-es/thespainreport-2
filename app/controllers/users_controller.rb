@@ -191,6 +191,19 @@ class UsersController < ApplicationController
 			redirect_to root_url
 		elsif current_user.role == 1
 			@users = User.all.order("email ASC")
+			
+			User.all.each do |u|
+				if [1, 2].include?u.role
+					u.update(
+						level_amount: 1
+						)
+				elsif u.role == 3
+					u.update(
+						level_amount: 0
+						)
+				else
+				end
+			end
 		else
 			redirect_to root_url
 		end

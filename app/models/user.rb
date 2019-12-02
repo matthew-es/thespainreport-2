@@ -17,7 +17,10 @@ class User < ApplicationRecord
 	scope :emails_notes, -> {where(emails: [1, 2, 3])}
 	scope :emails_english, -> {where(emaillanguage: [1, 3])}
    scope :emails_spanish, -> {where(emaillanguage: [2, 3])}
+   scope :english, -> {where(sitelanguage: 1)}
+   scope :spanish, -> {where(sitelanguage: 2)}
    scope :patrons, -> {where(role: 2)}
+   scope :readers, -> {where(role: 3)}
    scope :account_owner, -> {where(account_role: 1)}
    
 	def password_complexity
