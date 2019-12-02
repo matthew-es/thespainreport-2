@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_02_113231) do
+ActiveRecord::Schema.define(version: 2019_12_02_172643) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 2019_12_02_113231) do
     t.string "extras_transcription_file"
     t.string "extras_transcription_intro"
     t.string "extras_transcription_teaser"
+    t.string "short_headline"
     t.index ["frame_id"], name: "index_articles_on_frame_id"
     t.index ["language_id"], name: "index_articles_on_language_id"
     t.index ["main_id"], name: "index_articles_on_main_id"

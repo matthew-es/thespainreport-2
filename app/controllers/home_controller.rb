@@ -16,6 +16,7 @@ class HomeController < ApplicationController
     @latestnotes = Article.notes.english.published.lastten
     @types = Type.english.notupdate.notstory
     @rss = Article.all.order('created_at DESC')
+    @latest_patrons_only = Article.patrons_only.english.order('created_at DESC').limit(5)
     
     respond_to do |format|
       format.html
@@ -36,6 +37,7 @@ class HomeController < ApplicationController
     @latestnotes = Article.notes.spanish.published.lastten
     @types = Type.spanish.notupdate.notstory
     @rss = Article.all.spanish.published.order('created_at DESC')
+    @latest_patrons_only = Article.patrons_only.spanish.order('created_at DESC').limit(5)
     
     respond_to do |format|
       format.html

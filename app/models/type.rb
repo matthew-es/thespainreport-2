@@ -7,6 +7,7 @@ class Type < ApplicationRecord
 	end
     
     scope :story, -> {where(name: ['Story', 'Podcast', 'Tema'])}
+    scope :patrons_only, -> {where(name: ['Patrons only', 'Sólo mecenas'])}
     scope :notstory, -> {where.not(name: ['Story', 'Tema', 'Podcast'])}
     scope :notupdate, -> {where.not(name: ['Update', 'Actualización'])}
     scope :notes, -> {where(name: ['Notes', 'Apuntes'])}

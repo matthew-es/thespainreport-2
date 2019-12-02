@@ -58,7 +58,18 @@
 
 <% end %>
 
- 
+<div class="alert-warning padding-20 margin-top-20">
+	<span class="label background-color-patrons font-main-tiny font-color-white">PATRONS ONLY</span>
+	<% if @latest_patrons_only %>
+		<ul>
+			<% @latest_patrons_only.each do |l| %>
+				<li><%= link_to l.short_headline, l %></li>
+			<% end %>
+		</ul>
+	<% end %>
+	<%= render 'layouts/log_in_logic' %>
+</div>
+
 <h3>Lo Último</h3>
 <ul class="no-points">
 	<% @latest.each do |article| %>
@@ -75,8 +86,6 @@
 		</li>
  <% end %>
  </ul>
-
- <%= render 'layouts/log_in_logic' %>
 
  <h3 class="margin-top-50">Según el tipo de artículo</h3>
  <% @types.each do |t| %>

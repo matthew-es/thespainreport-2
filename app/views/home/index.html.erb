@@ -24,9 +24,6 @@
 
 <%= render "layouts/logo_account" %>
 
-<%= render 'layouts/log_in_logic' %>
-
-
 <% @latesttop.each do |article| %>
 	 <% if article.image? %>
 		<div class="">
@@ -61,7 +58,19 @@
    <% end %>
 
  <% end %>
- 
+
+<div class="alert-warning padding-20 margin-top-20">
+	<span class="label background-color-patrons font-main-tiny font-color-white">PATRONS ONLY</span>
+	<% if @latest_patrons_only %>
+		<ul>
+			<% @latest_patrons_only.each do |l| %>
+				<li><%= link_to l.short_headline, l %></li>
+			<% end %>
+		</ul>
+	<% end %>
+	<%= render 'layouts/log_in_logic' %>
+</div>
+
  <h3>Latest</h3>
  <ul class="no-points">
  <% @latest.each do |article| %>
