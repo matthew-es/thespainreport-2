@@ -7,11 +7,12 @@ class Type < ApplicationRecord
 	end
     
     scope :story, -> {where(name: ['Story', 'Podcast', 'Tema'])}
-    scope :patrons_only, -> {where(name: ['Patrons only', 'Sólo mecenas'])}
     scope :notstory, -> {where.not(name: ['Story', 'Tema', 'Podcast'])}
+    scope :patrons, -> {where(name: ['Patrons only', 'Sólo mecenas'])}
+    scope :notpatrons, -> {where.not(name: ['Patrons only', 'Sólo mecenas'])}
     scope :notupdate, -> {where.not(name: ['Update', 'Actualización'])}
-    scope :notes, -> {where(name: ['Notes', 'Apuntes'])}
-    scope :notnotes, -> {where.not(name: ['Notes', 'Apuntes'])}
+    scope :truth, -> {where(name: ['Truth & Journalism', 'Verdad y Periodismo'])}
+    scope :nottruth, -> {where.not(name: ['Truth & Journalism', 'Verdad y Periodismo'])}
     scope :thread, -> {where(name: ['Thread', 'Hilo'])}
     scope :english, -> {where(language_id: 1)}
     scope :spanish, -> {where(language_id: 2)}

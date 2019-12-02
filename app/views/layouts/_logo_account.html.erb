@@ -24,7 +24,7 @@
 		<div class="margin-top-2 font-main font-italic font-main-small">
 			<% if controller_name == 'articles' && action_name == 'show' && @article.frame.present? %>
 				<% if @frame_article %> <%= @frame.emotional_quest_role %>
-				<% elsif @frameoriginal.blank? %> <%= @frametranslation.emotional_quest_role %>
+				<% elsif @frameoriginal.blank? %> <%= @frametranslation.emotional_quest_role unless @frametranslation.nil? %>
 				<% else %> <%= @frameoriginal.emotional_quest_role %>
 				<% end %>
 			<% elsif controller_name == 'payments' && action_name == 'pay' %>

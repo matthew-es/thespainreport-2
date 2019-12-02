@@ -70,7 +70,7 @@
 	<%= render 'layouts/log_in_logic' %>
 </div>
 
-<h3>Lo Último</h3>
+<h3>Artículos sobre España</h3>
 <ul class="no-points">
 	<% @latest.each do |article| %>
 		<li class="margin-bottom-10 font-main font-main-small">
@@ -92,18 +92,10 @@
  <% end %>
  </ul>
 
- <h3 class="margin-top-50">Según el tipo de artículo</h3>
- <% @types.each do |t| %>
- 		<% if t.articles.any? %>
- 			<%= link_to t.name, t %>
- 		<% else %>
- 		<% end %>
- <% end %>
-
-<% if @latestnotes.present? %>
-	<h3 class="margin-top-50">Últimos Apuntes</h3>
+<% if @latesttruth.present? %>
+	<h3 class="margin-top-50">Verdad y Periodismo</h3>
 	<ul class="no-points">
-		<% @latestnotes.each do |article| %>
+		<% @latesttruth.each do |article| %>
 	 		<li class="margin-bottom-5 font-main font-main-small">
 	 			<%= article.type.name %>: 
 	 			<% if article.short_headline.present? %>

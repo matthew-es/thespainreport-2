@@ -19,11 +19,12 @@ class Article < ApplicationRecord
     scope :updates, -> {where.not(main_id: '')}
     scope :notupdate, -> {where(main_id: '')}
     scope :nottranslation, -> {where(original_id: '')}
-    scope :patrons_only, -> {Article.joins(:type).merge(Type.patrons_only)}
+    scope :patrons, -> {Article.joins(:type).merge(Type.patrons)}
+    scope :notpatrons, -> {Article.joins(:type).merge(Type.notpatrons)}
     scope :story, -> {Article.joins(:type).merge(Type.story)}
     scope :notstory, -> {Article.joins(:type).merge(Type.notstory)}
-    scope :notes, -> {Article.joins(:type).merge(Type.notes)}
-    scope :notnotes, -> {Article.joins(:type).merge(Type.notnotes)}
+    scope :truth, -> {Article.joins(:type).merge(Type.truth)}
+    scope :nottruth, -> {Article.joins(:type).merge(Type.nottruth)}
     scope :toplevelstory, -> {where(story_id: '')}
     scope :topstory, -> {where(:topstory => true)}
     scope :lastone, -> {order('created_at DESC').limit(1)}

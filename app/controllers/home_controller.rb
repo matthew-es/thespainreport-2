@@ -11,12 +11,12 @@ class HomeController < ApplicationController
 				plan_ids: ''
 				)
     
-    @latesttop = Article.notnotes.english.topstory.published.lastone
-    @latest = Article.notlatesttop.notupdate.notnotes.english.published.lasttwenty
-    @latestnotes = Article.notes.english.published.lastten
+    @latesttop = Article.nottruth.notpatrons.english.topstory.published.lastone
+    @latest = Article.notlatesttop.notupdate.nottruth.notpatrons.english.published.lasttwenty
+    @latesttruth = Article.truth.english.published.lastten
     @types = Type.english.notupdate.notstory
     @rss = Article.all.order('created_at DESC')
-    @latest_patrons_only = Article.patrons_only.english.order('created_at DESC').limit(5)
+    @latest_patrons_only = Article.patrons.english.order('created_at DESC').limit(5)
     
     respond_to do |format|
       format.html
@@ -32,12 +32,12 @@ class HomeController < ApplicationController
 				plan_ids: ''
 				)
     
-    @latesttop = Article.notnotes.spanish.topstory.published.lastone
-    @latest = Article.notlatesttop.notupdate.notnotes.spanish.published.lasttwenty
-    @latestnotes = Article.notes.spanish.published.lastten
+    @latesttop = Article.nottruth.notpatrons.spanish.topstory.published.lastone
+    @latest = Article.notlatesttop.notupdate.nottruth.notpatrons.spanish.published.lasttwenty
+    @latesttruth = Article.truth.spanish.published.lastten
     @types = Type.spanish.notupdate.notstory
     @rss = Article.all.spanish.published.order('created_at DESC')
-    @latest_patrons_only = Article.patrons_only.spanish.order('created_at DESC').limit(5)
+    @latest_patrons_only = Article.patrons.spanish.order('created_at DESC').limit(5)
     
     respond_to do |format|
       format.html
