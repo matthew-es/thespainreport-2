@@ -232,17 +232,13 @@
 	<% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
 		<% if current_user.nil? %>
 			<%= markdown(truncate(@article.body, length: 550)) %>
-			Patrons only—not logged in
 		<% elsif current_user.level_amount == 0 %>
 			<%= markdown(truncate(@article.body, length: 550)) %>
-			Patrons only—non-paying reader
 		<% elsif current_user.level_amount >= 1 %>
 			<%= markdown(@article.body).html_safe %>
-			Patrons only-patron
 		<% end %>
 	<% else %>
 		<%= markdown(@article.body).html_safe %>
-		95% free
 	<% end %>
 	
 	<% if @article.image.present? %>
