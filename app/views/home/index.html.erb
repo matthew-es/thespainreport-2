@@ -23,7 +23,9 @@
 <div class="content">
 
 <%= render "layouts/logo_account" %>
+<% if false %>
 <%= render 'layouts/log_in_logic' %>
+<% end %>
 
 <% @latesttop.each do |article| %>
 	 <% if article.image? %>
