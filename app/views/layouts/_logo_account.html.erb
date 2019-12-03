@@ -3,45 +3,23 @@
 	<div class="float-left align-left mobile-100">
 		<div class="">
 			<div class="topbutton mobile-100"> 
-				<% if controller_name == 'articles' && action_name == 'show' && @frame.present? %>
-					<% if @frame_article %> <a href="<%= '/' + @frame.link_slug %>" class="topbutton"><%= @frame.emotional_quest_action %>
-					<% elsif @frameoriginal.blank? %> <a href="<%= '/' + @frametranslation.link_slug %>" class="topbutton"><%= @frametranslation.emotional_quest_action %>
-					<% else %> <a href="<%= '/' + @frameoriginal.link_slug %>" class="topbutton"><%= @frameoriginal.emotional_quest_action %>
+					<% if @frame_article %> <a href="<%= '/subscribe/' + @frame.link_slug %>" class="topbutton"><%= @frame.emotional_quest_action %></a> 
+					<% elsif @frameoriginal.blank? %> <a href="<%= '/' + @frametranslation.link_slug %>" class="topbutton"><%= @frametranslation.emotional_quest_action %></a> 
+					<% else %> <a href="<%= '/' + @frameoriginal.link_slug %>" class="topbutton"><%= @frameoriginal.emotional_quest_action %></a> 
 					<% end %>
-				<% elsif controller_name == 'payments' && action_name == 'pay' %>
-					<a href="<%= '/subscribe/' + @frame.link_slug %>" class="topbutton">
-						<%= @frame.emotional_quest_action %>
-				<% elsif controller_name == 'home' && action_name == 'es' || controller_name == 'payments' && action_name == 'pagar' || controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 %>
-					<a href="/garantizar" class="topbutton"> 
-					Garantice el periodismo indpendiente
-				<% else %>
-					<a href="/guarantee" class="topbutton"> 
-					Guarantee independent journalism
-				<% end %>
-					</a> 
 			</div>
 		</div>
 		<div class="margin-top-2 font-main font-italic font-main-small">
-			<% if controller_name == 'articles' && action_name == 'show' && @article.frame.present? %>
 				<% if @frame_article %> <%= @frame.emotional_quest_role %>
 				<% elsif @frameoriginal.blank? %> <%= @frametranslation.emotional_quest_role unless @frametranslation.nil? %>
 				<% else %> <%= @frameoriginal.emotional_quest_role %>
 				<% end %>
-			<% elsif controller_name == 'payments' && action_name == 'pay' %>
-				<%= @frame.emotional_quest_role %>
-			<% elsif controller_name == 'home' && action_name == 'es' || controller_name == 'payments' && action_name == 'pagar' || controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 %>
-				Rigor frente a la propaganda interesada
-			<% else %>
-				The detailed truth about Spain, not spin and fake news
-			<% end %>
 		</div>
 	</div>
 	<div class="float-right align-right mobile-100">
 		<div class="width-fixed-logo">
-			<% if controller_name == 'payments' && action_name == 'pay' %>
-				
-			<% elsif controller_name == 'payments' && action_name == 'pagar' %>
-				<a href="/garantizar" class="logo">
+			<% if controller_name == 'payments' && action_name == 'pay' || controller_name == 'payments' && action_name == 'pagar' %>
+			
 			<% elsif controller_name == 'home' && action_name == 'es' || controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 %>
 				<a href="/es" class="logo">
 			<% else %>

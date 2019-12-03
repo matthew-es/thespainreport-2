@@ -6,10 +6,12 @@ class UsersController < ApplicationController
 	
 	def signup
 		@user = User.new
+		@frame = Frame.find_by(link_slug: "guarantee")
 	end
 	
 	def apuntese
 		@user = User.new
+		@frame = Frame.find_by(link_slug: "garantizar")
 	end
   
 	def newsession
@@ -248,7 +250,7 @@ class UsersController < ApplicationController
 	def new_reader
 		autopassword = 'L e @ 4' + SecureRandom.hex(32)
 		generate_token = SecureRandom.urlsafe_base64.to_s
-		
+	
 		begin
 			user = User.create!(
 			email: params[:email],
@@ -264,32 +266,34 @@ class UsersController < ApplicationController
 			)
 		
 			if user.emaillanguage == 1
-	   		UserMailer.welcome_link(user).deliver_now
-	   		flash[:warning] = "Well done! Please check your inbox now and click on the link to confirm your email address"
-	   	elsif user.emaillanguage == 2
-	   		UserMailer.welcome_link_es(user).deliver_now
-	   		flash[:warning] = "¡Enhorabuena!. Compruebe su correo ahora y haga clic en el enlace para confirmar la dirección"
-	   	else
+		   		UserMailer.welcome_link(user).deliver_now
+		   		flash[:success] = "Well done! Please go to your email now: click on the link to confirm your email address"
+		   	elsif user.emaillanguage == 2
+		   		UserMailer.welcome_link_es(user).deliver_now
+		   		flash[:success] = "¡Enhorabuena!. Compruebe su correo ahora y haga clic en el enlace para confirmar la dirección"
+		   	else
 			end
 			
-			UserMailer.admin_new_reader(user).deliver_now
+			admin_subject = "New reader: #{user.email}"
+			admin_message = "Email: #{user.email}" + "<br />" + "Language: #{user.sitelanguage}"
+			UserMailer.admin_alert(admin_subject, admin_message).deliver_now
 			redirect_to '/users/updated'
 		rescue Exception => e
-			if @article.nil?
+			if params[:set_language] == "1"
 				flash[:tryagain] = "Try again…"
 				redirect_to '/signup'
+			elsif params[:set_language] == "2"
+				flash[:tryagain] = "Inténtelo de nuevo…"
+				redirect_to '/apuntese'
 			elsif @article.language_id == 1
 				flash[:tryagain] = "Try again…"
 				redirect_to '/signup'
 			elsif @article.language_id == 2
 				flash[:tryagain] = "Inténtelo de nuevo…"
-				redirect_to '/signup'
+				redirect_to '/apuntese'
 			else
 			end
-		else
-		ensure
 		end
-		
 	end
 	
 	# GET /users/new
@@ -305,6 +309,19 @@ class UsersController < ApplicationController
 
 	# GET /users/1/edit
 	def edit
+		if current_user.nil? || current_user.frame.blank?
+			@frame = Frame.find_by(link_slug: "guarantee")
+			@frame_article = (@frame.language_id == 1)
+			@frametranslation = @frame.translations.where(language_id: 1).first
+			@frameoriginal = @frame.original
+		else
+			@frame = current_user.frame
+			@frame_article = (@frame.language_id == current_user.sitelanguage)
+			@frametranslation = @frame.translations.where(language_id: current_user.sitelanguage).first
+			@frameoriginal = @frame.original
+		end
+		
+		
 		if current_user.nil?
 			redirect_to root_url
 		elsif current_user.status == 1

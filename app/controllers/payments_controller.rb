@@ -20,6 +20,10 @@ class PaymentsController < ApplicationController
 		if @frame.nil?
 			@frame = Frame.find_by(link_slug: "guarantee")
 		end
+		@frame_article = (@frame.language_id == 1)
+		@frametranslation = @frame.translations.where(language_id: 1).first
+		@frameoriginal = @frame.original
+			
 		@article_id = 2
 		
 		unless current_user.nil? || !current_user.account.present? || !current_user.account.stripe_payment_method.present?
