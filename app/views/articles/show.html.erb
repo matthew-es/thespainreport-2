@@ -36,7 +36,7 @@
 	<h1 class="font-header font-header-normal line-120 font-upper">
 		<% if current_user.nil? %>
 			<%= @article.headline %>
-		<% elsif current_user.role == 1 %>
+		<% elsif current_user.status == 1 %>
 			<%= link_to @article.headline, edit_article_path, class: "editor-link" %>
 		<% else %>
 			<%= @article.headline %>
@@ -281,7 +281,7 @@
 		<h3 id="<%= u.id %>">
 			<% if current_user.nil? %>
 				<%= u.headline %>
-			<% elsif current_user.role == 1 %>
+			<% elsif current_user.status == 1 %>
 				<%= link_to u.headline, edit_article_path(u), class: "editor-link" %>
 			<% else %>
 				<%= u.headline %>

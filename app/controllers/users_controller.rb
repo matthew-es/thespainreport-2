@@ -176,7 +176,7 @@ class UsersController < ApplicationController
 	def reset_tokens
 		if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			User.all.each do |u|
 				u.update(confirm_token: SecureRandom.urlsafe_base64.to_s)
 			end
@@ -189,15 +189,15 @@ class UsersController < ApplicationController
 	def index
 		if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			@users = User.all.order("email ASC")
 			
 			User.all.each do |u|
-				if [1, 2].include?u.role
+				if [1, 2].include?u.status
 					u.update(
 						level_amount: 1
 						)
-				elsif u.role == 3
+				elsif u.status == 3
 					u.update(
 						level_amount: 0
 						)
@@ -214,7 +214,7 @@ class UsersController < ApplicationController
 	def show
 		if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			@user = User.find(params[:id])
 		else
 			redirect_to root_url
@@ -234,7 +234,7 @@ class UsersController < ApplicationController
 			password_confirmation: autopassword,
 			password_reset_token: generate_token,
 			password_reset_sent_at: Time.zone.now,
-			role: params[:role],
+			status: params[:role],
 			sitelanguage: params[:sitelanguage],
 			emails: params[:emails],
 			emaillanguage: params[:emaillanguage],
@@ -256,7 +256,7 @@ class UsersController < ApplicationController
 			password: autopassword,
 			password_confirmation: autopassword,
 			password_reset_sent_at: Time.zone.now,
-			role: 3,
+			status: 3,
 			sitelanguage: params[:set_language],
 			emails: 1,
 			emaillanguage: params[:set_language],
@@ -296,7 +296,7 @@ class UsersController < ApplicationController
 	def new
 		if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			@user = User.new
 		else
 			redirect_to root_url
@@ -307,7 +307,7 @@ class UsersController < ApplicationController
 	def edit
 		if current_user.nil?
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			@user = User.find_by_id(params[:id])
 		elsif User.find_by_id(params[:id]) != current_user
 			redirect_to edit_user_path(current_user)
@@ -366,6 +366,6 @@ class UsersController < ApplicationController
 
 		# Never trust parameters from the scary internet, only allow the white list through.
 		def user_params
-			params.require(:user).permit(:account_id, :frame_id, :account_role, :country, :email, :email_confirmed, :emails, :emaillanguage, :level_amount, :mailing_address, :password, :password_confirmation, :password_digest, :password_reset_token, :password_reset_sent_at, :role, :sitelanguage, :confirm_token)
+			params.require(:user).permit(:account_id, :frame_id, :account_role, :country, :email, :email_confirmed, :emails, :emaillanguage, :level_amount, :mailing_address, :password, :password_confirmation, :password_digest, :password_reset_token, :password_reset_sent_at, :status, :sitelanguage, :confirm_token)
 		end
 end

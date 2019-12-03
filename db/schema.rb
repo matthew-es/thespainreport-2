@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_02_172643) do
+ActiveRecord::Schema.define(version: 2019_12_03_110510) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -255,7 +255,7 @@ ActiveRecord::Schema.define(version: 2019_12_02_172643) do
     t.string "email"
     t.boolean "email_confirmed"
     t.string "password_digest"
-    t.integer "role"
+    t.integer "status"
     t.string "confirm_token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

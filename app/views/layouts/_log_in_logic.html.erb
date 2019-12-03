@@ -7,7 +7,7 @@
 			<a href="/password">New password?</a>
 		<% end %>
 	<% elsif !current_user.nil? %>
-		<% if current_user.role == 1 %>
+		<% if current_user.status == 1 %>
 			<%= link_to 'Admin', new_tweet_path %> |
 		<% else end %>
 		<%= current_user.email %>
