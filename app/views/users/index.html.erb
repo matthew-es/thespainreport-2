@@ -4,7 +4,7 @@
   <tbody>
     <tr style="font-weight: bold;">
         <td>Email</td>
-        <td>Role</td>
+        <td>Status</td>
         <td>Site</td>
         <td>Emails</td>
         <td>Email language</td>
@@ -14,11 +14,11 @@
       <tr>
         <td><%= link_to user.email, edit_user_path(user) %></td>
         <td>
-          <% if user.role == 1 %>
+          <% if user.status == 1 %>
             Editor
-          <% elsif user.role == 2 %>
+          <% elsif user.status == 2 %>
             Patron
-          <% elsif user.role == 3 %>
+          <% elsif user.status == 3 %>
             Reader
           <% else end %>
         </td>
