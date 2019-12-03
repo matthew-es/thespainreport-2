@@ -6,7 +6,7 @@ class CountriesController < ApplicationController
   def index
     if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			@countries = Country.all.order("country_code ASC")
 		else
 			redirect_to root_url
@@ -18,7 +18,7 @@ class CountriesController < ApplicationController
   def show
     if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			
 		else
 			redirect_to root_url
@@ -29,7 +29,7 @@ class CountriesController < ApplicationController
   def new
     if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			@country = Country.new
 		else
 			redirect_to root_url
@@ -40,7 +40,7 @@ class CountriesController < ApplicationController
   def edit
     if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			
 		else
 			redirect_to root_url

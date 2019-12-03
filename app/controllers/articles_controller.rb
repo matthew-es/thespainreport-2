@@ -22,7 +22,7 @@ class ArticlesController < ApplicationController
 	def index
 		if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			@articles = Article.notupdate.nottranslation.notstory.order('created_at DESC')
 			@stories = Article.notupdate.nottranslation.story.order('created_at DESC')
 			@toplevelstories = Article.notupdate.nottranslation.story.toplevelstory.order('created_at DESC')
@@ -75,7 +75,7 @@ class ArticlesController < ApplicationController
 		
 		elsif current_user.nil?
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			
 		else
 			redirect_to root_url
@@ -86,7 +86,7 @@ class ArticlesController < ApplicationController
 	def new
 		if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			@article = Article.new
 			article_elements
 			@translationof = Article.spanish.order('created_at DESC')
@@ -99,7 +99,7 @@ class ArticlesController < ApplicationController
 	def edit
 		if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			article_elements
 		else
 			redirect_to root_url

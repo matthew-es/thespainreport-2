@@ -9,7 +9,7 @@ class PlansController < ApplicationController
   def index
     if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			plan_elements
 		else
 			redirect_to root_url
@@ -21,7 +21,7 @@ class PlansController < ApplicationController
   def show
     if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 		
 		else
 		  redirect_to root_url
@@ -32,7 +32,7 @@ class PlansController < ApplicationController
   def new
     if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			@plan = Plan.new
 			plan_elements
 		else
@@ -44,7 +44,7 @@ class PlansController < ApplicationController
   def edit
     if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			plan_elements
 		else
 			redirect_to root_url

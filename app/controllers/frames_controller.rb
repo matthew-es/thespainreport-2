@@ -9,7 +9,7 @@ class FramesController < ApplicationController
   def index
     if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			frame_elements
 		else
 			redirect_to root_url
@@ -19,7 +19,7 @@ class FramesController < ApplicationController
   def show
     if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			
 		else
 			redirect_to root_url
@@ -29,7 +29,7 @@ class FramesController < ApplicationController
   def new
     if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			@frame = Frame.new
       frame_elements
 		else
@@ -40,7 +40,7 @@ class FramesController < ApplicationController
   def edit
     if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			frame_elements
 		else
 			redirect_to root_url

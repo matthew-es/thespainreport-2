@@ -6,7 +6,7 @@ class AccountsController < ApplicationController
   def index
     if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			@accounts = Account.all.order('account_status_date DESC')
 		else
 			redirect_to root_url
@@ -18,7 +18,7 @@ class AccountsController < ApplicationController
   def show
     if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			redirect_to edit_account_path(@account)
 		else
 			redirect_to root_url
@@ -29,7 +29,7 @@ class AccountsController < ApplicationController
   def new
     if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			@account = Account.new
 		else
 			redirect_to root_url
@@ -87,7 +87,7 @@ class AccountsController < ApplicationController
   def edit
     if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			@accountowner = User.find_by(account_id: @account, account_role: 1)
 		else
 			redirect_to root_url

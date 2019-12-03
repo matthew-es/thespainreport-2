@@ -50,7 +50,7 @@ class PaymentsController < ApplicationController
 			password: autopassword,
 			password_confirmation: autopassword,
 			password_reset_sent_at: Time.zone.now,
-			role: 2,
+			status: 2,
 			sitelanguage: 1,
 			emails: 1,
 			emaillanguage: 1,
@@ -491,7 +491,7 @@ class PaymentsController < ApplicationController
 	def index
 		if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			@payments = Payment.all.order('created_at DESC')
 		else
 			redirect_to root_url
@@ -503,7 +503,7 @@ class PaymentsController < ApplicationController
 	def show
 		if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			
 		else
 			redirect_to root_url
@@ -514,7 +514,7 @@ class PaymentsController < ApplicationController
 	def new
 		if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			@payment = Payment.new
 		else
 			redirect_to root_url
@@ -525,7 +525,7 @@ class PaymentsController < ApplicationController
 	def edit
 		if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			
 		else
 			redirect_to root_url

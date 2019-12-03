@@ -6,7 +6,7 @@ class UploadsController < ApplicationController
 	def index
 		if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			@uploads = Upload.all.order('created_at DESC')
 		else
 			redirect_to root_url
@@ -18,7 +18,7 @@ class UploadsController < ApplicationController
 	def show
 		if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			
 		else
 			redirect_to root_url
@@ -29,7 +29,7 @@ class UploadsController < ApplicationController
 	def new
 		if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			@upload = Upload.new
 		else
 			redirect_to root_url
@@ -40,7 +40,7 @@ class UploadsController < ApplicationController
 	def edit
 		if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.role == 1
+		elsif current_user.status == 1
 			
 		else
 			redirect_to root_url
