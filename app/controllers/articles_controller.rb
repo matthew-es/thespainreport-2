@@ -47,8 +47,10 @@ class ArticlesController < ApplicationController
 
 			if @article.language_id == 1
 				@set_language = 1
+				@url_stub = "/value/"
 			elsif @article.language_id == 2
 				@set_language = 2
+				@url_stub = "/valor/"
 			else end
 			
 			if current_user.nil?

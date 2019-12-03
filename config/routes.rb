@@ -20,6 +20,7 @@
 
 	get 'guarantee', to: redirect("/")
 	get 'garantizar', to: redirect("/")
+	get 'subscribe', to: redirect("/")
 	get 'support', to: redirect("/")
 	get 'apoyar', to: redirect("/")
 	get 'contribute', to: redirect("/")
@@ -30,16 +31,18 @@
 	
 	resources :payments
 =begin
-	get 'pay', to: redirect('subscribe/guarantee')
-	get 'pay/:slug', to: redirect { |path, req| "subscribe/#{path[:slug]}" }
-	get 'contribute', to: redirect('subscribe/contribute')
-	get 'contribute/:slug', to: redirect { |path, req| "subscribe/#{path[:slug]}" }
-	get 'guarantee', to: redirect('subscribe/guarantee')
-	get 'guarantee/:slug', to: redirect { |path, req| "subscribe/#{path[:slug]}" }
-	get 'support', to: redirect('subscribe/support')
-	get 'support/:slug', to: redirect { |path, req| "subscribe/#{path[:slug]}" }
-	get 'subscribe', to: redirect('subscribe/subcribe')
-	get 'subscribe/:slug' => "payments#pay"
+	get 'pay', to: redirect('value/pay')
+	get 'pay/:slug', to: redirect { |path, req| "value/#{path[:slug]}" }
+	get 'contribute', to: redirect('value/contribute')
+	get 'contribute/:slug', to: redirect { |path, req| "value/#{path[:slug]}" }
+	get 'guarantee', to: redirect('value/guarantee')
+	get 'guarantee/:slug', to: redirect { |path, req| "value/#{path[:slug]}" }
+	get 'support', to: redirect('value/support')
+	get 'support/:slug', to: redirect { |path, req| "value/#{path[:slug]}" }
+	get 'subscribe', to: redirect('value/subscribe')
+	get 'subscribe/:slug', to: redirect { |path, req| "value/#{path[:slug]}" }
+	get 'value/:slug' => "payments#pay"
+	get 'value/' => "payments#pay"
 	get 'suscribirse/' => "payments#pagar"
 	get 'suscribirse/:slug' => "payments#pagar"
 	get 'garantizar' => "payments#pagar"
@@ -55,7 +58,6 @@
 	post 'stripe_credit_card' => 'payments#stripe_credit_card'
 	post 'stripe_first_payment' => 'payments#stripe_first_payment'
 =end
-
 	get 'trial', to: redirect("http://www.thespainreport.es/articles/32-180101210225-catalan-separatism")
 	get 'twitterpatreon' => 'home#patreon'
 	

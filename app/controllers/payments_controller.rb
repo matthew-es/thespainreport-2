@@ -23,7 +23,7 @@ class PaymentsController < ApplicationController
 		@frame_article = (@frame.language_id == 1)
 		@frametranslation = @frame.translations.where(language_id: 1).first
 		@frameoriginal = @frame.original
-			
+		@url_stub = "/value/"
 		@article_id = 2
 		
 		unless current_user.nil? || !current_user.account.present? || !current_user.account.stripe_payment_method.present?
@@ -42,6 +42,7 @@ class PaymentsController < ApplicationController
 		if @frame.nil?
 			@frame = Frame.find_by(slug: "garantizar")
 		end
+		@url_stub = "/valor/"
 		@article_id = 2
 	end
 	
