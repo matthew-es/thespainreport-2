@@ -17,7 +17,7 @@
 	
 	root 'home#index'
 
-=begin
+
 	get 'guarantee', to: redirect("/")
 	get 'garantizar', to: redirect("/")
 	get 'support', to: redirect("/")
@@ -26,9 +26,10 @@
 	get 'contribuir', to: redirect("/")
 	get 'pay', to: redirect("/")
 	get 'pagar', to: redirect("/")
-=end
+
 	
 	resources :payments
+=begin
 	get 'pay', to: redirect('subscribe/guarantee')
 	get 'pay/:slug', to: redirect { |path, req| "subscribe/#{path[:slug]}" }
 	get 'contribute', to: redirect('subscribe/contribute')
@@ -53,7 +54,8 @@
 	post 'new_payment_error' => 'payment_errors#create_payment_error'
 	post 'stripe_credit_card' => 'payments#stripe_credit_card'
 	post 'stripe_first_payment' => 'payments#stripe_first_payment'
-	
+=end
+
 	get 'trial', to: redirect("http://www.thespainreport.es/articles/32-180101210225-catalan-separatism")
 	get 'twitterpatreon' => 'home#patreon'
 	
@@ -85,6 +87,7 @@
 	get 'logout' => 'users#destroysession'
 	get 'users/reset_tokens' => 'users#reset_tokens'
 	get 'users/updated' => 'users#updated'
+	get 'thanks' => 'users#updated'
 	post 'editor_creates_new_user' => 'users#editor_creates_new_user'
 	post 'editor_modifies_accounts' => 'accounts#editor_modifies_accounts'
 	resources :users do

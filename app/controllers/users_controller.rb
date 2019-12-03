@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 	def signup
 		@user = User.new
 		@set_language = 1
-		@frame = Frame.find_by(link_slug: "support")
+		@frame = Frame.find_by(link_slug: "guarantee")
 		@frame_article = (@frame.language_id == 1)
 		@frametranslation = @frame.translations.where(language_id: 1).first
 		@frameoriginal = @frame.original
@@ -181,6 +181,10 @@ class UsersController < ApplicationController
 	end
 	
 	def updated
+		@frame = Frame.find_by(link_slug: "guarantee")
+		@frame_article = (@frame.language_id == 1)
+		@frametranslation = @frame.translations.where(language_id: 1).first
+		@frameoriginal = @frame.original
 	end
 	
 	def reset_tokens
@@ -276,6 +280,12 @@ class UsersController < ApplicationController
 					emaillanguage: params[:set_language],
 					email_confirmed: false
 					)
+					
+					Bookmark.create(
+						user_id: user.id,
+						article_id: params[:article_id],
+						new_email_reader_article: true
+						)
 				
 					if user.emaillanguage == 1
 				   		UserMailer.welcome_link(user).deliver_now
@@ -286,10 +296,13 @@ class UsersController < ApplicationController
 				   	else
 					end
 					
+					sign_up_article = Article.find(params[:article_id])
 					admin_subject = "New reader: #{user.email}"
-					admin_message = "Email: #{user.email}" + "<br />" + "Language: #{user.sitelanguage}"
+					admin_message = (
+						"Email: #{user.email}" + "<br />" + "Language: #{user.sitelanguage}" + "<br />" + "Article: #{sign_up_article.headline}"
+						).html_safe
 					UserMailer.admin_alert(admin_subject, admin_message).deliver_now
-					redirect_to '/users/updated'
+					redirect_to '/thanks'
 				rescue Exception => e
 				end
 		else
