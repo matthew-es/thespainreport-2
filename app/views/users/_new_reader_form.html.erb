@@ -1,0 +1,24 @@
+<div class="padding-20 border-patrons margin-top-20">
+	<span class="font-bold font-main-normal"><%= @frame.email_reader_header %></span>
+	
+	<p class="margin-top-10">
+		<%= @frame.email_reader_text %>
+	</p>
+	
+	<%= form_tag '/new_reader' do |f| %>
+		<div class="width-100">
+			<div class="float-left width-50 margin-right-10">
+				<input type="email" name="email" id="email" class="width-100 padding-10" placeholder="<%= @frame.email_reader_placeholder %>" />
+			</div>
+			<div class="float-left width-33 margin-left-20 ">
+				<button type="submit" class="width-70 padding-5 font-main-normal margin-top-2"><%= @frame.email_reader_button %></button>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<input type="hidden" id="set_language" name="set_language" value="<%= @set_language %>" />
+	<% end %>
+	
+	<% flash.each do |key, value| %>
+		<div class="alert alert-<%= key %>"><p><%= value.html_safe %></p></div>
+	<% end %>
+</div>

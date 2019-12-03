@@ -94,4 +94,24 @@
     <%= f.text_area :access_patrons_above_25, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Access patrons above 25…" %>
   </div>
   
+  <h3>Email reader sign-ups</h3>
+  
+  <div class="margin-bottom-10">
+		<%= f.text_field :email_reader_header, :class => "width-33 padding-5 font-header font-header-small", placeholder: "Email header…" %>
+	</div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_area :email_reader_text, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Email text…" %>
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_field :email_reader_placeholder, :class => "width-20 padding-5", placeholder: "Email placeholder…" %> (Enter your email here…)
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_field :email_reader_button, :class => "width-20 padding-5", placeholder: "Email button CTA…" %> (Join, send, x)
+  </div>
+  
+  
+  
 <% end %>

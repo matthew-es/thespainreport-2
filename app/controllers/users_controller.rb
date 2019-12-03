@@ -6,12 +6,20 @@ class UsersController < ApplicationController
 	
 	def signup
 		@user = User.new
-		@frame = Frame.find_by(link_slug: "guarantee")
+		@set_language = 1
+		@frame = Frame.find_by(link_slug: "support")
+		@frame_article = (@frame.language_id == 1)
+		@frametranslation = @frame.translations.where(language_id: 1).first
+		@frameoriginal = @frame.original
 	end
 	
 	def apuntese
 		@user = User.new
+		@set_language = 2
 		@frame = Frame.find_by(link_slug: "garantizar")
+		@frame_article = (@frame.language_id == 2)
+		@frametranslation = @frame.translations.where(language_id: 2).first
+		@frameoriginal = @frame.original
 	end
   
 	def newsession
@@ -250,49 +258,47 @@ class UsersController < ApplicationController
 	def new_reader
 		autopassword = 'L e @ 4' + SecureRandom.hex(32)
 		generate_token = SecureRandom.urlsafe_base64.to_s
-	
-		begin
-			user = User.create!(
-			email: params[:email],
-			confirm_token: generate_token,
-			password: autopassword,
-			password_confirmation: autopassword,
-			password_reset_sent_at: Time.zone.now,
-			status: 3,
-			sitelanguage: params[:set_language],
-			emails: 1,
-			emaillanguage: params[:set_language],
-			email_confirmed: false
-			)
 		
-			if user.emaillanguage == 1
-		   		UserMailer.welcome_link(user).deliver_now
-		   		flash[:success] = "Well done! Please go to your email now: click on the link to confirm your email address"
-		   	elsif user.emaillanguage == 2
-		   		UserMailer.welcome_link_es(user).deliver_now
-		   		flash[:success] = "¡Enhorabuena!. Compruebe su correo ahora y haga clic en el enlace para confirmar la dirección"
-		   	else
-			end
-			
-			admin_subject = "New reader: #{user.email}"
-			admin_message = "Email: #{user.email}" + "<br />" + "Language: #{user.sitelanguage}"
-			UserMailer.admin_alert(admin_subject, admin_message).deliver_now
-			redirect_to '/users/updated'
-		rescue Exception => e
+		@user = User.find_by(email: params[:email])
+		
+		if @user.nil?
+	
+				begin
+					user = User.create!(
+					email: params[:email],
+					confirm_token: generate_token,
+					password: autopassword,
+					password_confirmation: autopassword,
+					password_reset_sent_at: Time.zone.now,
+					status: 3,
+					sitelanguage: params[:set_language],
+					emails: 1,
+					emaillanguage: params[:set_language],
+					email_confirmed: false
+					)
+				
+					if user.emaillanguage == 1
+				   		UserMailer.welcome_link(user).deliver_now
+				   		flash[:success] = "Well done! Please go to your email now: click on the link to confirm your email address"
+				   	elsif user.emaillanguage == 2
+				   		UserMailer.welcome_link_es(user).deliver_now
+				   		flash[:success] = "¡Enhorabuena!. Compruebe su correo ahora y haga clic en el enlace para confirmar la dirección"
+				   	else
+					end
+					
+					admin_subject = "New reader: #{user.email}"
+					admin_message = "Email: #{user.email}" + "<br />" + "Language: #{user.sitelanguage}"
+					UserMailer.admin_alert(admin_subject, admin_message).deliver_now
+					redirect_to '/users/updated'
+				rescue Exception => e
+				end
+		else
+			redirect_back(fallback_location: root_path)
 			if params[:set_language] == "1"
 				flash[:tryagain] = "Try again…"
-				redirect_to '/signup'
 			elsif params[:set_language] == "2"
 				flash[:tryagain] = "Inténtelo de nuevo…"
-				redirect_to '/apuntese'
-			elsif @article.language_id == 1
-				flash[:tryagain] = "Try again…"
-				redirect_to '/signup'
-			elsif @article.language_id == 2
-				flash[:tryagain] = "Inténtelo de nuevo…"
-				redirect_to '/apuntese'
-			else
-			end
+			else end
 		end
 	end
 	

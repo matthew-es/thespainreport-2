@@ -44,6 +44,12 @@ class ArticlesController < ApplicationController
 				
 			@articletweets = @article.tweets.order('created_at ASC')
 			@articleupdates = @article.updates.published.order('created_at ASC')
+
+			if @article.language_id == 1
+				@set_language = 1
+			elsif @article.language_id == 2
+				@set_language = 2
+			else end
 			
 			if current_user.nil?
 				if @article.frame.blank?

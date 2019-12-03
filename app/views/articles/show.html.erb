@@ -270,11 +270,7 @@
 		<% end %>
 	<% end %>
 
-	<% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
-		<%= render "articles/patrons_logic" %>
-	<% elsif @article.extras_notes.present? || @article.extras_audio_file.present? %>
-		<%= render "articles/patrons_logic" %>
-	<% else end %>
+	
 	
 	<% if @articleupdates.present? %>
 	<% @articleupdates.each do |u| %>
@@ -319,88 +315,24 @@
 	</div>
 	<% end %>
 	
-	<% if @article.components.present? %>
-		<h3>
-			<% if @article.language_id == 1 %>
-				In this story…
-			<% elsif @article.language_id == 2 %>
-				En este tema…
-			<% else %>
-			<% end %>
-		</h3>
-		 <ul class="no-points">
-		<% @article.components.published.order('created_at DESC').each do |c| %>
-		 	<li class="margin-bottom-5 font-main font-main-small">
-		 		<%= c.type.name %>: <%= link_to c.headline, c %>
-			</li>
-		 
-		<% end %>
-		</ul>
-	<% end %>
+	<% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
+		<%= render "articles/patrons_logic" %>
+	<% elsif @article.extras_notes.present? || @article.extras_audio_file.present? %>
+		<%= render "articles/patrons_logic" %>
+	<% else end %>
 
-<% if false %>
+
 <div id="patrons" class="padding-20 border-patrons margin-top-20">
 	<%= render "payments/pay" %>
 </div>
-<% end %>
 
-<% if false %>
 <% if current_user.nil? %>
-	<% if @article.language_id == 1 %>
-		<div class="margin-bottom-20 background-color-yellow padding-20">
-			<span class="font-header font-header-small font-upper">Join The Spain Report</span>
-			<p class="margin-top-10">
-				Get original, detailed, independent reporting and analysis of the stories changing Spain. 
-				Full-text articles delivered right to your inbox, in English.
-				You can also choose to get them in Spanish.
-				No ads, no spam. Just readers.
-			</p>
-			<%= form_tag '/new_reader' do |f| %>
-				<div class="width-100">
-				<div class="width-100">
-					<input type="email" name="email" id="email" class="width-90 padding-10" placeholder="Enter your email…" />
-				</div>
-				
-				<div class="width-48 margin-top-5 margin-centre">
-					<button type="submit" class="width-100 padding-10 font-main-normal">Join Now</button>
-				</div>
-				<div class="clear"></div>
-				</div>
-				<%= hidden_field_tag 'set_language', '1' %>
-			<% end %>
-		</div>
-	<% elsif @article.language_id == 2 %>
-		<h5><%= @article.frame.emotional_quest_action unless @article.frame.nil? %></h5>
-		<p style="text-align: center;">
- 			<a href="https://www.patreon.com/join/matthewbennett" class="button"><%= @article.frame.button_cta unless @article.frame.nil? %></a>
- 		</p>
-		<div class="margin-bottom-20 background-color-yellow padding-20">
-			<span class="font-header font-header-small font-upper">Apúntese Al Spain Report</span>
-			<p class="margin-top-10">
-				Recibirá información original y detallada y análsis independiente. 
-				Los artículos le llegarán directamente al buzón de correo.
-				Puede elegir recibirlos en inglés también.
-				Sin anuncios, sin subvenciones. Sólo lectores.
-			</p>
-			<%= form_tag '/new_reader' do |f| %>
-				<div class="width-100">
-					<div class="width-100">
-						<input type="email" name="email" id="email" class="width-90 padding-10" placeholder="Introduzca su correo electrónico…" />
-					</div>
-					
-					<div class="width-48 margin-top-5 margin-centre">
-						<button type="submit" class="width-100 padding-10 font-main-normal">Enviar</button>
-					</div>
-					<div class="clear"></div>
-				</div>
-				<%= hidden_field_tag 'set_language', '2' %>
-			<% end %>
-		</div>
-	<% else end %>
+<%= render "users/new_reader_form" %>
 <% else end %>
-<% end %>
 
-<%= render "layouts/footer" %>
+<div class="padding-20 border-patrons margin-top-20">
+	<%= render "layouts/footer" %>
+</div>
 
 </div>
 <div class="clear"></div>
