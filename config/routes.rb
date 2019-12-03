@@ -16,8 +16,8 @@
 	end
 	
 	root 'home#index'
-	
 	resources :payments
+	# https://www.patreon.com/join/matthewbennett
 	
 	get 'pay', to: redirect('value/pay')
 	get 'pay/:slug', to: redirect { |path, req| "value/#{path[:slug]}" }
@@ -29,8 +29,8 @@
 	get 'support/:slug', to: redirect { |path, req| "value/#{path[:slug]}" }
 	get 'subscribe', to: redirect('value/subscribe')
 	get 'subscribe/:slug', to: redirect { |path, req| "value/#{path[:slug]}" }
-	get 'value/:slug', to: redirect("/")
-	get 'value/', to: redirect("/")
+	get 'value/:slug', to: redirect("https://www.patreon.com/join/matthewbennett")
+	get 'value/', to: redirect("https://www.patreon.com/join/matthewbennett")
 	
 	get 'pagar', to: redirect('valor/pagar')
 	get 'pagar/:slug', to: redirect { |path, req| "valor/#{path[:slug]}" }
@@ -42,8 +42,8 @@
 	get 'apoyar/:slug', to: redirect { |path, req| "valor/#{path[:slug]}" }
 	get 'suscribirse', to: redirect('valor/suscribirse')
 	get 'suscribirse/:slug', to: redirect { |path, req| "valor/#{path[:slug]}" }
-	get 'valor/:slug', to: redirect("/")
-	get 'valor/', to: redirect("/")
+	get 'valor/:slug', to: redirect("https://www.patreon.com/join/matthewbennett")
+	get 'valor/', to: redirect("https://www.patreon.com/join/matthewbennett")
 	
 	get 'stripe_get_payment_intent' => 'payments#stripe_get_payment_intent'
 	get 'confirm_credit_card' => 'payments#stripe_confirm_payment'
