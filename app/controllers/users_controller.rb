@@ -7,6 +7,8 @@ class UsersController < ApplicationController
 	def signup
 		@user = User.new
 		@set_language = 1
+		@url_stub = "/value/"
+		@article_id = 0001
 		@frame = Frame.find_by(link_slug: "guarantee")
 		@frame_article = (@frame.language_id == 1)
 		@frametranslation = @frame.translations.where(language_id: 1).first
@@ -16,6 +18,8 @@ class UsersController < ApplicationController
 	def apuntese
 		@user = User.new
 		@set_language = 2
+		@url_stub = "/valor/"
+		@article_id = 0001
 		@frame = Frame.find_by(link_slug: "garantizar")
 		@frame_article = (@frame.language_id == 2)
 		@frametranslation = @frame.translations.where(language_id: 2).first

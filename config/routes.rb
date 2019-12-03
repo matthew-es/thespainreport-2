@@ -16,21 +16,9 @@
 	end
 	
 	root 'home#index'
-
-
-	get 'guarantee', to: redirect("/")
-	get 'garantizar', to: redirect("/")
-	get 'subscribe', to: redirect("/")
-	get 'support', to: redirect("/")
-	get 'apoyar', to: redirect("/")
-	get 'contribute', to: redirect("/")
-	get 'contribuir', to: redirect("/")
-	get 'pay', to: redirect("/")
-	get 'pagar', to: redirect("/")
-
 	
 	resources :payments
-=begin
+	
 	get 'pay', to: redirect('value/pay')
 	get 'pay/:slug', to: redirect { |path, req| "value/#{path[:slug]}" }
 	get 'contribute', to: redirect('value/contribute')
@@ -41,14 +29,22 @@
 	get 'support/:slug', to: redirect { |path, req| "value/#{path[:slug]}" }
 	get 'subscribe', to: redirect('value/subscribe')
 	get 'subscribe/:slug', to: redirect { |path, req| "value/#{path[:slug]}" }
-	get 'value/:slug' => "payments#pay"
-	get 'value/' => "payments#pay"
-	get 'suscribirse/' => "payments#pagar"
-	get 'suscribirse/:slug' => "payments#pagar"
-	get 'garantizar' => "payments#pagar"
-	get 'apoyar' => "payments#pagar"
-	get 'contribuir' => "payments#pagar"
-	get 'pagar' => "payments#pagar"
+	get 'value/:slug', to: redirect("/")
+	get 'value/', to: redirect("/")
+	
+	get 'pagar', to: redirect('valor/pagar')
+	get 'pagar/:slug', to: redirect { |path, req| "valor/#{path[:slug]}" }
+	get 'contribuir', to: redirect('valor/contribuir')
+	get 'contribuir/:slug', to: redirect { |path, req| "valor/#{path[:slug]}" }
+	get 'garantizar', to: redirect('valor/garantizar')
+	get 'garantizar/:slug', to: redirect { |path, req| "valor/#{path[:slug]}" }
+	get 'apoyar', to: redirect('valor/apoyar')
+	get 'apoyar/:slug', to: redirect { |path, req| "valor/#{path[:slug]}" }
+	get 'suscribirse', to: redirect('valor/suscribirse')
+	get 'suscribirse/:slug', to: redirect { |path, req| "valor/#{path[:slug]}" }
+	get 'valor/:slug', to: redirect("/")
+	get 'valor/', to: redirect("/")
+	
 	get 'stripe_get_payment_intent' => 'payments#stripe_get_payment_intent'
 	get 'confirm_credit_card' => 'payments#stripe_confirm_payment'
 	get 'confirmar_tarjeta' => 'payments#stripe_confirm_payment'
@@ -57,7 +53,7 @@
 	post 'new_payment_error' => 'payment_errors#create_payment_error'
 	post 'stripe_credit_card' => 'payments#stripe_credit_card'
 	post 'stripe_first_payment' => 'payments#stripe_first_payment'
-=end
+
 	get 'trial', to: redirect("http://www.thespainreport.es/articles/32-180101210225-catalan-separatism")
 	get 'twitterpatreon' => 'home#patreon'
 	

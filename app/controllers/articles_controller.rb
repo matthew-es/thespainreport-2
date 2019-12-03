@@ -41,7 +41,8 @@ class ArticlesController < ApplicationController
 				frame_id: @article.frame_id,
 				plan_ids: ''
 				)
-				
+			
+			@article_id = @article.id	
 			@articletweets = @article.tweets.order('created_at ASC')
 			@articleupdates = @article.updates.published.order('created_at ASC')
 

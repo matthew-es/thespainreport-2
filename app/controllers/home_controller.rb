@@ -23,6 +23,7 @@ class HomeController < ApplicationController
 			@frameoriginal = @frame.original
 		end
 		
+		@url_stub = "/value/"
 		@latesttop = Article.nottruth.notpatrons.english.topstory.published.lastone
 		@latest = Article.notlatesttop.notupdate.nottruth.notpatrons.english.published.lasttwenty
 		@latesttruth = Article.truth.english.published.lastten
@@ -56,6 +57,7 @@ class HomeController < ApplicationController
 			@frameoriginal = @frame.original
 		end
 		
+		@url_stub = "/valor/"
 		@latesttop = Article.nottruth.notpatrons.spanish.topstory.published.lastone
 		@latest = Article.notlatesttop.notupdate.nottruth.notpatrons.spanish.published.lasttwenty
 		@latesttruth = Article.truth.spanish.published.lastten
