@@ -7,16 +7,17 @@
 	
 	<%= form_tag '/new_reader' do |f| %>
 		<div class="width-100">
-			<div class="float-left width-50 margin-right-10">
-				<input type="email" name="email" id="email" class="width-100 padding-10" placeholder="<%= @frame.email_reader_placeholder %>" />
+			<div class="float-left margin-right-10 width-100 margin-top">
+				<input type="email" name="email" id="email" class="padding-10 width-90" placeholder="<%= @frame.email_reader_placeholder %>" />
 			</div>
-			<div class="float-left width-33 margin-left-20 ">
-				<button type="submit" class="width-70 padding-5 font-main-normal margin-top-2"><%= @frame.email_reader_button %></button>
+			<div class="float-left margin-top-5">
+				<button type="submit" class="padding-7 font-main-small"><%= @frame.email_reader_button %></button>
 			</div>
 			<div class="clear"></div>
 		</div>
 		<input type="hidden" id="set_language" name="set_language" value="<%= @set_language %>" />
 		<input type="hidden" id="article_id" name="article_id" value="<%= @article_id %>" />
+		<input type="hidden" id="frame_id" name="frame_id" value="<%= @frame_id %>" />
 	<% end %>
 	
 	<% flash.each do |key, value| %>

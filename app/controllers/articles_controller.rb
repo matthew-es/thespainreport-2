@@ -60,6 +60,7 @@ class ArticlesController < ApplicationController
 				else
 					@frame = Frame.find_by(id: @article.frame)
 				end
+				@frame_id = @frame.id
 				@frame_article = (@frame.language_id == @article.language_id)
 				@frametranslation = @frame.translations.where(language_id: @article.language_id).first
 				@frameoriginal = @frame.original

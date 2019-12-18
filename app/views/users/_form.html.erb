@@ -76,11 +76,11 @@
       <% else %>
         <% if current_user.sitelanguage == 1 %>You are a
           <% if current_user.status == 2 %> patron. Thank you for guaranteeing this independent journalism.
-          <% elsif current_user.status == 3 %> reader. <a href="https://www.patreon.com/join/matthewbennett">Become a patron here</a>.
+          <% elsif current_user.status == 3 %> reader. <a href="<%= @url_stub + @frame_stub %>">Become a patron here</a>.
           <% else end %>
         <% elsif current_user.sitelanguage == 2 %> Ud. es
           <% if current_user.status == 2 %> mecenas. Gracias por garantizar este periodismo independiente.
-          <% elsif current_user.status == 3 %> lector. <a href="https://www.patreon.com/join/matthewbennett">Conviértase en mecenas aquí</a>.
+          <% elsif current_user.status == 3 %> lector. <a href="<%= @url_stub + @frame_stub %>">Conviértase en mecenas aquí</a>.
           <% else end %>
         <% else end %>
       <% end %>

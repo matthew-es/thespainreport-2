@@ -1,13 +1,21 @@
 <div class="content">
-	
 	<%= render "layouts/logo_account" %>
 	
-	<% flash.each do |key, value| %>
-		<div class="alert alert-<%= key %>"><p><%= value %></p></div>
-	<% end %>
+	<h3>Obtenga una contraseña nueva</h3>
 	
-	<%= form_tag '/password_link' do %>
-		<%= text_field_tag 'email', nil, class: 'padding-10 width-40', placeholder: 'Su correo electrónico…' %>
-		<button type="submit" class="blueformbutton">Enviar enlace para clave nueva</button>
-	<% end %>
+	<% flash.each do |key, value| %>
+    	<div class="alert alert-<%= key %>"><p><%= value %></p></div>
+    <% end %>
+    
+    <div class="alert-warning padding-20 margin-top-20">
+		<%= form_tag '/get_new_password_link' do %>
+			<div class="float-left width-100">
+				<%= text_field_tag 'email', nil, class: 'padding-10 width-90 font-main-small', placeholder: 'Su correo electrónico…' %>
+			</div>
+			<div class="float-left margin-top-5">
+				<button type="submit" class="padding-7 font-main-small">Enviar</button>
+			</div>
+			<div class="clear"></div>
+		<% end %>
+	</div>
 </div>

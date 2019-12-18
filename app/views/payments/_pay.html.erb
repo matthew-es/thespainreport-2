@@ -4,6 +4,10 @@
 		<h3 class="margin-top-0"><%= @frame.emotional_quest_action %> Now</h3>
 	<% else end %>
 	
+	<% flash.each do |key, value| %>
+    	<div class="alert alert-<%= key %>"><p><%= value.html_safe %></p></div>
+  	<% end %>
+	
 	<div class="font-main font-main-normal"><%= @frame.short_story %><strong> <%= @frame.emotional_quest_role %>.</strong></div>
 		<div class="width-98">
 			<% Plan.english.each do |p| %>

@@ -3,10 +3,10 @@
 	<div class="float-left align-left mobile-100">
 		<div class="">
 			<div class="topbutton mobile-100"> 
-					<% if @frame_article %> <a href="<%= @url_stub + @frame.link_slug %>" class="topbutton"><%= @frame.emotional_quest_action %></a> 
-					<% elsif @frameoriginal.blank? %> <a href="<%= @url_stub + @frametranslation.link_slug %>" class="topbutton"><%= @frametranslation.emotional_quest_action %></a> 
-					<% else %> <a href="<%= @url_stub + @frameoriginal.link_slug %>" class="topbutton"><%= @frameoriginal.emotional_quest_action %></a> 
-					<% end %>
+				<% if @frame_article %> <a href="<%= @url_stub + @frame.link_slug %>" class="topbutton"><%= @frame.emotional_quest_action %></a> 
+				<% elsif @frameoriginal.blank? %> <a href="<%= @url_stub + @frametranslation.link_slug %>" class="topbutton"><%= @frametranslation.emotional_quest_action %></a> 
+				<% else %> <a href="<%= @url_stub + @frameoriginal.link_slug %>" class="topbutton"><%= @frameoriginal.emotional_quest_action %></a> 
+				<% end %>
 			</div>
 		</div>
 		<div class="margin-top-2 font-main font-italic font-main-small">

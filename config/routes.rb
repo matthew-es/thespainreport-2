@@ -16,6 +16,24 @@
 	end
 	
 	root 'home#index'
+	
+	get 'signup' => 'users#signup'
+	get 'apuntese' => 'users#apuntese'
+	post 'new_reader' => 'users#new_reader'
+	
+	get 'users/login' => 'users#login'
+	get 'login' => 'users#login'
+	get 'users/entrar' => 'users#entrar'
+	get 'entrar' => 'users#entrar'
+	post 'login' => 'users#newsession'
+	get 'users/logout' => 'users#destroysession'
+	get 'logout' => 'users#destroysession'
+	
+	get 'password' => 'users#password'
+	get 'clave' => 'users#clave'
+	post 'get_new_password_link' => 'users#get_new_password_link'
+	post 'change_password' => 'users#change_password'
+	
 	resources :payments
 	# https://www.patreon.com/join/matthewbennett
 	
@@ -53,12 +71,14 @@
 	post 'new_payment_error' => 'payment_errors#create_payment_error'
 	post 'stripe_credit_card' => 'payments#stripe_credit_card'
 	post 'stripe_first_payment' => 'payments#stripe_first_payment'
-
+	
+	get 'users/reset_tokens' => 'users#reset_tokens'
+	get 'users/updated' => 'users#updated'
+	get 'thanks' => 'users#thanks'
+	get 'gracias' => 'users#gracias'
+	
 	get 'trial', to: redirect("http://www.thespainreport.es/articles/32-180101210225-catalan-separatism")
 	get 'twitterpatreon' => 'home#patreon'
-	
-	
-	
 	get 'rss' => 'home#index', defaults: { format: 'rss' }
 	get 'rss/es' => 'home#es', defaults: { format: 'rss' }
 	get 'rss/eng' => 'home#eng', defaults: { format: 'rss' }
@@ -68,31 +88,14 @@
 	get 'home/index'
 	get 'articles/touser' => 'articles#touser'
 	
-	get 'users/signup'
-	get 'signup' => 'users#signup'
-	get 'apuntese' => 'users#apuntese'
-	post 'signup' => 'users#create'
-	post 'new_reader' => 'users#new_reader'
-	get 'password' => 'users#password'
-	get 'clave' => 'users#clave'
-	post 'password_link' => 'users#password_link'
-	post 'change_password' => 'users#change_password'
-	post 'cambiar_clave' => 'users#cambiar_clave'
-	get 'users/login'
-	get 'login' => 'users#login'
-	post 'login' => 'users#newsession'
-	get 'users/logout' => 'users#destroysession'
-	get 'logout' => 'users#destroysession'
-	get 'users/reset_tokens' => 'users#reset_tokens'
-	get 'users/updated' => 'users#updated'
-	get 'thanks' => 'users#updated'
 	post 'editor_creates_new_user' => 'users#editor_creates_new_user'
 	post 'editor_modifies_accounts' => 'accounts#editor_modifies_accounts'
 	resources :users do
 	member do
 	  get :confirm_email
-	  get :new_password
-	  get :clave_nueva
+	  get :confirmar_correo
+	  get :enter_new_password
+	  get :introducir_clave_nueva
 	  get :update_email_amount
 	  get :update_email_language
 	end

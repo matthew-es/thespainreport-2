@@ -10,7 +10,7 @@
 				<td><%= frame.button_cta %></td>
 				<td>
 					<% frame.translations.each do |tr| %>
-					 <%= link_to tr.language.name, tr %>
+						<%= link_to tr.language.name, edit_frame_path(tr) %>
 					<% end %>
 				</td>
 				<td><%= link_to 'D?', frame, method: :delete, data: { confirm: 'Are you sure?' } %></td>

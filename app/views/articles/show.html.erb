@@ -322,13 +322,13 @@
 	<% else end %>
 
 <% if false %>
-<div id="patrons" class="padding-20 border-patrons margin-top-20">
-	<%= render "payments/pay" %>
-</div>
+	<div id="patrons" class="padding-20 border-patrons margin-top-20">
+		<%= render "payments/pay" %>
+	</div>
 <% end %>
 
 <% if current_user.nil? %>
-<%= render "users/new_reader_form" %>
+	<%= render "users/new_reader_form" %>
 <% else end %>
 
 <div class="padding-20 border-patrons margin-top-20">

@@ -1,0 +1,26 @@
+<div class="content">
+	<%= render "layouts/logo_account" %>
+	
+	<h3>Muy bien, ha confirmado su correo.</h3>
+	
+	<% flash.each do |key, value| %>
+		<div class="alert alert-<%= key %>"><p><%= value.html_safe %></p></div>
+	<% end %>
+	
+	<div class="alert-tryagain padding-20">
+		<% if @user.password_reset_sent_at < 60.minutes.ago %>
+			<p>
+				Han pasado más de 60 minutos desde que se apuntó o desde que solicitó cambiar su clave. Para proteger su cuenta, limitamos esta función.
+			</p>
+			<p>
+				<a href="/clave">Solicite un nuevo enlace para cambiar su clave</a>
+			</p>
+		<% else %>
+			<p>
+				Ahora, introduzca una contraseña nueva:
+			</p>
+			<%= render "users/passwords_form" %>
+			<%= render "users/passwords_explanation" %>
+		<% end %>
+	</div>
+</div>

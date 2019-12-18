@@ -1,14 +1,46 @@
-<div class="margin-top-5 margin-bottom-5 padding-10">
+<div class="">
 	<% if current_user.nil? %>
 		<%= form_tag '/login' do %>
-			<%= text_field_tag 'email', nil, class: 'padding-5 font-main font-main-small', placeholder: 'Your e-mail...' %>
-			<%= password_field_tag 'password', nil, class: 'padding-5 font-main font-main-small', placeholder: 'Your password...' %>
-			<button type="submit" class="padding-5 font-main-small">Log In</button>
-			<a href="/password">New password?</a>
+			<% if controller_name == "users" && action_name == "login" || controller_name == "home" && action_name == "index" || controller_name == "articles" && action_name == "show" && @article.language_id == 1 %>
+				<div class="float-left margin-right-10 width-100 margin-top-5">
+					<%= text_field_tag 'email', nil, class: 'padding-10 width-90', placeholder: 'Your e-mail…' %>
+				</div>
+				<div class="float-left margin-right-10 width-100 margin-top-5">
+					<%= password_field_tag 'password', nil, class: 'padding-10 width-90', placeholder: 'Your password…' %>
+				</div>
+				<div class="float-left margin-top-5 margin-right-5">
+					<button type="submit" class="padding-7 font-main-small">Log in</button>
+				</div>
+				<div class="float-left margin-top-10 margin-right-5">
+					<a href="/password">New password?</a>
+				</div>
+				<div class="float-left margin-top-10">
+					| <a href="/value">Become a patron now</a>
+				</div>
+			<% elsif controller_name == "users" && action_name == "entrar" || controller_name == "home" && action_name == "es" || controller_name == "articles" && action_name == "show" && @article.language_id == 2 %>
+				<div class="float-left margin-right-10 width-100 margin-top-5">
+					<%= text_field_tag 'email', nil, class: 'padding-10 width-90', placeholder: 'Su correo…' %>
+				</div>
+				<div class="float-left margin-right-10 width-100 margin-top-5">
+					<%= password_field_tag 'password', nil, class: 'padding-10 width-90', placeholder: 'Su contraseña…' %>
+				</div>
+				<div class="float-left margin-top-5 margin-right-5">
+					<button type="submit" class="padding-7 font-main-small">Entrar</button>
+				</div>
+				<div class="float-left margin-top-10 margin-right-5">
+					<a href="/clave">¿Contraseña nueva?</a>
+				</div>
+				<div class="float-left margin-top-10">
+					| <a href="/valor">Apúntese como mecenas ahora</a>
+				</div>
+			<% else end %>
+			<div class="clear"></div>
 		<% end %>
 	<% elsif !current_user.nil? %>
-		<% if current_user.status == 1 %> <%= link_to 'Admin', new_tweet_path %> |
+		<% if current_user.status == 1 %>
+			<%= link_to 'Admin', new_tweet_path %> |
 		<% else end %>
+		
 		<%= current_user.email %>
 		| 
 		<% if current_user.sitelanguage == 1 %> <%= link_to 'My Details', edit_user_path(current_user) %>

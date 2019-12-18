@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_03_174439) do
+ActiveRecord::Schema.define(version: 2019_12_04_194016) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -102,6 +102,9 @@ ActiveRecord::Schema.define(version: 2019_12_03_174439) do
     t.boolean "first_subscription_article"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "frame_id"
+    t.string "article_headline"
+    t.string "frame_emotional_quest_action"
   end
 
   create_table "countries", force: :cascade do |t|

@@ -1,0 +1,26 @@
+<div class="content">
+	<%= render "layouts/logo_account" %>
+	
+	<h3>Well done, password confirmed.</h3>
+	
+	<% flash.each do |key, value| %>
+		<div class="alert alert-<%= key %>"><p><%= value.html_safe %></p></div>
+	<% end %>
+	
+	<div class="alert-tryagain padding-20">
+		<% if @user.password_reset_sent_at < 60.minutes.ago %>
+			<p>
+				More than 60 minutes have passed since you signed up or asked to change your password. To protect your account, we limit this function.
+			</p>
+			<p>
+				<a href="/password">Request a new link to change your password</a>
+			</p>
+		<% else %>
+			<p>
+				Now, set a new password:
+			</p>
+			<%= render "users/passwords_form" %>
+			<%= render "users/passwords_explanation" %>
+		<% end %>
+	</div>
+</div>

@@ -1,31 +1,165 @@
 class UsersController < ApplicationController
 	before_action :set_user, only: [:show, :edit, :update, :destroy]
 	
-	def login
-	end
+	# 1. Set up
+	# 2. Reader sign up, confirm email, first password
+	# 3. Log in, password reminders
+	# 4. Update user options via links
 	
-	def signup
-		@user = User.new
-		@set_language = 1
+	# 1. Set up
+	#---------------------------------------------------------------------------
+	def default_frame_eng
 		@url_stub = "/value/"
-		@article_id = 0001
 		@frame = Frame.find_by(link_slug: "guarantee")
+		@frame_id = @frame.id
 		@frame_article = (@frame.language_id == 1)
 		@frametranslation = @frame.translations.where(language_id: 1).first
 		@frameoriginal = @frame.original
 	end
 	
-	def apuntese
-		@user = User.new
-		@set_language = 2
+	def default_frame_es
 		@url_stub = "/valor/"
-		@article_id = 0001
 		@frame = Frame.find_by(link_slug: "garantizar")
+		@frame_id = @frame.id
 		@frame_article = (@frame.language_id == 2)
 		@frametranslation = @frame.translations.where(language_id: 2).first
 		@frameoriginal = @frame.original
 	end
-  
+	
+	
+	# 2. Reader sign up
+	#---------------------------------------------------------------------------
+	def signup
+		@set_language = 1
+		@article_id = "0"
+		default_frame_eng
+	end
+	
+	def apuntese
+		@set_language = 2
+		@article_id = "0"
+		default_frame_es
+	end
+	
+	def thanks
+		default_frame_eng
+	end
+	
+	def gracias
+		default_frame_es
+	end
+	
+	def new_reader
+		autopassword = 'L e @ 4' + SecureRandom.hex(32)
+		generate_token = SecureRandom.urlsafe_base64.to_s
+		
+		@user = User.find_by(email: params[:email])
+		@article_id = params[:article_id]
+		@frame = Frame.find_by(id: params[:frame_id])
+		@frame_id = @frame.id
+		@frame_quest = @frame.emotional_quest_action
+		@frame_value_now_message = @frame.emotional_quest_role
+		@frame_stub = @frame.link_slug
+		
+		case @article_id
+			when "0"
+				case URI(request.referer).path
+					when "/" then sign_up_article = "/"
+					when "/es" then sign_up_article = "/es"
+					when "/signup" then sign_up_article = "/signup"
+					when "/apuntese" then sign_up_article = "/apuntese"
+				end
+			else
+				a = Article.find(@article_id)
+				sign_up_article = a.headline
+		end
+		
+		if @user.nil?
+			begin
+				user = User.create!(
+				email: params[:email],
+				confirm_token: generate_token,
+				password: autopassword,
+				password_confirmation: autopassword,
+				password_reset_sent_at: Time.zone.now,
+				status: 3,
+				level_amount: 0,
+				frame_id: @frame_id,
+				sitelanguage: params[:set_language],
+				emails: 1,
+				emaillanguage: params[:set_language],
+				email_confirmed: false
+				)
+				
+				Bookmark.create!(
+					user_id: user.id,
+					new_email_reader_article: true,
+					article_id: @article_id,
+					article_headline: sign_up_article,
+					frame_id: @frame_id,
+					frame_emotional_quest_action: @frame_quest
+					)
+				
+				admin_subject = "New reader: #{user.email}"
+				admin_message = (
+					"Email: #{user.email}" + "<br />" + "Language: #{user.sitelanguage}" + "<br />" + "Article: #{sign_up_article}" + "<br />" + "Frame: #{@frame_quest}"
+					).html_safe
+				UserMailer.admin_alert(admin_subject, admin_message).deliver_now
+				
+				session[:user_id] = user.id
+				
+				case user.sitelanguage
+					when 1
+						UserMailer.welcome_reader(user).deliver_now
+						@url_stub = "/value/"
+					when 2
+				   		UserMailer.welcome_reader_es(user).deliver_now
+				   		@url_stub = "/valor/"
+				end
+				flash[:success] = @frame_value_now_message
+				redirect_to @url_stub + @frame_stub
+				
+			rescue Exception => e
+			end
+		else
+			case params[:set_language]
+				when "1" then @message = "Try again…"
+				when "2" then @message = "Inténtelo de nuevo…"
+			end
+			flash[:tryagain] = @message
+			redirect_back(fallback_location: root_path)
+		end
+	end
+	
+	def confirm_email
+		default_frame_eng
+		
+		@user = User.find_by_confirm_token(params[:id])
+		@user.update(
+			email_confirmed: true
+			)
+	end
+	
+	def confirmar_correo
+		default_frame_es
+		
+		@user = User.find_by_confirm_token(params[:id])
+		@user.update(
+			email_confirmed: true
+			)
+	end
+	
+	
+	# 3. Log in, password reminders
+	#---------------------------------------------------------------------------
+	def login
+		default_frame_eng
+	end
+	
+	def entrar
+		default_frame_es
+	end
+	
 	def newsession
 		user = User.find_by_email(params[:email])
 		# If the user exists AND the password entered is correct.
@@ -47,113 +181,91 @@ class UsersController < ApplicationController
 		redirect_back(fallback_location: root_path)
 		flash[:success] = "Thanks for reading!"
 	end
-	
-	def confirm_email
-		@user = User.find_by_confirm_token(params[:id])
-		@user.update(
-			email_confirmed: true
-			)
-		
-		if @user.emaillanguage == 1
-			UserMailer.password_link(@user).deliver_now
-			flash[:success] = "Well done, email confirmed! Now you can set a password. Check your inbox…"
-			redirect_to '/users/updated'
-		elsif @user.emaillanguage == 2
-			UserMailer.password_link_es(@user).deliver_now
-			flash[:success] = "¡Enhorabuena, ha confirmado su correo! Ahora puede elegir una clave. Mire su correo…"
-			redirect_to '/users/updated'
-		else
-		end
-	end
-	
+
 	def password
+		default_frame_eng
 	end
 	
 	def clave
+		default_frame_es
 	end
 	
-	def password_link
+	def get_new_password_link
 		user = User.find_by_email(params[:email])
 		if user
 			user.password_reset_sent_at = Time.zone.now
 			user.save!(:validate => false)
-			
-			if URI(request.referer).path == '/password'
-	   		UserMailer.password_link(user).deliver_now
-	   		flash[:success] = "Well done! Check your email for the link to create a new password"
-	   	elsif URI(request.referer).path == '/clave'
-	   		UserMailer.password_link_es(user).deliver_now
-	   		flash[:success] = "Correcto. Compruebe su correo para el enlace para crear una clave nueva"
-	   	else
-	   	end
-			redirect_to '/users/updated'
-		else
-	   	if URI(request.referer).path == '/password'
-	   		flash[:tryagain] = "See if you have typed that correctly and try again…"
-	   	elsif URI(request.referer).path == '/clave'
-	   		flash[:tryagain] = "Mire si lo ha escrito bien e inténtelo de nuevo…"
-	   	else
-	   	end
-	   	redirect_back(fallback_location: root_path)
-		end
-	end
-	
-	def new_password
-		@user = User.find_by_confirm_token(params[:id])
-		if @user.password_reset_sent_at < 30.minutes.ago
-			flash[:success] = "More than 30 minutes have passed since you asked to change your password. To protect your account, we limit this function.<br /><br /><a href=\"/password\">Request a new link to change your password</a>"
-			redirect_to '/users/updated'
-		else
-		end
-	end
-	
-	def clave_nueva
-		@user = User.find_by_confirm_token(params[:id])
-		if @user.password_reset_sent_at < 30.minutes.ago
-			flash[:success] = "Han pasado más de 30 minutos desde que pidió en enlace para cambiar su clave. Para proteger su cuenta, limitamos esta función.<br /><br /><a href=\"/clave\">Pide un enlace nuevo para cambiar su clave</a>"
-			redirect_to '/users/updated'
-		else
-		end
-	end
-	
-	def cambiar_clave
-		@user = User.find_by_confirm_token(params[:confirm_token])
-		@user.update(
-			password: params[:password],
-			password_confirmation: params[:password_confirmation]
-			)
-		
-		if params[:password].blank? || !@user.save
-			flash[:tryagain] = "Inténtelo de nuevo…"
+			case URI(request.referer).path
+				when '/password'
+					subject = "Get a new password: click on this link"
+					UserMailer.password_link(user, subject).deliver_now
+					@message = "Well done. Check your email for the link to create a new password"
+				when '/clave'
+					subject = "Obtenga una nueva contraseña: haga clic en este enlace"
+					UserMailer.password_link(user, subject).deliver_now
+					@message = "Correcto. Ya tiene un correo electrónico con el enlace para crear una contraseña nueva"
+		   	end
+		   	flash[:success] = @message
 			redirect_back(fallback_location: root_path)
-		elsif @user.save
-			flash[:success] = "Ha actualizado su clave con éxito."
-			redirect_to '/users/updated'
 		else
-			flash[:tryagain] = "Inténtelo de nuevo…"
-			redirect_back(fallback_location: root_path)
+		   	case URI(request.referer).path
+		   		when '/password' then @message = "See if you have typed that correctly and try again…"
+	   			when '/clave' then @message = "Mire Ud. si ha escrito bien eso e inténtelo de nuevo…"
+		   	end
+		   	flash[:tryagain] = @message
+	   		redirect_back(fallback_location: root_path)
 		end
+	end
+	
+	def enter_new_password
+		@user = User.find_by_confirm_token(params[:id])
+		default_frame_eng
+	end
+	
+	def introducir_clave_nueva
+		@user = User.find_by_confirm_token(params[:id])
+		default_frame_es
 	end
 	
 	def change_password
 		@user = User.find_by_confirm_token(params[:confirm_token])
+		@user_language = @user.sitelanguage
 		@user.update(
 			password: params[:password],
 			password_confirmation: params[:password_confirmation]
 			)
 		
 		if params[:password].blank? || !@user.save
-			flash[:tryagain] = "Try again…"
+			case @user_language
+				when 1 then @message = "Try again…"
+				when 2 then @message = "Inténtelo de nuevo"
+			end
+			flash[:tryagain] = @message
 			redirect_back(fallback_location: root_path)
 		elsif @user.save
-			flash[:success] = "You have successfully updated your password."
-			redirect_to '/users/updated'
+			case @user_language
+				when
+					@message = "Well done. You have updated your password."
+					@location = "/login"
+				when 2
+					@message = "Enhorabuena. Ha actualizado su contraseña."
+					@location = "/entrar"
+			end
+			flash[:success] = @message
+			redirect_to @location
 		else
-			flash[:tryagain] = "Try again…"
+			case @user_language
+				when 1 then @message = "Try again…"
+				when 2 then @message = "Inténtelo de nuevo"
+			end
+			flash[:tryagain] = @message
 			redirect_back(fallback_location: root_path)
 		end
 	end
 	
+	
+	# 4. Update user options via links
+	#---------------------------------------------------------------------------
 	def update_email_amount
 		u = User.find_by_confirm_token(params[:id])
 		if u
@@ -182,13 +294,6 @@ class UsersController < ApplicationController
 	   else
 	   	redirect_to root_url
 	   end
-	end
-	
-	def updated
-		@frame = Frame.find_by(link_slug: "guarantee")
-		@frame_article = (@frame.language_id == 1)
-		@frametranslation = @frame.translations.where(language_id: 1).first
-		@frameoriginal = @frame.original
 	end
 	
 	def reset_tokens
@@ -263,62 +368,6 @@ class UsersController < ApplicationController
 		redirect_to users_path
 	end
 	
-	def new_reader
-		autopassword = 'L e @ 4' + SecureRandom.hex(32)
-		generate_token = SecureRandom.urlsafe_base64.to_s
-		
-		@user = User.find_by(email: params[:email])
-		
-		if @user.nil?
-	
-				begin
-					user = User.create!(
-					email: params[:email],
-					confirm_token: generate_token,
-					password: autopassword,
-					password_confirmation: autopassword,
-					password_reset_sent_at: Time.zone.now,
-					status: 3,
-					sitelanguage: params[:set_language],
-					emails: 1,
-					emaillanguage: params[:set_language],
-					email_confirmed: false
-					)
-					
-					Bookmark.create(
-						user_id: user.id,
-						article_id: params[:article_id],
-						new_email_reader_article: true
-						)
-				
-					if user.emaillanguage == 1
-				   		UserMailer.welcome_link(user).deliver_now
-				   		flash[:success] = "Well done! Please go to your email now: click on the link to confirm your email address"
-				   	elsif user.emaillanguage == 2
-				   		UserMailer.welcome_link_es(user).deliver_now
-				   		flash[:success] = "¡Enhorabuena!. Compruebe su correo ahora y haga clic en el enlace para confirmar la dirección"
-				   	else
-					end
-					
-					sign_up_article = Article.find(params[:article_id])
-					admin_subject = "New reader: #{user.email}"
-					admin_message = (
-						"Email: #{user.email}" + "<br />" + "Language: #{user.sitelanguage}" + "<br />" + "Article: #{sign_up_article.headline}"
-						).html_safe
-					UserMailer.admin_alert(admin_subject, admin_message).deliver_now
-					redirect_to '/thanks'
-				rescue Exception => e
-				end
-		else
-			redirect_back(fallback_location: root_path)
-			if params[:set_language] == "1"
-				flash[:tryagain] = "Try again…"
-			elsif params[:set_language] == "2"
-				flash[:tryagain] = "Inténtelo de nuevo…"
-			else end
-		end
-	end
-	
 	# GET /users/new
 	def new
 		if current_user.nil? 
@@ -337,11 +386,19 @@ class UsersController < ApplicationController
 			@frame_article = (@frame.language_id == 1)
 			@frametranslation = @frame.translations.where(language_id: 1).first
 			@frameoriginal = @frame.original
+			@frame_stub = @frame.link_slug
 		else
+			case current_user.sitelanguage
+				when 1
+					@url_stub = "/value/"
+				when 2
+					@url_stub = "/valor/"
+			end
 			@frame = current_user.frame
 			@frame_article = (@frame.language_id == current_user.sitelanguage)
 			@frametranslation = @frame.translations.where(language_id: current_user.sitelanguage).first
 			@frameoriginal = @frame.original
+			@frame_stub = @frame.link_slug
 		end
 		
 		
