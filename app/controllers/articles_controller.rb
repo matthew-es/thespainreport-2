@@ -34,19 +34,7 @@ class ArticlesController < ApplicationController
 	# GET /articles/1
 	# GET /articles/1.json
 	def show
-		if ["Published", "Updated"].include?@article.status.name
-			Visit.create(
-				referer: request.headers["HTTP_REFERER"],
-				article_id: @article.id,
-				frame_id: @article.frame_id,
-				plan_ids: ''
-				)
-			
-			@article_id = @article.id	
-			@articletweets = @article.tweets.order('created_at ASC')
-			@articleupdates = @article.updates.published.order('created_at ASC')
-
-			if @article.language_id == 1
+		if @article.language_id == 1
 				@set_language = 1
 				@url_stub = "/value/"
 			elsif @article.language_id == 2
@@ -74,6 +62,19 @@ class ArticlesController < ApplicationController
 				@frametranslation = @frame.translations.where(language_id: @article.language_id).first
 				@frameoriginal = @frame.original
 			end
+		
+		
+		if ["Published", "Updated"].include?@article.status.name
+			Visit.create(
+				referer: request.headers["HTTP_REFERER"],
+				article_id: @article.id,
+				frame_id: @article.frame_id,
+				plan_ids: ''
+				)
+			
+			@article_id = @article.id	
+			@articletweets = @article.tweets.order('created_at ASC')
+			@articleupdates = @article.updates.published.order('created_at ASC')
 			
 			unless current_user.nil? || current_user.account.blank? || !current_user.account.stripe_payment_method.present?
 			 @existing_pm = Stripe::PaymentMethod.retrieve(current_user.account.stripe_payment_method)
