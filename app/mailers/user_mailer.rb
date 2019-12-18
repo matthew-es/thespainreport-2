@@ -10,6 +10,14 @@ class UserMailer < ApplicationMailer
         mail(to: @user.email, subject: @subject)
     end
     
+    def password_changed(user, subject)
+        @user = user
+        @subject = subject
+        
+        headers 'X-SES-CONFIGURATION-SET' => "Emails"
+        mail(to: @user.email, subject: @subject)
+    end
+    
     def welcome_reader(user)
         @user = user
         

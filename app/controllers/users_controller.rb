@@ -176,7 +176,7 @@ class UsersController < ApplicationController
 	end
 
 	def destroysession
-		session[:user_id] = nil
+		session.delete(:user_id)
 		reset_session
 		redirect_back(fallback_location: root_path)
 		flash[:success] = "Thanks for reading!"
@@ -219,11 +219,23 @@ class UsersController < ApplicationController
 	
 	def enter_new_password
 		@user = User.find_by_confirm_token(params[:id])
+		
+		if !@user
+			redirect_to "/"
+		else
+		end
+		
 		default_frame_eng
 	end
 	
 	def introducir_clave_nueva
 		@user = User.find_by_confirm_token(params[:id])
+		
+		if !@user
+			redirect_to "/"
+		else
+		end
+		
 		default_frame_es
 	end
 	
@@ -247,10 +259,16 @@ class UsersController < ApplicationController
 				when
 					@message = "Well done. You have updated your password."
 					@location = "/login"
+					@subject = "Your password was just changed: is that what you wanted to happen?"
 				when 2
 					@message = "Enhorabuena. Ha actualizado su contraseña."
 					@location = "/entrar"
+					@subject = "Se acaba de cambiar su contraseña: ¿es lo que quería hacer?"
 			end
+			@user.update(
+				confirm_token: SecureRandom.urlsafe_base64.to_s
+				)
+			UserMailer.password_changed(@user, @subject).deliver_now
 			flash[:success] = @message
 			redirect_to @location
 		else
