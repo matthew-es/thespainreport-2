@@ -43,8 +43,8 @@
 		
 		<%= current_user.email %>
 		| 
-		<% if current_user.sitelanguage == 1 %> <%= link_to 'My Details', edit_user_path(current_user) %>
-		<% elsif current_user.sitelanguage == 2 %> <%= link_to 'Mis Datos', edit_user_path(current_user) %>
+		<% if current_user.sitelanguage == 1 %> <%= link_to 'I am a patron', edit_user_path(current_user) %>
+		<% elsif current_user.sitelanguage == 2 %> <%= link_to 'Yo soy mecenas', edit_user_path(current_user) %>
 		<% else end %>
 		| 
 		<% if current_user.sitelanguage == 1 %> <%= link_to 'Logout', users_logout_path %>
@@ -52,5 +52,6 @@
 		<% else end %>
 	<% else %>
 	<% end %>
+	<div class="margin-top-20 border-patrons-top padding-5 font-main-small font-italic">Problems? matthew@thespainreport.com / (0034) 647 81 81 43 / @matthewbennett</div>
 </div>
-<div class=="clear"></div>
+<div class="clear"></div>

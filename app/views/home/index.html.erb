@@ -71,6 +71,10 @@
 	<%= render 'layouts/log_in_logic' %>
 </div>
 
+<% if current_user.nil? %>
+	<%= render "users/new_reader_form" %>
+<% else end %>
+
  <h3>Spain Stories</h3>
  <ul class="no-points">
  <% @latest.each do |article| %>

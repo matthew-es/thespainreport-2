@@ -13,16 +13,18 @@ class HomeController < ApplicationController
 		
 		if current_user.nil? || current_user.frame.blank?
 			@frame = Frame.find_by(link_slug: "guarantee")
+			@frame_id = @frame.id
 			@frame_article = (@frame.language_id == 1)
 			@frametranslation = @frame.translations.where(language_id: 1).first
 			@frameoriginal = @frame.original
 		else
 			@frame = current_user.frame
+			@frame_id = @frame.id
 			@frame_article = (@frame.language_id == 1)
 			@frametranslation = @frame.translations.where(language_id: 1).first
 			@frameoriginal = @frame.original
 		end
-		
+		@set_language = 1
 		@url_stub = "/value/"
 		@latesttop = Article.nottruth.notpatrons.english.topstory.published.lastone
 		@latest = Article.notlatesttop.notupdate.nottruth.notpatrons.english.published.lasttwenty
@@ -47,6 +49,7 @@ class HomeController < ApplicationController
 		
 		if current_user.nil? || current_user.frame.blank?
 			@frame = Frame.find_by(link_slug: "guarantee")
+			
 			@frame_article = (@frame.language_id == 2)
 			@frametranslation = @frame.translations.where(language_id: 2).first
 			@frameoriginal = @frame.original
@@ -56,7 +59,7 @@ class HomeController < ApplicationController
 			@frametranslation = @frame.translations.where(language_id: 2).first
 			@frameoriginal = @frame.original
 		end
-		
+		@set_language = 2
 		@url_stub = "/valor/"
 		@latesttop = Article.nottruth.notpatrons.spanish.topstory.published.lastone
 		@latest = Article.notlatesttop.notupdate.nottruth.notpatrons.spanish.published.lasttwenty

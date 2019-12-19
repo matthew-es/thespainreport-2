@@ -46,6 +46,7 @@ a.no-hover-bg:hover {background-color: #fff;}
 .background-color-yellow-border {border: 2px solid #F1BF00;}
 .background-color-patrons {background-color: #cc7a00;}
 .border-patrons {border: 2px solid #cc7a00;}
+.border-patrons-top {border-top: 1px dotted #cc7a00;}
 .line-100 {line-height: 100%;}
 .line-115 {line-height: 114%;}
 .line-120 {line-height: 120%;}
