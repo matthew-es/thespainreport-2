@@ -11,7 +11,7 @@
 		<%= link_to "Tweets", tweets_path %>
 		<%= link_to "Articles", articles_path %>
 		<%= link_to "Uploads", uploads_path %>
-		|| <%= link_to "Readers", users_path %>
+		|| <%= link_to "Patrons", users_path %>
 		| <%= link_to "Accounts", accounts_path %>
 		| <%= link_to "Frames", frames_path %>
 		| <%= link_to "Plans", plans_path %>
@@ -47,7 +47,7 @@
 		<% elsif controller_name == "accounts" %>
 			Accounts
 		<% elsif controller_name == "users" %>
-			Readers
+			Patrons
 		<% elsif controller_name == "plans" %>
 			Plans
 		<% elsif controller_name == "countries" %>
@@ -87,7 +87,7 @@
 			<% elsif controller_name == "accounts" %>
 				account…
 			<% elsif controller_name == "users" %>
-				reader…
+				patron…
 			<% elsif controller_name == "plans" %>
 				plan…
 			<% elsif controller_name == "countries" %>
@@ -128,7 +128,7 @@
 			<% elsif controller_name == "users" %>
 				<%= form_with(url: 'editor_creates_new_user', local: true) do |f| %>
 					<div class="margin-bottom-10">
-						<%= f.text_area :email, :class => "width-48 padding-10 font-main font-main-normal", :style => "min-height: 60px;", placeholder: "Add new users here…" %>
+						<%= f.text_area :email, :class => "width-48 padding-10 font-main font-main-normal", :style => "min-height: 60px;", placeholder: "Add new patrons here…" %>
 					</div>
 					<div class="margin-bottom-10">
 				   	Emails: <%= f.select :emails, options_for_select([["Articles & Latest News", "1"], ["Articles only", "2"], ["Announcements only", "3"], ["No email at all", "3"]]) %>

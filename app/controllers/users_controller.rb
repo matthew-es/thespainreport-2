@@ -405,6 +405,7 @@ class UsersController < ApplicationController
 			@frametranslation = @frame.translations.where(language_id: 1).first
 			@frameoriginal = @frame.original
 			@frame_stub = @frame.link_slug
+			@url_stub = "/value/"
 		else
 			case current_user.sitelanguage
 				when 1
