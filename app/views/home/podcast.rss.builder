@@ -39,7 +39,7 @@ xml.rss :version => "2.0", "xmlns:itunes" => "http://www.itunes.com/dtds/podcast
 				
 				xml.pubDate article.created_at.to_s(:rfc822)
 				xml.link article_url(article)
-				xml.guid article.id + article.created_at.to_i
+				xml.guid "https://www.thespainreport.es/" + (article.id + article.created_at.to_i).to_s
 			end
 		end
 	end
