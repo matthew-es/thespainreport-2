@@ -30,9 +30,9 @@ class HomeController < ApplicationController
 		@latest = Article.notlatesttop.notupdate.nottruth.notpatrons.english.published.lasttwenty
 		@latesttruth = Article.truth.english.published.lastten
 		@types = Type.english.notupdate.notstory
-		@rss = Article.all.order('created_at DESC')
 		@latest_patrons_only = Article.patrons.english.order('created_at DESC').limit(5)
-
+		
+		@rss = Article.published.english.order('created_at DESC')
 		respond_to do |format|
 			format.html
 			format.rss { render :layout => false }
@@ -65,29 +65,29 @@ class HomeController < ApplicationController
 		@latest = Article.notlatesttop.notupdate.nottruth.notpatrons.spanish.published.lasttwenty
 		@latesttruth = Article.truth.spanish.published.lastten
 		@types = Type.spanish.notupdate.notstory
-		@rss = Article.all.spanish.published.order('created_at DESC')
 		@latest_patrons_only = Article.patrons.spanish.order('created_at DESC').limit(5)
 		
+		@rss = Article.published.spanish.order('created_at DESC')
 		respond_to do |format|
 			format.html
 			format.rss { render :layout => false }
 		end
 	end
 	
-	def eng
-		@rss = Article.all.english.published.order('created_at DESC')
+	def podcast
+		@rss = Article.published.english.podcast.order('created_at DESC')
 		respond_to do |format|
 			format.html
 			format.rss { render :layout => false }
 		end
-	end
-	
-	def audio
-		@audioarticles = Article.audio.published.english.order('created_at DESC')
 	end 
 
-def audio_es
-		@audioarticles = Article.audio.published.spanish.order('created_at DESC')
+def podcast_es
+		@rss = Article.published.spanish.podcast.order('created_at DESC')
+		respond_to do |format|
+			format.html
+			format.rss { render :layout => false }
+		end
 end 
 
 end

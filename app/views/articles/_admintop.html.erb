@@ -5,7 +5,7 @@
 		| <%= link_to "Article", new_article_path %>
 		|| <% if current_user %>
 			<%= current_user.email %>
-		| <%= link_to 'My Details', edit_user_path(current_user) %>
+		| <%= link_to 'I am a patron', edit_user_path(current_user) %>
 		| <%= link_to 'Logout', users_logout_path %>
 		<br />
 		<%= link_to "Tweets", tweets_path %>

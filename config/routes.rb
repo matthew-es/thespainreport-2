@@ -79,15 +79,18 @@
 	
 	get 'trial', to: redirect("http://www.thespainreport.es/articles/32-180101210225-catalan-separatism")
 	get 'twitterpatreon' => 'home#patreon'
-	get 'rss' => 'home#index', defaults: { format: 'rss' }
-	get 'rss/es' => 'home#es', defaults: { format: 'rss' }
-	get 'rss/eng' => 'home#eng', defaults: { format: 'rss' }
-	get 'audio' => 'home#audio'
-	get 'es/audio' => 'home#audio_es'
-	get 'es' => 'home#es'
-	get 'home/index'
-	get 'articles/touser' => 'articles#touser'
 	
+	get 'home/index'
+	get 'rss' => 'home#index', defaults: { format: 'rss' }
+	get 'podcast' => 'home#podcast'
+	get 'rss/podcast' => 'home#podcast', defaults: { format: 'rss' }
+	
+	get 'es' => 'home#es'
+	get 'es/rss' => 'home#es', defaults: { format: 'rss' }
+	get 'es/podcast' => 'home#podcast_es'
+	get 'es/rss/podcast' => 'home#podcast_es', defaults: { format: 'rss' }
+	
+	get 'articles/touser' => 'articles#touser'
 	post 'editor_creates_new_user' => 'users#editor_creates_new_user'
 	post 'editor_modifies_accounts' => 'accounts#editor_modifies_accounts'
 	resources :users do
