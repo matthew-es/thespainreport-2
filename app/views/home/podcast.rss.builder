@@ -1,11 +1,10 @@
 xml.instruct! :xml, :version => "1.0"
-xml.rss :version => "2.0" do
+xml.rss :version => "2.0", "xmlns:itunes" => "http://www.itunes.com/dtds/podcast-1.0.dtd", "xmlns:content" => "http://purl.org/rss/1.0/modules/content/" do
 	xml.channel do
 		xml.title "The Spain Report"
 		xml.description "Indpendent reporting and analysis of news from Spain"
 		xml.copyright "Matthew Bennett"
 		xml.language "en"
-		
 		
 		xml.itunes :title, "The Spain Report"
 		xml.itunes :summary, "Indpendent reporting and analysis of news from Spain"
@@ -26,7 +25,7 @@ xml.rss :version => "2.0" do
 		
 		@rss.each do |article|
 			xml.item do
-				xml.enclosure :url => 'https://audio.thespainreport.es/' + article.audio_file, :length => "", :type => ""
+				xml.enclosure :url => "https://audio.thespainreport.es/" + article.audio_file, :length => "", :type => ""
 				
 				xml.title article.headline
 				xml.description article.lede
