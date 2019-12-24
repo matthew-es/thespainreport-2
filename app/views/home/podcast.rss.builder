@@ -14,7 +14,7 @@ xml.rss :version => "2.0",
 		xml.link "https://www.thespainreport.es"
 		
 		xml.itunes :title, "The Spain Report"
-		xml.itunes :summary, "Indpendent reporting and analysis of news from Spain"
+		xml.itunes :summary, "Matthew Bennett reports on and analyses news from Spain"
 		xml.itunes :author, "Matthew Bennett"
 		xml.itunes :image, ""
 		xml.itunes :category, :text => 'News' do
