@@ -8,13 +8,13 @@ xml.rss :version => "2.0",
 	
 	xml.channel do
 		xml.title "The Spain Report"
-		xml.description "Matthew Bennett reports on and analyses news from Spain"
+		xml.description "Matthew Bennett analyses the news from Spain"
 		xml.copyright "Matthew Bennett"
 		xml.language "en"
 		xml.link "https://www.thespainreport.es"
 		
 		xml.itunes :title, "The Spain Report"
-		xml.itunes :summary, "Matthew Bennett reports on and analyses news from Spain"
+		xml.itunes :summary, "Matthew Bennett analyses the news from Spain"
 		xml.itunes :author, "Matthew Bennett"
 		xml.itunes :image, ""
 		xml.itunes :category, :text => 'News' do
