@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_04_194016) do
+ActiveRecord::Schema.define(version: 2019_12_24_164509) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -78,6 +78,11 @@ ActiveRecord::Schema.define(version: 2019_12_04_194016) do
     t.string "extras_transcription_intro"
     t.string "extras_transcription_teaser"
     t.string "short_headline"
+    t.text "audio_episode_notes"
+    t.integer "audio_file_length"
+    t.string "audio_file_type"
+    t.integer "audio_file_episode"
+    t.integer "audio_file_duration"
     t.index ["frame_id"], name: "index_articles_on_frame_id"
     t.index ["language_id"], name: "index_articles_on_language_id"
     t.index ["main_id"], name: "index_articles_on_main_id"
