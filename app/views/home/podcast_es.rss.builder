@@ -31,11 +31,20 @@ xml.rss :version => "2.0",
 		xml.spotify :countryOfOrigin, "es gb ie us ca au nz"
 		
 		@rss.each do |article|
+			show_links = "<ol>
+							<li><a href=\"https://www.thespainreport.es/valor\">Garantice el periodismo aquí</a></li>
+							<li><a href=\"https://twitter.com/matthewbennett\">Siga a Matthew en Twitter</a></li>
+						 </ol>"
+			
 			xml.item do
 				xml.enclosure :url => "https://audio.thespainreport.es/" + article.audio_file, :length => article.audio_file_length, :type => article.audio_file_type
 				
 				xml.title article.headline
-				xml.description article.audio_episode_notes
+				if article.audio_episode_notes.nil?
+					xml.description {xml.cdata!(article.lede + show_links)}
+				else
+					xml.description {xml.cdata!(article.audio_episode_notes + show_links)}
+				end
 				
 				xml.itunes :title, article.headline
 				xml.itunes :summary, article.lede
