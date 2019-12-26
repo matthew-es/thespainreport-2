@@ -112,6 +112,7 @@ class ArticlesController < ApplicationController
 			redirect_to root_url
 		elsif current_user.status == 1
 			article_elements
+			
 		else
 			redirect_to root_url
 		end

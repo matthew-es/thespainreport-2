@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_24_164509) do
+ActiveRecord::Schema.define(version: 2019_12_26_115703) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -270,6 +270,8 @@ ActiveRecord::Schema.define(version: 2019_12_24_164509) do
     t.text "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "file_size"
+    t.string "file_type"
   end
 
   create_table "users", force: :cascade do |t|

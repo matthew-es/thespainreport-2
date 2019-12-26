@@ -47,6 +47,20 @@ class UploadsController < ApplicationController
 		end
 	end
 	
+	def s3_buckets
+		image_bucket = 'image.thespainreport.es'
+	    audio_bucket = 'audio.thespainreport.es'
+	    document_bucket = 'pdf.thespainreport.es'
+		
+		case @extension_to_analyse
+	    	when '.mp3' then @file_content_type = "audio/mpeg"; @bucket = audio_bucket
+	    	when '.pdf' then @file_content_type = "application/pdf"; @bucket = document_bucket
+	    	when '.gif' then @file_content_type = "image/gif"; @bucket = image_bucket
+	    	when '.png' then @file_content_type = "image/png"; @bucket = image_bucket
+	    	when '.jpg' then @file_content_type = "image/jpeg"; @bucket = image_bucket
+	    	when '.jpeg' then @file_content_type = "image/jpeg"; @bucket = image_bucket
+	    end
+	end
 	
 	# POST /uploads
 	# POST /uploads.json
@@ -58,28 +72,27 @@ class UploadsController < ApplicationController
 		File.open(tf, 'wb') do |f|
 			f.write params[:data].read
 		end
+		how_big = File.size(tf)
 		
-		# Put it on S3
+		# Open S3, sort out bucket, create object, upload to object
 		s3 = Aws::S3::Resource.new()
-		if ['.png','.jpg'].include?File.extname(tf)
-	    	bucket = 'image.thespainreport.es'
-	    elsif ['.mp3','.wav'].include?File.extname(tf)
-	    	bucket = 'audio.thespainreport.es'
-	    elsif ['.pdf'].include?File.extname(tf)
-	    	bucket = 'pdf.thespainreport.es'
-	    end
-	    name = File.basename(tf)
-	    obj = s3.bucket(bucket).object(name)
-	    obj.upload_file(tf)
+	    file_name = File.basename(tf)
+	    @extension_to_analyse = File.extname(tf)
+	    s3_buckets
+	    
+	    obj = s3.bucket(@bucket).object(file_name)
+	    obj.upload_file(tf, content_type: @file_content_type)
 	    
 	    # Create the database row in Rails
 		@upload = Upload.new(
-				data: obj.public_url
+				data: obj.public_url,
+				file_size: how_big,
+				file_type: @file_content_type
 			)
 
 		respond_to do |format|
 			if @upload.save
-				format.html { redirect_to uploads_path, notice: 'Upload was successfully created.' }
+				format.html { redirect_to uploads_url, notice: 'Upload was successfully created.' }
 				format.json { render :index, status: :created, location: @upload }
 			else
 				format.html { render :new }
@@ -105,6 +118,13 @@ class UploadsController < ApplicationController
 	# DELETE /uploads/1
 	# DELETE /uploads/1.json
 	def destroy
+		file_name = File.basename(@upload.data)
+		@extension_to_analyse = File.extname(@upload.data)
+		s3_buckets
+		
+		s3 = Aws::S3::Client.new
+		s3.delete_object(key: file_name, bucket: @bucket)
+		
 		@upload.destroy
 		respond_to do |format|
 			format.html { redirect_to uploads_url, notice: 'Upload was successfully destroyed.' }
@@ -120,6 +140,6 @@ class UploadsController < ApplicationController
 
 		# Never trust parameters from the scary internet, only allow the white list through.
 		def upload_params
-			params.require(:upload).permit(:data)
+			params.require(:upload).permit(:data, :file_size, :file_type)
 		end
 end
