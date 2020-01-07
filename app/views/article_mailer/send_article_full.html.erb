@@ -101,8 +101,8 @@
 		<% else %>
 		<% end %>
 		
-		<% if @article.audio.present? %>
-			<li>Audio: <%= link_to @article.audio, ('https://audio.thespainreport.es/' + @article.audio) %></li>
+		<% if @article.audio_file_mp3.present? %>
+			<li>Audio: <%= link_to @article.audio_file_mp3, ('https://audio.thespainreport.es/' + @article.audio_file_mp3) %></li>
 		<% else %>
 		<% end %>
 		
@@ -134,8 +134,8 @@
 		<% else %>
 		<% end %>
 		
-		<% if @article.audio.present? %>
-			<li>Audio: <%= link_to @article.audio, ('https://audio.thespainreport.es/' + @article.audio) %></li>
+		<% if @article.audio_file_mp3.present? %>
+			<li>Audio: <%= link_to @article.audio_file_mp3, ('https://audio.thespainreport.es/' + @article.audio_file_mp3) %></li>
 		<% else %>
 		<% end %>
 		
