@@ -37,8 +37,8 @@ xml.rss :version => "2.0",
 						 </ol>"
 			
 			xml.item do
-				xml.enclosure :url => "https://audio.thespainreport.es/" + article.audio_file, :length => article.audio_file_length, :type => article.audio_file_type
-				
+				xml.enclosure :url => "https://audio.thespainreport.es/" + article.audio_file_mp3, :length => article.audio_file_mp3_length, :type => article.audio_file_mp3_type
+					
 				xml.title article.headline
 				if article.audio_episode_notes.nil?
 					xml.description {xml.cdata!(article.lede + show_links)}

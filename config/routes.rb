@@ -84,11 +84,13 @@
 	get 'rss' => 'home#index', defaults: { format: 'rss' }
 	get 'podcast' => 'home#podcast'
 	get 'rss/podcast' => 'home#podcast', defaults: { format: 'rss' }
+	get 'rss/podcast/mp3' => 'home#podcast', defaults: { format: 'rss' }
 	
 	get 'es' => 'home#es'
 	get 'es/rss' => 'home#es', defaults: { format: 'rss' }
-	get 'es/podcast' => 'home#podcast_es'
-	get 'es/rss/podcast' => 'home#podcast_es', defaults: { format: 'rss' }
+	get 'es/podcast' => 'home#es_podcast'
+	get 'es/rss/podcast' => 'home#es_podcast', defaults: { format: 'rss' }
+	get 'es/rss/podcast/mp3' => 'home#es_podcast_mp3', defaults: { format: 'rss' }
 	
 	get 'articles/touser' => 'articles#touser'
 	post 'editor_creates_new_user' => 'users#editor_creates_new_user'

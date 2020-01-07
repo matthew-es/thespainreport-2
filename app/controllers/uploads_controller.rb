@@ -54,6 +54,7 @@ class UploadsController < ApplicationController
 		
 		case @extension_to_analyse
 	    	when '.mp3' then @file_content_type = "audio/mpeg"; @bucket = audio_bucket
+	    	when '.m4a' then @file_content_type = "audio/m4a"; @bucket = audio_bucket
 	    	when '.pdf' then @file_content_type = "application/pdf"; @bucket = document_bucket
 	    	when '.gif' then @file_content_type = "image/gif"; @bucket = image_bucket
 	    	when '.png' then @file_content_type = "image/png"; @bucket = image_bucket

@@ -56,25 +56,42 @@
 	
 	<div class="margin-bottom-10">
 		<div class="margin-bottom-10">
-		<div class="float-left margin-right-15" style="width:33%">
-			<%= f.text_field :audio_file, :class => "width-98 padding-5", placeholder: "Audio file…" %>
-		</div>
-		<div class="float-left margin-right-20" style="width:7%">
-			<%= f.number_field :audio_file_length, :class => "width-98 padding-5", placeholder: "Leng…" %>
-		</div>
-		<div class="float-left margin-right-20" style="width:6%">
-			<%= f.text_field :audio_file_type, :class => "width-98 padding-5", placeholder: "audio/mpeg" %>
-		</div>
-		<div class="float-left margin-right-20" style="width:4%">
-			<%= f.number_field :audio_file_duration, :class => "width-98 padding-5", placeholder: "Dur…" %>
-		</div>
-		<div class="float-left margin-right-20" style="width:3%">
-			<%= f.number_field :audio_file_episode, :class => "width-98 padding-5", placeholder: "Ep. nº" %>
-		</div>
-		<div class="float-left" style="width:20%">
-			<%= f.text_field :audio_intro, :class => "width-98 padding-5", placeholder: "Audio intro…" %>
-		</div>
-		<div class="clear"></div>
+			<div class="margin-bottom-10">
+				<div class="float-left margin-right-15" style="width:33%">
+					<%= f.text_field :audio_file_aac, :class => "width-98 padding-5", placeholder: ".m4a" %>
+				</div>
+				<div class="float-left margin-right-20" style="width:7%">
+					<%= f.number_field :audio_file_aac_length, :class => "width-98 padding-5", placeholder: "Length" %>
+				</div>
+				<div class="float-left margin-right-20" style="width:6%">
+					<%= f.text_field :audio_file_aac_type, :class => "width-98 padding-5", placeholder: "audio/m4a", value: "audio/m4a" %>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="margin-bottom-10">
+				<div class="float-left margin-right-15" style="width:33%">
+					<%= f.text_field :audio_file_mp3, :class => "width-98 padding-5", placeholder: ".mp3" %>
+				</div>
+				<div class="float-left margin-right-20" style="width:7%">
+					<%= f.number_field :audio_file_mp3_length, :class => "width-98 padding-5", placeholder: "Length" %>
+				</div>
+				<div class="float-left margin-right-20" style="width:6%">
+					<%= f.text_field :audio_file_mp3_type, :class => "width-98 padding-5", placeholder: "audio/mpeg", value: "audio/mpeg" %>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="margin-bottom-10">
+				<div class="float-left margin-right-20" style="width:4%">
+					<%= f.number_field :audio_file_duration, :class => "width-98 padding-5", placeholder: "Dur…" %>
+				</div>
+				<div class="float-left margin-right-20" style="width:3%">
+					<%= f.number_field :audio_file_episode, :class => "width-98 padding-5", placeholder: "Ep. nº" %>
+				</div>
+				<div class="float-left" style="width:20%">
+					<%= f.text_field :audio_intro, :class => "width-98 padding-5", placeholder: "Audio intro…" %>
+				</div>
+				<div class="clear"></div>
+			</div>
 		</div>
 		<div class="margin-bottom-10">
 		<%= f.text_area :audio_episode_notes, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 100px;", placeholder: "Podcast episode notes…" %>

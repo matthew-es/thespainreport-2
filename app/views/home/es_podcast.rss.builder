@@ -2,20 +2,19 @@ xml.instruct! :xml, :version => "1.0"
 xml.rss :version => "2.0", 
 	"xmlns:itunes" => "http://www.itunes.com/dtds/podcast-1.0.dtd",
 	"xmlns:spotify" => "https://www.spotify.com/ns/rss",
-	"xmlns:googleplay" => "http://www.google.com/schemas/play-podcasts/1.0",
 	"xmlns:content" => "http://purl.org/rss/1.0/modules/content/",
 	"xmlns:dcterms" => "https://purl.org/dc/terms/",
 	"xmlns:media" => "https://search.yahoo.com/mrss/" do
 	
 	xml.channel do
 		xml.title "The Spain Report"
-		xml.description "Matthew Bennett analyses the news from Spain."
+		xml.description "Matthew Bennett analiza las noticias de España"
 		xml.copyright "Matthew Bennett"
-		xml.language "en"
+		xml.language "es"
 		xml.link "https://www.thespainreport.es"
 		
 		xml.itunes :title, "The Spain Report"
-		xml.itunes :summary, "Matthew Bennett analyses the news from Spain"
+		xml.itunes :summary, "Matthew Bennett analiza las noticias de España"
 		xml.itunes :author, "Matthew Bennett"
 		xml.itunes :image, ""
 		xml.itunes :category, :text => 'News' do
@@ -31,15 +30,10 @@ xml.rss :version => "2.0",
 		
 		xml.spotify :countryOfOrigin, "es gb ie us ca au nz"
 		
-		xml.googleplay :author, "Matthew Bennett"
-		xml.googleplay :category, :text => "News &amp; Politics"
-		xml.googleplay :description, "Matthew Bennett analyses the news from Spain"
-		xml.googleplay :image, ""
-		
 		@rss.each do |article|
 			show_links = "<ol>
-							<li><a href=\"https://www.thespainreport.es/value\">Guarantee journalism here</a></li>
-							<li><a href=\"https://twitter.com/matthewbennett\">Follow Matthew on Twitter</a></li>
+							<li><a href=\"https://www.thespainreport.es/valor\">Garantice el periodismo aquí</a></li>
+							<li><a href=\"https://twitter.com/matthewbennett\">Siga a Matthew en Twitter</a></li>
 						 </ol>"
 			
 			xml.item do
@@ -55,6 +49,7 @@ xml.rss :version => "2.0",
 				else
 					xml.description {xml.cdata!(article.audio_episode_notes + show_links)}
 				end
+				
 				xml.itunes :title, article.headline
 				xml.itunes :summary, article.lede
 				xml.itunes :author, "Matthew Bennett"
@@ -62,8 +57,6 @@ xml.rss :version => "2.0",
 				xml.itunes :episodeType, "full"
 				xml.itunes :duration, article.audio_file_duration
 				xml.itunes :explicit, "false"
-				
-				xml.googleplay :description, article.lede
 				
 				xml.pubDate article.created_at.to_s(:rfc822)
 				xml.link article_url(article)

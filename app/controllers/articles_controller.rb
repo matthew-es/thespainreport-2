@@ -243,8 +243,8 @@ class ArticlesController < ApplicationController
 
 		# Never trust parameters from the scary internet, only allow the white list through.
 		def article_params
-			params.require(:article).permit(:alertmessage, :audio_file, :audio_intro, :body, :created_at, :frame_id, :extras_audio_file, 
-			:audio_episode_notes, :audio_file_duration, :audio_file_length, :audio_file_type, :audio_file_episode, 
+			params.require(:article).permit(:alertmessage, :audio_file_mp3, :audio_file_aac, :audio_intro, :body, :created_at, :frame_id, :extras_audio_file, 
+			:audio_file_episode, :audio_episode_notes, :audio_file_duration, :audio_file_mp3_length, :audio_file_mp3_type, :audio_file_aac_length, :audio_file_aac_type, 
 			:extras_audio_intro, :extras_audio_teaser, :extras_notes, :extras_notes_teaser, :extras_transcription_file, :extras_transcription_intro, :extras_transcription_teaser, 
 			:short_headline, :headline, :image, :is_breaking, :language_id, :lede, :main_id, :original_id, :status_id, :story_id, :topstory, :type_id, :video)
 		end

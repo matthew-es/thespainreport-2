@@ -43,11 +43,7 @@ xml.rss :version => "2.0",
 						 </ol>"
 			
 			xml.item do
-				if article.audio_file_aac.present?
-					xml.enclosure :url => "https://audio.thespainreport.es/" + article.audio_file_aac, :length => article.audio_file_aac_length, :type => article.audio_file_aac_type
-				else
-					xml.enclosure :url => "https://audio.thespainreport.es/" + article.audio_file_mp3, :length => article.audio_file_mp3_length, :type => article.audio_file_mp3_type
-				end
+				xml.enclosure :url => "https://audio.thespainreport.es/" + article.audio_file_mp3, :length => article.audio_file_mp3_length, :type => article.audio_file_mp3_type
 				
 				xml.title article.headline
 				if article.audio_episode_notes.nil?

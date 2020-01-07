@@ -101,7 +101,7 @@
 	    	</div>
 	    <% end %>
 	    
-	    <% if @article.audio_file.present? %>
+	    <% if @article.audio_file_mp3.present? %>
 	    	<div class="margin-right-5 float-left mobile-bottom-10">
 	    		<span class="label background-color-black font-color-white">
 	    			Audio
@@ -208,7 +208,7 @@
 <% else %>
 <% end %>
 
-<% if @article.audio_file.present? %>
+<% if @article.audio_file_mp3.present? %>
 	<div class="margin-left-20 margin-top-10" >
 		<div class="padding-left-5 font-main font-main-small font-italic" >
 			<span class="font-bold">
@@ -220,7 +220,7 @@
 			</span> <%= @article.audio_intro %>
 		</div>
 		<audio controls>
-		  <source src="<%= 'https://audio.thespainreport.es/' + @article.audio_file %>" type="audio/mpeg">
+		  <source src="<%= 'https://audio.thespainreport.es/' + @article.audio_file_mp3 %>" type="audio/mpeg">
 		Your browser does not support the audio element.
 		</audio>
 	</div>

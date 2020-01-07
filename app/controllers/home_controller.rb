@@ -80,14 +80,30 @@ class HomeController < ApplicationController
 			format.html
 			format.rss { render :layout => false }
 		end
-	end 
-
-def podcast_es
-		@rss = Article.published.spanish.podcast.order('created_at DESC')
+	end
+	
+	def podcast_mp3
+		@rss = Article.published.english.podcast.order('created_at DESC')
 		respond_to do |format|
 			format.html
 			format.rss { render :layout => false }
 		end
-end 
+	end
+
+	def es_podcast
+			@rss = Article.published.spanish.podcast.order('created_at DESC')
+			respond_to do |format|
+				format.html
+				format.rss { render :layout => false }
+			end
+	end
+	
+	def es_podcast_mp3
+			@rss = Article.published.spanish.podcast.order('created_at DESC')
+			respond_to do |format|
+				format.html
+				format.rss { render :layout => false }
+			end
+	end 
 
 end

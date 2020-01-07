@@ -34,5 +34,5 @@ class Article < ApplicationRecord
     scope :published, -> {where(status_id: [3, 4])}
     scope :english, -> {where(language_id: 1)}
     scope :spanish, -> {where(language_id: 2)}
-    scope :podcast, -> {where.not(audio_file: '')}
+    scope :podcast, -> {where.not(audio_file_mp3: '')}
 end

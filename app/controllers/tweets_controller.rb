@@ -100,6 +100,15 @@ class TweetsController < ApplicationController
 			@tweet.update(
 				article_id: a.id
 			)
+			
+			
+			case @tweet.language_id
+				when 1 then @frame = Frame.find_by(link_slug: "guarantee")
+				when 2 then @frame = Frame.find_by(link_slug: "garantizar")
+			end
+			a.update(
+				frame_id: @frame.id
+				)
 		end
 		
 		if @tweet.image
