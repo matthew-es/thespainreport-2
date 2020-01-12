@@ -7,13 +7,13 @@ xml.rss :version => "2.0",
 	"xmlns:media" => "https://search.yahoo.com/mrss/" do
 	
 	xml.channel do
-		xml.title "The Spain Report"
+		xml.title "Bennett en España"
 		xml.description "Matthew Bennett analiza las noticias de España"
 		xml.copyright "Matthew Bennett"
 		xml.language "es"
 		xml.link "https://www.thespainreport.es"
 		
-		xml.itunes :title, "The Spain Report"
+		xml.itunes :title, "Bennett en España"
 		xml.itunes :summary, "Matthew Bennett analiza las noticias de España"
 		xml.itunes :author, "Matthew Bennett"
 		xml.itunes :image, :href => "http://image.thespainreport.es/bennett_en_espana_artwork.png"
