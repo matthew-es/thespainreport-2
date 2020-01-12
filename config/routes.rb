@@ -84,7 +84,7 @@
 	get 'rss' => 'home#index', defaults: { format: 'rss' }
 	get 'podcast' => 'home#podcast'
 	get 'rss/podcast' => 'home#podcast', defaults: { format: 'rss' }
-	get 'rss/podcast/mp3' => 'home#podcast', defaults: { format: 'rss' }
+	get 'rss/podcast/mp3' => 'home#podcast_mp3', defaults: { format: 'rss' }
 	
 	get 'es' => 'home#es'
 	get 'es/rss' => 'home#es', defaults: { format: 'rss' }

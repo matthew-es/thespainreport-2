@@ -22,7 +22,7 @@
 				<td>
 					<% if ['.png','.jpg'].include?File.extname(upload.data) %> 
 						![](<%= 'http://image.thespainreport.es/' + File.basename(upload.data) %>)
-					<% elsif ['.wav','.mp3'].include?File.extname(upload.data) %>
+					<% elsif ['.aac', '.m4a', '.wav','.mp3'].include?File.extname(upload.data) %>
 						<%= 'http://audio.thespainreport.es/' + File.basename(upload.data) %>
 					<% elsif ['.pdf'].include?File.extname(upload.data) %>
 						<%= 'http://pdf.thespainreport.es/' + File.basename(upload.data) %>

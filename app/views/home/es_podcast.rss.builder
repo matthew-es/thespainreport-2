@@ -16,7 +16,7 @@ xml.rss :version => "2.0",
 		xml.itunes :title, "The Spain Report"
 		xml.itunes :summary, "Matthew Bennett analiza las noticias de España"
 		xml.itunes :author, "Matthew Bennett"
-		xml.itunes :image, ""
+		xml.itunes :image, "http://image.thespainreport.es/bennett_en_espana_artwork.png"
 		xml.itunes :category, :text => 'News' do
 	      xml.itunes :category, :text => 'Daily News'
 	      xml.itunes :category, :text => 'News Commentary'
