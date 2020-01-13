@@ -2,6 +2,7 @@ xml.instruct! :xml, :version => "1.0"
 xml.rss :version => "2.0", 
 	"xmlns:itunes" => "http://www.itunes.com/dtds/podcast-1.0.dtd",
 	"xmlns:spotify" => "https://www.spotify.com/ns/rss",
+	"xmlns:googleplay" => "http://www.google.com/schemas/play-podcasts/1.0",
 	"xmlns:content" => "http://purl.org/rss/1.0/modules/content/",
 	"xmlns:dcterms" => "https://purl.org/dc/terms/",
 	"xmlns:media" => "https://search.yahoo.com/mrss/" do
@@ -60,6 +61,8 @@ xml.rss :version => "2.0",
 				xml.itunes :episodeType, "full"
 				xml.itunes :duration, article.audio_file_duration
 				xml.itunes :explicit, "false"
+				
+				xml.googleplay :description, article.lede
 				
 				xml.pubDate article.created_at.to_s(:rfc822)
 				xml.link article_url(article)
