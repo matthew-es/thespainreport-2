@@ -17,7 +17,7 @@ xml.rss :version => "2.0",
 		xml.itunes :title, "Bennett in Spain"
 		xml.itunes :summary, "Matthew Bennett analyses the news from Spain"
 		xml.itunes :author, "Matthew Bennett"
-		xml.itunes :image, :href => "http://image.thespainreport.es/bennett_in_spain_artwork.png"
+		xml.itunes :image, :href => "http://image.thespainreport.es/bennett_in_spain_artwork_final.png"
 		xml.itunes :category, :text => 'News' do
 	      xml.itunes :category, :text => 'Daily News'
 	      xml.itunes :category, :text => 'News Commentary'
@@ -34,7 +34,7 @@ xml.rss :version => "2.0",
 		xml.googleplay :author, "Matthew Bennett"
 		xml.googleplay :category, :text => "News &amp; Politics"
 		xml.googleplay :description, "Matthew Bennett analyses the news from Spain"
-		xml.googleplay :image, :href => "http://image.thespainreport.es/bennett_in_spain_artwork.png"
+		xml.googleplay :image, :href => "http://image.thespainreport.es/bennett_in_spain_artwork_final.png"
 		
 		@rss.each do |article|
 			show_links = "<ol>
