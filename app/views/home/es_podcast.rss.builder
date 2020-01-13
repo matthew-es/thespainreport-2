@@ -11,7 +11,7 @@ xml.rss :version => "2.0",
 		xml.description "Matthew Bennett analiza las noticias de España"
 		xml.copyright "Matthew Bennett"
 		xml.language "es"
-		xml.link "https://www.thespainreport.es"
+		xml.link "https://www.thespainreport.es/es"
 		
 		xml.itunes :title, "Bennett en España"
 		xml.itunes :summary, "Matthew Bennett analiza las noticias de España"
@@ -29,6 +29,11 @@ xml.rss :version => "2.0",
 		xml.itunes :explicit, "false"
 		
 		xml.spotify :countryOfOrigin, "es gb ie us ca au nz"
+		
+		xml.googleplay :author, "Matthew Bennett"
+		xml.googleplay :category, :text => "News &amp; Politics"
+		xml.googleplay :description, "Matthew Bennett analiza las noticias de España"
+		xml.googleplay :image, :href => "http://image.thespainreport.es/bennett_en_espana_artwork.png"
 		
 		@rss.each do |article|
 			show_links = "<ol>
