@@ -85,12 +85,36 @@
 	get 'podcast' => 'home#podcast'
 	get 'rss/podcast' => 'home#podcast', defaults: { format: 'rss' }
 	get 'rss/podcast/mp3' => 'home#podcast_mp3', defaults: { format: 'rss' }
+	get 'bennettinspain', to: redirect("https://www.thespainreport.es/articles/397-200114142547-bennett-in-spain")
+	get 'benetinspain', to: redirect("https://www.thespainreport.es/articles/397-200114142547-bennett-in-spain")
+	get 'benettinspain', to: redirect("https://www.thespainreport.es/articles/397-200114142547-bennett-in-spain")
+	get 'bennetinspain', to: redirect("https://www.thespainreport.es/articles/397-200114142547-bennett-in-spain")
+	get 'bennett_in_spain', to: redirect("https://www.thespainreport.es/articles/397-200114142547-bennett-in-spain")
+	get 'benet_in_spain', to: redirect("https://www.thespainreport.es/articles/397-200114142547-bennett-in-spain")
+	get 'benett_in_spain', to: redirect("https://www.thespainreport.es/articles/397-200114142547-bennett-in-spain")
+	get 'bennet_in_spain', to: redirect("https://www.thespainreport.es/articles/397-200114142547-bennett-in-spain")
+	get 'bennett-in-spain', to: redirect("https://www.thespainreport.es/articles/397-200114142547-bennett-in-spain")
+	get 'benet-in-spain', to: redirect("https://www.thespainreport.es/articles/397-200114142547-bennett-in-spain")
+	get 'benett-in-spain', to: redirect("https://www.thespainreport.es/articles/397-200114142547-bennett-in-spain")
+	get 'bennet-in-spain', to: redirect("https://www.thespainreport.es/articles/397-200114142547-bennett-in-spain")
 	
 	get 'es' => 'home#es'
 	get 'es/rss' => 'home#es', defaults: { format: 'rss' }
 	get 'es/podcast' => 'home#es_podcast'
 	get 'es/rss/podcast' => 'home#es_podcast', defaults: { format: 'rss' }
 	get 'es/rss/podcast/mp3' => 'home#es_podcast_mp3', defaults: { format: 'rss' }
+	get 'bennettenespana', to: redirect("https://www.thespainreport.es/articles/398-200114142713-bennett-en-espana")
+	get 'benetenespana', to: redirect("https://www.thespainreport.es/articles/398-200114142713-bennett-en-espana")
+	get 'benettenespana', to: redirect("https://www.thespainreport.es/articles/398-200114142713-bennett-en-espana")
+	get 'bennetenespana', to: redirect("https://www.thespainreport.es/articles/398-200114142713-bennett-en-espana")
+	get 'bennett_en_espana', to: redirect("https://www.thespainreport.es/articles/398-200114142713-bennett-en-espana")
+	get 'benet_en_espana', to: redirect("https://www.thespainreport.es/articles/398-200114142713-bennett-en-espana")
+	get 'benett_en_espana', to: redirect("https://www.thespainreport.es/articles/398-200114142713-bennett-en-espana")
+	get 'bennet_en_espana', to: redirect("https://www.thespainreport.es/articles/398-200114142713-bennett-en-espana")
+	get 'bennett-en-espana', to: redirect("https://www.thespainreport.es/articles/398-200114142713-bennett-en-espana")
+	get 'benet-en-espana', to: redirect("https://www.thespainreport.es/articles/398-200114142713-bennett-en-espana")
+	get 'benett-en-espana', to: redirect("https://www.thespainreport.es/articles/398-200114142713-bennett-en-espana")
+	get 'bennet-en-espana', to: redirect("https://www.thespainreport.es/articles/398-200114142713-bennett-en-espana")
 	
 	get 'articles/touser' => 'articles#touser'
 	post 'editor_creates_new_user' => 'users#editor_creates_new_user'
