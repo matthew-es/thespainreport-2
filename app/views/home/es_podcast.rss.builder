@@ -9,23 +9,26 @@ xml.rss :version => "2.0",
 	
 	xml.channel do
 		podcast_image = "https://image.thespainreport.es/bennett_en_espana_artwork_map.png"
+		podcast_description = "Matthew Bennett analiza las noticias de España."
+		podcast_author = "Matthew Bennett"
+		podcast_title = "Bennett en España"
 		
-		xml.title "Bennett en España"
-		xml.description "Matthew Bennett analiza las noticias de España"
-		xml.copyright "Matthew Bennett"
+		xml.title podcast_title
+		xml.description podcast_description
+		xml.copyright podcast_author
 		xml.language "es"
 		xml.link "https://www.thespainreport.es/es"
 		
-		xml.itunes :title, "Bennett en España"
-		xml.itunes :summary, "Matthew Bennett analiza las noticias de España"
-		xml.itunes :author, "Matthew Bennett"
+		xml.itunes :title, podcast_title
+		xml.itunes :summary, podcast_description
+		xml.itunes :author, podcast_author
 		xml.itunes :image, :href => podcast_image
 		xml.itunes :category, :text => 'News' do
 	      xml.itunes :category, :text => 'Daily News'
 	      xml.itunes :category, :text => 'News Commentary'
 	    end
 		xml.itunes :owner do
-			xml.itunes :name, "Matthew Bennett"
+			xml.itunes :name, podcast_author
 			xml.itunes :email, "matthew@thespainreport.es"
 		end
 		xml.itunes :type, "episodic"
@@ -33,9 +36,9 @@ xml.rss :version => "2.0",
 		
 		xml.spotify :countryOfOrigin, "es gb ie us ca au nz"
 		
-		xml.googleplay :author, "Matthew Bennett"
+		xml.googleplay :author, podcast_author
 		xml.googleplay :category, :text => "News &amp; Politics"
-		xml.googleplay :description, "Matthew Bennett analiza las noticias de España"
+		xml.googleplay :description, podcast_description
 		xml.googleplay :image, :href => podcast_image
 		
 		@rss.each do |article|
