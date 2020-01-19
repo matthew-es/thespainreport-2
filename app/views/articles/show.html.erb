@@ -203,37 +203,37 @@
 <% else %>
 <% end %>
 
-<% if @article.video.present? %>
-	<div class="video-wrapper">
-		<% if @article.video.match(/^[0-9]*$/) %>
-			<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{@article.video}") %>
-		<% else %> 
-			<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{@article.video}?rel=0&amp;showinfo=0") %>
-		<% end %>
-	</div>
+<% if @article.video.present? || @article.audio_file_mp3.present? %>
+	<% if @article.video.present? %>
+		<div class="video-wrapper">
+			<% if @article.video.match(/^[0-9]*$/) %>
+				<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{@article.video}") %>
+			<% else %> 
+				<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{@article.video}?rel=0&amp;showinfo=0") %>
+			<% end %>
+		</div>
+	<% elsif @article.audio_file_mp3.present? %>
+		<div class="margin-left-20 margin-top-10" >
+			<div class="padding-left-5 font-main font-main-small font-italic" >
+				<span class="font-bold">
+					<% if @article.language_id == 1 %>
+	    				Listen now:
+	    			<% elsif @article.language_id == 2 %>
+	    				Escuche ahora:
+	    			<% else end %>
+				</span> <%= @article.audio_intro %>
+			</div>
+			<audio controls>
+			  	<source src="<%= 'https://audio.thespainreport.es/' + @article.audio_file_aac %>" type="audio/aac">
+			  	<source src="<%= 'https://audio.thespainreport.es/' + @article.audio_file_mp3 %>" type="audio/mpeg">
+				Your browser does not support the audio element.
+			</audio>
+		</div>
+	<% else %>
+	<% end %>
 <% else %>
 <% end %>
 
-<% if @article.audio_file_mp3.present? %>
-	<div class="margin-left-20 margin-top-10" >
-		<div class="padding-left-5 font-main font-main-small font-italic" >
-			<span class="font-bold">
-				<% if @article.language_id == 1 %>
-    				Listen now:
-    			<% elsif @article.language_id == 2 %>
-    				Escuche ahora:
-    			<% else end %>
-			</span> <%= @article.audio_intro %>
-		</div>
-		<audio controls>
-		  	<source src="<%= 'https://audio.thespainreport.es/' + @article.audio_file_aac %>" type="audio/aac">
-		  	<source src="<%= 'https://audio.thespainreport.es/' + @article.audio_file_mp3 %>" type="audio/mpeg">
-			Your browser does not support the audio element.
-		</audio>
-	</div>
-<% else %>
-<% end %>
-	
 	<div class="margin-top-20">
 	
 	<% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
