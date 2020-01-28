@@ -248,6 +248,30 @@
 		<%= markdown(@article.body).html_safe %>
 	<% end %>
 	
+	<% if @article.type.name == "Podcast" && @article.language_id == 2 %>
+		<h3>Esucuche Bennett en España aquí:</h3>
+		<a href="https://podcasts.apple.com/podcast/id1495596384" title="Bennett en España en Apple Podcasts">Apple Podcasts</a>, 
+		<a href="https://open.spotify.com/show/7euXMABMb6onzw50VxKK0W" title="Bennett en España en Spotify">Spotify</a>, 
+		<a href="https://www.ivoox.com/podcast-bennett-espana_sq_f1842998_1.html" title="Bennett en España en iVoox">iVoox</a>,
+		<a href="https://www.stitcher.com/podcast/bennett-en-espana" title="Bennett en España en Stitcher">Stitcher</a>,
+		<a href="https://tunein.com/podcasts/News--Politics-Podcasts/Bennett-en-Espana-p1286596/" title="Bennett en España en Tunein">Tunein</a>,
+		<a href="https://soundcloud.com/user-842077287/sets/bennett-en-espana" title="Bennett en España en SoundCloud">SoundCloud</a>,
+		<a href="https://www.youtube.com/playlist?list=PL3DymtXaX19TyCGLrkycaKaCAzha0HwAw" title="Bennett en España en YouTube">YouTube</a>,
+		<a href="https://www.facebook.com/BennettInSpain/playlist/206012307112155" title="Bennett en España en Facebook">Facebook</a>
+	<% elsif @article.type.name == "Podcast" && @article.language_id == 1 %>
+		<h3>Listen to Bennett in Spain here:</h3>
+		<a href="https://podcasts.apple.com/podcast/id1495596532" title="Bennett in Spain on Apple Podcasts">Apple Podcasts</a>, 
+		<a href="https://open.spotify.com/show/4A8CdKc4bYPYsapzyxdvWo" title="Bennett in Spain on Spotify">Spotify</a>, 
+		<a href="https://www.ivoox.com/podcast-bennett-in-spain_sq_f1842992_1.html" title="Bennett in Spain on iVoox">iVoox</a>,
+		<a href="https://www.stitcher.com/podcast/the-spain-report" title="Bennett in Spain on Stitcher">Stitcher</a>,
+		<a href="https://#" title="Bennett in Spain on Tunein">Tunein</a>,
+		<a href="https://soundcloud.com/user-842077287/sets/bennett-in-spain" title="Bennett in Spain on SoundCloud">SoundCloud</a>,
+		<a href="https://www.youtube.com/playlist?list=PL3DymtXaX19QyOs-R0bu1eiX6j4c8L-Ey" title="Bennett in Spain on YouTube">YouTube</a>,
+		<a href="https://www.facebook.com/BennettInSpain/playlist/606829756765780" title="Bennett in Spain on Facebook">Facebook</a>
+	<% else %>
+	<% end %>
+	
+	
 	<% if @article.image.present? %>
 		<% if ['.pdf'].include?File.extname(@article.image) %>
 			<iframe src="<%= 'https://docs.google.com/viewer?url=https://pdf.thespainreport.es/' + @article.image + '&embedded=true' %>" class="margin-top-10" style="width:100%; height:950px;" frameborder="0"></iframe>
