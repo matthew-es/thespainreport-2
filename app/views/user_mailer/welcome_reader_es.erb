@@ -2,17 +2,37 @@ Hola,
 
 <p>Gracias por apuntarse a The Spain Report. Haga clic en este enlace para confirmar su dirección de correo y elegir una contraseña:</p>
 
-<p><%= link_to "Haga clic aquí para confirmar su correo", new_password_user_url(@user.confirm_token) %></p>
+<p><%= link_to "Haga clic aquí para confirmar su correo", confirm_email_user_url(@user.confirm_token) %></p>
 
-Free audio/transcriptions to listen to/download
-
-Latest articles:
-
-Latest patrons only:
-
-What is The Spain Report?
-
-Who is Matthew Bennett?
+<p>
+    Últimos episodios del podcast:
+    <ul>
+        <% @latestpodcasts.each do |a| %>
+            <li><%= link_to a.headline, a %></li>
+        <% end %>
+    </ul>
+    
+    Últimos artículos:
+    <ul>
+        <% @latestfree.each do |a| %>
+            <li><%= link_to a.headline, a %></li>
+        <% end %>
+    </ul>
+    
+    Últimos Verdad y Periodismo:
+    <ul>
+        <% @latesttruth.each do |a| %>
+            <li><%= link_to a.headline, a %></li>
+        <% end %>
+    </ul>
+    
+    Últimos sólo mecenas:
+    <ul>
+        <% @latestpatrons.each do |a| %>
+            <li><%= link_to a.headline, a %></li>
+        <% end %>
+    </ul>
+</p>
 
 <p>Si no ha solicitado este correo, puede ignorarlo.</p>
 

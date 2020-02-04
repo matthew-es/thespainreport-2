@@ -105,9 +105,7 @@ class UsersController < ApplicationController
 					"Email: #{user.email}" + "<br />" + "Language: #{user.sitelanguage}" + "<br />" + "Article: #{sign_up_article}" + "<br />" + "Frame: #{@frame_quest}"
 					).html_safe
 				UserMailer.admin_alert(admin_subject, admin_message).deliver_now
-				
 				session[:user_id] = user.id
-				
 				case user.sitelanguage
 					when 1
 						UserMailer.welcome_reader(user).deliver_now
@@ -119,7 +117,6 @@ class UsersController < ApplicationController
 				flash[:success] = @frame_value_now_message
 				# redirect_to @url_stub + @frame_stub
 				redirect_to edit_user_path(user)
-				
 			rescue Exception => e
 			end
 		else

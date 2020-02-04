@@ -26,6 +26,7 @@ class HomeController < ApplicationController
 		end
 		@set_language = 1
 		@url_stub = "/value/"
+		@article_id = "0"
 		@latesttop = Article.nottruth.notpatrons.english.topstory.published.lastone
 		@latest = Article.notlatesttop.notupdate.nottruth.notpatrons.english.published.lasttwenty
 		@latesttruth = Article.truth.english.published.lastten
@@ -61,6 +62,7 @@ class HomeController < ApplicationController
 		end
 		@set_language = 2
 		@url_stub = "/valor/"
+		@article_id = "0"
 		@latesttop = Article.nottruth.notpatrons.spanish.topstory.published.lastone
 		@latest = Article.notlatesttop.notupdate.nottruth.notpatrons.spanish.published.lasttwenty
 		@latesttruth = Article.truth.spanish.published.lastten

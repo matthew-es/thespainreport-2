@@ -25,14 +25,18 @@ class Article < ApplicationRecord
     scope :notstory, -> {Article.joins(:type).merge(Type.notstory)}
     scope :truth, -> {Article.joins(:type).merge(Type.truth)}
     scope :nottruth, -> {Article.joins(:type).merge(Type.nottruth)}
+    scope :podcast, -> {Article.joins(:type).merge(Type.podcast)}
+    scope :notpodcast, -> {Article.joins(:type).merge(Type.notpodcast)}
+    
     scope :toplevelstory, -> {where(story_id: '')}
     scope :topstory, -> {where(:topstory => true)}
     scope :lastone, -> {order('created_at DESC').limit(1)}
-    scope :notlatesttop, -> {where.not(id: topstory.lastone)}
+    scope :lastfive, -> {order('created_at DESC').limit(5)}
     scope :lastten, -> {order('created_at DESC').limit(10)}
     scope :lasttwenty, -> {order('created_at DESC').limit(20)}
+    scope :notlatesttop, -> {where.not(id: topstory.lastone)}
     scope :published, -> {where(status_id: [3, 4])}
     scope :english, -> {where(language_id: 1)}
     scope :spanish, -> {where(language_id: 2)}
-    scope :podcast, -> {where.not(audio_file_mp3: '')}
+    
 end

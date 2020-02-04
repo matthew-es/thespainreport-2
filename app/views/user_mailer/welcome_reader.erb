@@ -4,15 +4,35 @@ Hi,
 
 <p><%= link_to "Confirm email address", confirm_email_user_url(@user.confirm_token) %></p>
 
-Free audio/transcriptions to listen to/download
-
-Latest articles:
-
-Latest patrons only:
-
-What is The Spain Report?
-
-Who is Matthew Bennett?
+<p>
+    Latest podcast episodes:
+    <ul>
+        <% @latestpodcasts.each do |a| %>
+            <li><%= link_to a.headline, a %></li>
+        <% end %>
+    </ul>
+    
+    Latest Spain articles:
+    <ul>
+        <% @latestfree.each do |a| %>
+            <li><%= link_to a.headline, a %></li>
+        <% end %>
+    </ul>
+    
+    Latest Truth & Journalism articles:
+    <ul>
+        <% @latesttruth.each do |a| %>
+            <li><%= link_to a.headline, a %></li>
+        <% end %>
+    </ul>
+    
+    Latest patrons only:
+    <ul>
+        <% @latestpatrons.each do |a| %>
+            <li><%= link_to a.headline, a %></li>
+        <% end %>
+    </ul>
+</p>
 
 <p>If you did not request this e-mail, just ignore it.</p>
 
