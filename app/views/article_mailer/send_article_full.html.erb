@@ -44,12 +44,14 @@
 
 <% if @article.audio_file_mp3.present? %>
 	<ul>
-	<li><%= link_to "Listen to " + @article.headline, @article.story %></li>
+	<li><%= link_to "Listen to " + @article.headline, @article %></li>
 	</ul>
 <% else %>
 <% end %>
 
 <%= markdown(@article.body) %>
+
+<p><%= link_to @frame.emotional_quest_action, root_url + "value/" + @frame.link_slug %></p>
 
 	<% if @article.image.present? %>
 		<% if ['.pdf'].include?File.extname(@article.image) %>
