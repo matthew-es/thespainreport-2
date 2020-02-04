@@ -117,7 +117,8 @@ class UsersController < ApplicationController
 				   		@url_stub = "/valor/"
 				end
 				flash[:success] = @frame_value_now_message
-				redirect_to @url_stub + @frame_stub
+				# redirect_to @url_stub + @frame_stub
+				redirect_to edit_user_path(user)
 				
 			rescue Exception => e
 			end
@@ -218,6 +219,7 @@ class UsersController < ApplicationController
 	end
 	
 	def enter_new_password
+		confirm_email
 		@user = User.find_by_confirm_token(params[:id])
 		
 		if !@user
@@ -229,6 +231,7 @@ class UsersController < ApplicationController
 	end
 	
 	def introducir_clave_nueva
+		confirmar_correo
 		@user = User.find_by_confirm_token(params[:id])
 		
 		if !@user
@@ -256,7 +259,7 @@ class UsersController < ApplicationController
 			redirect_back(fallback_location: root_path)
 		elsif @user.save
 			case @user_language
-				when
+				when 1
 					@message = "Well done. You have updated your password."
 					@location = "/login"
 					@subject = "Your password was just changed: is that what you wanted to happen?"
