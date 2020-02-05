@@ -26,6 +26,7 @@ class HomeController < ApplicationController
 		end
 		@set_language = 1
 		@url_stub = "/value/"
+		@plans = Plan.english.all
 		@article_id = "0"
 		@latesttop = Article.nottruth.notpatrons.english.topstory.published.lastone
 		@latest = Article.notlatesttop.notupdate.nottruth.notpatrons.english.published.lasttwenty
@@ -62,6 +63,7 @@ class HomeController < ApplicationController
 		end
 		@set_language = 2
 		@url_stub = "/valor/"
+		@plans = Plan.spanish.all
 		@article_id = "0"
 		@latesttop = Article.nottruth.notpatrons.spanish.topstory.published.lastone
 		@latest = Article.notlatesttop.notupdate.nottruth.notpatrons.spanish.published.lasttwenty

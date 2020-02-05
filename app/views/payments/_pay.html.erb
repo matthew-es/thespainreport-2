@@ -1,6 +1,6 @@
 	<% if controller_name == "payments" %>
 		<h1 class="font-header font-header-normal line-120 font-upper"><%= @frame.emotional_quest_action %></h1>
-	<% elsif controller_name == "articles" %>
+	<% elsif controller_name == "articles" || controller_name == "home" %>
 		<h3 class="margin-top-0"><%= @frame.emotional_quest_action %></h3>
 	<% else end %>
 	
@@ -10,7 +10,7 @@
 	
 	<div class="font-main font-main-normal"><%= @frame.short_story %><strong> <%= @frame.emotional_quest_role %>.</strong></div>
 		<div class="width-98">
-			<% Plan.english.each do |p| %>
+			<% @plans.each do |p| %>
 				<div class="width-33 float-left margin-right-5 mobile-width">
 					<h5 class="margin-bottom-0"><%= p.title %></h5>
 					<div class="">

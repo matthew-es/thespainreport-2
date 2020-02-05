@@ -15,6 +15,7 @@ class PaymentsController < ApplicationController
 	
 	def pay
 		how_much
+		@plans = Plan.english.all
 		
 		@frame = Frame.find_by(link_slug: params[:slug])
 		if @frame.nil?
@@ -37,6 +38,7 @@ class PaymentsController < ApplicationController
 	
 	def pagar
 		how_much
+		@plans = Plan.spanish.all
 		
 		@frame = Frame.find_by(link_slug: params[:slug])
 		if @frame.nil?

@@ -35,34 +35,35 @@ class ArticlesController < ApplicationController
 	# GET /articles/1.json
 	def show
 		if @article.language_id == 1
-				@set_language = 1
-				@url_stub = "/value/"
-			elsif @article.language_id == 2
-				@set_language = 2
-				@url_stub = "/valor/"
-			else end
+			@set_language = 1
+			@url_stub = "/value/"
+			@plans = Plan.english.all
+		elsif @article.language_id == 2
+			@set_language = 2
+			@url_stub = "/valor/"
+			@plans = Plan.spanish.all
+		else end
 			
-			if current_user.nil?
-				if @article.frame.blank?
-					@frame = Frame.find_by(link_slug: "guarantee")
-				else
-					@frame = Frame.find_by(id: @article.frame)
-				end
-				@frame_id = @frame.id
-				@frame_article = (@frame.language_id == @article.language_id)
-				@frametranslation = @frame.translations.where(language_id: @article.language_id).first
-				@frameoriginal = @frame.original
+		if current_user.nil?
+			if @article.frame.blank?
+				@frame = Frame.find_by(link_slug: "guarantee")
 			else
-				if current_user.frame.blank?
-					@frame = Frame.find_by(id: @article.frame)
-				else
-					@frame = current_user.frame
-				end
-				@frame_article = (@frame.language_id == @article.language_id)
-				@frametranslation = @frame.translations.where(language_id: @article.language_id).first
-				@frameoriginal = @frame.original
+				@frame = Frame.find_by(id: @article.frame)
 			end
-		
+			@frame_id = @frame.id
+			@frame_article = (@frame.language_id == @article.language_id)
+			@frametranslation = @frame.translations.where(language_id: @article.language_id).first
+			@frameoriginal = @frame.original
+		else
+			if current_user.frame.blank?
+				@frame = Frame.find_by(id: @article.frame)
+			else
+				@frame = current_user.frame
+			end
+			@frame_article = (@frame.language_id == @article.language_id)
+			@frametranslation = @frame.translations.where(language_id: @article.language_id).first
+			@frameoriginal = @frame.original
+		end
 		
 		if ["Published", "Updated"].include?@article.status.name
 			Visit.create(
