@@ -252,7 +252,7 @@ class UsersController < ApplicationController
 				when 1 then @message = "Try again…"
 				when 2 then @message = "Inténtelo de nuevo"
 			end
-			flash[:tryagain] = @message
+			flash[:tryagain] = @message + @user.errors.full_messages.to_s
 			redirect_back(fallback_location: root_path)
 		elsif @user.save
 			case @user_language
