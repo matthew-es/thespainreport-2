@@ -1,29 +1,6 @@
+<% title @frame.emotional_quest_action %>
+
 <div class="content">
 	<%= render "layouts/logo_account" %>
-
-	<% flash.each do |key, value| %>
-		<div class="alert alert-<%= key %>"><p><%= value.html_safe %></p></div>
-	<% end %>
-
-	Dirección de IP: <span id="ip_address"></span><br />
-	Código país: <span id="country_code"></span><br />
-	<img src="" name="country_flag" id="country_flag" /><br />
-	Base: €<span id="plan_amount">25.00</span><br />
-	IVA (tipo): <span id="vat_rate"></span><br />
-	IVA (cantidad): €<span id="vat_amount"></span><br />
-	Total: €<span id="total_amount"></span><br />
-
-	<div class="form-row">
-		<label for="card-element">
-			Tarjeta de crédito o de débito
-		</label>
-		<div id="card-element">
-			<!-- A Stripe Element will be inserted here. -->
-		</div>
-		<div id="card-errors" role="alert"></div>
-	</div>
-	<button id="card-button" data-secret="<%= @setup_intent.client_secret %>">Contribuir ahora</button>
+	<%= render "payments/pay" %>
 </div>
-
-<%= render "server_stuff" %>
-<%= render "stripe_stuff" %>

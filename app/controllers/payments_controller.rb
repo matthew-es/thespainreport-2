@@ -24,7 +24,7 @@ class PaymentsController < ApplicationController
 		@frametranslation = @frame.translations.where(language_id: 1).first
 		@frameoriginal = @frame.original
 		@url_stub = "/value/"
-		@article_id = 2
+		@article_id = "0"
 		
 		unless current_user.nil? || !current_user.account.present? || !current_user.account.stripe_payment_method.present?
 			@existing_pm = Stripe::PaymentMethod.retrieve(current_user.account.stripe_payment_method)
@@ -38,12 +38,23 @@ class PaymentsController < ApplicationController
 	def pagar
 		how_much
 		
-		@frame = Frame.find_by(slug: params[:slug])
+		@frame = Frame.find_by(link_slug: params[:slug])
 		if @frame.nil?
-			@frame = Frame.find_by(slug: "garantizar")
+			@frame = Frame.find_by(link_slug: "garantizar")
 		end
-		@url_stub = "/valor/"
-		@article_id = 2
+		@frame_article = (@frame.language_id == 2)
+		@frametranslation = @frame.translations.where(language_id: 2).first
+		@frameoriginal = @frame.original
+		@url_stub = "/value/"
+		@article_id = "0"
+		
+		unless current_user.nil? || !current_user.account.present? || !current_user.account.stripe_payment_method.present?
+			@existing_pm = Stripe::PaymentMethod.retrieve(current_user.account.stripe_payment_method)
+			@existing_pm_brand = @existing_pm.card.brand
+			@existing_pm_last4 = @existing_pm.card.last4
+			@existing_pm_month = @existing_pm.card.exp_month
+			@existing_pm_year = @existing_pm.card.exp_year
+		end
 	end
 	
 	def tsr_new_user_patron
