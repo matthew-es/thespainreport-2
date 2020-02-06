@@ -66,12 +66,6 @@ class ArticlesController < ApplicationController
 		end
 		
 		if ["Published", "Updated"].include?@article.status.name
-			Visit.create(
-				referer: request.headers["HTTP_REFERER"],
-				article_id: @article.id,
-				frame_id: @article.frame_id,
-				plan_ids: ''
-				)
 			
 			@article_id = @article.id	
 			@articletweets = @article.tweets.order('created_at ASC')

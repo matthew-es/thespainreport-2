@@ -4,13 +4,6 @@ class HomeController < ApplicationController
 	end
 	
 	def index
-		Visit.create(
-				referer: request.headers["HTTP_REFERER"],
-				article_id: 1000000,
-				frame_id: 1000000,
-				plan_ids: ''
-				)
-		
 		if current_user.nil? || current_user.frame.blank?
 			@frame = Frame.find_by(link_slug: "guarantee")
 			@frame_id = @frame.id
@@ -42,13 +35,6 @@ class HomeController < ApplicationController
 	end
 	
 	def es
-		Visit.create(
-				referer: request.headers["HTTP_REFERER"],
-				article_id: 1000001,
-				frame_id: 1000001,
-				plan_ids: ''
-				)
-		
 		if current_user.nil? || current_user.frame.blank?
 			@frame = Frame.find_by(link_slug: "guarantee")
 			

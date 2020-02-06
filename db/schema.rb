@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_05_165809) do
+ActiveRecord::Schema.define(version: 2020_02_06_114622) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -298,15 +298,6 @@ ActiveRecord::Schema.define(version: 2020_02_05_165809) do
     t.string "mailing_address"
     t.integer "level_amount"
     t.integer "frame_id"
-  end
-
-  create_table "visits", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "article_id"
-    t.integer "frame_id"
-    t.integer "plan_ids"
-    t.string "referer"
   end
 
   create_table "webhook_events", force: :cascade do |t|

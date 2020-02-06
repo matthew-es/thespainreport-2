@@ -21,8 +21,6 @@
 		|| <%= link_to "Types", types_path %>
 		| <%= link_to "Languages", languages_path %>
 		| <%= link_to "Statuses", statuses_path %>
-		| <%= link_to "Visits", visits_path %>
-		
 		| <%= link_to "Countries", countries_path %>
 		<% else %>
 		<% end %>
@@ -111,8 +109,6 @@
 				<%= link_to 'New language', new_language_path %>
 			<% elsif controller_name == "statuses" %>
 				<%= link_to 'New status', new_status_path %>
-			<% elsif controller_name == "visits" %>
-				
 			<% elsif controller_name == "accounts" %>
 				<%= form_with(url: 'editor_modifies_accounts', local: true) do |f| %>
 					<div class="margin-bottom-10">
