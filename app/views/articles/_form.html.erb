@@ -34,8 +34,6 @@
 		<strong>Story:</strong> <%= f.collection_select :story_id, @stories.where(language_id: @article.language_id || 1), :id, :headline, {include_blank: true, :selected => @article.story_id}, {:style => "width: 190px;"} %>
 		<strong>Translation of:</strong> <%= f.collection_select :original_id, @translationof, :id, :headline, {include_blank: true, :selected => @article.original_id}, {:style => "width: 190px;"} %>
 		<strong>Frame:</strong> <%= f.collection_select :frame_id, @frames.where(language_id: @article.language_id || 1), :id, :emotional_quest_action, {:selected => @article.frame_id ? @article.frame_id : 1}, {:style => "width: 190px;"}  %>
-		
-		
 	</div>
 	
 	<h3>Headlines & Lede</h3>
@@ -51,9 +49,34 @@
 	<div class="margin-bottom-10">
 		<%= f.text_field :lede, :class => "width-98 padding-5 font-main font-main-normal font-italic", placeholder: "Lede…" %>
 	</div>
+
+	<div class="margin-bottom-10">
+		<% if @article.original.blank? %>
+			<%= f.text_area :body, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 400px;", placeholder: "Article text…" %>
+		<% else %>
+			<div class="width-100">
+				<div class="width-48 float-left padding-10">
+					<%= markdown(@article.original.body) %>
+				</div>
+				<div class="width-48 float-left">
+					<%= f.text_area :body, :class => "width-100 padding-10 font-main font-main-normal", :style => "min-height: 800px;" %>
+				</div>
+				<div class="clear"></div>
+			</div>
+		<% end %>
+	</div>	
+
+	<div class="margin-bottom-10">
+		<div class="float-left" style="width:75%">
+			<%= f.text_field :image, :class => "width-98 padding-5", placeholder: "Main image file…" %>
+		</div>
+		<div class="float-left" style="width:20%">
+			<%= f.text_field :video, :class => "width-98 padding-5", placeholder: "Video ID…" %>
+		</div>
+		<div class="clear"></div>
+	</div>
 	
 	<h3>Podcast Audio Episode</h3>
-	
 	<div class="margin-bottom-10">
 		<div class="margin-bottom-10">
 			<div class="margin-bottom-10">
@@ -97,36 +120,6 @@
 		<%= f.text_area :audio_episode_notes, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 100px;", placeholder: "Podcast episode notes…" %>
 		</div>
 	</div>
-	
-	<h3>Image/Pdf or Video</h3>
-	
-	<div class="margin-bottom-10">
-		<div class="float-left" style="width:75%">
-			<%= f.text_field :image, :class => "width-98 padding-5", placeholder: "Main image file…" %>
-		</div>
-		<div class="float-left" style="width:20%">
-			<%= f.text_field :video, :class => "width-98 padding-5", placeholder: "Video ID…" %>
-		</div>
-		<div class="clear"></div>
-	</div>
-	
-	<h3>Article text</h3>
-	
-	<div class="margin-bottom-10">
-		<% if @article.original.blank? %>
-			<%= f.text_area :body, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 570px;", placeholder: "Article text…" %>
-		<% else %>
-			<div class="width-100">
-				<div class="width-48 float-left padding-10">
-					<%= markdown(@article.original.body) %>
-				</div>
-				<div class="width-48 float-left">
-					<%= f.text_area :body, :class => "width-100 padding-10 font-main font-main-normal", :style => "min-height: 600px;" %>
-				</div>
-				<div class="clear"></div>
-			</div>
-		<% end %>
-	</div>	
 	
 	<div class="margin-bottom-10">	
 		<h3>Patrons only notes & audio</h3>
