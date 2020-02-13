@@ -1,0 +1,11 @@
+<tr width="100%">
+	<td align="left" width="3%"><%= article.created_at.strftime("%d/%m/%Y") %></td>
+	<td align="left" width="10%"><%= article.type.try(:name) %></td>
+	<td align="left" width="30%"><span style="background-color: #<%= article.status.colorbackground %>; color: #<%= article.status.colortext %>;"><%= link_to article.short_headline, edit_article_path(article), {:style => 'color: # article.status.colortext'}  %></td>
+	<td align="left" width="30%">
+		<% article.translations.each do |tr| %>
+			<span style="background-color: #<%= tr.status.colorbackground %>; color: #<%= tr.status.colortext %>;"><%= link_to tr.short_headline, edit_article_path(tr), {:style => 'color: # tr.status.colortext;'}  %></span>
+		<% end %>
+	</td>
+	<td align="left" width="1%"><%= link_to 'D?', article, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+</tr>

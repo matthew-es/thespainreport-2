@@ -1,82 +1,28 @@
 <%= render "articles/admintop" %>
 
-<% @articles.each do |article| %>
-	<div class="" style="margin-bottom: 20px;">
-		<div class="" style="float:right;">
-		<%= link_to 'Delete?', article, method: :delete, data: { confirm: 'Are you sure?' } %>
-		</div>
-		<div class="">
-			<span style="background-color: #<%= article.status.colorbackground %>; color: #<%= article.status.colortext %>;"><%= link_to article.headline, edit_article_path(article), {:style => 'color: # article.status.colortext'}  %></span> in <span style="background-color: #<%= article.story.status.colorbackground unless article.story.nil? %>; color: #<%= article.story.status.colortext unless article.story.nil? %>;"><%= link_to article.story.headline, edit_article_path(article.story) unless article.story.nil? %></span>
-		</div>
-		<div class="" style="font-style: italic;">
-			<strong><%= article.type.try(:name) %>:</strong> <%= article.lede %>
-		</div>
-		<div class="">
-			
-			<strong>Updates:</strong> 
-				<% article.updates.each do |u| %>
-					<span style="background-color: #<%= u.status.colorbackground %>; color: #<%= u.status.colortext %>;"><%= link_to u.headline, edit_article_path(u), {:style => 'color: # u.status.colortext;'}  %></span>
-					<% u.translations.each do |tr| %>
-						(<span style="background-color: #<%= tr.status.colorbackground %>; color: #<%= tr.status.colortext %>;"><%= link_to tr.language.name, edit_article_path(tr), {:style => 'color: # tr.status.colortext;'}  %></span>)
-					<% end %>
-				<% end %>
-			<br />
-			<strong>Translations:</strong> 
-				<% article.translations.each do |tr| %>
-					<span style="background-color: #<%= tr.status.colorbackground %>; color: #<%= tr.status.colortext %>;"><%= link_to tr.headline, edit_article_path(tr), {:style => 'color: # tr.status.colortext;'}  %></span>
-					<% tr.updates.each do |u| %>
-						<span style="background-color: #<%= u.status.colorbackground %>; color: #<%= u.status.colortext %>;"><%= link_to u.headline, edit_article_path(u), {:style => 'color: # u.status.colortext;'}  %></span>
-					<% end %>
-				<% end %>
-				
-			<br />
-			
-		</div>
-	</div>
-<% end %>
-
-<h1 class="font-header font-header-small font-upper line-115">Stories</h1>
-
-<% @toplevelstories.each do |article| %>
-	<div class="" style="margin-bottom: 20px;">
-		<div class="" style="float:right;">
-		<%= link_to 'Delete?', article, method: :delete, data: { confirm: 'Are you sure?' } %>
-		</div>
-		<div class="">
-			<span style="background-color: #<%= article.status.colorbackground %>; color: #<%= article.status.colortext %>;"><%= link_to article.headline, article, {:style => 'color: # article.status.colortext'}  %></span>
-		</div>
-		<div class="" style="font-style: italic;">
-			<strong><%= article.type.try(:name) %>:</strong> <%= article.lede %>
-		</div>
-		<div class="">
-			<% article.components.story.each do |tr| %>
-					<span style="background-color: #<%= tr.status.colorbackground %>; color: #<%= tr.status.colortext %>;"><%= link_to tr.headline, tr, {:style => 'color: # tr.status.colortext;'}  %></span>
-					<% tr.updates.each do |u| %>
-						<span style="background-color: #<%= u.status.colorbackground %>; color: #<%= u.status.colortext %>;"><%= link_to u.headline, u, {:style => 'color: # u.status.colortext;'}  %></span>
-					<% end %>
-				<% end %>
-			
-			<strong>Updates:</strong> 
-				<% article.updates.each do |u| %>
-					<span style="background-color: #<%= u.status.colorbackground %>; color: #<%= u.status.colortext %>;"><%= link_to u.headline, u, {:style => 'color: # u.status.colortext;'}  %></span>
-					<% u.translations.each do |tr| %>
-						(<span style="background-color: #<%= tr.status.colorbackground %>; color: #<%= tr.status.colortext %>;"><%= link_to tr.language.name, tr, {:style => 'color: # tr.status.colortext;'}  %></span>)
-					<% end %>
-				<% end %>
-			<br />
-			<strong>Translations:</strong> 
-				<% article.translations.each do |tr| %>
-					<span style="background-color: #<%= tr.status.colorbackground %>; color: #<%= tr.status.colortext %>;"><%= link_to tr.headline, tr, {:style => 'color: # tr.status.colortext;'}  %></span>
-					<% tr.updates.each do |u| %>
-						<span style="background-color: #<%= u.status.colorbackground %>; color: #<%= u.status.colortext %>;"><%= link_to u.headline, u, {:style => 'color: # u.status.colortext;'}  %></span>
-					<% end %>
-				<% end %>
-				
-			<br />
-			
-		</div>
-	</div>
-<% end %>
-
-
+<table width="100%">
+	<tr><td colspan="3"><strong>Podcast</strong></td></tr>
+	<% @podcast.each do |article| %>
+		<%= render "articles/admin_articles_table", {article: article} %>
+	<% end %>
+	<tr><td colspan="3"><strong>Patrons Only</strong></td></tr>
+	<% @patrons.each do |article| %>
+		<%= render "articles/admin_articles_table", {article: article} %>
+	<% end %>
+	<tr><td colspan="3"><strong>Free</strong></td></tr>
+	<% @free.each do |article| %>
+		<%= render "articles/admin_articles_table", {article: article} %>
+	<% end %>
+	<tr><td colspan="3"><strong>Updates</strong></td></tr>
+	<% @updates.each do |article| %>
+		<%= render "articles/admin_articles_table", {article: article} %>
+	<% end %>
+	<tr><td colspan="3"><strong>Truth</strong></td></tr>
+	<% @truth.each do |article| %>
+		<%= render "articles/admin_articles_table", {article: article} %>
+	<% end %>
+	<tr><td colspan="3"><strong>Stories</strong></td></tr>
+	<% @stories.each do |article| %>
+		<%= render "articles/admin_articles_table", {article: article} %>
+	<% end %>
 </div>
