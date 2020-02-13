@@ -73,7 +73,7 @@
 
 <div class="alert-warning padding-20 margin-top-20">
 	<span class="label background-color-patrons font-main-tiny font-color-white">PATRONS ONLY</span>
-	<ul class="no-points">
+	<ul class="margin-top-10 margin-bottom-10">
 		<% if @patrons.any?; @patrons.each do |article| %>
 			<%= render "articles/index_articles_list_link", {article: article} %>
 		<% end end %>
