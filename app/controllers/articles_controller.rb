@@ -23,13 +23,13 @@ class ArticlesController < ApplicationController
 		if current_user.nil? 
 			redirect_to root_url
 		elsif current_user.status == 1
-			@free = Article.nottruth.notpatrons.notpodcast.notupdate.nottranslation.notstory.order('created_at DESC').limit(10)
+			@free = Article.nottruth.notpatrons.notpodcast.notupdates.nottranslation.notstory.order('created_at DESC').limit(10)
 			@podcast = Article.podcast.nottranslation.order('created_at DESC').limit(10)
 			@patrons = Article.patrons.nottranslation.order('created_at DESC').limit(10)
 			@truth = Article.truth.nottranslation.order('created_at DESC').limit(10)
 			@updates = Article.updates.nottranslation.order('created_at DESC').limit(10)
-			@stories = Article.notupdate.nottranslation.story.order('created_at DESC')
-			@toplevelstories = Article.notupdate.nottranslation.story.toplevelstory.order('created_at DESC')
+			@stories = Article.notupdates.nottranslation.story.order('created_at DESC')
+			@toplevelstories = Article.notupdates.nottranslation.story.toplevelstory.order('created_at DESC')
 		else
 			redirect_to root_url
 		end
