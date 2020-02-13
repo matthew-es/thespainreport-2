@@ -17,7 +17,7 @@ class Article < ApplicationRecord
 	end
     
     scope :updates, -> {Article.joins(:type).merge(Type.updates)}
-    scope :notupdate, -> {Article.joins(:type).merge(Type.notupdates)}
+    scope :notupdates, -> {Article.joins(:type).merge(Type.notupdates)}
     scope :nottranslation, -> {where(original_id: '')}
     scope :patrons, -> {Article.joins(:type).merge(Type.patrons)}
     scope :notpatrons, -> {Article.joins(:type).merge(Type.notpatrons)}

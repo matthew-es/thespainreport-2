@@ -22,9 +22,9 @@ class HomeController < ApplicationController
 		@plans = Plan.english.all
 		@article_id = "0"
 		@latesttop = Article.nottruth.notpatrons.english.topstory.published.lastone
-		@latest = Article.notlatesttop.notupdate.nottruth.notpatrons.notpodcast.english.published.lastfive
+		@latest = Article.notlatesttop.notupdates.nottruth.notpatrons.notpodcast.english.published.lastfive
 		@latesttruth = Article.truth.english.published.lastten
-		@types = Type.english.notupdate.notstory
+		@types = Type.english.notupdates.notstory
 		@latest_patrons_only = Article.patrons.english.order('created_at DESC').limit(5)
 		
 		@rss = Article.published.english.order('created_at DESC')
@@ -52,9 +52,9 @@ class HomeController < ApplicationController
 		@plans = Plan.spanish.all
 		@article_id = "0"
 		@latesttop = Article.nottruth.notpatrons.spanish.topstory.published.lastone
-		@latest = Article.notlatesttop.notupdate.nottruth.notpatrons.spanish.published.lasttwenty
+		@latest = Article.notlatesttop.notupdates.nottruth.notpatrons.spanish.published.lasttwenty
 		@latesttruth = Article.truth.spanish.published.lastten
-		@types = Type.spanish.notupdate.notstory
+		@types = Type.spanish.notupdates.notstory
 		@latest_patrons_only = Article.patrons.spanish.order('created_at DESC').limit(5)
 		
 		@rss = Article.published.spanish.order('created_at DESC')
