@@ -22,7 +22,7 @@ class HomeController < ApplicationController
 		@plans = Plan.english.all
 		@article_id = "0"
 		@latesttop = Article.nottruth.notpatrons.english.topstory.published.lastone
-		@latest = Article.notlatesttop.notupdates.nottruth.notstories.notpatrons.notpodcast.english.published.lastfive
+		@latest = Article.notlatesttop.notupdates.nottruth.notstory.notpatrons.notpodcast.english.published.lastfive
 		@latesttruth = Article.truth.english.published.lastten
 		@types = Type.english.notupdates.notstory
 		@latest_patrons_only = Article.patrons.english.order('created_at DESC').limit(5)
