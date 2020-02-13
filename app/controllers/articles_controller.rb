@@ -15,7 +15,7 @@ class ArticlesController < ApplicationController
 			@translationof = Article.english.order('created_at DESC')
 		else
 		end
-		@mains = Article.notupdate.order('created_at DESC')
+		@mains = Article.notupdates.order('created_at DESC')
 		@frames = Frame.all.order(:emotional_quest_action)
 	end
 	
