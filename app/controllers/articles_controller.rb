@@ -29,7 +29,6 @@ class ArticlesController < ApplicationController
 			@truth = Article.truth.nottranslation.order('created_at DESC').limit(10)
 			@updates = Article.updates.nottranslation.order('created_at DESC').limit(10)
 			@stories = Article.notupdates.nottranslation.story.order('created_at DESC')
-			@toplevelstories = Article.notupdates.nottranslation.story.toplevelstory.order('created_at DESC')
 		else
 			redirect_to root_url
 		end

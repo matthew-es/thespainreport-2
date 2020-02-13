@@ -63,11 +63,21 @@
 
 <% end %>
 
+<% if @podcast.present? %>
+	<h3>Podcast</h3>
+	<ul class="no-points">
+		<% @podcast.each do |article| %>
+			<li class="margin-bottom-5 font-main font-main-small"><%= article.created_at.strftime("%d/%m/%Y") %>: <%= link_to article.short_headline, article %></li>
+		<% end %>
+	</ul>
+<% else %>
+<% end %>
+
 <div class="alert-warning padding-10 margin-top-20">
 	<span class="label background-color-patrons font-main-tiny font-color-white">SÓLO MECENAS</span>
-	<% if @latest_patrons_only %>
+	<% if @patrons %>
 		<ul class="font-main-small">
-			<% @latest_patrons_only.each do |l| %>
+			<% @patrons.each do |l| %>
 				<li><%= link_to l.short_headline, l %></li>
 			<% end %>
 		</ul>
@@ -81,7 +91,7 @@
 
 <h3>Artículos sobre España</h3>
 <ul class="no-points">
-	<% @latest.each do |article| %>
+	<% @free.each do |article| %>
 		<li class="margin-bottom-5 font-main font-main-small">
 			<%= article.type.name %>: 
 			<% if article.short_headline.present? %>
@@ -101,10 +111,10 @@
  <% end %>
  </ul>
 
-<% if @latesttruth.present? %>
+<% if @truth.present? %>
 	<h3 class="margin-top-50">Verdad y Periodismo</h3>
 	<ul class="no-points">
-		<% @latesttruth.each do |article| %>
+		<% @truth.each do |article| %>
 	 		<li class="margin-bottom-5 font-main font-main-small">
 	 			<%= article.type.name %>: 
 	 			<% if article.short_headline.present? %>

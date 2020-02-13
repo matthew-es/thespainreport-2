@@ -13,12 +13,12 @@
 	<% @free.each do |article| %>
 		<%= render "articles/admin_articles_table", {article: article} %>
 	<% end %>
-	<tr><td colspan="3"><strong>Updates</strong></td></tr>
-	<% @updates.each do |article| %>
-		<%= render "articles/admin_articles_table", {article: article} %>
-	<% end %>
 	<tr><td colspan="3"><strong>Truth</strong></td></tr>
 	<% @truth.each do |article| %>
+		<%= render "articles/admin_articles_table", {article: article} %>
+	<% end %>
+	<tr><td colspan="3"><strong>Updates</strong></td></tr>
+	<% @updates.each do |article| %>
 		<%= render "articles/admin_articles_table", {article: article} %>
 	<% end %>
 	<tr><td colspan="3"><strong>Stories</strong></td></tr>

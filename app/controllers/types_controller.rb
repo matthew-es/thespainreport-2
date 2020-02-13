@@ -12,7 +12,13 @@ class TypesController < ApplicationController
 	end
 
 	def show
-		@type = Type.find(params[:id])
+		if current_user.nil? 
+			redirect_to root_url
+		elsif current_user.status == 1
+			redirect_to root_url
+		else
+			redirect_to root_url
+		end
 	end
 
 	# GET /types/new
