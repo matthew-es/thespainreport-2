@@ -17,6 +17,7 @@ class HomeController < ApplicationController
 			@frametranslation = @frame.translations.where(language_id: 1).first
 			@frameoriginal = @frame.original
 		end
+		
 		@set_language = 1
 		@url_stub = "/value/"
 		@plans = Plan.english.all
