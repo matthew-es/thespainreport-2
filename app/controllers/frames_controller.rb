@@ -94,7 +94,7 @@ class FramesController < ApplicationController
         :money_word_plural, :money_word_verb, :link_slug, :social_proof,:risk_reversal, :language_id, :original_id,
         :access_patrons_only, :access_more_for_patrons, :access_readers_to_patrons, :access_patrons_below_10, :access_patrons_below_25, :access_patrons_above_25,
         :email_reader_header, :email_reader_text, :email_reader_placeholder, :email_reader_button,
-        :emails_link_cta_readers, :emails_link_thanks_patrons
+        :emails_link_cta_readers, :emails_link_thanks_patrons, :emails_link_thanks_patrons_paused
         )
     end
 end

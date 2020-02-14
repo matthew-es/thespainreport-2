@@ -125,27 +125,18 @@
 		<h3>Patrons only notes & audio</h3>
 			<% if @article.original.blank? %>
 				<%= f.text_area :extras_notes, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 270px;", placeholder: "Patrons only notes…" %>
-				<div class="margin-bottom-10 width-20">
-					<%= f.text_field :extras_notes_teaser, :class => "width-98 padding-5", placeholder: "Patrons notes teaser…" %>
+				
+				<div class="margin-bottom-10 width-100 margin-right-20">
+					<%= f.text_field :extras_audio_intro, :class => "width-30 padding-5", placeholder: "Patrons audio intro…" %>: <%= f.text_field :extras_audio_file, :class => "width-20 padding-5", placeholder: "Patrons audio file…" %>
 				</div>
-				<div class="margin-bottom-10 width-20 margin-right-20">
-					<%= f.text_field :extras_audio_file, :class => "width-100 padding-5", placeholder: "Patrons audio file…" %>
+				TEASERS<br />
+				<div class="margin-bottom-10 width-100">
+					<%= f.text_field :extras_notes_teaser, :class => "width-70 padding-5", placeholder: "Patrons notes teaser…" %>
 				</div>
-				<div class="margin-bottom-10 width-20 margin-right-20">
-					<%= f.text_field :extras_audio_intro, :class => "width-100 padding-5", placeholder: "Patrons audio intro…" %>
+				<div class="margin-bottom-10 width-100 margin-right-20">
+					<%= f.text_field :extras_audio_teaser, :class => "width-70 padding-5", placeholder: "Patrons audio teaser…" %>
 				</div>
-				<div class="margin-bottom-10 width-20 margin-right-20">
-					<%= f.text_field :extras_audio_teaser, :class => "width-100 padding-5", placeholder: "Patrons audio teaser…" %>
-				</div>
-				<div class="margin-bottom-10 width-20 margin-right-20">
-					<%= f.text_field :extras_transcription_file, :class => "width-100 padding-5", placeholder: "Patrons transcript file…" %>
-				</div>
-				<div class="margin-bottom-10 width-20 margin-right-20">
-					<%= f.text_field :extras_transcription_intro, :class => "width-100 padding-5", placeholder: "Patrons transcript intro…" %>
-				</div>
-				<div class="margin-bottom-10 width-20 margin-right-20">
-					<%= f.text_field :extras_transcription_teaser, :class => "width-100 padding-5", placeholder: "Patrons transcript teaser…" %>
-				</div>
+
 			<% else %>
 				<div class="width-100">
 				<div class="width-48 float-left padding-10">

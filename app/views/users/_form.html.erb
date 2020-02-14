@@ -48,9 +48,9 @@
   <div class="margin-bottom-10">
     <% if current_user.nil? %>
     <% elsif current_user.sitelanguage == 1 %>Email language: 
-      <%= form.select :emaillanguage, options_for_select([["I only want emails in English", "1"], ["I only want emails in Spanish", "2"], ["I want emails in English & Spanish", "3"]], :selected => @user.emaillanguage) %>
+      <%= form.select :emaillanguage, options_for_select([["I only want articles in English", "1"], ["I only want articles in Spanish", "2"], ["I want articles in English & Spanish", "3"]], :selected => @user.emaillanguage) %>
     <% elsif current_user.sitelanguage == 2 %>Idioma de los correos:
-      <%= form.select :emaillanguage, options_for_select([["Sólo quiero los correos en inglés", "1"], ["Sólo quiero los correos en español", "2"], ["Quiero los correos en inglés y en español", "3"]], :selected => @user.emaillanguage) %>
+      <%= form.select :emaillanguage, options_for_select([["Sólo quiero los artículos en inglés", "1"], ["Sólo quiero los artículos en español", "2"], ["Quiero los artículos en inglés y en español", "3"]], :selected => @user.emaillanguage) %>
     <% else end %> 
     
   </div>

@@ -5,7 +5,8 @@ class TypesController < ApplicationController
 		if current_user.nil? 
 			redirect_to root_url
 		elsif current_user.status == 1
-			@types = Type.all
+			@english = Type.english.order(:name)
+			@spanish = Type.spanish.order(:name)
 		else
 			redirect_to root_url
 		end

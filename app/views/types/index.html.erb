@@ -1,16 +1,21 @@
 <%= render "articles/admintop" %>
 
 <table>
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>Language</th>
-			<th colspan="2"></th>
-		</tr>
-	</thead>
-
 	<tbody>
-		<% @types.each do |type| %>
+		<% @english.each do |type| %>
+			<tr>
+				<td><%= link_to type.name, type %></td>
+				<td><%= type.language.try(:name) %></td>
+				<td><%= link_to 'Edit', edit_type_path(type) %></td>
+				<td><%= link_to 'Destroy', type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+<br />
+<table>
+	<tbody>
+		<% @spanish.each do |type| %>
 			<tr>
 				<td><%= link_to type.name, type %></td>
 				<td><%= type.language.try(:name) %></td>

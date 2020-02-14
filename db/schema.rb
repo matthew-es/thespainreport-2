@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_06_114622) do
+ActiveRecord::Schema.define(version: 2020_02_14_142104) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -152,6 +152,7 @@ ActiveRecord::Schema.define(version: 2020_02_06_114622) do
     t.string "email_reader_button"
     t.string "emails_link_cta_readers"
     t.string "emails_link_thanks_patrons"
+    t.string "emails_link_thanks_patrons_paused"
     t.index ["language_id"], name: "index_frames_on_language_id"
     t.index ["original_id"], name: "index_frames_on_original_id"
   end

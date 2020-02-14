@@ -157,15 +157,7 @@ class ArticlesController < ApplicationController
 				User.emails_all.emails_spanish.find_each(batch_size: 50) do |user|
 					ArticleMailer.send_article_full(@article, user).deliver_now
 				end
-			elsif ["Patrons only"].include?@article.type.name
-				User.patrons.emails_full.emails_english.find_each(batch_size: 50) do |user|
-					ArticleMailer.send_article_full(@article, user).deliver_now
-				end
-			elsif ["Sólo patronos"].include?@article.type.name
-				User.patrons.emails_full.emails_spanish.find_each(batch_size: 50) do |user|
-					ArticleMailer.send_article_full(@article, user).deliver_now
-				end
-			elsif !["Notes", "Apuntes","Update", "Actualización", "Patrons only", "Sólo patronos"].include?@article.type.name
+			elsif !["Notes", "Apuntes", "Update", "Actualización"].include?@article.type.name
 				if @article.language_id == 1
 					User.emails_full.emails_english.find_each(batch_size: 50) do |user|
 						ArticleMailer.send_article_full(@article, user).deliver_now

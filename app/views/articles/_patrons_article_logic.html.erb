@@ -1,42 +1,53 @@
+<div>
 <% if current_user.nil? %>
-	<div>
 	<%= render 'articles/patrons_extras_teaser_points' %>	
 	<div class="clear"></div>
 <% elsif current_user.level_amount == 0 %>
-		<% if @frame_article %> <%= @frame.access_readers_to_patrons %>
-		<% elsif @frameoriginal.blank? %> <%= @frametranslation.access_readers_to_patrons %>
-		<% else %> <%= @frameoriginal.access_readers_to_patrons %>
-		<% end %>
 		<%= render 'articles/patrons_extras_teaser_points' %>
+		<div class="clear"></div>
+		<div class="margin-top-20">
+			---<br/>
+			<em>(
+				<% if @frame_article %> <%= @frame.access_readers_to_patrons %>
+				<% elsif @frameoriginal.blank? %> <%= @frametranslation.access_readers_to_patrons %>
+				<% else %> <%= @frameoriginal.access_readers_to_patrons %>
+				<% end %>
+			)</em>
+		</div>
 <% elsif current_user.level_amount.between?(1, 9) %>
 		<%= render "articles/patrons_extras_notes" %>
 		<div class="margin-top-20">
 			---<br/>
-			<% if @frame_article %> <%= @frame.access_patrons_below_10 %>
-			<% elsif @frameoriginal.blank? %> <%= @frametranslation.access_patrons_below_10 %>
-			<% else %> <%= @frameoriginal.access_patrons_below_10 %>
-			<% end %>
+			<em>(
+				<% if @frame_article %> <%= @frame.access_patrons_below_10 %>
+				<% elsif @frameoriginal.blank? %> <%= @frametranslation.access_patrons_below_10 %>
+				<% else %> <%= @frameoriginal.access_patrons_below_10 %>
+				<% end %>
+			)</em>
 		</div>
 <% elsif current_user.level_amount.between?(10, 24) %>
 		<%= render "articles/patrons_extras_notes" %>
 		<%= render "articles/patrons_extras_audio" %>
 		<div class="margin-top-20">
 			---<br/>
-			<% if @frame_article %> <%= @frame.access_patrons_below_25 %>
-			<% elsif @frameoriginal.blank? %> <%= @frametranslation.access_patrons_below_25 %>
-			<% else %> <%= @frameoriginal.access_patrons_below_25 %>
-			<% end %>
+			<em>(
+				<% if @frame_article %> <%= @frame.access_patrons_below_25 %>
+				<% elsif @frameoriginal.blank? %> <%= @frametranslation.access_patrons_below_25 %>
+				<% else %> <%= @frameoriginal.access_patrons_below_25 %>
+				<% end %>
+			)</em>
 		</div>
-<% elsif current_user.level_amount >= 25 %>%>
+<% elsif current_user.level_amount >= 25 %>
 		<%= render "articles/patrons_extras_notes" %>
 		<%= render "articles/patrons_extras_audio" %>
-		<%= render "articles/patrons_extras_transcript" %>
 		<div class="margin-top-20">
 			---<br/>
-			<% if @frame_article %> <%= @frame.access_patrons_above_25 %>
-			<% elsif @frameoriginal.blank? %> <%= @frametranslation.access_patrons_above_25 %>
-			<% else %> <%= @frameoriginal.access_patrons_above_25 %>
-			<% end %>
+			<em>(
+				<% if @frame_article %> <%= @frame.access_patrons_above_25 %>
+				<% elsif @frameoriginal.blank? %> <%= @frametranslation.access_patrons_above_25 %>
+				<% else %> <%= @frameoriginal.access_patrons_above_25 %>
+				<% end %>
+			)</em>
 		</div>
 <% else end %>
 </div>

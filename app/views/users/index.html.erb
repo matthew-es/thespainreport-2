@@ -14,11 +14,13 @@
       <tr>
         <td><%= link_to user.email, edit_user_path(user) %></td>
         <td>
-          <% if user.status == 1 %>
+          <% case user.status when 1 %>
             Editor
-          <% elsif user.status == 2 %>
-            Patron
-          <% elsif user.status == 3 %>
+          <% when 2 %>
+            Patron(a)
+          <% when 4 %>
+            Patron(p)
+          <% when 3 %>
             Reader
           <% else end %>
         </td>

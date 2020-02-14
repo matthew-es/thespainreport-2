@@ -23,17 +23,6 @@
 	</em>
 </p>
 
-<p>
-	<% if @articleupdates.present? %>
-		<ul class="margin-top-5 margin-bottom-0 margin-left-20 margin-right-0">
-	      <% @articleupdates.each do |u| %>
-	        <li><%= u.headline %></li>
-	      <% end %>
-	    </ul>
-    <% else %>
-    <% end %>
-</p>
-
 <% if @article.image.present? %>
 	<% if ['.png','.jpg'].include?File.extname(@article.image) %> 
 		<%= image_tag ('https://image.thespainreport.es/' + @article.image), style: 'max-width: 700px;' %>
@@ -48,9 +37,28 @@
 	</ul>
 <% else %>
 <% end %>
-
-<%= markdown(@article.body) %>
-
+	
+	<% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
+		<% if @user.level_amount == 0 %>
+			<%= markdown(truncate(@article.body, length: 500)) %>
+			<ul>
+				<li>
+					<% if @article.language_id == 1 %>
+						<%= link_to "Patrons get full-text emails…", root_url + "value/" + @article.frame.link_slug %>
+					<% elsif @article.language_id == 2 %>
+						<%= link_to "Los mecenas reciben los artículos completos por correo…", root_url + "valor/" + @article.frame.link_slug %>
+					<% else end %>
+				</li>
+			</ul>
+		<% elsif @user.level_amount >= 1 %>
+			<%= markdown(@article.body).html_safe %>
+		<% else %>
+			<%= markdown(@article.body).html_safe %>
+		<% end %>
+	<% else %>
+		<%= markdown(@article.body).html_safe %>
+	<% end %>
+	
 	<% if @article.image.present? %>
 		<% if ['.pdf'].include?File.extname(@article.image) %>
 			<% if @article.language_id == 1 %>
@@ -76,30 +84,6 @@
 			<% end %>
 		</p>
 	<% end %>
-<% end %>
-
-<% @articleupdates.each do |u| %>
-		<p>
-			<strong><%= u.headline %></strong>
-		</p>
-		
-		<p>
-			<% if u.language_id == 1 %>
-				<em><%= u.created_at.strftime("%b %d, %Y, %l:%M %P") %></em>
-			<% elsif u.language_id == 2 %>
-				<em><%= u.created_at.strftime("%d/%m/%Y, %H:%M") %></em>
-			<% else %>
-			<% end %>
-			<br />
-			<em><%= u.lede %></em>
-		</p>
-		
-		<% if u.image.present? %>
-			<%= image_tag ('https://image.thespainreport.es/' + u.image), style: 'max-width: 700px;' %>
-		<% else %>
-		<% end %>
-		
-		<%= markdown(u.body) %>
 <% end %>
 
 <% if @article.language_id == 1 %>
@@ -128,8 +112,10 @@
 <p>
 ******************************************
 <br />
-	<% if [1, 2, 4].include?@user.status %>
+	<% if [1, 2].include?@user.status %>
 		(<%= @article.frame.emails_link_thanks_patrons %>)
+	<% elsif @user.status == 4 %>
+		(<%= @article.frame.emails_link_thanks_patrons_paused %>)
 	<% else %>
 		(<%= link_to @article.frame.emails_link_cta_readers, root_url + "value/" + @article.frame.link_slug %>)
 	<% end %>
@@ -153,27 +139,15 @@
 	</ul>
 	<p><strong>Email language:</strong></p>
 	<ul>
-		<li><%= link_to "I only want emails in English", update_email_language_user_url(@user.confirm_token, emaillanguage: 1) %></li>
-		<li><%= link_to "I only want emails in Spanish", update_email_language_user_url(@user.confirm_token, emaillanguage: 2) %></li>
-		<li><%= link_to "I want emails in English & Spanish", update_email_language_user_url(@user.confirm_token, emaillanguage: 3) %></li>
+		<li><%= link_to "I only want articles in English", update_email_language_user_url(@user.confirm_token, emaillanguage: 1) %></li>
+		<li><%= link_to "I only want articles in Spanish", update_email_language_user_url(@user.confirm_token, emaillanguage: 2) %></li>
+		<li><%= link_to "I want articles in English & Spanish", update_email_language_user_url(@user.confirm_token, emaillanguage: 3) %></li>
 	</ul>
 <% elsif @article.language_id == 2 %>
 	<ul>
-		<li><%= link_to "Lea esto en The Spain Report", article_url(@article) %></li>
-		
 		<% if ['.pdf'].include?File.extname(@article.image) %>
 			<li>Documento: <%= link_to @article.image, 'https://pdf.thespainreport.es/' + @article.image %></li>
 		<% else %>
-		<% end %>
-		
-		<% if @article.audio_file_mp3.present? %>
-			<li>Audio: <%= link_to @article.audio_file_mp3, ('https://audio.thespainreport.es/' + @article.audio_file_mp3) %></li>
-		<% else %>
-		<% end %>
-		
-		<% if @article.story.nil? %>
-		<% else %>
-			<li>Tema: <%= link_to @article.story.headline, @article.story %></li>
 		<% end %>
 	</ul>
 	<p><strong>Cantidad de correo:</strong></p>
@@ -185,9 +159,9 @@
 	</ul>
 	<p><strong>Idioma de los correos:</strong></p>
 	<ul>
-		<li><%= link_to "Sólo quiero los correos en inglés", update_email_language_user_url(@user.confirm_token, emaillanguage: 1) %></li>
-		<li><%= link_to "Sólo quiero los correos en español", update_email_language_user_url(@user.confirm_token, emaillanguage: 2) %></li>
-		<li><%= link_to "Quiero los correos en inglés y en español", update_email_language_user_url(@user.confirm_token, emaillanguage: 3) %></li>
+		<li><%= link_to "Sólo quiero los artículos en inglés", update_email_language_user_url(@user.confirm_token, emaillanguage: 1) %></li>
+		<li><%= link_to "Sólo quiero los artículos en español", update_email_language_user_url(@user.confirm_token, emaillanguage: 2) %></li>
+		<li><%= link_to "Quiero los artículos en inglés y en español", update_email_language_user_url(@user.confirm_token, emaillanguage: 3) %></li>
 	</ul>
 <% else %>
 <% end %>
