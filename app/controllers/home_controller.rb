@@ -38,8 +38,8 @@ class HomeController < ApplicationController
 	
 	def es
 		if current_user.nil? || current_user.frame.blank?
-			@frame = Frame.find_by(link_slug: "guarantee")
-			
+			@frame = Frame.find_by(link_slug: "garantizar")
+			@frame_id = @frame.id
 			@frame_article = (@frame.language_id == 2)
 			@frametranslation = @frame.translations.where(language_id: 2).first
 			@frameoriginal = @frame.original
@@ -49,6 +49,7 @@ class HomeController < ApplicationController
 			@frametranslation = @frame.translations.where(language_id: 2).first
 			@frameoriginal = @frame.original
 		end
+		
 		@set_language = 2
 		@url_stub = "/valor/"
 		@plans = Plan.spanish.all

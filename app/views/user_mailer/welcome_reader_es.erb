@@ -5,14 +5,14 @@ Hola,
 <p><%= link_to "Haga clic aquí para confirmar su correo", confirm_email_user_url(@user.confirm_token) %></p>
 
 <p>
-    Últimos episodios del podcast:
+    Últimos Episodios del Podcast:
     <ul>
         <% @latestpodcasts.each do |a| %>
             <li><%= link_to a.headline, a %></li>
         <% end %>
     </ul>
     
-    Últimos artículos:
+    Últimos Artículos:
     <ul>
         <% @latestfree.each do |a| %>
             <li><%= link_to a.headline, a %></li>
@@ -26,7 +26,7 @@ Hola,
         <% end %>
     </ul>
     
-    Últimos sólo mecenas:
+    Últimos Sólo Mecenas:
     <ul>
         <% @latestpatrons.each do |a| %>
             <li><%= link_to a.headline, a %></li>
@@ -34,7 +34,7 @@ Hola,
     </ul>
 </p>
 
-<p><%= link_to @user.frame.emotional_quest_action, root_url + "valor/" + @user.frame.link_slug %></p>
+<p><%= link_to @user.frame.emails_link_cta_readers, root_url + "valor/" + @user.frame.link_slug %></p>
 
 <p>Si no ha solicitado este correo, puede ignorarlo.</p>
 

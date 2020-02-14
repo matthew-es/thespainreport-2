@@ -71,15 +71,17 @@
       <% elsif current_user.status == 1 %>
         Frame: <%= form.number_field :frame_id %> 
         | Level amount: <%= form.number_field :level_amount %> 
-        | Status: <%= form.select :status, options_for_select([["Author", "1"], ["Patron", "2"], ["Reader", "3"]], :selected => @user.status) %> 
+        | Status: <%= form.select :status, options_for_select([["Author", "1"], ["Patron-active", "2"], ["Patron-paused", "4"], ["Reader", "3"]], :selected => @user.status) %> 
         | Email confirmed? <%= form.check_box :email_confirmed %>
       <% else %>
         <% if current_user.sitelanguage == 1 %>You are a
           <% if current_user.status == 2 %> patron. Thank you for guaranteeing this independent journalism.
+          <% elsif current_user.status == 3 %> paused patron. <a href="<%= @url_stub + @frame_stub %>">You can get going again here</a>.
           <% elsif current_user.status == 3 %> reader. <a href="<%= @url_stub + @frame_stub %>">Become a patron here</a>.
           <% else end %>
         <% elsif current_user.sitelanguage == 2 %> Ud. es
           <% if current_user.status == 2 %> mecenas. Gracias por garantizar este periodismo independiente.
+          <% elsif current_user.status == 3 %> mecenas en pausa. <a href="<%= @url_stub + @frame_stub %>">Puede arrancar de nuevo aquí</a>.
           <% elsif current_user.status == 3 %> lector. <a href="<%= @url_stub + @frame_stub %>">Conviértase en mecenas aquí</a>.
           <% else end %>
         <% else end %>

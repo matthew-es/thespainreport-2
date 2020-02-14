@@ -5,14 +5,14 @@ Hi,
 <p><%= link_to "Confirm email address", confirm_email_user_url(@user.confirm_token) %></p>
 
 <p>
-    Latest podcast episodes:
+    Latest Podcast Episodes:
     <ul>
         <% @latestpodcasts.each do |a| %>
             <li><%= link_to a.headline, a %></li>
         <% end %>
     </ul>
     
-    Latest Spain articles:
+    Latest Spain Articles:
     <ul>
         <% @latestfree.each do |a| %>
             <li><%= link_to a.headline, a %></li>
@@ -26,7 +26,7 @@ Hi,
         <% end %>
     </ul>
     
-    Latest patrons only:
+    Latest Patrons Only:
     <ul>
         <% @latestpatrons.each do |a| %>
             <li><%= link_to a.headline, a %></li>
@@ -34,7 +34,9 @@ Hi,
     </ul>
 </p>
 
-<p><%= link_to @user.frame.emotional_quest_action, root_url + "value/" + @user.frame.link_slug %></p>
+<p>
+    <%= link_to @user.frame.emails_link_cta_readers, root_url + "value/" + @user.frame.link_slug %>
+</p>
 
 <p>If you did not request this e-mail, just ignore it.</p>
 
