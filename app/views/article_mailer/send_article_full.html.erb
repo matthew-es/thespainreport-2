@@ -128,7 +128,7 @@
 <p>
 ******************************************
 <br />
-	<% if [1, 2].include?@user.status %>
+	<% if [1, 2, 4].include?@user.status %>
 		(<%= @article.frame.emails_link_thanks_patrons %>)
 	<% else %>
 		(<%= link_to @article.frame.emails_link_cta_readers, root_url + "value/" + @article.frame.link_slug %>)
