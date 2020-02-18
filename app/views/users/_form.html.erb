@@ -71,7 +71,7 @@
       <% elsif current_user.status == 1 %>
         Frame: <%= form.number_field :frame_id %> 
         | Level amount: <%= form.number_field :level_amount %> 
-        | Status: <%= form.select :status, options_for_select([["Author", "1"], ["Patron-active", "2"], ["Patron-paused", "4"], ["Reader", "3"]], :selected => @user.status) %> 
+        | Status: <%= form.select :status, options_for_select([["Author", "1"], ["Patron-active", "2"], ["Patron-paused", "4"], ["Patron-cancelled", "5"], ["Reader", "3"]], :selected => @user.status) %> 
         | Email confirmed? <%= form.check_box :email_confirmed %>
       <% else %>
         <% if current_user.sitelanguage == 1 %>You are a

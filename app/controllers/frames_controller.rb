@@ -92,9 +92,10 @@ class FramesController < ApplicationController
       params.require(:frame).permit(
         :button_cta, :image, :emotional_quest_action, :emotional_quest_role, :short_story, :money_word_singular, 
         :money_word_plural, :money_word_verb, :link_slug, :social_proof,:risk_reversal, :language_id, :original_id,
-        :access_patrons_only, :access_more_for_patrons, :access_readers_to_patrons, :access_patrons_below_10, :access_patrons_below_25, :access_patrons_above_25,
+        :access_patrons_only, :access_more_for_patrons,
         :email_reader_header, :email_reader_text, :email_reader_placeholder, :email_reader_button,
-        :emails_link_cta_readers, :emails_link_thanks_patrons, :emails_link_thanks_patrons_paused
+        :cta_reader_to_patron, :cta_patron_active_bottom, :cta_patron_active_middle, :cta_patron_active_top, :cta_patron_paused, :cta_patron_cancelled,
+        :cta_reader_to_patron_link, :cta_patron_active_bottom_link, :cta_patron_active_middle_link, :cta_patron_active_top_link, :cta_patron_paused_link, :cta_patron_cancelled_link
         )
     end
 end

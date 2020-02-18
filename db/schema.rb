@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_14_142104) do
+ActiveRecord::Schema.define(version: 2020_02_17_152952) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -142,17 +142,22 @@ ActiveRecord::Schema.define(version: 2020_02_14_142104) do
     t.string "money_word_verb"
     t.string "access_patrons_only"
     t.string "access_more_for_patrons"
-    t.string "access_readers_to_patrons"
-    t.string "access_patrons_below_10"
-    t.string "access_patrons_below_25"
-    t.string "access_patrons_above_25"
+    t.string "cta_patron_active_middle"
+    t.string "cta_patron_active_top"
     t.string "email_reader_header"
     t.string "email_reader_text"
     t.string "email_reader_placeholder"
     t.string "email_reader_button"
-    t.string "emails_link_cta_readers"
-    t.string "emails_link_thanks_patrons"
-    t.string "emails_link_thanks_patrons_paused"
+    t.string "cta_reader_to_patron"
+    t.string "cta_patron_active_bottom"
+    t.string "cta_patron_paused"
+    t.string "cta_patron_cancelled"
+    t.string "cta_reader_to_patron_link"
+    t.string "cta_patron_active_bottom_link"
+    t.string "cta_patron_active_middle_link"
+    t.string "cta_patron_active_top_link"
+    t.string "cta_patron_paused_link"
+    t.string "cta_patron_cancelled_link"
     t.index ["language_id"], name: "index_frames_on_language_id"
     t.index ["original_id"], name: "index_frames_on_original_id"
   end

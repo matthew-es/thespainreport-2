@@ -27,8 +27,8 @@
 	<ul>
 		<li>
 			<strong>
-				<% case @language when 1 %>Listen now: 
-				<% when 2 %>Escuche ahora: 
+				<% case @language when 1 %>Listen: 
+				<% when 2 %>Escuche: 
 				<% end %>
 			</strong>
 			<%= link_to @article.headline, @article %>
@@ -36,25 +36,22 @@
 	</ul>
 <% else %>
 <% end %>
-	
+
 <% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
-	<% if @level == 0 %>
+	<% case @status when 3, 4, 5 %>
 		<%= markdown(truncate(@article.body, length: 500)) %>
 		<ul>
 			<li>
-				<%= link_to(@subscribe) do %>
-					<% case @language when 1 %>Patrons get full-text emails…
-					<% when 2 %>Los mecenas reciben los artículos completos por correo…
-					<% end %>
+				<% case @status when 3 %><%= @frame.access_patrons_only %>. <%= link_to @frame.cta_reader_to_patron, @subscribe %>
+				<% when 4 %><%= @frame.access_patrons_only %>. <%= link_to @frame.cta_patron_paused, @restart %>
+				<% when 5 %><%= @frame.access_patrons_only %>. <%= link_to @frame.cta_patron_cancelled, @restart %>
 				<% end %>
 			</li>
 		</ul>
-	<% elsif @level >= 1 %>
-		<%= markdown(@article.body).html_safe %>
-	<% else %>
+	<% when 1, 2 %>
 		<%= markdown(@article.body).html_safe %>
 	<% end %>
-<% else %>
+<% else %
 	<%= markdown(@article.body).html_safe %>
 <% end %>
 	
@@ -65,32 +62,51 @@
 		<% end %>
 	</strong>
 	
-	<% if @level == 0 %>
+	<% case @status when 3, 4, 5 %>
 		<ul>
-			<% if @article.extras_notes.present? %><li><%= link_to @article.extras_notes_teaser, @subscribe %></li><% else end %>
-			<% if @article.extras_audio_file.present? %><li><%= link_to @article.extras_audio_teaser, @subscribe %></li><% else end %>
+			<% if @article.extras_notes.present? %>
+				<li>
+					<% case @status when 3 %><%= link_to @article.extras_notes_teaser, @subscribe %>
+					<% when 4, 5 %><%= link_to @article.extras_notes_teaser, @restart %>
+					<% end %>
+				</li>
+			<% else end %>
+
+			<% if @article.extras_audio_file.present? %>
+				<li>
+					<strong>
+						<% case @language when 1 %>Listen:
+						<% when 2 %>Escuche:
+						<% end %>
+					</strong>
+					<% case @status when 3 %><%= link_to @article.extras_audio_teaser, @subscribe %>
+					<% when 4, 5 %><%= link_to @article.extras_audio_teaser, @restart %>
+					<% end %>
+				</li>
+			<% else end %>
 		</ul>
-	<% elsif @level >= 1 %>
+	<% when 1, 2 %>
 		<% if @article.extras_notes.present? %>
-			<p><em><%= @article.extras_notes_teaser %></em></p>
+			<em><%= @article.extras_notes_teaser %></em>
 			<p><%= markdown(@article.extras_notes).html_safe %></p>
 		<% else end %>
 		
-		<% if @level >= 10 %>
-			<% if @article.extras_audio_file.present? %><li><%= link_to @article.extras_audio_file, @article %></li><% else end %>
-		<% else %>
+		<% if @article.extras_audio_file.present? %>
 			<ul>
-				<% if @article.extras_audio_file.present? %><li><%= link_to @article.extras_audio_teaser, @article %></li><% else end %>
+				<li>
+					<strong>
+						<% case @language when 1 %>Listen:
+						<% when 2 %>Escuche:
+						<% end %>
+					</strong>
+					<% case @level when 1..9 %><%= link_to @article.extras_audio_teaser, @increase %>
+					<% when 10..Float::INFINITY %><%= link_to @article.extras_audio_file, 'https://audio.thespainreport.es/' + @article.extras_audio_file %>
+					<% end %>
+				</li>
 			</ul>
-		<% end %>
-	<% else %>
-		<ul>
-			<% if @article.extras_notes.present? %><li><%= link_to @article.extras_notes_teaser, @subscribe %></li><% else end %>
-			<% if @article.extras_audio_file.present? %><li><%= link_to @article.extras_audio_teaser, @subscribe %></li><% else end %>
-		</ul>
+		<% else end %>
 	<% end %>
-<% else %>
-<% end %>
+<% else end %>
 	
 <% if @article.image.present? %>
 	<% if ['.pdf'].include?File.extname(@article.image) %>
@@ -141,12 +157,22 @@
 <p>
 ******************************************
 <br />
-	<% if [1, 2].include?@user.status %>
-		(<%= @article.frame.emails_link_thanks_patrons %>)
-	<% elsif @user.status == 4 %>
-		(<%= @article.frame.emails_link_thanks_patrons_paused %>)
+	<% if @status == 1 %>
+		(<%= @frame.cta_patron_active_top %>: <%= link_to @frame.cta_patron_active_top_link, @subscribe %>.)
+	<% elsif @status == 2 && @level.between?(1, 9) %>
+		(<%= @frame.cta_patron_active_bottom %>: <%= link_to @frame.cta_patron_active_bottom_link, @increase %>.)
+	<% elsif @status == 2 && @level.between?(10, 24) %>
+		(<%= @frame.cta_patron_active_middle %>: <%= link_to @frame.cta_patron_active_middle_link, @increase %>.)
+	<% elsif @status == 2 && @level >= 25 %>
+		(<%= @frame.cta_patron_active_top %>: <%= link_to @frame.cta_patron_active_top_link, @increase %>.)
+	<% elsif @status == 3 %>
+		(<%= @frame.cta_reader_to_patron %>: <%= link_to @frame.cta_reader_to_patron_link, @subscribe %>.)
+	<% elsif @status == 4 %>
+		(<%= @frame.cta_patron_paused %>: <%= link_to @frame.cta_patron_paused_link, @restart %>.)
+	<% elsif @status == 5 %>
+		(<%= @frame.cta_patron_cancelled %>: <%= link_to @frame.cta_patron_cancelled_link, @restart %>.)
 	<% else %>
-		(<%= link_to @article.frame.emails_link_cta_readers, @subscribe %>)
+		(<%= @frame.cta_reader_to_patron %>: <%= link_to @frame.cta_reader_to_patron_link, @subscribe %>.)
 	<% end %>
 <br />
 ******************************************

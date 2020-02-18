@@ -58,41 +58,9 @@
 			Invoices
 		<% end %>
 	</h1>
-	<div class="margin-bottom-20">
-		<% if action_name == "new" %>
-			New 
-		<% elsif action_name == "edit" %>
-			Editing
-		<% end %>
-		
-		<% if ["edit","new"].include?(action_name) %>
-			<% if controller_name == "tweets" %>
-				tweet…
-			<% elsif controller_name == "articles" %>
-				article…
-			<% elsif controller_name == "uploads" %>
-				upload…
-			<% elsif controller_name == "frames" %>
-				frame…
-			<% elsif controller_name == "types" %>
-				type…
-			<% elsif controller_name == "languages" %>
-				language…
-			<% elsif controller_name == "statuses" %>
-				status…
-			<% elsif controller_name == "visits" %>
-				
-			<% elsif controller_name == "accounts" %>
-				account…
-			<% elsif controller_name == "users" %>
-				patron…
-			<% elsif controller_name == "plans" %>
-				plan…
-			<% elsif controller_name == "countries" %>
-				country…
-			<% end %>
-		<% end %>
-	</div>
+	
+
+	
 	<div class="margin-bottom-20">
 		<% if action_name == "index" %>
 			<% if controller_name == "tweets" %>
