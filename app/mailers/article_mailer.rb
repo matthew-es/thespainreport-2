@@ -8,7 +8,6 @@ class ArticleMailer < ApplicationMailer
 		@articletweets = @article.tweets.order('created_at ASC')
 		@articleupdates = @article.updates.published.order('created_at ASC')
 		@language = @article.language_id
-		
 		@frame = @article.frame
 		
 		if @language == 1
@@ -33,12 +32,15 @@ class ArticleMailer < ApplicationMailer
 	end
 	
 	def email_subject
-		if @article.alertmessage.present?
-			"#{@article.alertmessage}"
-		else
-			"#{@article.type.name}: #{@article.headline}"
+		case @article.type.name
+			when "Patrons only", "Sólo mecenas" then @emoji = "🔓 "
+			when "Podcast" then @emoji = "🔊 "
+			when "Notes", "Apuntes" then @emoji = "📝 "
+			when "Truth & Journalism", "Verdad y Periodismo" then @emoji = "🔎 "
+			else @emoji = "🇪🇸 "
 		end
 		
+		"#{@emoji} #{@article.type.name}: #{@article.headline}"
 	end
 	
 end

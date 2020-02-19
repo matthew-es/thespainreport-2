@@ -34,7 +34,11 @@ Hola,
     </ul>
 </p>
 
-<p><%= link_to @user.frame.emails_link_cta_readers, root_url + "valor/" + @user.frame.link_slug %></p>
+<p>
+    ***************<br />
+    <%= @frame.cta_reader_to_patron %>: <%= link_to @frame.cta_reader_to_patron_link, @subscribe %><br />
+    ***************
+</p>
 
 <p>Si no ha solicitado este correo, puede ignorarlo.</p>
 

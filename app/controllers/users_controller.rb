@@ -20,13 +20,11 @@ class UsersController < ApplicationController
 	# 2. Reader sign up
 	#---------------------------------------------------------------------------
 	def signup
-		@set_language = 1
 		@article_id = "0"
 		default_frame_eng
 	end
 	
 	def apuntese
-		@set_language = 2
 		@article_id = "0"
 		default_frame_es
 	end
@@ -90,7 +88,7 @@ class UsersController < ApplicationController
 					frame_emotional_quest_action: @frame_quest
 					)
 				
-				admin_subject = "New reader: #{user.email}"
+				admin_subject = "✅ New reader: #{user.email}"
 				admin_message = (
 					"Email: #{user.email}" + "<br />" + "Language: #{user.sitelanguage}" + "<br />" + "Article: #{sign_up_article}" + "<br />" + "Frame: #{@frame_quest}"
 					).html_safe
@@ -185,11 +183,11 @@ class UsersController < ApplicationController
 			user.save!(:validate => false)
 			case URI(request.referer).path
 				when '/password'
-					subject = "Get a new password: click on this link"
+					subject = "🔑 Get a new password: click on this link"
 					UserMailer.password_link(user, subject).deliver_now
 					@message = "Well done. Check your email for the link to create a new password"
 				when '/clave'
-					subject = "Obtenga una nueva contraseña: haga clic en este enlace"
+					subject = "🔑 Obtenga una nueva contraseña: haga clic en este enlace"
 					UserMailer.password_link(user, subject).deliver_now
 					@message = "Correcto. Ya tiene un correo electrónico con el enlace para crear una contraseña nueva"
 		   	end
@@ -249,11 +247,11 @@ class UsersController < ApplicationController
 				when 1
 					@message = "Well done. You have updated your password."
 					@location = "/login"
-					@subject = "Your password was just changed: is that what you wanted to happen?"
+					@subject = "⚠️ Your password was just changed: is that what you wanted to happen?"
 				when 2
 					@message = "Enhorabuena. Ha actualizado su contraseña."
 					@location = "/entrar"
-					@subject = "Se acaba de cambiar su contraseña: ¿es lo que quería hacer?"
+					@subject = "⚠️ Se acaba de cambiar su contraseña: ¿es lo que quería hacer?"
 			end
 			@user.update(
 				confirm_token: SecureRandom.urlsafe_base64.to_s
