@@ -1,28 +1,9 @@
 class HomeController < ApplicationController
-	def patreon
-		redirect_to root_url
-	end
-	
 	def index
-		if current_user.nil? || current_user.frame.blank?
-			@frame = Frame.find_by(link_slug: "guarantee")
-			@frame_id = @frame.id
-			@frame_article = (@frame.language_id == 1)
-			@frametranslation = @frame.translations.where(language_id: 1).first
-			@frameoriginal = @frame.original
-		else
-			@frame = current_user.frame
-			@frame_id = @frame.id
-			@frame_article = (@frame.language_id == 1)
-			@frametranslation = @frame.translations.where(language_id: 1).first
-			@frameoriginal = @frame.original
-		end
-		
-		@set_language = 1
-		@url_stub = "/value/"
-		@plans = Plan.english.all
+		set_language_frame(1, Frame.find_by(link_slug: "guarantee").id)
+		set_status(current_user) unless current_user.nil?
+
 		@article_id = "0"
-		
 		@latesttop = Article.english.published.topstory.lastone
 		@podcast = Article.english.published.podcast.lastfive
 		@patrons = Article.english.published.patrons.lastfive
@@ -37,24 +18,10 @@ class HomeController < ApplicationController
 	end
 	
 	def es
-		if current_user.nil? || current_user.frame.blank?
-			@frame = Frame.find_by(link_slug: "garantizar")
-			@frame_id = @frame.id
-			@frame_article = (@frame.language_id == 2)
-			@frametranslation = @frame.translations.where(language_id: 2).first
-			@frameoriginal = @frame.original
-		else
-			@frame = current_user.frame
-			@frame_article = (@frame.language_id == 2)
-			@frametranslation = @frame.translations.where(language_id: 2).first
-			@frameoriginal = @frame.original
-		end
+		set_language_frame(2, Frame.find_by(link_slug: "garantizar").id)
+		set_status(current_user) unless current_user.nil?
 		
-		@set_language = 2
-		@url_stub = "/valor/"
-		@plans = Plan.spanish.all
 		@article_id = "0"
-		
 		@latesttop = Article.spanish.published.topstory.lastone
 		@podcast = Article.spanish.published.podcast.lastfive
 		@patrons = Article.spanish.published.patrons.lastfive

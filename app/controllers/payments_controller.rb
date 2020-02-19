@@ -14,17 +14,12 @@ class PaymentsController < ApplicationController
 	end
 	
 	def pay
-		how_much
-		@plans = Plan.english.all
-		
 		@frame = Frame.find_by(link_slug: params[:slug])
 		if @frame.nil?
 			@frame = Frame.find_by(link_slug: "guarantee")
 		end
-		@frame_article = (@frame.language_id == 1)
-		@frametranslation = @frame.translations.where(language_id: 1).first
-		@frameoriginal = @frame.original
-		@url_stub = "/value/"
+		set_language_frame(1, @frame.id)
+		how_much
 		@article_id = "0"
 		
 		unless current_user.nil? || !current_user.account.present? || !current_user.account.stripe_payment_method.present?
@@ -37,17 +32,12 @@ class PaymentsController < ApplicationController
 	end
 	
 	def pagar
-		how_much
-		@plans = Plan.spanish.all
-		
 		@frame = Frame.find_by(link_slug: params[:slug])
 		if @frame.nil?
 			@frame = Frame.find_by(link_slug: "garantizar")
 		end
-		@frame_article = (@frame.language_id == 2)
-		@frametranslation = @frame.translations.where(language_id: 2).first
-		@frameoriginal = @frame.original
-		@url_stub = "/value/"
+		set_language_frame(2, @frame.id)
+		how_much
 		@article_id = "0"
 		
 		unless current_user.nil? || !current_user.account.present? || !current_user.account.stripe_payment_method.present?

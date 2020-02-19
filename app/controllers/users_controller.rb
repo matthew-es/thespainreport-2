@@ -9,21 +9,11 @@ class UsersController < ApplicationController
 	# 1. Set up
 	#---------------------------------------------------------------------------
 	def default_frame_eng
-		@url_stub = "/value/"
-		@frame = Frame.find_by(link_slug: "guarantee")
-		@frame_id = @frame.id
-		@frame_article = (@frame.language_id == 1)
-		@frametranslation = @frame.translations.where(language_id: 1).first
-		@frameoriginal = @frame.original
+		set_language_frame(1, Frame.find_by(link_slug: "guarantee").id)
 	end
 	
 	def default_frame_es
-		@url_stub = "/valor/"
-		@frame = Frame.find_by(link_slug: "garantizar")
-		@frame_id = @frame.id
-		@frame_article = (@frame.language_id == 2)
-		@frametranslation = @frame.translations.where(language_id: 2).first
-		@frameoriginal = @frame.original
+		set_language_frame(2, Frame.find_by(link_slug: "garantizar").id)
 	end
 	
 	
@@ -399,36 +389,18 @@ class UsersController < ApplicationController
 
 	# GET /users/1/edit
 	def edit
-		if current_user.nil? || current_user.frame.blank?
-			@frame = Frame.find_by(link_slug: "guarantee")
-			@frame_article = (@frame.language_id == 1)
-			@frametranslation = @frame.translations.where(language_id: 1).first
-			@frameoriginal = @frame.original
-			@frame_stub = @frame.link_slug
-			@url_stub = "/value/"
-		else
-			case current_user.sitelanguage
-				when 1
-					@url_stub = "/value/"
-				when 2
-					@url_stub = "/valor/"
-			end
-			@frame = current_user.frame
-			@frame_article = (@frame.language_id == current_user.sitelanguage)
-			@frametranslation = @frame.translations.where(language_id: current_user.sitelanguage).first
-			@frameoriginal = @frame.original
-			@frame_stub = @frame.link_slug
-		end
-		
-		
 		if current_user.nil?
 			redirect_to root_url
 		elsif current_user.status == 1
 			@user = User.find_by_id(params[:id])
+			@status = @user.status
+			set_language_frame(current_user.sitelanguage, current_user.frame_id)
 		elsif User.find_by_id(params[:id]) != current_user
 			redirect_to edit_user_path(current_user)
+			set_language_frame(current_user.sitelanguage, current_user.frame_id)
 		elsif User.find_by_id(params[:id]) == current_user
-			@user = current_user
+			set_status(current_user)
+			set_language_frame(current_user.sitelanguage, current_user.frame_id)
 		else
 			redirect_to root_url
 		end

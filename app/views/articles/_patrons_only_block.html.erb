@@ -1,19 +1,15 @@
-<div class="alert-warning padding-20 margin-top-20">
+<div id="patrons" class="alert-warning padding-20 margin-top-20">
 	<div>
 		<div class="float-left margin-right-5">
 			<span class="label background-color-patrons font-main-tiny font-bold font-color-white">
 				<% if controller_name == "articles" && action_name == "show" && (@article.extras_notes.present? || @article.extras_audio_file.present?) %>
-					<% if @set_language == 1 %>
-						MORE FOR PATRONS
-					<% elsif @set_language == 2 %>
-						MÁS PARA MECENAS
-					<% else end %>
+					<% case @language when 1 %>MORE FOR PATRONS
+					<% when 2 %>MÁS PARA MECENAS
+					<% end %>
 				<% else %>
-					<% if @set_language == 1 %>
-						PATRONS ONLY
-					<% elsif @set_language == 2 %>
-						SÓLO MECENAS
-					<% else end %>
+					<% case @language when 1 %>PATRONS ONLY
+					<% when 2 %>SÓLO MECENAS
+					<% end %>
 				<% end %>
 			</span>
 		</div>
@@ -27,16 +23,18 @@
 		<div class="clear"></div>
 	</div>
 	
-	<ul class="margin-top-20 margin-bottom-20">
-		<% if controller_name == "home" %>
+	
+	<% if controller_name == "home" %>
+		<ul class="margin-top-20 margin-bottom-20">
 			<% if @patrons.any?; @patrons.each do |article| %>
 				<%= render "articles/index_articles_list_link", {article: article} %>
 			<% end end %>
-		<% elsif controller_name == "articles" && action_name == "show" %>
-			<%= render 'articles/patrons_article_logic' %>
-		<% else %>
-		<% end %>
-	</ul>
+		</ul>
+	<% elsif controller_name == "articles" && action_name == "show" %>
+		<%= render 'articles/patrons_article_logic' %>
+	<% else %>
+	<% end %>
+	
 	
 	<%= render 'layouts/log_in_logic' %>
 </div>

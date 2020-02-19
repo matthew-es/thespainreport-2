@@ -51,7 +51,7 @@
 	<% when 1, 2 %>
 		<%= markdown(@article.body).html_safe %>
 	<% end %>
-<% else %
+<% else %>
 	<%= markdown(@article.body).html_safe %>
 <% end %>
 	
@@ -66,6 +66,11 @@
 		<ul>
 			<% if @article.extras_notes.present? %>
 				<li>
+					<strong>
+						<% case @language when 1 %>More:
+						<% when 2 %>Más:
+						<% end %>
+					</strong>
 					<% case @status when 3 %><%= link_to @article.extras_notes_teaser, @subscribe %>
 					<% when 4, 5 %><%= link_to @article.extras_notes_teaser, @restart %>
 					<% end %>
@@ -84,6 +89,13 @@
 					<% end %>
 				</li>
 			<% else end %>
+			
+			<li>
+			<% case @status when 3 %><%= @frame.access_more_for_patrons %>. <%= link_to @frame.cta_reader_to_patron, @subscribe %>
+			<% when 4 %><%= @frame.access_more_for_patrons %>. <%= link_to @frame.cta_patron_paused, @restart %>
+			<% when 5 %><%= @frame.access_more_for_patrons %>. <%= link_to @frame.cta_patron_cancelled, @restart %>
+			<% end %>
+			</li>
 		</ul>
 	<% when 1, 2 %>
 		<% if @article.extras_notes.present? %>
@@ -100,7 +112,7 @@
 						<% end %>
 					</strong>
 					<% case @level when 1..9 %><%= link_to @article.extras_audio_teaser, @increase %>
-					<% when 10..Float::INFINITY %><%= link_to @article.extras_audio_file, 'https://audio.thespainreport.es/' + @article.extras_audio_file %>
+					<% when 10..Float::INFINITY %><%= link_to @article.extras_audio_file, 'https://audio.thespainreport.es/' + @article.extras_audio_file %> (<%= @article.extras_audio_teaser %>)
 					<% end %>
 				</li>
 			</ul>
@@ -142,7 +154,7 @@
 	<a href="https://www.youtube.com/playlist?list=PL3DymtXaX19QyOs-R0bu1eiX6j4c8L-Ey" title="Bennett in Spain on YouTube">YouTube</a>,
 	<a href="https://www.facebook.com/BennettInSpain/playlist/606829756765780" title="Bennett in Spain on Facebook">Facebook</a>
 <% elsif @language == 2 %>
-	<strong>Esucuche Bennett en España aquí:</strong>
+	<strong>Escuche Bennett en España aquí:</strong>
 	<a href="https://podcasts.apple.com/podcast/id1495596384" title="Bennett en España en Apple Podcasts">Apple Podcasts</a>, 
 	<a href="https://open.spotify.com/show/7euXMABMb6onzw50VxKK0W" title="Bennett en España en Spotify">Spotify</a>, 
 	<a href="https://www.ivoox.com/podcast-bennett-espana_sq_f1842998_1.html" title="Bennett en España en iVoox">iVoox</a>,
@@ -157,23 +169,7 @@
 <p>
 ******************************************
 <br />
-	<% if @status == 1 %>
-		(<%= @frame.cta_patron_active_top %>: <%= link_to @frame.cta_patron_active_top_link, @subscribe %>.)
-	<% elsif @status == 2 && @level.between?(1, 9) %>
-		(<%= @frame.cta_patron_active_bottom %>: <%= link_to @frame.cta_patron_active_bottom_link, @increase %>.)
-	<% elsif @status == 2 && @level.between?(10, 24) %>
-		(<%= @frame.cta_patron_active_middle %>: <%= link_to @frame.cta_patron_active_middle_link, @increase %>.)
-	<% elsif @status == 2 && @level >= 25 %>
-		(<%= @frame.cta_patron_active_top %>: <%= link_to @frame.cta_patron_active_top_link, @increase %>.)
-	<% elsif @status == 3 %>
-		(<%= @frame.cta_reader_to_patron %>: <%= link_to @frame.cta_reader_to_patron_link, @subscribe %>.)
-	<% elsif @status == 4 %>
-		(<%= @frame.cta_patron_paused %>: <%= link_to @frame.cta_patron_paused_link, @restart %>.)
-	<% elsif @status == 5 %>
-		(<%= @frame.cta_patron_cancelled %>: <%= link_to @frame.cta_patron_cancelled_link, @restart %>.)
-	<% else %>
-		(<%= @frame.cta_reader_to_patron %>: <%= link_to @frame.cta_reader_to_patron_link, @subscribe %>.)
-	<% end %>
+<%= render "users/user_messages" %>
 <br />
 ******************************************
 </p>

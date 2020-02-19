@@ -1,0 +1,33 @@
+<% case @language when 1 %>
+  You are
+  <% case @status when 1 %>the boss.
+	<% when 2 %>a patron.
+	<% when 3 %>a reader.
+	<% when 4 %>a patron who has paused <%= @frame.money_word_plural %>.
+	<% when 5 %>a patron who has cancelled <%= @frame.money_word_plural %>.
+	<% end %>
+<% when 2 %>
+  Ud. es
+  <% case @status when 1 %>el jefe.
+	<% when 2 %>mecenas.
+	<% when 3 %>lector.
+	<% when 4 %>lector en pausa.
+	<% when 5 %>lector cancelado.
+	<% end %>
+<% end %>
+
+<% if @status == 1 %>
+	You are the boss
+<% elsif @status == 2 && @level.between?(1, 9) %>
+	<%= @frame.cta_patron_active_bottom %>: <%= link_to @frame.cta_patron_active_bottom_link, @increase %>
+<% elsif @status == 2 && @level.between?(10, 24) %>
+	<%= @frame.cta_patron_active_middle %>: <%= link_to @frame.cta_patron_active_middle_link, @increase %>
+<% elsif @status == 2 && @level >= 25 %>
+	<%= @frame.cta_patron_active_top %>: <%= link_to @frame.cta_patron_active_top_link, @subscribe %>
+<% elsif @status == 3 %>
+	<%= @frame.cta_reader_to_patron %>: <%= link_to @frame.cta_reader_to_patron_link, @subscribe %>
+<% elsif @status == 4 %>
+	<%= @frame.cta_patron_paused %>: <%= link_to @frame.cta_patron_paused_link, @restart %>
+<% elsif @status == 5 %>
+	<%= @frame.cta_patron_cancelled %>: <%= link_to @frame.cta_patron_cancelled_link, @restart %>
+<% else end %>

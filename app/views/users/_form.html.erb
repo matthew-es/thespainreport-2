@@ -74,17 +74,41 @@
         | Status: <%= form.select :status, options_for_select([["Author", "1"], ["Patron-active", "2"], ["Patron-paused", "4"], ["Patron-cancelled", "5"], ["Reader", "3"]], :selected => @user.status) %> 
         | Email confirmed? <%= form.check_box :email_confirmed %>
       <% else %>
-        <% if current_user.sitelanguage == 1 %>You are a
-          <% if current_user.status == 2 %> patron. Thank you for guaranteeing this independent journalism.
-          <% elsif current_user.status == 3 %> paused patron. <a href="<%= @url_stub + @frame_stub %>">You can get going again here</a>.
-          <% elsif current_user.status == 3 %> reader. <a href="<%= @url_stub + @frame_stub %>">Become a patron here</a>.
-          <% else end %>
-        <% elsif current_user.sitelanguage == 2 %> Ud. es
-          <% if current_user.status == 2 %> mecenas. Gracias por garantizar este periodismo independiente.
-          <% elsif current_user.status == 3 %> mecenas en pausa. <a href="<%= @url_stub + @frame_stub %>">Puede arrancar de nuevo aquí</a>.
-          <% elsif current_user.status == 3 %> lector. <a href="<%= @url_stub + @frame_stub %>">Conviértase en mecenas aquí</a>.
-          <% else end %>
-        <% else end %>
+        <% case @language when 1 %>
+          You are
+          <% case @status when 1 %>the boss.
+        	<% when 2 %>a patron.
+        	<% when 3 %>a reader.
+        	<% when 4 %>a patron who has paused <%= @frame.money_word_plural %>.
+        	<% when 5 %>a patron who has cancelled <%= @frame.money_word_plural %>.
+        	<% end %>
+        <% when 2 %>
+          Ud. es
+          <% case @status when 1 %>el jefe.
+        	<% when 2 %>mecenas.
+        	<% when 3 %>lector.
+        	<% when 4 %>lector en pausa.
+        	<% when 5 %>lector cancelado.
+        	<% end %>
+        <% end %>
+        
+        <% if @status == 1 %>
+      		You are the boss.
+      	<% elsif @status == 2 && @level.between?(1, 9) %>
+      		<%= @frame.cta_patron_active_bottom %>: <%= link_to @frame.cta_patron_active_bottom_link, @increase %>
+      	<% elsif @status == 2 && @level.between?(10, 24) %>
+      		<%= @frame.cta_patron_active_middle %>: <%= link_to @frame.cta_patron_active_middle_link, @increase %>
+      	<% elsif @status == 2 && @level >= 25 %>
+      		<%= @frame.cta_patron_active_top %>: <%= link_to @frame.cta_patron_active_top_link, @increase %>
+      	<% elsif @status == 3 %>
+      		<%= @frame.cta_reader_to_patron %>: <%= link_to @frame.cta_reader_to_patron_link, @subscribe %>
+      	<% elsif @status == 4 %>
+      		<%= @frame.cta_patron_paused %>: <%= link_to @frame.cta_patron_paused_link, @restart %>
+      	<% elsif @status == 5 %>
+      		<%= @frame.cta_patron_cancelled %>: <%= link_to @frame.cta_patron_cancelled_link, @restart %>
+      	<% else %>
+      		<%= @frame.cta_reader_to_patron %>: <%= link_to @frame.cta_reader_to_patron_link, @subscribe %>
+      	<% end %>
       <% end %>
       <hr />
     </div>

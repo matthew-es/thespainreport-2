@@ -3,17 +3,11 @@
 	<div class="float-left align-left mobile-100">
 		<div class="">
 			<div class="topbutton mobile-100"> 
-				<% if @frame_article %> <a href="<%= @url_stub + @frame.link_slug %>" class="topbutton"><%= @frame.emotional_quest_action %></a> 
-				<% elsif @frameoriginal.blank? %> <a href="<%= @url_stub + @frametranslation.link_slug %>" class="topbutton"><%= @frametranslation.emotional_quest_action %></a> 
-				<% else %> <a href="<%= @url_stub + @frameoriginal.link_slug %>" class="topbutton"><%= @frameoriginal.emotional_quest_action %></a> 
-				<% end %>
+				<a href="<%= @stub_value + @frame.link_slug %>" class="topbutton"><%= @frame.emotional_quest_action %></a> 
 			</div>
 		</div>
 		<div class="margin-top-2 font-main font-italic font-main-small">
-				<% if @frame_article %> <%= @frame.emotional_quest_role %>
-				<% elsif @frameoriginal.blank? %> <%= @frametranslation.emotional_quest_role unless @frametranslation.nil? %>
-				<% else %> <%= @frameoriginal.emotional_quest_role %>
-				<% end %>
+			<%= @frame.emotional_quest_role %>
 		</div>
 	</div>
 	<div class="float-right align-right mobile-100">
