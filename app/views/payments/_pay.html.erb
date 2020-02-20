@@ -122,7 +122,7 @@
 	
 			<div class="font-payment margin-top-10 align-centre">
 				
-				<p style="text-align: center;">——Coming soon…——</p>
+				<p id="card-button" data-secret="" style="text-align: center;">——Coming soon…——</p>
 				
 				<% if false %>
 					<% if current_user.nil? || !current_user.account.present? || !current_user.account.stripe_payment_method.present? %>

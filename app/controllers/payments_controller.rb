@@ -102,6 +102,9 @@ class PaymentsController < ApplicationController
 			usage: "off_session"
 			})
 		
+		puts @setup_intent.client_secret
+		puts @payment_intent.id
+		puts @setup_intent.id
 		render json: { secret: @setup_intent.client_secret, payment_intent: @payment_intent.id, setup_intent: @setup_intent.id }, status: 200
 	end
 	

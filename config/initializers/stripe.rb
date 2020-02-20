@@ -1,5 +1,5 @@
 if Rails.env.development?
-    Rails.application.credentials.dig(:stripe, :secret_key_development)
+    Stripe.api_key = Rails.application.credentials.dig(:stripe, :secret_key_development)
 elsif Rails.env.production?
-    Rails.application.credentials.dig(:stripe, :secret_key_production)
+    Stripe.api_key = Rails.application.credentials.dig(:stripe, :secret_key_production)
 else end
