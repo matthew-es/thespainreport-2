@@ -1,1 +1,5 @@
-Stripe.api_key = 'sk_test_FVIuGU1W0mHIFIgS4uxtNJB5'
+if Rails.env.development?
+    Rails.application.credentials.dig(:stripe, :secret_key_development)
+elsif Rails.env.production?
+    Rails.application.credentials.dig(:stripe, :secret_key_production)
+else end
