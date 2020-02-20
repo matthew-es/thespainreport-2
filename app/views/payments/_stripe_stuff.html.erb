@@ -1,9 +1,12 @@
 <script src="https://js.stripe.com/v3"></script>
 <script>
-	var stripe = Stripe('pk_test_oUZEXSyy5GEIblpAxKNIvs5X');
+	
+	<% if Rails.env.development? %>var stripe = Stripe('pk_test_oUZEXSyy5GEIblpAxKNIvs5X');
+	<% elsif Rails.env.production? %>var stripe = Stripe('pk_live_f3zUjE1jlVSKmQ5yN6F6Ad5D00ccfaQL8m');
+	<% else end %>
 	
 	var elements = stripe.elements({
-		<% if action_name == "pagar" %>
+		<% if @language == 2 %>
 			locale: 'es'
 		<% else %>
 			locale: 'en'

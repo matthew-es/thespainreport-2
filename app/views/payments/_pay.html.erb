@@ -30,22 +30,32 @@
 			<% if current_user.nil? || !current_user.account.present? || !current_user.account.stripe_payment_method.present? %>
 				<div class="margin-top-10">
 					<ul class="font-main-small">
-						<li>Your <%= @frame.money_word_singular %>: €<span id="plan_amount"></span>/month</li>
 						<li>
-							Which country do you pay taxes in? 
+							<% case @language when 1 %>Your <%= @frame.money_word_singular %>: €<span id="plan_amount"></span>/month
+							<% when 2 %>Su <%= @frame.money_word_singular %>: €<span id="plan_amount"></span>/mes
+							<% end %>
+						</li>
+						<li>
+							<% case @language when 1 %>Which country do you pay taxes in?
+							<% when 2 %>¿En qué país paga impuestos?
+							<% end %>
 							<select name="select_residence_country" id="select_residence_country" onchange="changeResidence()" onclick="changeResidence()">
 								<% Country.all.each do |c| %>
-									<option id="<%= c.country_code %>" value="<%= c.country_code %>"><%= c.name_en %></option>
+									<% case @language when 1 %><option id="<%= c.country_code %>" value="<%= c.country_code %>"><%= c.name_en %></option>
+									<% when 2 %><option id="<%= c.country_code %>" value="<%= c.country_code %>"><%= c.name_es %></option>
+									<% end %>
 								<% end %>
 							</select>
 						</li>
 					</ul>
 				</div>
-				<%# <img src="" name="residence_country_flag" id="residence_country_flag" /><br />%>
 				
 				<div class="font-payment margin-top-10">
 					<% if current_user.nil? %>
-						<input id="customer_email" name="customer_email" type="text" class="StripeElement stripe_email width-100" placeholder="Enter your email address…" value="" onfocus="getSetup()" onkeyup="setEmail()" onchange="setEmail()" onclick="setEmail()" />
+						<% case @language when 1 then @place_email = "Enter your email address…" %>
+						<% when 2 then @place_email = "Introduzca su correo electrónico…" %>
+						<% end %>
+						<input id="customer_email" name="customer_email" type="text" class="StripeElement stripe_email width-100" placeholder="<%= @place_email %>" value="" onfocus="getSetup()" onkeyup="setEmail()" onchange="setEmail()" onclick="setEmail()" />
 					<% else %>
 						<div id ="customer_email" name="customer_email" value="<%= current_user.email %>">Hi, <%= current_user.email %></div>
 						<% if current_user.account.present? %>
@@ -138,23 +148,39 @@
 	</div>
 	
 		<div style="margin-top-10">
-			<p class="font-bold margin-bottom-0 font-main-small">Instructions:</p>
+			<p class="font-bold margin-bottom-0 font-main-small">
+				<% case @language when 1 %>How does it work?
+				<% when 2 %>¿Cómo funciona?
+				<% end %>
+			</p>
 			<ol class="instructions margin-top-5">
-				<li>Click on the <%= @frame.money_word_singular %> you wish to <%= @frame.money_word_verb %></li>
-				<li>Make sure your tax country is correct</li>
-				<li>Enter your email address and credit card details</li>
-				<li>The server will check your card and do some sums…</li>
-				<li>Click "<%= @frame.button_cta %>"</li>
-				<li>That's it, welcome aboard, you will get a couple of emails</li>
+				<% case @language when 1 %>
+					<li>Click on the <%= @frame.money_word_singular %> you wish to <%= @frame.money_word_verb %></li>
+					<li>Make sure your tax country is correct</li>
+					<li>Enter your email address and credit card details</li>
+					<li>The server will check your card and do some sums…</li>
+					<li>Click "<%= @frame.button_cta %>"</li>
+					<li>That's it, welcome aboard, you will get a couple of emails</li>
+				<% when 2 %>
+					Spanish instructions
+				<% end %>
 			</ol>
 		</div>
 		
 		<div style="margin-top-10">
-			<p class="font-bold margin-bottom-0 font-main-small">Notes:</p>
+			<p class="font-bold margin-bottom-0 font-main-small">
+				<% case @language when 1 %>Notes:
+				<% when 2 %>Apuntes:
+				<% end %>
+			</p>
 			<ol class="instructions margin-top-5">
-				<li>If you would like to <%= @frame.money_word_verb %> a larger <%= @frame.money_word_singular %>, please click here</li>
-				<li>You can print receipts or invoices for all your <%= @frame.money_word_plural %> in "My Account"</li>
-				<li>Any problems or questions, email: matthew@thespainreport.es</li>
+				<% case @language when 1 %>
+					<li>If you would like to <%= @frame.money_word_verb %> a larger <%= @frame.money_word_singular %>, please click here</li>
+					<li>You can print receipts or invoices for all your <%= @frame.money_word_plural %> in "My Account"</li>
+					<li>Any problems or questions, email: matthew@thespainreport.es</li>
+				<% when 2 %>
+					More Spanish instructions
+				<% end %>
 			</ol>
 		</div>
 

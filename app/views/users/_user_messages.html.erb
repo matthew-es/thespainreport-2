@@ -17,7 +17,7 @@
 <% end %>
 
 <% if @status == 1 %>
-	<%= @frame.cta_patron_active_top %>: <%= link_to @frame.cta_patron_active_top_link, @subscribe %> BOSS
+	<%= @frame.cta_patron_active_top %>: <%= link_to @frame.cta_patron_active_top_link, @subscribe %>
 <% elsif @status == 2 && @level.between?(1, 9) %>
 	<%= @frame.cta_patron_active_bottom %>: <%= link_to @frame.cta_patron_active_bottom_link, @increase %>
 <% elsif @status == 2 && @level.between?(10, 24) %>
