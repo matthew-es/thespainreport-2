@@ -17,37 +17,29 @@
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		
+		
 		<% if controller_name == "home" || controller_name == "payments" || controller_name == "articles" && action_name == "show" %>
-			<script src="//js.maxmind.com/js/apis/geoip2/v2.1/geoip2.js" type="text/javascript"></script>
 			<script type="text/javascript">
-				var country_flags = {};
-						<% Country.all.each do |c| %>
-							country_flags["<%= c.country_code %>"] = {image: '<%= asset_path(c.country_code + '.jpg') %>'}
-						<% end %>
-							country_flags["UN"] = {image: '<%= asset_path('UN.jpg') %>'}
-				
 				function preciseTaxes( num, precision ) {
 					    return (+(Math.round(+(num + 'e' + precision)) + 'e' + -precision)).toFixed(precision);
 					}
 							
-				var onSuccess = function(x){
-					var ip_country_code = x.country.iso_code;
-					var ip = x.traits.ip_address;
-	
 				
-					document.getElementById('ip_address_for_server').value = ip;
-					document.getElementById('ip_country_code_for_server').value = ip_country_code;
-					document.getElementById('select_residence_country').options[ip_country_code].selected = true;
-					
-					window.ip_country_code = ip_country_code;
-				};
-				var onError = function(error){
-				  alert(
-				      "Error:\n\n"
-				      + JSON.stringify(error, undefined, 4)
-				  );
-				};
-				geoip2.country(onSuccess, onError);
+				var request = new XMLHttpRequest();
+					request.open('GET', 'https://api.ipdata.co/?api-key=22f4bd1298c4266e3de9e41b9f930eb92a2e7d4264b2f7250db75a93');
+					request.setRequestHeader('Accept', 'application/json');
+					request.onreadystatechange = function () {
+					  if (this.readyState === 4) {
+					  	var details = JSON.parse(this.responseText);
+					    var ip_country_code = details["country_code"];
+						var ip = details["ip"];
+					    
+					    document.getElementById('ip_address_for_server').value = ip;
+						document.getElementById('ip_country_code_for_server').value = ip_country_code;
+						document.getElementById('select_residence_country').options[ip_country_code].selected = true;
+					  }
+					};
+					request.send();
 				
 				function initialAmount() {
 					var setup_amount = 2500;

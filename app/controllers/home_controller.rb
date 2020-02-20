@@ -10,6 +10,17 @@ class HomeController < ApplicationController
 		@free = Article.english.published.notlatesttop.notupdates.nottruth.notstory.notpatrons.notpodcast.lastfive
 		@truth = Article.english.published.truth.lastfive
 		
+		require 'uri'
+		require 'net/http'
+		ip = request.remote_ip
+		url = URI("https://api.ipdata.co/#{ip}?api-key=22f4bd1298c4266e3de9e41b9f930eb92a2e7d4264b2f7250db75a93&fields=country_code,city")
+		http = Net::HTTP.new(url.host, url.port)
+		http.use_ssl = true
+		request = Net::HTTP::Get.new(url)
+		response = http.request(request)
+		data = JSON.parse(response.read_body)
+		puts data["country_code"]
+		
 		@rss = Article.published.english.order('created_at DESC')
 		respond_to do |format|
 			format.html
