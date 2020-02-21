@@ -17,6 +17,23 @@ class ApplicationController < ActionController::Base
 		end
 	end
 	
+	def set_country
+		require 'uri'
+		require 'net/http'
+		
+		ip = request.remote_ip
+		url = URI("https://api.ipdata.co/#{ip}?api-key=22f4bd1298c4266e3de9e41b9f930eb92a2e7d4264b2f7250db75a93&fields=country_code,ip")
+		http = Net::HTTP.new(url.host, url.port)
+		http.use_ssl = true
+		request = Net::HTTP::Get.new(url)
+		
+		response = http.request(request)
+		data = JSON.parse(response.read_body)
+		
+		@country_code = data["country_code"]
+		@ip_address = data["ip"]
+	end
+	
 	def set_language_frame(language, frame)
 		language = language
 		frame = frame

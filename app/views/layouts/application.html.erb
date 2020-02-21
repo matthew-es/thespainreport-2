@@ -23,29 +23,22 @@
 				function preciseTaxes( num, precision ) {
 					    return (+(Math.round(+(num + 'e' + precision)) + 'e' + -precision)).toFixed(precision);
 					}
-							
 				
-				var request = new XMLHttpRequest();
-					request.open('GET', 'https://api.ipdata.co/?api-key=22f4bd1298c4266e3de9e41b9f930eb92a2e7d4264b2f7250db75a93');
-					request.setRequestHeader('Accept', 'application/json');
-					request.onreadystatechange = function () {
-					  if (this.readyState === 4) {
-					  	var details = JSON.parse(this.responseText);
-					    var ip_country_code = details["country_code"];
-						var ip = details["ip"];
-					    
-					    document.getElementById('ip_address_for_server').value = ip;
-						document.getElementById('ip_country_code_for_server').value = ip_country_code;
-						document.getElementById('select_residence_country').options[ip_country_code].selected = true;
-					  }
-					};
-					request.send();
+				function startCountry() {
+					var ip = "<%= @ip_address %>";
+					var ip_country = "<%= @country_code %>"; 
+					
+					document.getElementById('ip_address_for_server').value = ip;
+					document.getElementById('ip_country_code_for_server').value = ip_country;
+					document.getElementById('select_residence_country').options[ip_country].selected = true;
+				}
 				
-				function initialAmount() {
+				function startAmount() {
 					var setup_amount = 2500;
 					
 					document.getElementById("plan_amount_for_server").value = setup_amount;
 					document.getElementById("plan_amount").innerHTML = preciseTaxes(parseFloat(setup_amount/100), 2);
+					
 				}
 				
 				function setAmount(clicked_value) {
@@ -311,7 +304,8 @@
 				}
 				
 				window.addEventListener('load', function () {    
-				   	initialAmount();
+				   	startCountry();
+				   	startAmount();
 				   	setEmail();
 					changeResidence();
 				}, false);

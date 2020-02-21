@@ -19,6 +19,8 @@ class PaymentsController < ApplicationController
 			@frame = Frame.find_by(link_slug: "guarantee")
 		end
 		set_language_frame(1, @frame.id)
+		set_country
+		
 		how_much
 		@article_id = "0"
 		
@@ -37,6 +39,8 @@ class PaymentsController < ApplicationController
 			@frame = Frame.find_by(link_slug: "garantizar")
 		end
 		set_language_frame(2, @frame.id)
+		set_country
+		
 		how_much
 		@article_id = "0"
 		

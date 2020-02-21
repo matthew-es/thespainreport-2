@@ -121,16 +121,16 @@
 		</div>
 	
 			<div class="font-payment margin-top-10 align-centre">
-				
-				<p id="card-button" data-secret="" style="text-align: center;">——Coming soon…——</p>
-				
 				<% if false %>
+				<p id="card-button" data-secret="" style="text-align: center;">——Coming soon…——</p>
+				<% end %>
+				
 					<% if current_user.nil? || !current_user.account.present? || !current_user.account.stripe_payment_method.present? %>
 						<button id="card-button" class="width-50 padding-5 font-main-normal" data-secret=""><%= @frame.button_cta %></button>
 					<% elsif current_user.account.stripe_payment_method.present? %>
 						<button id="button_existing_payment_method" class="width-33 padding-5 font-main-normal" onClick="setupExistingpayment()"><%= @frame.button_cta %></button>
 					<% end %>
-				<% end %>
+				
 			</div>
 		</div>
 
