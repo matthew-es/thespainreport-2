@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
 		require 'net/http'
 		
 		ip = request.remote_ip
-		url = URI("https://api.ipdata.co/#{ip}?api-key=22f4bd1298c4266e3de9e41b9f930eb92a2e7d4264b2f7250db75a93&fields=country_code,ip")
+		url = URI("https://api.ipdata.co/#{ip}?api-key=22f4bd1298c4266e3de9e41b9f930eb92a2e7d4264b2f7250db75a93&fields=country_code,ip,threat")
 		http = Net::HTTP.new(url.host, url.port)
 		http.use_ssl = true
 		request = Net::HTTP::Get.new(url)
@@ -32,6 +32,20 @@ class ApplicationController < ActionController::Base
 		
 		@country_code = data["country_code"]
 		@ip_address = data["ip"]
+		
+		threats = [
+		threat_proxy = data["is_proxy"],
+		threat_attacker = data["is_attacker"],
+		threat_abuser = data["is_abuser"],
+		threat_threat = data["is_threat"],
+		threat_bogon = data["is_bogon"]
+		]
+		
+		if threats.any?
+			render file: "#{Rails.root}/public/404", layout: true, status: 404
+		end
+		
+		puts data
 	end
 	
 	def set_language_frame(language, frame)
