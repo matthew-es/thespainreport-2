@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
 		
 		@country = Country.find_by_country_code(@ip_country)
 		if @country.nil?
-			@country_code = Country.find_by_country_code("ROW")
+			@country_code = "ROW"
 		else
 			@country_code = @country.country_code
 		end
