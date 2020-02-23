@@ -30,8 +30,15 @@ class ApplicationController < ActionController::Base
 		response = http.request(request)
 		data = JSON.parse(response.read_body)
 		
-		@country_code = data["country_code"]
+		@ip_country = data["country_code"]
 		@ip_address = data["ip"]
+		
+		@country = Country.find_by_country_code(@ip_country)
+		if @country.nil?
+			@country_code = Country.find_by_country_code("ROW")
+		else
+			@country_code = @country.country_code
+		end
 		
 		threats = [
 		threat_proxy = data["is_proxy"],
