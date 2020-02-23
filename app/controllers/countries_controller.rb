@@ -7,7 +7,7 @@ class CountriesController < ApplicationController
     if current_user.nil? 
 			redirect_to root_url
 		elsif current_user.status == 1
-			@countries = Country.all.order("country_code ASC")
+			@countries = Country.all.order("name_en ASC")
 		else
 			redirect_to root_url
 		end
