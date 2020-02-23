@@ -54,8 +54,8 @@ class CountriesController < ApplicationController
 
     respond_to do |format|
       if @country.save
-        format.html { redirect_to @country, notice: 'Country was successfully created.' }
-        format.json { render :show, status: :created, location: @country }
+        format.html { redirect_to countries_url, notice: 'Country was successfully created.' }
+        format.json { render :index, status: :created, location: @country }
       else
         format.html { render :new }
         format.json { render json: @country.errors, status: :unprocessable_entity }
@@ -69,7 +69,7 @@ class CountriesController < ApplicationController
     respond_to do |format|
       if @country.update(country_params)
         format.html { redirect_to countries_url, notice: 'Country was successfully updated.' }
-        format.json { render :show, status: :ok, location: @country }
+        format.json { render :index, status: :ok, location: @country }
       else
         format.html { render :edit }
         format.json { render json: @country.errors, status: :unprocessable_entity }
