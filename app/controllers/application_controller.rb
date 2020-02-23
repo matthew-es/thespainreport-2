@@ -58,14 +58,16 @@ class ApplicationController < ActionController::Base
 			@stub_increase = "value/"
 			@stub_restart = "value/" 
 			@plans = Plan.english.all.order("price DESC")
-			@countries = Country.all.order("name_en ASC")
+			@countries = Country.all.where.not(country_code: "ROW").order("name_en ASC")
+			@row = Country.where(country_code: "ROW")
 		elsif language == 2
 			@language = 2
 			@stub_value = "valor/"
 			@stub_increase = "valor/"
 			@stub_restart = "valor/" 
 			@plans = Plan.spanish.all.order("price DESC")
-			@countries = Country.all.order("name_es ASC")
+			@countries = Country.all.where.not(country_code: "ROW").order("name_es ASC")
+			@row = Country.where(country_code: "ROW")
 		else end
 		
 		@frame = Frame.find(frame)

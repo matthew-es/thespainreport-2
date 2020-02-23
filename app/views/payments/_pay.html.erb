@@ -39,8 +39,23 @@
 							<% case @language when 1 %>Which country do you pay taxes in?
 							<% when 2 %>¿En qué país paga impuestos?
 							<% end %>
+							
 							<select name="select_residence_country" id="select_residence_country" onchange="changeResidence()" onclick="changeResidence()">
+								<% case @language when 1 %><option id="" value="" disabled>--EU Countries--</option>
+								<% when 2 %><option id="" value="" disabled>--Países UE--</option>
+								<% end %>
+								
 								<% @countries.each do |c| %>
+									<% case @language when 1 %><option id="<%= c.country_code %>" value="<%= c.country_code %>"><%= c.name_en %></option>
+									<% when 2 %><option id="<%= c.country_code %>" value="<%= c.country_code %>"><%= c.name_es %></option>
+									<% end %>
+								<% end %>
+								
+								<% case @language when 1 %><option id="" value="" disabled>--Rest of World--</option>
+								<% when 2 %><option id="" value="" disabled>--Resto del Mundo--</option>
+								<% end %>
+								
+								<% @row.each do |c| %>
 									<% case @language when 1 %><option id="<%= c.country_code %>" value="<%= c.country_code %>"><%= c.name_en %></option>
 									<% when 2 %><option id="<%= c.country_code %>" value="<%= c.country_code %>"><%= c.name_es %></option>
 									<% end %>
