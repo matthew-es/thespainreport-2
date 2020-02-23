@@ -40,7 +40,7 @@
 							<% when 2 %>¿En qué país paga impuestos?
 							<% end %>
 							<select name="select_residence_country" id="select_residence_country" onchange="changeResidence()" onclick="changeResidence()">
-								<% Country.all.each do |c| %>
+								<% @countries.each do |c| %>
 									<% case @language when 1 %><option id="<%= c.country_code %>" value="<%= c.country_code %>"><%= c.name_en %></option>
 									<% when 2 %><option id="<%= c.country_code %>" value="<%= c.country_code %>"><%= c.name_es %></option>
 									<% end %>

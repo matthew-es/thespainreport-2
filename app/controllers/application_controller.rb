@@ -58,12 +58,14 @@ class ApplicationController < ActionController::Base
 			@stub_increase = "value/"
 			@stub_restart = "value/" 
 			@plans = Plan.english.all.order("price DESC")
+			@countries = Country.all.order("name_en ASC")
 		elsif language == 2
 			@language = 2
 			@stub_value = "valor/"
 			@stub_increase = "valor/"
 			@stub_restart = "valor/" 
 			@plans = Plan.spanish.all.order("price DESC")
+			@countries = Country.all.order("name_es ASC")
 		else end
 		
 		@frame = Frame.find(frame)
