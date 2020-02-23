@@ -33,6 +33,8 @@ class ApplicationController < ActionController::Base
 		@ip_country = data["country_code"]
 		@ip_address = data["ip"]
 		
+		puts @ip_country
+		
 		@country = Country.find_by_country_code(@ip_country)
 		if @country.nil?
 			@country_code = "ROW"
@@ -41,11 +43,11 @@ class ApplicationController < ActionController::Base
 		end
 		
 		threats = [
-		threat_proxy = data["is_proxy"],
-		threat_attacker = data["is_attacker"],
-		threat_abuser = data["is_abuser"],
-		threat_threat = data["is_threat"],
-		threat_bogon = data["is_bogon"]
+		threat_proxy = data["threat"]["is_proxy"],
+		threat_attacker = data["threat"]["is_known_attacker"],
+		threat_abuser = data["threat"]["is_known_abuser"],
+		threat_threat = data["threat"]["is_threat"],
+		threat_bogon = data["threat"]["is_bogon"]
 		]
 		
 		if threats.any?
@@ -53,6 +55,7 @@ class ApplicationController < ActionController::Base
 		end
 		
 		puts data
+		puts threats
 	end
 	
 	def set_language_frame(language, frame)
