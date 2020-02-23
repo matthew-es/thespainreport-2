@@ -15,7 +15,7 @@
     <% @countries.each do |country| %>
       <tr>
         <td>
-          <img src="<%= asset_path(country.country_code + '.jpg') %>" />
+          <img src="<%= asset_path(country.country_code + '.jpg') unless Rails.application.assets.find_asset(country.country_code + '.jpg').nil? %>" />
           <%= country.country_code %></td>
         <td><%= country.name_en %></td>
         <td><%= country.name_es %></td>
