@@ -18,17 +18,17 @@ class WebhookEventsController < ApplicationController
                 Webhooks::StripeHandler.process(event)
             when 'superfeeder'
         end
-        render json: { message: "Webhook received"}
+        render json: { message: "Well done, this is a: " + event.data["type"]}
     end
     
     def valid_signature
         if params[:source] == 'stripe'
         	begin
-    			event = Stripe::Webhook.construct_event(
-    			    request.raw_post,
-    			    request.env['HTTP_STRIPE_SIGNATURE'],
-    			    'whsec_5IuCz8Ecp0PwQVMIXybJV9YtN0fqu1XV'
-    			)
+        	    if Rails.env.development?
+    			    event = Stripe::Webhook.construct_event(request.raw_post, request.env['HTTP_STRIPE_SIGNATURE'], 'whsec_5IuCz8Ecp0PwQVMIXybJV9YtN0fqu1XV')
+    		    elsif Rails.env.production?
+    		        event = Stripe::Webhook.construct_event(request.raw_post, request.env['HTTP_STRIPE_SIGNATURE'], 'whsec_o0wkY6caBwCYRFMRtUdpxIl2cMdwRV3f')
+    		    else end
     		rescue JSON::ParserError => e
     			render :json => {:status => 400, :error => "Invalid payload"} and return
     		rescue Stripe::SignatureVerificationError => e
