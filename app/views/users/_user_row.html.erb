@@ -39,6 +39,7 @@
 			Spanish
 		<% else end %>
 	</td>
+	<td><%= user.frame_id %></td>
 	<td><%= user.email_confirmed %> | <%= user.confirm_token %></td>
 	<td><%= user.updated_at.strftime("%d/%m/%Y, %H:%M") %></td>
 	<td><%= user.created_at.strftime("%d/%m/%Y, %H:%M") %></td>

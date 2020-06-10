@@ -80,7 +80,7 @@ class AccountsController < ApplicationController
 			admin_sets_user_settings
 		end
 		
-		redirect_to accounts_path
+		redirect_back(fallback_location: root_path)
 	end
 	
 	def admin_sets_account_settings
@@ -129,12 +129,19 @@ class AccountsController < ApplicationController
 		else
 			new_email_language = params[:emaillanguage]
 		end
-
+		
+		if @user.frame_id.nil?
+			new_frame_id = 1
+		else
+			new_frame_id = @user.frame_id
+		end
+		
 		@user.update(
 			status: new_status,
 			sitelanguage: new_site_language,
 			emails: new_emails,
 			emaillanguage: new_email_language,
+			frame_id: new_frame_id
 			)
 		
 	end
