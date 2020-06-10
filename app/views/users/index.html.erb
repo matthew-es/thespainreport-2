@@ -1,60 +1,79 @@
 <%= render "articles/admintop" %>
 
+<h3>Readers</h3>
 <table>
-  <tbody>
-    <tr style="font-weight: bold;">
-        <td>Email</td>
-        <td>Status</td>
-        <td>Site</td>
-        <td>Emails</td>
-        <td>Email language</td>
-        <td>Confirmed</td>
-      </tr>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= link_to user.email, edit_user_path(user) %></td>
-        <td>
-          <% case user.status when 1 %>
-            Editor
-          <% when 2 %>
-            Patron(a)
-          <% when 4 %>
-            Patron(p)
-          <% when 3 %>
-            Reader
-          <% else end %>
-        </td>
-        <td>
-          <% if user.sitelanguage == 1 %>
-            English
-          <% elsif user.sitelanguage == 2 %>
-            Spanish
-          <% else end %>
-        </td>
-        <td>
-          <% if user.emails == 1 %>
-            Everything
-          <% elsif user.emails == 2 %>
-            Articles
-          <% elsif user.emails == 3 %>
-            Announcements
-          <% elsif user.emails == 4 %>
-            No emails
-          <% else end %>
-        </td>
-        <td>
-          <% if user.emaillanguage == 1 %>
-            English
-          <% elsif user.emaillanguage == 2 %>
-            Spanish
-          <% elsif user.emaillanguage == 3 %>
-            Both
-          <% else end %>
-        </td>
-        <td><%= user.email_confirmed %> | <%= user.confirm_token %></td>
-        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
+	<tbody>
+		<%= render "user_row_header" %>
+		
+		<% if !@latest_readers.empty? %> 
+			<% @latest_readers.each do |user| %>
+				<%= render "user_row", user: user %>
+			<% end %>
+		<% else %>
+			<tr><td>There are no users like this.</td></tr>
+		<% end %>
+	</tbody>
 </table>
+
+<h3>Active Patrons</h3>
+<table>
+	<tbody>
+		<%= render "user_row_header" %>
+		
+		<% if !@latest_patrons_active.empty? %> 
+			<% @latest_patrons_active.each do |user| %>
+				<%= render "user_row", user: user %>
+			<% end %>
+		<% else %>
+			<tr><td>There are no users like this.</td></tr>
+		<% end %>
+	</tbody>
+</table>
+
+<h3>Paused Patrons</h3>
+<table>
+	<tbody>
+		<%= render "user_row_header" %>
+		
+		<% if !@latest_patrons_paused.empty? %> 
+			<% @latest_patrons_paused.each do |user| %>
+				<%= render "user_row", user: user %>
+			<% end %>
+		<% else %>
+			<tr><td>There are no users like this.</td></tr>
+		<% end %>
+	</tbody>
+</table>
+
+
+<h3>Cancelled Patrons</h3>
+<table>
+	<tbody>
+		<%= render "user_row_header" %>
+		
+		<% if !@latest_patrons_cancelled.empty? %> 
+			<% @latest_patrons_cancelled.each do |user| %>
+				<%= render "user_row", user: user %>
+			<% end %>
+		<% else %>
+			<tr><td>There are no users like this.</td></tr>
+		<% end %>
+	</tbody>
+</table>
+
+<h3>Authors</h3>
+<table>
+	<tbody>
+		<%= render "user_row_header" %>
+		
+		<% if !@latest_authors.empty? %> 
+			<% @latest_authors.each do |user| %>
+				<%= render "user_row", user: user %>
+			<% end %>
+		<% else %>
+			<tr><td>There are no users like this.</td></tr>
+		<% end %>
+	</tbody>
+</table>
+
 </div>

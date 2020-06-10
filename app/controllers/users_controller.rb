@@ -319,7 +319,11 @@ class UsersController < ApplicationController
 		if current_user.nil? 
 			redirect_to root_url
 		elsif current_user.status == 1
-			@users = User.all.order("email ASC")
+			@latest_readers = User.readers.limit(20).order("updated_at DESC")
+			@latest_patrons_active  = User.patrons_active.limit(5).order("updated_at DESC")
+			@latest_patrons_paused  = User.patrons_paused.limit(20).order("updated_at DESC")
+			@latest_patrons_cancelled  = User.patrons_cancelled.limit(20).order("updated_at DESC")
+			@latest_authors = User.authors.order("updated_at DESC")
 			
 			User.all.each do |u|
 				if [1, 2].include?u.status
@@ -354,22 +358,28 @@ class UsersController < ApplicationController
 		autopassword = 'L e @ 4' + SecureRandom.hex(32)
 		generate_token = SecureRandom.urlsafe_base64.to_s
 		
-		array2 = params[:email].split(/\n/)
+		array2 = params[:email].split(/\r\n/)
+		
 		array2.each do |e|
-		user = User.create!(
-			email: e,
-			confirm_token: generate_token,
-			password: autopassword,
-			password_confirmation: autopassword,
-			password_reset_token: generate_token,
-			password_reset_sent_at: Time.zone.now,
-			status: params[:role],
-			sitelanguage: params[:sitelanguage],
-			emails: params[:emails],
-			emaillanguage: params[:emaillanguage],
-			email_confirmed: 1
-			)
-		end 
+			user = User.find_by_email(e)
+			
+			if user.present?
+			
+			else
+				User.create!(email: e,
+					confirm_token: generate_token,
+					password: autopassword,
+					password_confirmation: autopassword,
+					password_reset_token: generate_token,
+					password_reset_sent_at: Time.zone.now,
+					status: params[:role],
+					sitelanguage: params[:sitelanguage],
+					emails: params[:emails],
+					emaillanguage: params[:emaillanguage],
+					email_confirmed: 1
+					)
+			end
+		end
 		
 		redirect_to users_path
 	end

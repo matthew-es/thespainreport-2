@@ -1,0 +1,46 @@
+<tr>
+	<td><%= link_to user.email, edit_user_path(user) %></td>
+	<td>
+		<% case user.status when 1 %>
+			Editor
+		<% when 2 %>
+			Patron(a)
+		<% when 4 %>
+			Patron(p)
+		<% when 3 %>
+			Reader
+		<% else end %>
+	</td>
+	
+	<td>
+		<% if user.emails == 1 %>
+			Everything
+		<% elsif user.emails == 2 %>
+			Articles
+		<% elsif user.emails == 3 %>
+			Announcements
+		<% elsif user.emails == 4 %>
+			No emails
+		<% else end %>
+	</td>
+	<td>
+		<% if user.emaillanguage == 1 %>
+			English
+		<% elsif user.emaillanguage == 2 %>
+			Spanish
+		<% elsif user.emaillanguage == 3 %>
+			Both
+		<% else end %>
+	</td>
+	<td>
+		<% if user.sitelanguage == 1 %>
+			English
+		<% elsif user.sitelanguage == 2 %>
+			Spanish
+		<% else end %>
+	</td>
+	<td><%= user.email_confirmed %> | <%= user.confirm_token %></td>
+	<td><%= user.updated_at.strftime("%d/%m/%Y, %H:%M") %></td>
+	<td><%= user.created_at.strftime("%d/%m/%Y, %H:%M") %></td>
+	<td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+</tr>

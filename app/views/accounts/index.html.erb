@@ -24,9 +24,11 @@
           <% if account.account_status == 1 %>
             Up-to-date
           <% elsif account.account_status == 2 %>
-            Payment declined
+            Declined
           <% elsif account.account_status == 3 %>
             Cancelled
+          <% elsif account.account_status == 4 %>
+            Free Reader
           <% else end %>
         </td>
         <td><%= account.account_status_date.strftime("%d/%m/%Y %H:%M") %></td>
