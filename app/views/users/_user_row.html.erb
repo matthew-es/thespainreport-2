@@ -11,6 +11,7 @@
 			Reader
 		<% else end %>
 	</td>
+	<td class="right"><%= user.level_amount %></td>
 	<td class="right"><%= link_to user.account.id, user.account unless user.account.nil? %></td>
 	<td class="right"><%= user.account.account_status unless user.account.nil? %></td>
 	<td class="right">
