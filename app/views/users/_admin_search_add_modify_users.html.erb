@@ -51,7 +51,10 @@
 		Site language: <%= f.select :sitelanguage, options_for_select([["English", "1"], ["Spanish", "2"]]), {include_blank: true} %>
 	</div>
 	<div class="margin-bottom-10">
-		User status: <%= f.select :user_status, options_for_select([["Patron - Account Owner", "2"], ["Patron - Account Reader", "4"], ["Reader", "3"]]), {include_blank: true} %> | <%= f.submit %>
+		User status: <%= f.select :user_status, options_for_select([["Patron - Account Owner", "2"], ["Patron - Account Reader", "4"], ["Reader", "3"]]), {include_blank: true} %>
+	</div>
+	<div class="margin-bottom-10">
+		Level Amount: <%= f.number_field :level_amount %> | <%= f.submit %>
 	</div>
 <% end %>
 

@@ -130,6 +130,12 @@ class AccountsController < ApplicationController
 			new_email_language = params[:emaillanguage]
 		end
 		
+		if params[:level_amount].blank?
+			new_level_amount = @user.level_amount
+		else
+			new_level_amount = params[:level_amount]
+		end
+		
 		if @user.frame_id.nil?
 			new_frame_id = 1
 		else
@@ -141,6 +147,7 @@ class AccountsController < ApplicationController
 			sitelanguage: new_site_language,
 			emails: new_emails,
 			emaillanguage: new_email_language,
+			level_amount: new_level_amount,
 			frame_id: new_frame_id
 			)
 		
