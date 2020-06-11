@@ -325,6 +325,13 @@ class UsersController < ApplicationController
 			@latest_patrons_cancelled  = User.patrons_cancelled.limit(20).order("updated_at DESC")
 			@latest_authors = User.authors.order("updated_at DESC")
 			
+			
+			if params[:search]
+				search_string = params[:search]
+				@search_results = User.all.where("email LIKE ?", "%#{search_string}%").order("created_at DESC")
+			end
+
+			
 #			User.all.each do |u|
 #				if [1, 2].include?u.status
 #					u.update(

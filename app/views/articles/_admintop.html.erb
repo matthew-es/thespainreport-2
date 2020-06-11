@@ -78,6 +78,18 @@
 			<% elsif controller_name == "statuses" %>
 				<%= link_to 'New status', new_status_path %>
 			<% elsif controller_name == "accounts" || "users" %>
+				<%= form_tag(users_path, :method => "get", id: "search-form") do %>
+					<div style="float:left;">
+						<%= text_field_tag :search, params[:search], :size => 50, placeholder: "Search users..." %>
+					</div>
+					<div style="float:left; margin-left: 10px;">
+						<%= submit_tag "Search" %>
+					</div>
+					<div class="clear"></div>
+				<% end %>
+				
+				<hr>				
+				
 				<%= form_with(url: 'editor_modifies_accounts', local: true) do |f| %>
 					<div class="margin-bottom-10">
 						<%= f.text_area :email, :class => "width-48 padding-10 font-main font-main-normal", :style => "min-height: 60px;", placeholder: "Add or modify users and accounts here…" %>
@@ -99,12 +111,10 @@
 						Site language: <%= f.select :sitelanguage, options_for_select([["English", "1"], ["Spanish", "2"]]), {include_blank: true} %>
 					</div>
 					<div class="margin-bottom-10">
-			    		User status: <%= f.select :user_status, options_for_select([["Patron - Account Owner", "2"], ["Patron - Account Reader", "4"], ["Reader", "3"]]), {include_blank: true} %>
+			    		User status: <%= f.select :user_status, options_for_select([["Patron - Account Owner", "2"], ["Patron - Account Reader", "4"], ["Reader", "3"]]), {include_blank: true} %> | <%= f.submit %>
 			  		</div>
 			  		<hr />
-			  		<div class="margin-bottom-10">
-				   	<%= f.submit %>
-				  	</div>
+
 				<% end %>
 			<% elsif controller_name == "plans" %>
 				<%= link_to 'New plan', new_plan_path %>

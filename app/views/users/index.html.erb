@@ -1,5 +1,23 @@
 <%= render "articles/admintop" %>
 
+
+
+  
+  
+  		<% if @search_results.present? %> 
+		  <h3>Search Results</h3>
+			<table>
+				<tbody>
+					<%= render "user_row_header" %>
+					
+					<% @search_results.each do |user| %>
+						<%= render "user_row", user: user %>
+					<% end %>
+				</tbody>
+			</table>
+		<% end %>
+
+
 <h3>Readers</h3>
 <table>
 	<tbody>
