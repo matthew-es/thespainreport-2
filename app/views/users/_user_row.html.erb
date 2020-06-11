@@ -1,6 +1,6 @@
-<tr>
+<tr class="<%= cycle("odd", "even") -%>">
 	<td><%= link_to user.email, edit_user_path(user) %></td>
-	<td>
+	<td class="right">
 		<% case user.status when 1 %>
 			Editor
 		<% when 2 %>
@@ -11,8 +11,8 @@
 			Reader
 		<% else end %>
 	</td>
-	<td><%= link_to user.account.id, user.account unless user.account.nil? %></td>
-	<td>
+	<td class="right"><%= link_to user.account.id, user.account unless user.account.nil? %></td>
+	<td class="right">
 		<% if user.emails == 1 %>
 			Everything
 		<% elsif user.emails == 2 %>
@@ -23,7 +23,7 @@
 			No emails
 		<% else end %>
 	</td>
-	<td>
+	<td class="right">
 		<% if user.emaillanguage == 1 %>
 			English
 		<% elsif user.emaillanguage == 2 %>
@@ -32,16 +32,16 @@
 			Both
 		<% else end %>
 	</td>
-	<td>
+	<td class="right">
 		<% if user.sitelanguage == 1 %>
 			English
 		<% elsif user.sitelanguage == 2 %>
 			Spanish
 		<% else end %>
 	</td>
-	<td><%= user.frame_id %></td>
-	<td><%= user.email_confirmed %></td>
-	<td><%= user.updated_at.strftime("%d/%m/%Y, %H:%M") %></td>
-	<td><%= user.created_at.strftime("%d/%m/%Y, %H:%M") %></td>
-	<td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+	<td class="right"><%= user.frame_id %></td>
+	<td class="right"><%= user.email_confirmed %></td>
+	<td class="right"><%= user.updated_at.strftime("%d/%m/%Y, %H:%M") %></td>
+	<td class="right"><%= user.created_at.strftime("%d/%m/%Y, %H:%M") %></td>
+	<td class="right"><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
 </tr>

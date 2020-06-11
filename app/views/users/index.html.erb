@@ -1,25 +1,7 @@
 <%= render "articles/admintop" %>
 
-
-
-  
-  
-  		<% if @search_results.present? %> 
-		  <h3>Search Results</h3>
-			<table>
-				<tbody>
-					<%= render "user_row_header" %>
-					
-					<% @search_results.each do |user| %>
-						<%= render "user_row", user: user %>
-					<% end %>
-				</tbody>
-			</table>
-		<% end %>
-
-
 <h3>Readers</h3>
-<table>
+<table class="admin-table">
 	<tbody>
 		<%= render "user_row_header" %>
 		
@@ -34,7 +16,7 @@
 </table>
 
 <h3>Active Patrons</h3>
-<table>
+<table class="admin-table">
 	<tbody>
 		<%= render "user_row_header" %>
 		
@@ -49,7 +31,7 @@
 </table>
 
 <h3>Paused Patrons</h3>
-<table>
+<table class="admin-table">
 	<tbody>
 		<%= render "user_row_header" %>
 		
@@ -65,7 +47,7 @@
 
 
 <h3>Cancelled Patrons</h3>
-<table>
+<table class="admin-table">
 	<tbody>
 		<%= render "user_row_header" %>
 		
@@ -80,7 +62,7 @@
 </table>
 
 <h3>Authors</h3>
-<table>
+<table class="admin-table">
 	<tbody>
 		<%= render "user_row_header" %>
 		

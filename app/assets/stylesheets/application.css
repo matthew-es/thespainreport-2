@@ -126,6 +126,20 @@ a.no-hover-bg:hover {background-color: #fff;}
 .video-wrapper {position: relative; margin-top: 10px; margin-bottom: 10px; padding-bottom: 56.25%; /* 16:9 */ padding-top: 25px; height: 0;}
 .video-wrapper iframe {position: absolute; top: 0; left: 0; width: 99%; height: 100%;}
 
+
+/* Admin tables */
+table {border-collapse: collapse;}
+th {font-weight:bold;}
+.right {text-align:right;}
+tr.odd {background-color: #fff;}
+tr.even {background-color: #ffe680;}
+tr.odd > td, tr.even > td {padding-top: 3px; padding-bottom: 3px;}
+td {font-family: Arial; font-size: 14px; vertical-align: top;}
+
+.admin-table {margin-top: 10px;}
+.admin-table th {padding: 0px 12px 0px 0px;}
+.admin-table td {padding: 5px 12px 0px 0px;}
+
 /* Mobile placeholders */
 .mobile-100 {}
 .mobile-margins {}
