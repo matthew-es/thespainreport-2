@@ -4,14 +4,15 @@
 		<% case user.status when 1 %>
 			Editor
 		<% when 2 %>
-			Patron(a)
+			Patron(o)
 		<% when 4 %>
-			Patron(p)
+			Patron(m)
 		<% when 3 %>
 			Reader
 		<% else end %>
 	</td>
 	<td class="right"><%= link_to user.account.id, user.account unless user.account.nil? %></td>
+	<td class="right"><%= user.account.account_status unless user.account.nil? %></td>
 	<td class="right">
 		<% if user.emails == 1 %>
 			Everything
@@ -42,6 +43,6 @@
 	<td class="right"><%= user.frame_id %></td>
 	<td class="right"><%= user.email_confirmed %></td>
 	<td class="right"><%= user.updated_at.strftime("%d/%m/%Y, %H:%M") %></td>
-	<td class="right"><%= user.created_at.strftime("%d/%m/%Y, %H:%M") %></td>
+	<td class="right"><%= user.created_at.strftime("%d/%m/%Y") %></td>
 	<td class="right"><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
 </tr>
