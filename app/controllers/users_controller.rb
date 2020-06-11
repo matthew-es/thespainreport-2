@@ -320,7 +320,7 @@ class UsersController < ApplicationController
 			redirect_to root_url
 		elsif current_user.status == 1
 			@latest_readers = User.readers.limit(20).order("updated_at DESC")
-			@latest_patrons_active  = User.patrons_active.limit(5).order("updated_at DESC")
+			@latest_patrons_active  = User.patrons_active.limit(20).order("updated_at DESC")
 			@latest_patrons_paused  = User.patrons_paused.limit(20).order("updated_at DESC")
 			@latest_patrons_cancelled  = User.patrons_cancelled.limit(20).order("updated_at DESC")
 			@latest_authors = User.authors.order("updated_at DESC")
