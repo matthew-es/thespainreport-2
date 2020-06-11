@@ -1,5 +1,5 @@
 <tr class="<%= cycle("odd", "even") -%>">
-	<td><%= link_to user.email, edit_user_path(user) %></td>
+	<td><%= link_to truncate(user.email), edit_user_path(user) %></td>
 	<td class="right">
 		<% case user.status when 1 %>
 			Editor
