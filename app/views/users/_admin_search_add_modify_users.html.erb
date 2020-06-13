@@ -33,7 +33,7 @@
 		<%= f.text_area :email, :class => "width-48 padding-10 font-main font-main-normal", :style => "min-height: 60px;", placeholder: "Add or modify users and accounts here…" %>
 	</div>
 	<div class="margin-bottom-10">
-		Account Status: <%= f.select :account_status, options_for_select([["Starter Account", "4"], ["Patron - up-to-date", "1"], ["Patron - declined", "2"], ["Patron - cancelled", "3"]]), {include_blank: true} %>
+		Account Status: <%= f.select :account_status, options_for_select([["Free Starter", "4"], ["Up-to-date", "1"], ["Declined", "2"], ["Cancelled", "3"]]), {include_blank: true} %>
 	</div>
 	<div class="margin-bottom-10">
 		Conversation status: <%= f.select :conversation_status, options_for_select([["Everybody happy", "1"], ["Decline message sent", "2"], ["Cancel follow-up sent", "3"], ["In conversation", "3"], ["Stop - not interested", "5"]]), {include_blank: true} %>
