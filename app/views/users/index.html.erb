@@ -1,5 +1,50 @@
 <%= render "articles/admintop" %>
 
+<h3>Authors</h3>
+<table class="admin-table">
+	<tbody>
+		<%= render "user_row_header" %>
+		
+		<% if !@latest_authors.empty? %> 
+			<% @latest_authors.each do |user| %>
+				<%= render "user_row", user: user %>
+			<% end %>
+		<% else %>
+			<tr><td>There are no users like this.</td></tr>
+		<% end %>
+	</tbody>
+</table>
+
+<h3>Super Patrons</h3>
+<table class="admin-table">
+	<tbody>
+		<%= render "user_row_header" %>
+		
+		<% if !@latest_super_patrons.empty? %> 
+			<% @latest_super_patrons.each do |user| %>
+				<%= render "user_row", user: user %>
+			<% end %>
+		<% else %>
+			<tr><td>There are no users like this.</td></tr>
+		<% end %>
+	</tbody>
+</table>
+
+<h3>Active Patrons</h3>
+<table class="admin-table">
+	<tbody>
+		<%= render "user_row_header" %>
+		
+		<% if !@latest_patrons.empty? %> 
+			<% @latest_patrons.each do |user| %>
+				<%= render "user_row", user: user %>
+			<% end %>
+		<% else %>
+			<tr><td>There are no users like this.</td></tr>
+		<% end %>
+	</tbody>
+</table>
+
 <h3>Readers</h3>
 <table class="admin-table">
 	<tbody>
@@ -15,65 +60,6 @@
 	</tbody>
 </table>
 
-<h3>Active Patrons</h3>
-<table class="admin-table">
-	<tbody>
-		<%= render "user_row_header" %>
-		
-		<% if !@latest_patrons_active.empty? %> 
-			<% @latest_patrons_active.each do |user| %>
-				<%= render "user_row", user: user %>
-			<% end %>
-		<% else %>
-			<tr><td>There are no users like this.</td></tr>
-		<% end %>
-	</tbody>
-</table>
 
-<h3>Paused Patrons</h3>
-<table class="admin-table">
-	<tbody>
-		<%= render "user_row_header" %>
-		
-		<% if !@latest_patrons_paused.empty? %> 
-			<% @latest_patrons_paused.each do |user| %>
-				<%= render "user_row", user: user %>
-			<% end %>
-		<% else %>
-			<tr><td>There are no users like this.</td></tr>
-		<% end %>
-	</tbody>
-</table>
-
-
-<h3>Cancelled Patrons</h3>
-<table class="admin-table">
-	<tbody>
-		<%= render "user_row_header" %>
-		
-		<% if !@latest_patrons_cancelled.empty? %> 
-			<% @latest_patrons_cancelled.each do |user| %>
-				<%= render "user_row", user: user %>
-			<% end %>
-		<% else %>
-			<tr><td>There are no users like this.</td></tr>
-		<% end %>
-	</tbody>
-</table>
-
-<h3>Authors</h3>
-<table class="admin-table">
-	<tbody>
-		<%= render "user_row_header" %>
-		
-		<% if !@latest_authors.empty? %> 
-			<% @latest_authors.each do |user| %>
-				<%= render "user_row", user: user %>
-			<% end %>
-		<% else %>
-			<tr><td>There are no users like this.</td></tr>
-		<% end %>
-	</tbody>
-</table>
 
 </div>

@@ -12,6 +12,9 @@ class User < ApplicationRecord
 	validates :password_confirmation, :presence => true, :on => :update, allow_blank: true
 	validate :password_complexity
 	
+	# enum status: { reader: 0, patron: 1, paused: 2, former: 3  }
+	# enum accountrole: { owner: 0, member: 1 }
+	
 	scope :emails_all, -> {where(emails: 1)}
 	scope :emails_full, -> {where(emails: [1, 2])}
 	scope :emails_notes, -> {where(emails: [1, 2, 3])}
@@ -22,9 +25,8 @@ class User < ApplicationRecord
    scope :spanish, -> {where(sitelanguage: 2)}
    
    scope :authors, -> {where(status: 1)}
-   scope :patrons_active, -> {where(status: 2)}
-   scope :patrons_paused, -> {where(status: 4)}
-   scope :patrons_cancelled, -> {where(status: 5)}
+   scope :super_patrons, -> {where(status: 4)}
+   scope :patrons, -> {where(status: 2)}
    scope :readers, -> {where(status: 3)}
    scope :account_owner, -> {where(account_role: 1)}
    scope :account_member, -> {where(account_role: 2)}

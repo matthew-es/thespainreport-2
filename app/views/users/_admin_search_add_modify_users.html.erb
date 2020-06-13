@@ -33,7 +33,7 @@
 		<%= f.text_area :email, :class => "width-48 padding-10 font-main font-main-normal", :style => "min-height: 60px;", placeholder: "Add or modify users and accounts here…" %>
 	</div>
 	<div class="margin-bottom-10">
-		Account Status: <%= f.select :account_status, options_for_select([["Free Reader", "4"], ["Patron - up-to-date", "1"], ["Patron - payment declined", "2"], ["Patron - cancelled", "3"]]), {include_blank: true} %>
+		Account Status: <%= f.select :account_status, options_for_select([["Starter Account", "4"], ["Patron - up-to-date", "1"], ["Patron - declined", "2"], ["Patron - cancelled", "3"]]), {include_blank: true} %>
 	</div>
 	<div class="margin-bottom-10">
 		Conversation status: <%= f.select :conversation_status, options_for_select([["Everybody happy", "1"], ["Decline message sent", "2"], ["Cancel follow-up sent", "3"], ["In conversation", "3"], ["Stop - not interested", "5"]]), {include_blank: true} %>
@@ -51,7 +51,10 @@
 		Site language: <%= f.select :sitelanguage, options_for_select([["English", "1"], ["Spanish", "2"]]), {include_blank: true} %>
 	</div>
 	<div class="margin-bottom-10">
-		User status: <%= f.select :user_status, options_for_select([["Patron - Account Owner", "2"], ["Patron - Account Reader", "4"], ["Reader", "3"]]), {include_blank: true} %>
+		User status: <%= f.select :user_status, options_for_select([["Reader", "3"], ["Patron", "2"], ["Super Patron", "4"]]), {include_blank: true} %>
+	</div>
+	<div class="margin-bottom-10">
+		User account role: <%= f.select :user_account_role, options_for_select([["Account Owner", "1"], ["Account Member", "2"]]), {include_blank: true} %>
 	</div>
 	<div class="margin-bottom-10">
 		Level Amount: <%= f.number_field :level_amount %> | <%= f.submit %>

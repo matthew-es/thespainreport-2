@@ -4,16 +4,33 @@
 		<% case user.status when 1 %>
 			Editor
 		<% when 2 %>
-			Patron(o)
+			Patron
 		<% when 4 %>
-			Patron(m)
+			Super Patron
 		<% when 3 %>
 			Reader
 		<% else end %>
 	</td>
 	<td class="right"><%= user.level_amount %></td>
 	<td class="right"><%= link_to user.account.id, user.account unless user.account.nil? %></td>
-	<td class="right"><%= user.account.account_status unless user.account.nil? %></td>
+	<td class="right">
+		<% unless user.account_role.nil?; case user.account_role when 1 %>
+			Owner
+		<% when 2 %>
+			Member
+		<% else end end %>
+	</td>
+	<td class="right">
+		<% unless user.account.nil?; case user.account.account_status when 1 %>
+			Up-to-date
+		<% when 2 %>
+			Declined
+		<% when 3 %>
+			Cancelled
+		<% when 4 %>
+			Starter
+		<% else end end %>
+	</td>
 	<td class="right">
 		<% if user.emails == 1 %>
 			Everything
