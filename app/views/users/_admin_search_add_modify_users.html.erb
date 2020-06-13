@@ -42,10 +42,10 @@
 	<hr />
 
 	<div class="margin-bottom-10">
-		User status: <%= f.select :user_status, options_for_select([["Reader", "3"], ["Patron", "2"], ["Super Patron", "4"]]), {include_blank: true} %>
+		User account role: <%= f.select :user_account_role, options_for_select([["Account Owner", "1"], ["Account Member", "2"]]), {include_blank: true} %>
 	</div>
 	<div class="margin-bottom-10">
-		User account role: <%= f.select :user_account_role, options_for_select([["Account Owner", "1"], ["Account Member", "2"]]), {include_blank: true} %>
+		User status: <%= f.select :user_status, options_for_select([["Reader", "3"], ["Patron", "2"], ["Super Patron", "4"]]), {include_blank: true} %>
 	</div>
 	<div class="margin-bottom-10">
 		Level Amount: <%= f.number_field :level_amount %>
