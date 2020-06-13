@@ -7,7 +7,11 @@ class AccountsController < ApplicationController
 		if current_user.nil? 
 			redirect_to root_url
 		elsif current_user.status == 1
-			@accounts = Account.all.order('account_status_date DESC')
+			@uptodate_accounts = Account.uptodate.limit(20).order('updated_at DESC')
+			@declined_accounts = Account.declined.limit(20).order('updated_at DESC')
+			@cancelled_accounts = Account.cancelled.limit(20).order('updated_at DESC')
+			@free_acccounts = Account.free.limit(20).order('updated_at DESC')
+			
 		else
 			redirect_to root_url
 		end

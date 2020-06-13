@@ -1,60 +1,67 @@
 <%= render "articles/admintop" %>
 
-<table>
-  <thead>
-    <tr>
-      <th align="left">Account</th>
-      <th align="left">Owner</th>
-      <th align="left">Status</th>
-      <th align="left">Status Date</th>
-      <th></th>
-    </tr>
-  </thead>
 
-  <tbody>
-    <% @accounts.each do |account| %>
-      <tr>
-        <td><%= link_to account.id, edit_account_path(account) %></td>
-        <td>
-          <% account.users.account_owner.each do |u| %>
-            <%= link_to u.email, edit_user_path(u) %>
-          <% end %>
-        </td>
-        <td>
-          <% if account.account_status == 1 %>
-            Up-to-date
-          <% elsif account.account_status == 2 %>
-            Declined
-          <% elsif account.account_status == 3 %>
-            Cancelled
-          <% elsif account.account_status == 4 %>
-            Free Reader
-          <% else end %>
-        </td>
-        <td><%= account.account_status_date.strftime("%d/%m/%Y %H:%M") %></td>
-        <td>
-          <% if account.conversation_status == 1 %>
-            Everybody happy
-          <% elsif account.conversation_status == 2 %>
-            Decline email sent
-          <% elsif account.conversation_status == 3 %>
-            Cancel email sent
-          <% elsif account.conversation_status == 4 %>
-            In conversation
-          <% elsif account.conversation_status == 5 %>
-            Stop - not interested
-          <% else end %>
-        </td>
-        <td>
-          <%= account.stripe_customer_id %>
-        </td>
-        <td>
-          <%= account.stripe_payment_method %>
-        </td>
-        <td><%= link_to 'D?', account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
+<h3>Up-to-date Accounts</h3>
+<table class="admin-table">
+	<tbody>
+		<%= render "account_row_header" %>
+		
+		<% if !@uptodate_accounts.blank? %> 
+			<% @uptodate_accounts.each do |account| %>
+				<%= render "account_row", account: account %>
+			<% end %>
+		<% else %>
+			<tr><td>There are no users like this.</td></tr>
+		<% end %>
+	</tbody>
+</table>
+
+
+<h3>Declined Accounts</h3>
+<table class="admin-table">
+	<tbody>
+		<%= render "account_row_header" %>
+		
+		<% if !@declined_accounts.blank? %> 
+			<% @declined_accounts.each do |account| %>
+				<%= render "account_row", account: account %>
+			<% end %>
+		<% else %>
+			<tr><td>There are no users like this.</td></tr>
+		<% end %>
+	</tbody>
+</table>
+
+
+<h3>Cancelled Accounts</h3>
+<table class="admin-table">
+	<tbody>
+		<%= render "account_row_header" %>
+		
+		<% if !@cancelled_accounts.blank? %> 
+			<% @cancelled_accounts.each do |account| %>
+				<%= render "account_row", account: account %>
+			<% end %>
+		<% else %>
+			<tr><td>There are no users like this.</td></tr>
+		<% end %>
+	</tbody>
+</table>
+
+
+<h3>Free Starter Accounts</h3>
+<table class="admin-table">
+	<tbody>
+		<%= render "account_row_header" %>
+		
+		<% if !@free_accounts.blank? %> 
+			<% @free_accounts.each do |account| %>
+				<%= render "account_row", account: account %>
+			<% end %>
+		<% else %>
+			<tr><td>There are no users like this.</td></tr>
+		<% end %>
+	</tbody>
 </table>
 
 </div>
