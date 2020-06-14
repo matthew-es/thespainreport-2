@@ -37,16 +37,20 @@
 <% else %>
 <% end %>
 
+
+
+
 <% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
-	<% case @can_read when true %>
+	<% if @status != 3 && @can_read == true %>
 		<%= markdown(@article.body).html_safe %>
 	<% else %>
 		<%= markdown(truncate(@article.body, length: 500)) %>
 		<ul>
-			<li>
-				<% case @status when 3 %><%= @frame.access_patrons_only %>. <%= link_to @frame.cta_reader_to_patron, @subscribe %>
-				<% when 4 %><%= @frame.access_patrons_only %>. <%= link_to @frame.cta_patron_paused, @restart %>
-				<% when 5 %><%= @frame.access_patrons_only %>. <%= link_to @frame.cta_patron_cancelled, @restart %>
+			<li>...
+				<% case @status when 3 %>
+					<%= @frame.access_patrons_only %>: <%= link_to @frame.cta_reader_to_patron_link, @subscribe %>
+				<% when 2, 4 %>
+					<%= @frame.access_patrons_only %>: <%= link_to @frame.cta_patron_paused_link, @restart %>
 				<% end %>
 			</li>
 		</ul>
@@ -149,15 +153,15 @@
 <% end %>
 
 <p>
-******************************************
+
 <br />
 <%= render "users/user_messages" %>
 <br />
-******************************************
+********************************************************************************************
 </p>
 
 <% if @language == 1 %>
-	<strong>Listen to Bennett in Spain podcast here:</strong>
+	Listen to the podcast, Bennett in Spain, here:
 	<a href="https://podcasts.apple.com/podcast/id1495596532" title="Bennett in Spain on Apple Podcasts">Apple Podcasts</a>, 
 	<a href="https://open.spotify.com/show/4A8CdKc4bYPYsapzyxdvWo" title="Bennett in Spain on Spotify">Spotify</a>, 
 	<a href="https://www.ivoox.com/podcast-bennett-in-spain_sq_f1842992_1.html" title="Bennett in Spain on iVoox">iVoox</a>,
@@ -167,7 +171,7 @@
 	<a href="https://www.youtube.com/playlist?list=PL3DymtXaX19QyOs-R0bu1eiX6j4c8L-Ey" title="Bennett in Spain on YouTube">YouTube</a>,
 	<a href="https://www.facebook.com/BennettInSpain/playlist/606829756765780" title="Bennett in Spain on Facebook">Facebook</a>
 <% elsif @language == 2 %>
-	<strong>Escuche el podcast Bennett en España aquí:</strong>
+	Escuche el podcast, Bennett en España, aquí:
 	<a href="https://podcasts.apple.com/podcast/id1495596384" title="Bennett en España en Apple Podcasts">Apple Podcasts</a>, 
 	<a href="https://open.spotify.com/show/7euXMABMb6onzw50VxKK0W" title="Bennett en España en Spotify">Spotify</a>, 
 	<a href="https://www.ivoox.com/podcast-bennett-espana_sq_f1842998_1.html" title="Bennett en España en iVoox">iVoox</a>,
@@ -188,7 +192,7 @@
 	</ul>
 	<p><strong>Set your email amount:</strong></p>
 	<ul>
-		<li><%= link_to "All articles & latest news", update_email_amount_user_url(@user.confirm_token, emails: 1) %></li>
+		<li><%= link_to "All articles & updates", update_email_amount_user_url(@user.confirm_token, emails: 1) %></li>
 		<li><%= link_to "Only full articles", update_email_amount_user_url(@user.confirm_token, emails: 2) %></li>
 		<li><%= link_to "Only important announcements", update_email_amount_user_url(@user.confirm_token, emails: 3) %></li>
 		<li><%= link_to "Stop all emails", update_email_amount_user_url(@user.confirm_token, emails: 4) %></li>
@@ -197,7 +201,7 @@
 	<ul>
 		<li><%= link_to "I want emails in English", update_email_language_user_url(@user.confirm_token, emaillanguage: 1) %></li>
 		<li><%= link_to "I want emails in Spanish", update_email_language_user_url(@user.confirm_token, emaillanguage: 2) %></li>
-		<li><%= link_to "I want emails in both English & Spanish", update_email_language_user_url(@user.confirm_token, emaillanguage: 3) %></li>
+		<li><%= link_to "I want emails in both languages", update_email_language_user_url(@user.confirm_token, emaillanguage: 3) %></li>
 	</ul>
 <% elsif @language == 2 %>
 	<ul>
@@ -208,7 +212,7 @@
 	</ul>
 	<p><strong>Elija la cantidad de correo que quiere:</strong></p>
 	<ul>
-		<li><%= link_to "Todo: artículos y la última hora", update_email_amount_user_url(@user.confirm_token, emails: 1) %></li>
+		<li><%= link_to "Todo: artículos y actualizaciones", update_email_amount_user_url(@user.confirm_token, emails: 1) %></li>
 		<li><%= link_to "Sólo artículos completos", update_email_amount_user_url(@user.confirm_token, emails: 2) %></li>
 		<li><%= link_to "Sólo anuncios importantes", update_email_amount_user_url(@user.confirm_token, emails: 3) %></li>
 		<li><%= link_to "No quiero ningún correo", update_email_amount_user_url(@user.confirm_token, emails: 4) %></li>
@@ -217,7 +221,7 @@
 	<ul>
 		<li><%= link_to "Quiero los artículos en inglés", update_email_language_user_url(@user.confirm_token, emaillanguage: 1) %></li>
 		<li><%= link_to "Quiero los artículos en español", update_email_language_user_url(@user.confirm_token, emaillanguage: 2) %></li>
-		<li><%= link_to "Quiero los artículos en inglés y en español", update_email_language_user_url(@user.confirm_token, emaillanguage: 3) %></li>
+		<li><%= link_to "Quiero los artículos en ambos idiomas", update_email_language_user_url(@user.confirm_token, emaillanguage: 3) %></li>
 	</ul>
 <% else %>
 <% end %>

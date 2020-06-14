@@ -206,10 +206,13 @@
 
 	<div class="margin-top-20">
 	
+	
+	
+	
 	<% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
 		<% if current_user.nil? %>
 			<%= markdown(truncate(@article.body, length: 550)) %>
-		<% elsif @can_read == true %>
+		<% elsif @status != 3 && @can_read == true %>
 			<%= markdown(@article.body).html_safe %>
 		<% else %>
 			<%= markdown(truncate(@article.body, length: 550)) %>
@@ -217,6 +220,7 @@
 	<% else %>
 		<%= markdown(@article.body).html_safe %>
 	<% end %>
+	
 	
 	
 	

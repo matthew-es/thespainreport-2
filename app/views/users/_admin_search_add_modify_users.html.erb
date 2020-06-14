@@ -50,6 +50,9 @@
 	<div class="margin-bottom-10">
 		Level Amount: <%= f.number_field :level_amount %>
 	</div>
+	<div class="margin-bottom-10">
+		Can read? <%= f.select :can_read, options_for_select([["Yes", true], ["No", false]]), {include_blank: true} %>
+	</div>
 	
 	<hr />
 	

@@ -140,6 +140,12 @@ class AccountsController < ApplicationController
 			new_level_amount = params[:level_amount]
 		end
 		
+		if params[:can_read].blank?
+			new_can_read = @user.can_read
+		else
+			new_can_read = params[:can_read]
+		end
+		
 		if @user.frame_id.nil?
 			new_frame_id = 1
 		else
@@ -152,7 +158,8 @@ class AccountsController < ApplicationController
 			emails: new_emails,
 			emaillanguage: new_email_language,
 			level_amount: new_level_amount,
-			frame_id: new_frame_id
+			frame_id: new_frame_id,
+			can_read: new_can_read
 			)
 		
 	end
