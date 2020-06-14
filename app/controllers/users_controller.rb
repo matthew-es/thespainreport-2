@@ -275,31 +275,31 @@ class UsersController < ApplicationController
 	def update_email_amount
 		u = User.find_by_confirm_token(params[:id])
 		if u
-   		u.update(emails: params[:emails])
-   		if [1, 3].include?u.emaillanguage
-	   		flash[:success] = "Well done! You have successfully updated the amount of email you want."
-	   	elsif u.emaillanguage == 2
-	   		flash[:success] = "¡Olé! Ha actualizado correctamente la cantidad de correos que quiere."
-	   	end
-   		redirect_to '/users/updated'
+   			u.update(emails: params[:emails])
+	   		if [1, 3].include?u.emaillanguage
+		   		flash[:success] = "Well done! You have successfully updated the amount of email you want."
+		   	elsif u.emaillanguage == 2
+		   		flash[:success] = "¡Olé! Ha actualizado correctamente la cantidad de correos que quiere."
+		   	end
+   		redirect_to '/users/thanks'
 		else
    		redirect_to root_url
 		end
 	end
 	
 	def update_email_language
-   	u = User.find_by_confirm_token(params[:id])
-	   if u
-	   	u.update(emaillanguage: params[:emaillanguage])
-	   	if [1, 3].include?u.emaillanguage
-	   		flash[:success] = "Well done! You have successfully updated the language you want the emails in."
-	   	elsif u.emaillanguage == 2
-	   		flash[:success] = "¡Olé! Ha actualizado correctamente el idioma en el que desea recibir los correos."
-	   	end
-	   	redirect_to '/users/updated'
-	   else
-	   	redirect_to root_url
-	   end
+		u = User.find_by_confirm_token(params[:id])
+		if u
+			u.update(emaillanguage: params[:emaillanguage])
+				if [1, 3].include?u.emaillanguage
+				   flash[:success] = "Well done! You have successfully updated the language you want the emails in."
+				elsif u.emaillanguage == 2
+				   flash[:success] = "¡Olé! Ha actualizado correctamente el idioma en el que desea recibir los correos."
+				end
+			redirect_to '/users/thanks'
+		else
+			redirect_to root_url
+		end
 	end
 	
 	def reset_tokens
@@ -468,6 +468,6 @@ class UsersController < ApplicationController
 
 		# Never trust parameters from the scary internet, only allow the white list through.
 		def user_params
-			params.require(:user).permit(:account_id, :frame_id, :account_role, :country, :email, :email_confirmed, :emails, :emaillanguage, :level_amount, :mailing_address, :password, :password_confirmation, :password_digest, :password_reset_token, :password_reset_sent_at, :status, :sitelanguage, :confirm_token)
+			params.require(:user).permit(:account_id, :frame_id, :account_role, :country, :email, :email_confirmed, :emails, :emaillanguage, :level_amount, :mailing_address, :password, :password_confirmation, :password_digest, :password_reset_token, :password_reset_sent_at, :status, :sitelanguage, :confirm_token, :can_read)
 		end
 end

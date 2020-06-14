@@ -24,8 +24,9 @@ class ArticleMailer < ApplicationMailer
 		@restart = root_url + @restart_value + @frame.link_slug
 		
 		@user = user
-		@level = @user.level_amount
 		@status = @user.status
+		@level = @user.level_amount
+		@can_read = @user.can_read
 			
 		headers 'X-SES-CONFIGURATION-SET' => "Emails"
 		mail(:to => "<#{@user.email}>", :subject => email_subject)
@@ -33,11 +34,11 @@ class ArticleMailer < ApplicationMailer
 	
 	def email_subject
 		case @article.type.name
-			when "Patrons only", "Sólo mecenas" then @emoji = "🔓 "
-			when "Podcast" then @emoji = "🔊 "
-			when "Notes", "Apuntes" then @emoji = "📝 "
-			when "Truth & Journalism", "Verdad y Periodismo" then @emoji = "🔎 "
-			else @emoji = "🇪🇸 "
+			when "Patrons only", "Sólo mecenas" then @emoji = "🔓"
+			when "Podcast" then @emoji = "🎧"
+			when "Notes", "Apuntes" then @emoji = "📝"
+			when "Truth & Journalism", "Verdad y Periodismo" then @emoji = "🔎"
+			else @emoji = "🟢"
 		end
 		
 		"#{@emoji} #{@article.type.name}: #{@article.headline}"

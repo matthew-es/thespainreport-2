@@ -209,16 +209,8 @@
 	<% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
 		<% if current_user.nil? %>
 			<%= markdown(truncate(@article.body, length: 550)) %>
-		<% elsif @status == 1 %>
+		<% elsif @can_read == true %>
 			<%= markdown(@article.body).html_safe %>
-		<% elsif @status == 2 %>
-			<%= markdown(@article.body).html_safe %>
-		<% elsif @status == 3 %>
-			<%= markdown(truncate(@article.body, length: 550)) %>
-		<% elsif @status == 4 %>
-			<%= markdown(truncate(@article.body, length: 550)) %>
-		<% elsif @status == 5 %>
-			<%= markdown(truncate(@article.body, length: 550)) %>
 		<% else %>
 			<%= markdown(truncate(@article.body, length: 550)) %>
 		<% end %>
@@ -229,7 +221,7 @@
 	
 	
 	<% if @article.type.name == "Podcast" && @article.language_id == 2 %>
-		<h3>Esucuche Bennett en España aquí:</h3>
+		<h3>Podcast: esucuche Bennett en España aquí:</h3>
 		<a href="https://podcasts.apple.com/podcast/id1495596384" title="Bennett en España en Apple Podcasts">Apple Podcasts</a>, 
 		<a href="https://open.spotify.com/show/7euXMABMb6onzw50VxKK0W" title="Bennett en España en Spotify">Spotify</a>, 
 		<a href="https://www.ivoox.com/podcast-bennett-espana_sq_f1842998_1.html" title="Bennett en España en iVoox">iVoox</a>,
@@ -239,7 +231,7 @@
 		<a href="https://www.youtube.com/playlist?list=PL3DymtXaX19TyCGLrkycaKaCAzha0HwAw" title="Bennett en España en YouTube">YouTube</a>,
 		<a href="https://www.facebook.com/BennettInSpain/playlist/206012307112155" title="Bennett en España en Facebook">Facebook</a>
 	<% elsif @article.type.name == "Podcast" && @article.language_id == 1 %>
-		<h3>Listen to Bennett in Spain here:</h3>
+		<h3>Podcast: listen to Bennett in Spain here:</h3>
 		<a href="https://podcasts.apple.com/podcast/id1495596532" title="Bennett in Spain on Apple Podcasts">Apple Podcasts</a>, 
 		<a href="https://open.spotify.com/show/4A8CdKc4bYPYsapzyxdvWo" title="Bennett in Spain on Spotify">Spotify</a>, 
 		<a href="https://www.ivoox.com/podcast-bennett-in-spain_sq_f1842992_1.html" title="Bennett in Spain on iVoox">iVoox</a>,

@@ -12,6 +12,13 @@
 		<% else end %>
 	</td>
 	<td class="right"><%= user.level_amount %></td>
+	<td class="right">
+		<% case user.can_read when true %>
+			🟢
+		<% when false %>
+			🔴
+		<% else end %>
+	</td>
 	<td class="right"><%= link_to user.account.id, user.account unless user.account.nil? %></td>
 	<td class="right">
 		<% unless user.account_role.nil?; case user.account_role when 1 %>
@@ -37,7 +44,7 @@
 		<% elsif user.emails == 2 %>
 			Articles
 		<% elsif user.emails == 3 %>
-			Announcements
+			Notes
 		<% elsif user.emails == 4 %>
 			No emails
 		<% else end %>
@@ -59,7 +66,13 @@
 		<% else end %>
 	</td>
 	<td class="right"><%= user.frame_id %></td>
-	<td class="right"><%= user.email_confirmed %></td>
+	<td class="right">
+		<% case user.email_confirmed when true %>
+			🟢
+		<% when false %>
+			🔴
+		<% else end %>	
+	</td>
 	<td class="right"><%= user.updated_at.strftime("%d/%m/%Y, %H:%M") %></td>
 	<td class="right"><%= user.created_at.strftime("%d/%m/%Y") %></td>
 	<td class="right"><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>

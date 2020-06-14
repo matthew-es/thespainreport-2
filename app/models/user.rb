@@ -18,6 +18,7 @@ class User < ApplicationRecord
 	scope :emails_all, -> {where(emails: 1)}
 	scope :emails_full, -> {where(emails: [1, 2])}
 	scope :emails_notes, -> {where(emails: [1, 2, 3])}
+	
 	scope :emails_english, -> {where(emaillanguage: [1, 3])}
    scope :emails_spanish, -> {where(emaillanguage: [2, 3])}
    

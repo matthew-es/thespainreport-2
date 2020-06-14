@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
 		else
 			@user = user
 			@status = @user.status
+			@can_read = @user.can_read
 			@level = @user.level_amount
 		end
 	end

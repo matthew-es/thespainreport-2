@@ -69,10 +69,11 @@
       <% if current_user.nil? %>
       
       <% elsif current_user.status == 1 %>
-        Frame: <%= form.number_field :frame_id %> 
+        Status: <%= form.select :status, options_for_select([["Author", "1"], ["Reader", "3"], ["Patron", "2"], ["Super Patron", "4"]], :selected => @user.status) %> 
         | Level amount: <%= form.number_field :level_amount %> 
-        | Status: <%= form.select :status, options_for_select([["Author", "1"], ["Patron-active", "2"], ["Patron-paused", "4"], ["Patron-cancelled", "5"], ["Reader", "3"]], :selected => @user.status) %> 
-        | Email confirmed? <%= form.check_box :email_confirmed %>
+        | Can read? <%= form.check_box :can_read %>
+        | Frame: <%= form.number_field :frame_id %> 
+        | Email conf? <%= form.check_box :email_confirmed %>
       <% else %>
         <% case @language when 1 %>
           You are

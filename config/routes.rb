@@ -72,7 +72,7 @@
 	post 'stripe_first_payment' => 'payments#stripe_first_payment'
 	
 	get 'users/reset_tokens' => 'users#reset_tokens'
-	get 'users/updated' => 'users#updated'
+	get 'users/thanks' => 'users#thanks'
 	get 'thanks' => 'users#thanks'
 	get 'gracias' => 'users#gracias'
 	
