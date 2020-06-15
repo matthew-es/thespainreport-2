@@ -27,6 +27,7 @@ class ArticleMailer < ApplicationMailer
 		@status = @user.status
 		@level = @user.level_amount
 		@can_read = @user.can_read
+		@account_status = @user.account.account_status
 			
 		headers 'X-SES-CONFIGURATION-SET' => "Emails"
 		mail(:to => "<#{@user.email}>", :subject => email_subject)

@@ -15,6 +15,7 @@ class ApplicationController < ActionController::Base
 			@status = @user.status
 			@can_read = @user.can_read
 			@level = @user.level_amount
+			@account_status = @user.account.account_status
 		end
 	end
 	

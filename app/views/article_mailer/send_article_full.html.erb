@@ -46,12 +46,8 @@
 	<% else %>
 		<%= markdown(truncate(@article.body, length: 500)) %>
 		<ul>
-			<li>...
-				<% case @status when 3 %>
-					<%= @frame.access_patrons_only %>: <%= link_to @frame.cta_reader_to_patron_link, @subscribe %>
-				<% when 2, 4 %>
-					<%= @frame.access_patrons_only %>: <%= link_to @frame.cta_patron_paused_link, @restart %>
-				<% end %>
+			<li>
+				...<%= @frame.access_patrons_only %> <%= link_to @frame.cta_reader_to_patron_link, @subscribe %>
 			</li>
 		</ul>
 	<% end %>

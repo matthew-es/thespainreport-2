@@ -99,33 +99,35 @@
   <h3>CALLS TO ACTION</h3>
   
   <div class="margin-bottom-10">
-    <%= f.text_field :cta_reader_to_patron, :class => "width-50 padding-5", placeholder: "Reader to patron message…" %>:
+    <%= f.text_area :cta_reader_to_patron, :class => "width-50 padding-5", placeholder: "Reader to patron message…" %>:
     <%= f.text_field :cta_reader_to_patron_link, :class => "width-20 padding-5", placeholder: "Reader to patron link text…" %> (Reader, become a patron…)
   </div>
   
   <div class="margin-bottom-10">
-    <%= f.text_field :cta_patron_active_bottom, :class => "width-50 padding-5", placeholder: "Thank you patron BOTTOM message…" %>:
-    <%= f.text_field :cta_patron_active_bottom_link, :class => "width-20 padding-5", placeholder: "Thank you patron BOTTOM link text…" %> (Basic patron, increase…)
+    <%= f.text_area :cta_patron_active_bottom, :class => "width-50 padding-5", placeholder: "Thank you patron up-to-date message…" %>:
+    <%= f.text_field :cta_patron_active_bottom_link, :class => "width-20 padding-5", placeholder: "Thank you patron up-to-date link text…" %> (Patron up-to-date…)
   </div>
   
   <div class="margin-bottom-10">
-    <%= f.text_field :cta_patron_active_middle, :class => "width-50 padding-5", placeholder: "Thank you patron MIDDLE message…" %>:
+    <%= f.text_area :cta_patron_paused, :class => "width-50 padding-5", placeholder: "Declined…get back in message" %>:
+    <%= f.text_field :cta_patron_paused_link, :class => "width-20 padding-5", placeholder: "Declined…get back in link text" %> (Patron declined…)
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_area :cta_patron_cancelled, :class => "width-50 padding-5", placeholder: "Cancelled…get back in message" %>:
+    <%= f.text_field :cta_patron_cancelled_link, :class => "width-20 padding-5", placeholder: "Cancelled…get back in link text" %> (Patron cancelled xxxx…)
+  </div>
+  
+  <h3>NOT IN USE</h3>
+    
+  <div class="margin-bottom-10">
+    <%= f.text_area :cta_patron_active_middle, :class => "width-50 padding-5", placeholder: "Thank you patron MIDDLE message…" %>:
     <%= f.text_field :cta_patron_active_middle_link, :class => "width-20 padding-5", placeholder: "Thank you patron MIDDLE link text…" %> (Middle patron, increase…)
   </div>
   
   <div class="margin-bottom-10">
-    <%= f.text_field :cta_patron_active_top, :class => "width-50 padding-5", placeholder: "Thank you patron TOP message…" %>: 
+    <%= f.text_area :cta_patron_active_top, :class => "width-50 padding-5", placeholder: "Thank you patron TOP message…" %>: 
     <%= f.text_field :cta_patron_active_top_link, :class => "width-20 padding-5", placeholder: "Thank you patron TOP link text…" %> (Top patron, you're the best…)
-  </div>
-  
-  <div class="margin-bottom-10">
-    <%= f.text_field :cta_patron_paused, :class => "width-50 padding-5", placeholder: "Paused…get back in message" %>:
-    <%= f.text_field :cta_patron_paused_link, :class => "width-20 padding-5", placeholder: "Paused…get back in link text" %> (Thank you, but paused xxxx…)
-  </div>
-  
-  <div class="margin-bottom-10">
-    <%= f.text_field :cta_patron_cancelled, :class => "width-50 padding-5", placeholder: "Cancelled…get back in message" %>:
-    <%= f.text_field :cta_patron_cancelled_link, :class => "width-20 padding-5", placeholder: "Cancelled…get back in link text" %> (Thank you, but cancelled xxxx…)
   </div>
   
 <% end %>
