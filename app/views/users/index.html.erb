@@ -8,14 +8,25 @@ Users nil can_read: <%= User.where(can_read: nil).count %>
 <br />
 Users nil status: <%= User.where(status: nil).count %>
 <br />
+Super patrons total: <%= User.where(status: 4).count %>
+<br />
+Super patrons nil account: <%= User.where(status: 4).where(account_id: nil).count %>
+<br />
+Super patrons nil can_read: <%= User.where(status: 4).where(can_read: nil).count %>
+<br />
 Patrons total: <%= User.where(status: 2).count %>
 <br />
 Patrons nil account: <%= User.where(status: 2).where(account_id: nil).count %>
 <br />
 Patrons nil can_read: <%= User.where(status: 2).where(can_read: nil).count %>
 <br />
-Patrons nil status: <%= User.where(status: nil).count %>
+Readers total: <%= User.where(status: 3).count %>
 <br />
+Readers nil account: <%= User.where(status: 3).where(account_id: nil).count %>
+<br />
+Readers nil can_read: <%= User.where(status: 3).where(can_read: nil).count %>
+<br />
+
 
 
 <h3>Authors</h3>
