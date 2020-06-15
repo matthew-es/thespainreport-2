@@ -330,6 +330,23 @@ class UsersController < ApplicationController
 				@search_results = User.all.where("email LIKE ?", "%#{search_string}%").order("created_at DESC")
 			end
 
+			User.readers.each do |u|
+				u.update(
+					can_read: false
+					)
+			end
+			
+			User.patrons.cancelled.each do |u|
+				u.update(
+					can_read: false
+					)
+			end
+			
+			User.patrons.declined.each do |u|
+				u.update(
+					can_read: false
+					)
+			end
 			
 #			User.all.each do |u|
 #				if [1, 2].include?u.status
