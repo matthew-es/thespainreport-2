@@ -1,5 +1,13 @@
 <%= render "articles/admintop" %>
 
+Nil account: <%= User.where(account_id: nil).count %>
+<br />
+Nil can_read: <%= User.where(can_read: nil).count %>
+<br />
+Patrons nil can_read: <%= User.where(status: 2).where(can_read: nil).count %>
+<br />
+Nil status: <%= User.where(status: nil).count %>
+
 <h3>Authors</h3>
 <table class="admin-table">
 	<tbody>
