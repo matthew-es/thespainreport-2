@@ -323,17 +323,11 @@ class UsersController < ApplicationController
 			@latest_super_patrons  = User.super_patrons.limit(20).order("updated_at DESC")
 			@latest_patrons  = User.patrons.limit(20).order("updated_at DESC")
 			@latest_authors = User.authors.order("updated_at DESC")
-			@patrons_nil_account = User.where(status: 2).where(account_id: nil).order("created_at DESC")
+			@patrons_nil_account = User.where(can_read: nil).order("created_at DESC")
 			
 			if params[:search]
 				search_string = params[:search]
 				@search_results = User.all.where("email LIKE ?", "%#{search_string}%").order("created_at DESC")
-			end
-			
-			User.patrons.uptodate.each do |u|
-				u.update(
-					can_read: true
-					)
 			end
 			
 #			User.all.each do |u|
