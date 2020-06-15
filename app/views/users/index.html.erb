@@ -89,6 +89,21 @@ Readers nil can_read: <%= User.where(status: 3).where(can_read: nil).count %>
 	</tbody>
 </table>
 
+<h3>Patrons Nil Aaccount</h3>
+<table class="admin-table">
+	<tbody>
+		<%= render "user_row_header" %>
+		
+		<% if !@patrons_nil_account.empty? %> 
+			<% @patrons_nil_account.each do |user| %>
+				<%= render "user_row", user: user %>
+			<% end %>
+		<% else %>
+			<tr><td>There are no users like this.</td></tr>
+		<% end %>
+	</tbody>
+</table>
+
 
 
 </div>

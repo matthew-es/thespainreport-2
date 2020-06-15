@@ -323,7 +323,7 @@ class UsersController < ApplicationController
 			@latest_super_patrons  = User.super_patrons.limit(20).order("updated_at DESC")
 			@latest_patrons  = User.patrons.limit(20).order("updated_at DESC")
 			@latest_authors = User.authors.order("updated_at DESC")
-			
+			@patrons_nil_account = User.where(status: 2).where(account_id: nil).order("created_at DESC")
 			
 			if params[:search]
 				search_string = params[:search]
