@@ -1,12 +1,22 @@
 <%= render "articles/admintop" %>
 
-Nil account: <%= User.where(account_id: nil).count %>
+Users total: <%= User.all.count %>
 <br />
-Nil can_read: <%= User.where(can_read: nil).count %>
+Users nil account: <%= User.where(account_id: nil).count %>
+<br />
+Users nil can_read: <%= User.where(can_read: nil).count %>
+<br />
+Users nil status: <%= User.where(status: nil).count %>
+<br />
+Patrons total: <%= User.where(status: 2).count %>
+<br />
+Patrons nil account: <%= User.where(status: 2).where(account_id: nil).count %>
 <br />
 Patrons nil can_read: <%= User.where(status: 2).where(can_read: nil).count %>
 <br />
-Nil status: <%= User.where(status: nil).count %>
+Patrons nil status: <%= User.where(status: nil).count %>
+<br />
+
 
 <h3>Authors</h3>
 <table class="admin-table">
