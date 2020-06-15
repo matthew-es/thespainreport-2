@@ -1,11 +1,14 @@
 <%= render "articles/admintop" %>
 
 Total (users): <%= User.all.count %><br />
--- authors: <%= User.where(status: 1).count %><br />
--- super patrons: <%= User.where(status: 4).count %><br />
--- patrons: <%= User.where(status: 2).count %><br />
--- readers: <%= User.where(status: 3).count %><br />
--- nil status: <%= User.where(status: nil).count %><br />
+-- authors: <%= User.authors.count %><br />
+-- super patrons: <%= User.super_patrons.count %><br />
+-- patrons: <%= User.patrons.count %><br />
+------ up-to-date: <%= User.patrons.uptodate.count %><br />
+------ declined: <%= User.patrons.declined.count %><br />
+------ cancelled: <%= User.patrons.cancelled.count %><br />
+-- readers: <%= User.readers.count %><br />
+-- nil status: <%= User.nil_status.count %><br />
 <br />
 Total (accounts): <%= Account.all.count %><br />
 -- users: <%= User.where.not(account_id: nil).count %><br />

@@ -28,9 +28,16 @@ class User < ApplicationRecord
    scope :authors, -> {where(status: 1)}
    scope :super_patrons, -> {where(status: 4)}
    scope :patrons, -> {where(status: 2)}
+   scope :uptodate, -> {User.joins(:account).merge(Account.uptodate)}
+   scope :declined, -> {User.joins(:account).merge(Account.declined)}
+   scope :cancelled, -> {User.joins(:account).merge(Account.cancelled)}
    scope :readers, -> {where(status: 3)}
+   
+   
    scope :account_owner, -> {where(account_role: 1)}
    scope :account_member, -> {where(account_role: 2)}
+   
+   scope :nil_status, -> {where(status: nil)}
    
 	def password_complexity
 		if password.present? and not password.match(/^(?=.*[A-Z])./) and not password.match(/^(?=.*[\s])./)
