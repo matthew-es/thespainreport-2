@@ -128,8 +128,10 @@
 	get 'bennet-en-españa', to: redirect("https://www.thespainreport.es/articles/398-200114142713-bennett-en-espana")
 	
 	get 'articles/touser' => 'articles#touser'
+	
 	post 'editor_creates_new_user' => 'users#editor_creates_new_user'
 	post 'editor_modifies_accounts' => 'accounts#admin_modifies_accounts_and_users'
+	
 	resources :users do
 	member do
 	  get :confirm_email
