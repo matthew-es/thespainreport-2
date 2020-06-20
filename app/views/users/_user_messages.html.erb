@@ -1,14 +1,16 @@
 <% case @language when 1 %>
   You are
-  <% case @status when 1 %>the boss.
-	<% when 2 %>a patron.
-	<% when 3 %>a reader.
+  <% case @status when 1 %>The Boss.
+	<% when 4 %>a Super Patron.
+	<% when 2 %>a Patron.
+	<% when 3 %>a Reader.
 	<% end %>
 <% when 2 %>
   Ud. es
-  <% case @status when 1 %>el jefe.
-	<% when 2 %>mecenas.
-	<% when 3 %>lector.
+  <% case @status when 1 %>El Jefe.
+  	<% when 4 %>Super Mecenas.
+	<% when 2 %>Mecenas.
+	<% when 3 %>Lector.
 	<% end %>
 <% end %>
 

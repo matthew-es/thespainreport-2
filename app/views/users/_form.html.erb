@@ -1,140 +1,143 @@
 <%= form_with(model: user, local: true) do |form| %>
-  <% if user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+	<% if user.errors.any? %>
+		<div id="error_explanation">
+			<h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
-      <ul>
-      <% user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+			<ul>
+			<% user.errors.full_messages.each do |message| %>
+				<li><%= message %></li>
+			<% end %>
+			</ul>
+		</div>
+	<% end %>
 
-  <div class="margin-bottom-10">
-    <% if current_user.nil? %>
-    <% elsif current_user.sitelanguage == 1 %>Email: 
-    <% elsif current_user.sitelanguage == 2 %>Correo:
-    <% else end %>
-    <%= form.text_field :email %>
-  </div>
-  
-  <div class="margin-bottom-10">
-    <% if current_user.nil? %>
-    <% elsif current_user.sitelanguage == 1 %>New password: 
-    <% elsif current_user.sitelanguage == 2 %>Clave nueva:
-    <% else end %> 
-    <%= form.password_field :password %>
-  </div>
-  
-  <div class="margin-bottom-10">
-    <% if current_user.nil? %>
-    <% elsif current_user.sitelanguage == 1 %>Confirm new password: 
-    <% elsif current_user.sitelanguage == 2 %>Confirmar clave nueva:
-    <% else end %>
-    <%= form.password_field :password_confirmation %>
-  </div>
-  
-  <div class="margin-bottom-10">
-    <% if current_user.nil? %>
-    <% elsif current_user.sitelanguage == 1 %>Email amount:
-      <%= form.select :emails, options_for_select([["I want all articles & latest news", "1"], ["I only want full articles", "2"], ["I only want announcements from Matthew", "3"], ["I don't want any emails at all", "4"]], :selected => @user.emails) %>
-    <% elsif current_user.sitelanguage == 2 %>Cantidad de correos:
-      <%= form.select :emails, options_for_select([["Quiero artículos y la última hora", "1"], ["Sólo quiero artículos completos", "2"], ["Sólo quiero avisos de Matthew", "3"], ["No quiero ningún correo", "4"]], :selected => @user.emails) %>
-    <% else end %> 
-    
-  </div>
-  
-  <div class="margin-bottom-10">
-    <% if current_user.nil? %>
-    <% elsif current_user.sitelanguage == 1 %>Email language: 
-      <%= form.select :emaillanguage, options_for_select([["I only want articles in English", "1"], ["I only want articles in Spanish", "2"], ["I want articles in English & Spanish", "3"]], :selected => @user.emaillanguage) %>
-    <% elsif current_user.sitelanguage == 2 %>Idioma de los correos:
-      <%= form.select :emaillanguage, options_for_select([["Sólo quiero los artículos en inglés", "1"], ["Sólo quiero los artículos en español", "2"], ["Quiero los artículos en inglés y en español", "3"]], :selected => @user.emaillanguage) %>
-    <% else end %> 
-    
-  </div>
-  
-  <div class="margin-bottom-10">
-    <% if current_user.nil? %>
-    <% elsif current_user.sitelanguage == 1 %>Site language: 
-      <%= form.select :sitelanguage, options_for_select([["English", "1"], ["Spanish", "2"]], :selected => @user.sitelanguage) %>
-    <% elsif current_user.sitelanguage == 2 %>Idioma para la página web:
-      <%= form.select :sitelanguage, options_for_select([["Inglés", "1"], ["Español", "2"]], :selected => @user.sitelanguage) %>
-    <% else end %>  
-  </div>
-  
-    <div class="margin-bottom-10">
-      <hr />
-      <% if current_user.nil? %>
-      
-      <% elsif current_user.status == 1 %>
-        Status: <%= form.select :status, options_for_select([["Author", "1"], ["Reader", "3"], ["Patron", "2"], ["Super Patron", "4"]], :selected => @user.status) %> 
-        | Level amount: <%= form.number_field :level_amount %> 
-        | Can read? <%= form.check_box :can_read %>
-        | Frame: <%= form.number_field :frame_id %> 
-        | Email conf? <%= form.check_box :email_confirmed %>
-      <% else %>
-        <% case @language when 1 %>
-          You are
-          <% case @status when 1 %>the boss.
-        	<% when 2 %>a patron.
-        	<% when 3 %>a reader.
-        	<% when 4 %>a patron who has paused <%= @frame.money_word_plural %>.
-        	<% when 5 %>a patron who has cancelled <%= @frame.money_word_plural %>.
-        	<% end %>
-        <% when 2 %>
-          Ud. es
-          <% case @status when 1 %>el jefe.
-        	<% when 2 %>mecenas.
-        	<% when 3 %>lector.
-        	<% when 4 %>lector en pausa.
-        	<% when 5 %>lector cancelado.
-        	<% end %>
-        <% end %>
-        
-        <% if @status == 1 %>
-      		You are the boss.
-      	<% elsif @status == 2 && @level.between?(1, 9) %>
-      		<%= @frame.cta_patron_active_bottom %>: <%= link_to @frame.cta_patron_active_bottom_link, @increase %>
-      	<% elsif @status == 2 && @level.between?(10, 24) %>
-      		<%= @frame.cta_patron_active_middle %>: <%= link_to @frame.cta_patron_active_middle_link, @increase %>
-      	<% elsif @status == 2 && @level >= 25 %>
-      		<%= @frame.cta_patron_active_top %>: <%= link_to @frame.cta_patron_active_top_link, @increase %>
-      	<% elsif @status == 3 %>
-      		<%= @frame.cta_reader_to_patron %>: <%= link_to @frame.cta_reader_to_patron_link, @subscribe %>
-      	<% elsif @status == 4 %>
-      		<%= @frame.cta_patron_paused %>: <%= link_to @frame.cta_patron_paused_link, @restart %>
-      	<% elsif @status == 5 %>
-      		<%= @frame.cta_patron_cancelled %>: <%= link_to @frame.cta_patron_cancelled_link, @restart %>
-      	<% else %>
-      		<%= @frame.cta_reader_to_patron %>: <%= link_to @frame.cta_reader_to_patron_link, @subscribe %>
-      	<% end %>
-      <% end %>
-      <hr />
-    </div>
-    
-      
-      <% if current_user.nil? %>
-      
-      <% elsif current_user.status == 1 %>
-        <div class="margin-bottom-10">
-          <hr />
-            Account ID: <%= form.number_field :account_id %> | Account role: <%= form.select :account_role, options_for_select([["Owner", "1"], ["Member", "2"]], :selected => @user.account_role) %> | Account status: <%= @user.account.account_status unless @user.account.nil? %>
-          <hr />
-        </div>
-      <% else %>
-      
-      <% end %>
-      
-  
+	<div class="margin-bottom-10">
+		<% if current_user.nil? %>
+		<% elsif current_user.sitelanguage == 1 %>Email: 
+		<% elsif current_user.sitelanguage == 2 %>Correo:
+		<% else end %>
+		<%= form.text_field :email %>
+	</div>
+	
+	<div class="margin-bottom-10">
+		<% if current_user.nil? %>
+		<% elsif current_user.sitelanguage == 1 %>New password: 
+		<% elsif current_user.sitelanguage == 2 %>Clave nueva:
+		<% else end %> 
+		<%= form.password_field :password %>
+	</div>
+	
+	<div class="margin-bottom-10">
+		<% if current_user.nil? %>
+		<% elsif current_user.sitelanguage == 1 %>Confirm new password: 
+		<% elsif current_user.sitelanguage == 2 %>Confirmar clave nueva:
+		<% else end %>
+		<%= form.password_field :password_confirmation %>
+	</div>
+	
+	<div class="margin-bottom-10">
+		<% if current_user.nil? %>
+		<% elsif current_user.sitelanguage == 1 %>Email amount:
+			<%= form.select :emails, options_for_select([["I want all articles & latest news", "1"], ["I only want full articles", "2"], ["I only want announcements from Matthew", "3"], ["I don't want any emails at all", "4"]], :selected => @user.emails) %>
+		<% elsif current_user.sitelanguage == 2 %>Cantidad de correos:
+			<%= form.select :emails, options_for_select([["Quiero artículos y la última hora", "1"], ["Sólo quiero artículos completos", "2"], ["Sólo quiero avisos de Matthew", "3"], ["No quiero ningún correo", "4"]], :selected => @user.emails) %>
+		<% else end %> 
+		
+	</div>
+	
+	<div class="margin-bottom-10">
+		<% if current_user.nil? %>
+		<% elsif current_user.sitelanguage == 1 %>Email language: 
+			<%= form.select :emaillanguage, options_for_select([["I only want articles in English", "1"], ["I only want articles in Spanish", "2"], ["I want articles in English & Spanish", "3"]], :selected => @user.emaillanguage) %>
+		<% elsif current_user.sitelanguage == 2 %>Idioma de los correos:
+			<%= form.select :emaillanguage, options_for_select([["Sólo quiero los artículos en inglés", "1"], ["Sólo quiero los artículos en español", "2"], ["Quiero los artículos en inglés y en español", "3"]], :selected => @user.emaillanguage) %>
+		<% else end %> 
+		
+	</div>
+	
+	<div class="margin-bottom-10">
+		<% if current_user.nil? %>
+		<% elsif current_user.sitelanguage == 1 %>Site language: 
+			<%= form.select :sitelanguage, options_for_select([["English", "1"], ["Spanish", "2"]], :selected => @user.sitelanguage) %>
+		<% elsif current_user.sitelanguage == 2 %>Idioma para la página web:
+			<%= form.select :sitelanguage, options_for_select([["Inglés", "1"], ["Español", "2"]], :selected => @user.sitelanguage) %>
+		<% else end %>  
+	</div>
+	
+	<div class="margin-bottom-10">
+		<%= render "users/user_messages" %>
+	</div>
+	<hr />
+	
+	<div class="margin-bottom-10">
+		<% if current_user.nil? %>
+		
+		<% elsif current_user.status == 1 %>
+			Status: <%= form.select :status, options_for_select([["Author", "1"], ["Reader", "3"], ["Patron", "2"], ["Super Patron", "4"]], :selected => @user.status) %> 
+			| Level amount: <%= form.number_field :level_amount %> 
+			| Can read? <%= form.check_box :can_read %>
+			| Frame: <%= form.number_field :frame_id %> 
+			| Email conf? <%= form.check_box :email_confirmed %>
+		<% else %>
+			<%= current_user.account_id %>
+		<% end %>
+	</div>
+	<hr />
+	
+	<div class="margin-bottom-10">
+		<% if current_user.nil? %>
+		
+		<% elsif current_user.status == 1 %>
+			<div class="margin-bottom-10">
+				Account ID: <%= form.number_field :account_id %> | Account role: <%= form.select :account_role, options_for_select([["Owner", "1"], ["Member", "2"]], :selected => @user.account_role) %> | Account status: 
+				<td class="right">
+					<% unless @user.account.nil?; case @user.account.account_status when 1 %>
+						Up-to-date
+					<% when 2 %>
+						Declined
+					<% when 3 %>
+						Cancelled
+					<% when 4 %>
+						Free Starter
+					<% else end end %>
+				</td>
+			</div>
+		<% else %>
+		<% end %>
+	</div>
+	<hr />
 
-  <div class="margin-bottom-10">
-    <% if current_user.nil? %>
-    <% elsif current_user.sitelanguage == 1 %>
-      <%= form.submit "Save" %>
-    <% elsif current_user.sitelanguage == 2 %>
-      <%= form.submit "Guardar" %>
-    <% else end %>
-  </div>
+	<div class="margin-bottom-10">
+		<% if current_user.nil? %>
+		<% elsif current_user.sitelanguage == 1 %>
+			<%= form.submit "Save" %>
+		<% elsif current_user.sitelanguage == 2 %>
+			<%= form.submit "Guardar" %>
+		<% else end %>
+	</div>
+	
+	<div class="margin-bottom-10">
+		<% if @user.status == 2 && @user.account.subscriptions.empty? %>
+			Subscription: Patreon.
+		<% else %> 
+			<% @user.account.subscriptions.each do |s| %>
+			Subscription: <%= s.total_amount %>
+			
+			<div class="margin-left-20">
+				<% s.invoices.each do |i| %>
+					Invoice: <%= i.id %>: <%= i.total_amount %>
+					<% i.payments.each do |p| %>
+						Payment: <%= p.id %>
+					<% end %>
+				<% end %>
+			</div>
+			<% end %>
+		<% end %>
+	</div>
+	<hr />
+	
+	
+	<div class="margin-bottom-10">
+		<strong>Problems?</strong> E-mail me (matthew@thespainreport.es) or ring (647 81 81 43). We'll fix it together.
+	</div>
 <% end %>
