@@ -120,7 +120,7 @@
 		<% if @user.status == 2 && @user.account.subscriptions.empty? %>
 			Subscription: Patreon.
 		<% else %> 
-			<% @user.account.subscriptions.each do |s| %>
+			<% unless @user.account.nil?; @user.account.subscriptions.each do |s| %>
 			Subscription: <%= s.total_amount %>
 			
 			<div class="margin-left-20">
@@ -131,7 +131,7 @@
 					<% end %>
 				<% end %>
 			</div>
-			<% end %>
+			<% end end %>
 		<% end %>
 	</div>
 	<hr />
