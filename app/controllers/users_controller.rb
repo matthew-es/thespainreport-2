@@ -344,6 +344,25 @@ class UsersController < ApplicationController
 				@search_results = User.all.where("email LIKE ?", "%#{search_string}%").order("created_at DESC")
 			end
 			
+			User.readers.each do |u|
+				if u.account.nil?
+					account = Account.create!(
+					user_id: u.id,
+					account_status: 4,
+					account_status_date: Time.zone.now,
+					conversation_status: 1,
+					total_support: 0
+					)
+				
+					u.update(
+						account_id: account.id,
+						account_role: 1
+						)
+				end
+				
+				u.update(can_read: true)
+			end
+			
 #			User.all.each do |u|
 #				if [1, 2].include?u.status
 #					u.update(
