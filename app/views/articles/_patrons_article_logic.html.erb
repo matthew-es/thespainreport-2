@@ -22,6 +22,7 @@
 				</li>
 			<% end %>
 		</ul>
+	
 	<% elsif [3, 4, 5].include?(current_user.status) %>
 		<ul class="margin-top-20 margin-bottom-20">
 			<% if @article.extras_notes.present? %>
@@ -50,6 +51,7 @@
 				</li>
 			<% else end %>
 		</ul>
+	
 	<% elsif [1, 2].include?(current_user.status) %>
 		<% if @article.extras_notes.present? %>
 			<div class="margin-top-30">

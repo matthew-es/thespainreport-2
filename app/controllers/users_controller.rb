@@ -88,6 +88,20 @@ class UsersController < ApplicationController
 					frame_emotional_quest_action: @frame_quest
 					)
 				
+				account = Account.create!(
+					user_id: user.id,
+					account_status: 4,
+					account_status_date: Time.zone.now,
+					conversation_status: 1,
+					total_support: 0
+					)
+				
+				user.update(
+					account_id: account.id,
+					account_role: 1,
+					can_read: true
+					)
+				
 				admin_subject = "✅ New reader: #{user.email}"
 				admin_message = (
 					"Email: #{user.email}" + "<br />" + "Language: #{user.sitelanguage}" + "<br />" + "Article: #{sign_up_article}" + "<br />" + "Frame: #{@frame_quest}"

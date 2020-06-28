@@ -41,7 +41,7 @@
 
 
 <% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
-	<% if @status != 3 && @can_read == true %>
+	<% if @can_read == true %>
 		<%= markdown(@article.body).html_safe %>
 	<% else %>
 		<%= markdown(truncate(@article.body, length: 500)) %>

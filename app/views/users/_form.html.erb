@@ -65,11 +65,6 @@
 	</div>
 	
 	<div class="margin-bottom-10">
-		<%= render "users/user_messages" %>
-	</div>
-	<hr />
-	
-	<div class="margin-bottom-10">
 		<% if current_user.nil? %>
 		
 		<% elsif current_user.status == 1 %>
@@ -78,34 +73,62 @@
 			| Can read? <%= form.check_box :can_read %>
 			| Frame: <%= form.number_field :frame_id %> 
 			| Email conf? <%= form.check_box :email_confirmed %>
+			<hr />
 		<% else %>
-			<%= current_user.account_id %>
 		<% end %>
 	</div>
-	<hr />
 	
 	<div class="margin-bottom-10">
+		<hr />
+		<strong>
+			<% case @user.sitelanguage when 1 %> Group ID:
+			<% when 2 %> Nº de Grupo:
+			<% end %>
+		</strong>
 		<% if current_user.nil? %>
-		
-		<% elsif current_user.status == 1 %>
-			<div class="margin-bottom-10">
-				Account ID: <%= form.number_field :account_id %> | Account role: <%= form.select :account_role, options_for_select([["Owner", "1"], ["Member", "2"]], :selected => @user.account_role) %> | Account status: 
-				<td class="right">
-					<% unless @user.account.nil?; case @user.account.account_status when 1 %>
-						Up-to-date
-					<% when 2 %>
-						Declined
-					<% when 3 %>
-						Cancelled
-					<% when 4 %>
-						Free Starter
-					<% else end end %>
-				</td>
-			</div>
-		<% else %>
+		<% elsif current_user.status == 1 %><%= form.number_field :account_id %>
+		<% else %><%= current_user.account_id %> 
 		<% end %>
-	</div>
+		<br />
+		
+		<strong>
+			<% case @user.sitelanguage when 1 %> Role:
+			<% when 2 %> Papel:
+			<% end %>
+		</strong>
+		<% if current_user.nil? %>
+		<% elsif current_user.status == 1 %><%= form.select :account_role, options_for_select([["Group Owner", "1"], ["Group Member", "2"]], :selected => @user.account_role) %> 
+		<% else %>
+			<% unless current_user.account.nil?; case current_user.account_role when 1 %>
+				<% case @user.sitelanguage when 1 %> Group owner
+				<% when 2 %> Dueño del grupo
+				<% end %>
+			<% when 2 %>
+				<% case @user.sitelanguage when 1 %> Group member
+				<% when 2 %> Miembro del grupo
+				<% end %>
+			<% else end end %>
+		<% end %>
+		<br />
+		
+		<strong>
+			<% case @user.sitelanguage when 1 %> Status:
+			<% when 2 %> Estado:
+			<% end %>
+		</strong>
+		<% unless current_user.account.nil?; case current_user.account.account_status when 1 %>
+			Up-to-date
+		<% when 2 %>
+			Declined
+		<% when 3 %>
+			Cancelled
+		<% when 4 %>
+			<% case @user.sitelanguage when 1 %> Free Beginner
+			<% when 2 %> Principiante gratuito
+			<% end %>
+		<% else end end %>
 	<hr />
+	</div>
 
 	<div class="margin-bottom-10">
 		<% if current_user.nil? %>
@@ -133,8 +156,15 @@
 			</div>
 			<% end end %>
 		<% end %>
+	<hr />
+	
+	<div class="margin-bottom-10">
+		<%= render "users/user_messages" %>
 	</div>
 	<hr />
+	
+	
+	</div>
 	
 	
 	<div class="margin-bottom-10">
