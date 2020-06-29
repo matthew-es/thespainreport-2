@@ -345,11 +345,6 @@ class UsersController < ApplicationController
 				@search_results = User.all.where("email LIKE ?", "%#{search_string}%").order("created_at DESC")
 			end
 			
-			User.all.each do |u|
-				u.update(can_read_date: Time.zone.now + 45.days)
-			end
-			
-			
 		else
 			redirect_to root_url
 		end
