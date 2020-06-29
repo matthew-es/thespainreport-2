@@ -13,6 +13,18 @@
 	<% end %>
 </p>
 
+
+<% if @status == 3 && @can_read == true %>
+	<strong>
+		<%= @article.type.name.upcase %>, 
+			<% case @article.language_id when 1 %>45 DAYS FREE
+			<% when 2 %>45 DÍAS GRATIS
+			<% end %>
+	</strong>
+<% else %>
+	<strong><%= @article.type.name.upcase %></strong>
+<% end %>
+
 <p><em><%= @article.lede %></em></p>
 
 <% if @article.image.present? %>
@@ -36,9 +48,6 @@
 	</ul>
 <% else %>
 <% end %>
-
-
-
 
 <% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
 	<% if @can_read == true %>

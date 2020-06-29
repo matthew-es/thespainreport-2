@@ -99,7 +99,8 @@ class UsersController < ApplicationController
 				user.update(
 					account_id: account.id,
 					account_role: 1,
-					can_read: true
+					can_read: true,
+					can_read_date: Time.zone.now + 45.days
 					)
 				
 				admin_subject = "✅ New reader: #{user.email}"
@@ -343,20 +344,12 @@ class UsersController < ApplicationController
 				search_string = params[:search]
 				@search_results = User.all.where("email LIKE ?", "%#{search_string}%").order("created_at DESC")
 			end
-
 			
-#			User.all.each do |u|
-#				if [1, 2].include?u.status
-#					u.update(
-#						level_amount: 1
-#						)
-#				elsif u.status == 3
-#					u.update(
-#						level_amount: 0
-#						)
-#				else
-#				end
-#			end
+			User.all.each do |u|
+				u.update(can_read_date: Time.zone.now + 45.days)
+			end
+			
+			
 		else
 			redirect_to root_url
 		end
@@ -482,6 +475,7 @@ class UsersController < ApplicationController
 
 		# Never trust parameters from the scary internet, only allow the white list through.
 		def user_params
-			params.require(:user).permit(:account_id, :frame_id, :account_role, :country, :email, :email_confirmed, :emails, :emaillanguage, :level_amount, :mailing_address, :password, :password_confirmation, :password_digest, :password_reset_token, :password_reset_sent_at, :status, :sitelanguage, :confirm_token, :can_read)
+			params.require(:user).permit(:account_id, :frame_id, :account_role, :country, :email, :email_confirmed, :emails, :emaillanguage, :level_amount, :mailing_address, :password, 
+			:password_confirmation, :password_digest, :password_reset_token, :password_reset_sent_at, :status, :sitelanguage, :confirm_token, :can_read, :can_read_date)
 		end
 end

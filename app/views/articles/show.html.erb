@@ -57,9 +57,21 @@
 	    <% if ["Sólo mecenas", "Patrons only"].include?@article.type.name %>
 	    	<div class="margin-right-5 float-left mobile-bottom-10">
 	    		<span class="label background-color-patrons font-color-white">
-	    				<%= @article.type.name %>
+	    			<%= @article.type.name %>
 	    		</span>
 	    	</div>
+	    	
+	    	
+	    	<% if current_user.nil? %>
+			<% elsif @status == 3 && @can_read == true %>
+				<div class="margin-right-5 float-left mobile-bottom-10">
+	    		<span class="label background-color-green font-color-white">
+	    			<% case @article.language_id when 1 %>45-DAY TRIAL
+	    			<% when 2 %>PRUEBA 45 DÍAS
+	    			<% end %>
+	    		</span>
+	    	</div>
+	    	<% else end %>
 	    <% end %>
 	    
 	    <% if @article.extras_notes.present? || @article.extras_audio_file.present? %>

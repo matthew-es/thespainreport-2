@@ -64,22 +64,25 @@
 		<% else end %>  
 	</div>
 	
+	<hr />
+	
 	<div class="margin-bottom-10">
 		<% if current_user.nil? %>
 		
 		<% elsif current_user.status == 1 %>
-			Status: <%= form.select :status, options_for_select([["Author", "1"], ["Reader", "3"], ["Patron", "2"], ["Super Patron", "4"]], :selected => @user.status) %> 
-			| Level amount: <%= form.number_field :level_amount %> 
-			| Can read? <%= form.check_box :can_read %>
-			| Frame: <%= form.number_field :frame_id %> 
-			| Email conf? <%= form.check_box :email_confirmed %>
+			Frame: <%= form.number_field :frame_id %><br />
+			Email conf? <%= form.check_box :email_confirmed %><br />
+			<hr />
+			Status: <%= form.select :status, options_for_select([["Author", "1"], ["Reader", "3"], ["Patron", "2"], ["Super Patron", "4"]], :selected => @user.status) %><br />
+			Level amount: <%= form.number_field :level_amount %><br />
+			Can read? <%= form.check_box :can_read %><br />
+			Can read date: <%= form.datetime_field :can_read_date, :size => '35' %>
 			<hr />
 		<% else %>
 		<% end %>
 	</div>
 	
 	<div class="margin-bottom-10">
-		<hr />
 		<strong>
 			<% case @user.sitelanguage when 1 %> Group ID:
 			<% when 2 %> Nº de Grupo:
