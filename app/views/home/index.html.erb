@@ -26,7 +26,7 @@
 
 <%= render "layouts/logo_account" %>
 
-<% @latesttop.each do |article| %>
+<% @latestpodcast.each do |article| %>
 	 <% if article.image? %>
 		<div class="">
 		  <%= link_to(article, class: "no-hover-bg") do %>
@@ -64,16 +64,17 @@
    <% end %>
  <% end %>
 
-<h3>Podcast</h3>
-<ul class="no-points">
-	<% if @podcast.any?; @podcast.each do |article| %>
-		<%= render "articles/index_articles_list_link", {article: article} %>
-	<% end end %>
-</ul>
+<div class="margin-top-10">
+	<ul class="no-points">
+		<% if @podcast.any?; @podcast.each do |article| %>
+			<%= render "articles/index_articles_list_link", {article: article} %>
+		<% end end %>
+	</ul>
+</div>
 
 <%= render "articles/patrons_only_block" %>
 
-<h3>Spain Stories</h3>
+<h3>Other Articles</h3>
 <ul class="no-points">
 	<% if @free.any?; @free.each do |article| %>
 		<%= render "articles/index_articles_list_link", {article: article} %>

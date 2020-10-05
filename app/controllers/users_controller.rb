@@ -409,7 +409,7 @@ class UsersController < ApplicationController
 			redirect_to root_url
 		elsif current_user.status == 1
 			@user = User.find_by_id(params[:id])
-			@status = @user.status
+			set_status(@user)
 			set_language_frame(current_user.sitelanguage, current_user.frame_id)
 		elsif User.find_by_id(params[:id]) != current_user
 			redirect_to edit_user_path(current_user)

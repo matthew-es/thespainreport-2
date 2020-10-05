@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 		else
 			@user = user
 			@status = @user.status
-			@can_read = @user.can_read
+			@can_read_date = @user.can_read_date
 			@level = @user.level_amount
 			@account_status = @user.account.account_status unless @user.account.nil?
 		end

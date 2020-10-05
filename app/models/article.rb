@@ -12,6 +12,9 @@ class Article < ApplicationRecord
     has_many :components, class_name: "Article", foreign_key: "story_id"
     belongs_to :story, class_name: "Article", optional: true
     
+    has_many :photoessays
+    has_many :uploads, through: :photoessays
+    
     def to_param
 		"#{id}-#{created_at.strftime("%y%m%d%H%M%S")}-#{headline.parameterize}"
 	end
@@ -25,16 +28,27 @@ class Article < ApplicationRecord
     scope :notstory, -> {Article.joins(:type).merge(Type.notstory)}
     scope :truth, -> {Article.joins(:type).merge(Type.truth)}
     scope :nottruth, -> {Article.joins(:type).merge(Type.nottruth)}
-    scope :podcast, -> {Article.joins(:type).merge(Type.podcast)}
-    scope :notpodcast, -> {Article.joins(:type).merge(Type.notpodcast)}
+    scope :audioreport, -> {Article.joins(:type).merge(Type.audioreport)}
+    scope :notaudioreport, -> {Article.joins(:type).merge(Type.notaudioreport)}
+    scope :audiointerview, -> {Article.joins(:type).merge(Type.audiointerview)}
+    scope :notaudiointerview, -> {Article.joins(:type).merge(Type.notaudiointerview)}
+    scope :video, -> {Article.joins(:type).merge(Type.video)}
+    scope :notvideo, -> {Article.joins(:type).merge(Type.notvideo)}
+    scope :photo, -> {Article.joins(:type).merge(Type.photo)}
+    scope :notphoto, -> {Article.joins(:type).merge(Type.notphoto)}
+    
+    scope :podcast, -> {Article.where.not(audio_file_mp3: "")}
+    scope :notpodcast, -> {Article.where(audio_file_mp3: "")}
+    scope :latestpodcast, -> {Article.podcast.order('created_at DESC').limit(1)}
+    scope :notlatestpodcast, -> {where.not(id: podcast.latestpodcast)}
     
     scope :toplevelstory, -> {where(story_id: '')}
     scope :topstory, -> {where(:topstory => true)}
-    scope :lastone, -> {order('created_at DESC').limit(1)}
+    
     scope :lastfive, -> {order('created_at DESC').limit(5)}
     scope :lastten, -> {order('created_at DESC').limit(10)}
     scope :lasttwenty, -> {order('created_at DESC').limit(20)}
-    scope :notlatesttop, -> {where.not(id: topstory.lastone)}
+
     scope :published, -> {where(status_id: [3, 4])}
     scope :english, -> {where(language_id: 1)}
     scope :spanish, -> {where(language_id: 2)}

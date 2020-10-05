@@ -1,47 +1,120 @@
 <%= form_with(model: invoice, local: true) do |form| %>
-  <% if invoice.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(invoice.errors.count, "error") %> prohibited this invoice from being saved:</h2>
+	<% if invoice.errors.any? %>
+		<div id="error_explanation">
+			<h2><%= pluralize(invoice.errors.count, "error") %> prohibited this invoice from being saved:</h2>
 
-      <ul>
-      <% invoice.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+			<ul>
+			<% invoice.errors.full_messages.each do |message| %>
+				<li><%= message %></li>
+			<% end %>
+			</ul>
+		</div>
+	<% end %>
 
-  <div class="field">
-    <%= form.label :tax_percent %>
-    <%= form.text_field :tax_percent %>
-  </div>
+	<div class="field">
+		<%= form.label :invoice_number %>
+		<%= form.text_field :invoice_number %>
+	</div>
+	
+	<div class="field">
+		<%= form.label :created_at %>
+		<%= form.text_field :created_at %>
+	</div>
+	
+	<div class="field">
+		Date parts:
+		<%= form.number_field :invoice_day %> <%= form.number_field :invoice_month %> <%= form.number_field :invoice_year %>
+	</div>
+	
+	<hr />
+	
+	<div class="field">
+		<%= form.label :invoice_from_name %>
+		<%= form.text_field :invoice_from_name %>
+	</div>
+	
+	<div class="field">
+		<%= form.label :invoice_from_address %>
+		<%= form.text_field :invoice_from_address %>
+	</div>
+	
+	<div class="field">
+		<%= form.label :invoice_from_tax_id %>
+		<%= form.text_field :invoice_from_tax_id %>
+	</div>
+	
+	<hr />
+	
+	<div class="field">
+		<%= form.label :invoice_customer_name %>
+		<%= form.text_field :invoice_customer_name %>
+	</div>
+	
+	<div class="field">
+		<%= form.label :invoice_customer_address %>
+		<%= form.text_field :invoice_customer_address %>
+	</div>
+	
+	<div class="field">
+		<%= form.label :invoice_customer_tax_id %>
+		<%= form.text_field :invoice_customer_tax_id %>
+	</div>
+	
+	<div class="field">
+		Group ID:
+		<%= form.number_field :account_id %>
+	</div>
+	
+	<hr />
+	
+	<div class="field">
+		<%= form.label :subscription_id %>
+		<%= form.number_field :subscription_id %>
+	</div>
 
-  <div class="field">
-    <%= form.label :plan_amount %>
-    <%= form.number_field :plan_amount %>
-  </div>
+	<hr />
+	
+	<div class="field">
+		<%= form.label :invoice_concept %>
+		<%= form.text_field :invoice_concept %>
+	</div>
+	
+	<div class="field">
+		<%= form.label :tax_percent %>
+		<%= form.text_field :tax_percent %>
+	</div>
 
-  <div class="field">
-    <%= form.label :tax_amount %>
-    <%= form.number_field :tax_amount %>
-  </div>
+	<div class="field">
+		<%= form.label :plan_amount %>
+		<%= form.number_field :plan_amount %>
+	</div>
 
-  <div class="field">
-    <%= form.label :total_amount %>
-    <%= form.number_field :total_amount %>
-  </div>
+	<div class="field">
+		<%= form.label :tax_amount %>
+		<%= form.number_field :tax_amount %>
+	</div>
 
-  <div class="field">
-    <%= form.label :account_id %>
-    <%= form.number_field :account_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :subscription_id %>
-    <%= form.number_field :subscription_id %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+	<div class="field">
+		<%= form.label :total_amount %>
+		<%= form.number_field :total_amount %>
+	</div>
+	
+	<hr />
+	
+	<div class="field">
+		Invoice status: <%= form.select :invoice_status, options_for_select([["Paid", 1], ["Problem with payment", 2], ["Cancelled", 3]]) %>
+	</div>
+	
+	<div class="field">
+		Payment ID:
+		<% @invoice.payments.each do |p| %>
+			<%= link_to p.id, p %>, <%= p.external_payment_status %><br />
+		<% end %>
+	</div>
+	
+	<hr />
+	
+	<div class="actions">
+		<%= form.submit %>
+	</div>
 <% end %>

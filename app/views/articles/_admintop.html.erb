@@ -1,7 +1,8 @@
 <div class="content-wide font-admin">
-	<div class="margin-bottom-10">
+	
+	<div class="margin-bottom-10 no-print">
 		<%= link_to "Site", root_path %>
-		| <%= link_to "Tweet", new_tweet_path %>
+		| <%= link_to "Quick / Thread / Photos", new_tweet_path %>
 		| <%= link_to "Article", new_article_path %>
 		|| <% if current_user %>
 			<%= current_user.email %>
@@ -14,7 +15,7 @@
 		|| <%= link_to "Plans", plans_path %>
 		| <%= link_to "Frames", frames_path %>
 		|| <%= link_to "Patrons", users_path %>
-		| <%= link_to "Groups", accounts_path %>
+		| <%= link_to "Accounts", accounts_path %>
 		| <%= link_to "Subscriptions", subscriptions_path %>
 		| <%= link_to "Invoices", invoices_path %>
 		| <%= link_to "Payments", payments_path %>
@@ -25,11 +26,12 @@
 		<% else %>
 		<% end %>
 	</div>
-	<h1 class="font-header font-header-small font-upper line-115">
+	
+	<h1 class="font-header font-header-small font-upper line-115 no-print">
 		<% if controller_name == "tweets" %>
-			Tweets, Threads
+			Quick / Thread / Photos
 		<% elsif controller_name == "articles" %>
-			Articles, Updates, Translations
+			Value energy objects
 		<% elsif controller_name == "uploads" %>
 			Uploads
 		<% elsif controller_name == "frames" %>
@@ -59,9 +61,7 @@
 		<% end %>
 	</h1>
 	
-
-	
-	<div class="margin-bottom-20">
+	<div class="margin-bottom-20 no-print">
 		<% if action_name == "index" %>
 			<% if controller_name == "tweets" %>
 				<%= link_to 'New tweet', new_tweet_path %>

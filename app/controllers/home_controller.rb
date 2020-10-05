@@ -5,10 +5,10 @@ class HomeController < ApplicationController
 		set_country
 		
 		@article_id = "0"
-		@latesttop = Article.english.published.topstory.lastone
-		@podcast = Article.english.published.podcast.lastfive
+		@latestpodcast = Article.english.published.podcast.latestpodcast
+		@podcast = Article.english.published.podcast.notlatestpodcast.lastfive
 		@patrons = Article.english.published.patrons.lastfive
-		@free = Article.english.published.notlatesttop.notupdates.nottruth.notstory.notpatrons.notpodcast.lastfive
+		@free = Article.english.published.notupdates.nottruth.notstory.notpatrons.notpodcast.lastfive
 		@truth = Article.english.published.truth.lastfive
 		
 		@rss = Article.published.english.order('created_at DESC')
@@ -24,10 +24,10 @@ class HomeController < ApplicationController
 		set_country
 		
 		@article_id = "0"
-		@latesttop = Article.spanish.published.topstory.lastone
+		@latestpodcast = Article.spanish.published.topstory.latestpodcast
 		@podcast = Article.spanish.published.podcast.lastfive
 		@patrons = Article.spanish.published.patrons.lastfive
-		@free = Article.spanish.published.notlatesttop.notupdates.nottruth.notstory.notpatrons.notpodcast.lastfive
+		@free = Article.spanish.published.notupdates.nottruth.notstory.notpatrons.notpodcast.lastfive
 		@truth = Article.spanish.published.truth.lastfive
 		
 		@rss = Article.published.spanish.order('created_at DESC')

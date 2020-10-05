@@ -131,6 +131,7 @@
 	
 	post 'editor_creates_new_user' => 'users#editor_creates_new_user'
 	post 'editor_modifies_accounts' => 'accounts#admin_modifies_accounts_and_users'
+	post 'upload_files' => 'uploads#upload_files'
 	
 	resources :users do
 	member do

@@ -8,6 +8,7 @@ class UploadsController < ApplicationController
 			redirect_to root_url
 		elsif current_user.status == 1
 			@uploads = Upload.all.order('created_at DESC')
+			@mains = Upload.main.order('created_at DESC')
 		else
 			redirect_to root_url
 		end
@@ -41,7 +42,7 @@ class UploadsController < ApplicationController
 		if current_user.nil? 
 			redirect_to root_url
 		elsif current_user.status == 1
-			
+			@mains = Upload.all.order('created_at DESC')
 		else
 			redirect_to root_url
 		end
@@ -64,40 +65,59 @@ class UploadsController < ApplicationController
 	    end
 	end
 	
-	# POST /uploads
-	# POST /uploads.json
-	def create
-		# Create a reference for the temporary file
-		tf = "#{Rails.root}/tmp/#{params[:data].original_filename}"
-  
-		# Writes tmp file if doesn't exist
-		File.open(tf, 'wb') do |f|
-			f.write params[:data].read
+	def upload_files
+		@data = params[:data]
+		@data.each do |d|
+			# Create a reference for the temporary file
+			tf = "#{Rails.root}/tmp/#{d.original_filename}"
+	  
+			# Writes tmp file if doesn't exist
+			File.open(tf, 'wb') do |f|
+				f.write d.read
+			end
+			how_big = File.size(tf)
+			
+			# Open S3, sort out bucket, create object, upload to object
+			s3 = Aws::S3::Resource.new()
+		    file_name = File.basename(tf)
+		    @extension_to_analyse = File.extname(tf)
+		    s3_buckets
+		    
+		    obj = s3.bucket(@bucket).object(file_name)
+		    obj.upload_file(tf, content_type: @file_content_type)
+		    
+		    # Create the database row in Rails
+			@upload = Upload.new(
+					data: obj.public_url,
+					file_size: how_big,
+					file_type: @file_content_type
+				)
+			@upload.save
 		end
-		how_big = File.size(tf)
-		
-		# Open S3, sort out bucket, create object, upload to object
-		s3 = Aws::S3::Resource.new()
-	    file_name = File.basename(tf)
-	    @extension_to_analyse = File.extname(tf)
-	    s3_buckets
-	    
-	    obj = s3.bucket(@bucket).object(file_name)
-	    obj.upload_file(tf, content_type: @file_content_type)
-	    
-	    # Create the database row in Rails
-		@upload = Upload.new(
-				data: obj.public_url,
-				file_size: how_big,
-				file_type: @file_content_type
-			)
 
 		respond_to do |format|
 			if @upload.save
 				format.html { redirect_to uploads_url, notice: 'Upload was successfully created.' }
-				format.json { render :index, status: :created, location: @upload }
+				format.json { render :index, status: :created}
 			else
-				format.html { render :new }
+				format.html { redirect_to uploads_url, notice: 'Problem with upload...' }
+				format.json { render json: @upload.errors, status: :unprocessable_entity }
+			end
+		end
+	end
+	
+	
+	# POST /uploads
+	# POST /uploads.json
+	def create
+		@upload = Upload.new(upload_params)
+		
+		respond_to do |format|
+			if @upload.save
+				format.html { redirect_to uploads_url, notice: 'Upload was successfully created.' }
+				format.json { render :index, status: :created}
+			else
+				format.html { redirect_to uploads_url, notice: 'Problem with upload...' }
 				format.json { render json: @upload.errors, status: :unprocessable_entity }
 			end
 		end
@@ -120,14 +140,24 @@ class UploadsController < ApplicationController
 	# DELETE /uploads/1
 	# DELETE /uploads/1.json
 	def destroy
+		@upload.versions.each do |v|
+			v_file_name = File.basename(v.data)
+			@extension_to_analyse = File.extname(v.data)
+			s3_buckets
+			s3 = Aws::S3::Client.new
+			s3.delete_object(key: v_file_name, bucket: @bucket)
+			
+			v.destroy
+		end
+
 		file_name = File.basename(@upload.data)
 		@extension_to_analyse = File.extname(@upload.data)
 		s3_buckets
-		
 		s3 = Aws::S3::Client.new
 		s3.delete_object(key: file_name, bucket: @bucket)
 		
 		@upload.destroy
+		
 		respond_to do |format|
 			format.html { redirect_to uploads_url, notice: 'Upload was successfully destroyed.' }
 			format.json { head :no_content }
@@ -142,6 +172,6 @@ class UploadsController < ApplicationController
 
 		# Never trust parameters from the scary internet, only allow the white list through.
 		def upload_params
-			params.require(:upload).permit(:data, :file_size, :file_type)
+			params.require(:upload).permit(:data, :file_size, :file_type, :main_id, :version, :article_ids => [])
 		end
 end

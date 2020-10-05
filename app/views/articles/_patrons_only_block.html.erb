@@ -1,5 +1,6 @@
 <div id="patrons" class="alert-warning padding-20 margin-top-20">
 	<div>
+		<%# DISPLAY PATRONS LABEL %>
 		<div class="float-left margin-right-5">
 			<span class="label background-color-patrons font-main-tiny font-bold font-color-white">
 				<% if controller_name == "articles" && action_name == "show" && (@article.extras_notes.present? || @article.extras_audio_file.present?) %>
@@ -14,19 +15,19 @@
 			</span>
 		</div>
 		
-		<% if controller_name == "articles" && action_name == "show" %>
-			<% if current_user.nil? %>
-			<% elsif @status == 3 && @can_read == true %>
-				<div class="margin-right-5 float-left mobile-bottom-10">
-		    		<span class="label background-color-green font-main-tiny font-bold font-color-white">
-		    			<% case @article.language_id when 1 %>45 DAYS FREE
-		    			<% when 2 %>45 DÍAS GRATIS
-		    			<% end %>
-		    		</span>
-		    	</div>
-	    	<% else end %>
-    	<% end %>
-	
+		<%# DISPLAY 45-DAY FREE TRIAL LABEL FOR LOGGED-IN READERS %>
+		<% if current_user.nil? %>
+		<% elsif @status == 3 && @can_read_date > Time.now %>
+			<div class="margin-right-5 float-left mobile-bottom-10">
+	    		<span class="label background-color-green font-main-tiny font-bold font-color-white">
+	    			<% case @language when 1 %>45 DAYS FREE
+	    			<% when 2 %>45 DÍAS GRATIS
+	    			<% end %>
+	    		</span>
+	    	</div>
+    	<% else end %>
+		
+		<%# DISPLAY EXTRAS TEASER NEXT TO LABELS... %>	
 		<div class="float-left">
 			<% if controller_name == "articles" && action_name == "show" && (@article.extras_notes.present? || @article.extras_audio_file.present?) %>
 				<%= @frame.access_more_for_patrons %>
@@ -35,20 +36,95 @@
 			<% end %>
 		</div>
 		<div class="clear"></div>
+	
+		<%# DISPLAY HOME-PAGE MINI LIST OR EXTRA ARTICLE CONTENT %>
+		<% if controller_name == "home" %>
+			<ul class="margin-top-20 margin-bottom-20">
+				<% if @patrons.any?; @patrons.each do |article| %>
+					<%= render "articles/index_articles_list_link", {article: article} %>
+				<% end end %>
+			</ul>
+		<% elsif controller_name == "articles" && action_name == "show" %>
+			
+			<div>
+				<%# IF NOT LOGGED IN, JUST DISPLAY EXTRA TEXT OR EXTRA AUDIO TEASERS %>
+				<% if current_user.nil? %>
+					<ul class="margin-top-20 margin-bottom-20">
+						<% if @article.extras_notes.present? %>
+							<li class="font-main font-main-small">
+								<strong>
+									<% case @language when 1 %>More:
+									<% when 2 %>Más:
+									<% end %>
+								</strong>
+								<%= @article.extras_notes_teaser %>
+							</li>
+						<% end %>
+						<% if @article.extras_audio_file.present? %>
+							<li class="font-main font-main-small">
+								<strong>
+									<% case @language when 1 %>Listen:
+									<% when 2 %>Escuche:
+									<% end %>
+								</strong>
+								<%= @article.extras_audio_teaser %>
+							</li>
+						<% end %>
+					</ul>
+				
+				<%# 45-DAY FREE TRIAL READERS %>
+				<% elsif @status == 3 && @can_read_date > Time.now %>
+					<%= render "articles/patrons_only_report_script", article: @article %>
+					<%= render "articles/patrons_only_column_audio", article: @article %>
+					<%= render "articles/patrons_only_extra_interview_questions", article: @article %>
+			
+				<%# 45-DAY FREE TRIAL HAS ENDED %>
+				<% elsif @status == 3 && @can_read_date < Time.now %>
+					<div class="margin-left-20 margin-top-30 margin-bottom-20" >
+						<% case @language when 1 %>Your 45-day trial has ended. <a href="/value">Guarantee independent journalism now</a>.
+						<% when 2 %>Su prueba de 45 días ha terminado. <a href="/valor">Garantice el periodismo independiente ahora</a>.
+						<% end %>
+					</div>
+				
+				<%# PATRONS WITH A PAYMENT PROBLEM %>
+				
+					
+				<%# PATRONS > €1 // AUDIO REPORT SCRIPTS %>
+				<% elsif @status == 2 && @level.between?(1, 4) %>
+					<%= render "articles/patrons_only_report_script", article: @article %>
+			
+				<%# PATRONS > €5 // AUDIO REPORT SCRIPTS, PATRONS ONLY COLUMN, PATRONS ONLY COLUMN AUDIO %>
+				<% elsif @status == 2 && @level.between?(5, 9) %>
+					<%= render "articles/patrons_only_report_script", article: @article %>
+					<%= render "articles/patrons_only_column_audio", article: @article %>
+			
+				<%# PATRONS > €10 // AUDIO REPORT SCRIPTS, PATRONS ONLY COLUMN, PATRONS ONLY COLUMN AUDIO, EXTRA AUDIO INTERVIEW QUESTIONS %>
+				<% elsif @status == 2 && @level.between?(10, 24) %>
+					<%= render "articles/patrons_only_report_script", article: @article %>
+					<%= render "articles/patrons_only_column_audio", article: @article %>
+					<%= render "articles/patrons_only_extra_interview_questions", article: @article %>
+				
+				<%# PATRONS > €25 // PHOTOS, TRAVEL %>
+				<% elsif @status == 2 && @level >= 25 %>
+					<%= render "articles/patrons_only_report_script", article: @article %>
+					<%= render "articles/patrons_only_column_audio", article: @article %>
+					<%= render "articles/patrons_only_extra_interview_questions", article: @article %>
+				
+				<%# ADMIN %>
+				<% elsif @status == 1 %>
+					<%= render "articles/patrons_only_report_script", article: @article %>
+					<%= render "articles/patrons_only_column_audio", article: @article %>
+					<%= render "articles/patrons_only_extra_interview_questions", article: @article %>
+					
+				<% else end %>
+				<div class="clear"></div>
+			</div>
+			
+			
+		<% else %>
+		<% end %>
 	</div>
 	
-	
-	<% if controller_name == "home" %>
-		<ul class="margin-top-20 margin-bottom-20">
-			<% if @patrons.any?; @patrons.each do |article| %>
-				<%= render "articles/index_articles_list_link", {article: article} %>
-			<% end end %>
-		</ul>
-	<% elsif controller_name == "articles" && action_name == "show" %>
-		<%= render 'articles/patrons_article_logic' %>
-	<% else %>
-	<% end %>
-	
-	
-	<%= render 'layouts/log_in_logic' %>
+	<%# DO YOU NEED TO LOG IN...? %>
+	<%= render 'users/log_in_logic' %>
 </div>

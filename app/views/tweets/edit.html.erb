@@ -1,8 +1,22 @@
 <%= render "articles/admintop" %>
 <%= render 'form', tweet: @tweet %>
 
-<% if @tweet.image.present? %>
-	<%= image_tag ('http://image.thespainreport.es/' + @tweet.image) %>
-<% else %>
+<% if @tweet.tweet_url.match(/www.youtube.com\/watch/) %>
+	<div class="video-wrapper">
+		<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{@tweet.tweet_url.split('/watch?v=')[-1]}?rel=0&amp;showinfo=0") %>
+	</div>
 <% end %>
+
+<% if @tweet.upload %>
+	<br />
+	<%= image_tag ('https://image.thespainreport.es/' + File.basename(@tweet.upload.data)) %>
+	<% @tweet.upload.versions.each do |v| %>
+		<%= image_tag ('https://image.thespainreport.es/' + File.basename(v.data)) %>
+		<br /><%= File.basename(v.data) %>
+	<% end %>
+<% elsif !@tweet.image.nil? %>
+	<br />
+	<%= image_tag ('https://image.thespainreport.es/' + @tweet.image) %>
+<% else end %>
+
 </div>

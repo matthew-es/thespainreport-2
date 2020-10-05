@@ -1,28 +1,61 @@
 <%= render "articles/admintop" %>
-
-<table width="100%">
-	<tr><td colspan="3"><strong>Podcast</strong></td></tr>
-	<% @podcast.each do |article| %>
-		<%= render "articles/admin_articles_table", {article: article} %>
-	<% end %>
-	<tr><td colspan="3"><strong>Patrons Only</strong></td></tr>
-	<% @patrons.each do |article| %>
-		<%= render "articles/admin_articles_table", {article: article} %>
-	<% end %>
-	<tr><td colspan="3"><strong>Free</strong></td></tr>
-	<% @free.each do |article| %>
-		<%= render "articles/admin_articles_table", {article: article} %>
-	<% end %>
-	<tr><td colspan="3"><strong>Truth</strong></td></tr>
+	
+	<h3>Sell Truth & Journalism</h3>
+	<table width="100%">
 	<% @truth.each do |article| %>
 		<%= render "articles/admin_articles_table", {article: article} %>
 	<% end %>
-	<tr><td colspan="3"><strong>Updates</strong></td></tr>
-	<% @updates.each do |article| %>
+	</table>
+
+	<hr />
+	
+	<h3>Podcast</h3>
+	<table width="100%">
+	<% @podcast.each do |article| %>
 		<%= render "articles/admin_articles_table", {article: article} %>
 	<% end %>
-	<tr><td colspan="3"><strong>Stories</strong></td></tr>
-	<% @stories.each do |article| %>
+	</table>
+	
+	<hr />
+	
+	<h3>Patrons Only Columns</h3>
+	<table width="100%">
+	<% @patrons.each do |article| %>
 		<%= render "articles/admin_articles_table", {article: article} %>
 	<% end %>
+	</table>
+	
+	<hr />
+	
+	<h3>Photos</h3>
+	<table width="100%">
+	<% @photos.each do |article| %>
+		<%= render "articles/admin_articles_table", {article: article} %>
+	<% end %>
+	</table>
+
+	<h3>Videos</h3>
+	<table>
+	<% @videos.each do |article| %>
+		<%= render "articles/admin_articles_table", {article: article} %>
+	<% end %>
+	</table>
+	
+	<h3>Threads & Free</h3>
+	<table width="100%">
+	<% @free.each do |article| %>
+		<%= render "articles/admin_articles_table", {article: article} %>
+	<% end %>
+	</table>
+
+	
+	<hr />
+	
+	<h3>All</h3>
+	<table>
+	<% @all.each do |article| %>
+		<%= render "articles/admin_articles_table", {article: article} %>
+	<% end %>
+	</table>
+	
 </div>

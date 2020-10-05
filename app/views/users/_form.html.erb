@@ -38,9 +38,9 @@
 	<div class="margin-bottom-10">
 		<% if current_user.nil? %>
 		<% elsif current_user.sitelanguage == 1 %>Email amount:
-			<%= form.select :emails, options_for_select([["I want all articles & latest news", "1"], ["I only want full articles", "2"], ["I only want announcements from Matthew", "3"], ["I don't want any emails at all", "4"]], :selected => @user.emails) %>
+			<%= form.select :emails, options_for_select([["I want all articles & latest news", "1"], ["I only want full articles", "2"], ["I only want announcements", "3"], ["I don't want any emails at all", "4"]], :selected => @user.emails) %>
 		<% elsif current_user.sitelanguage == 2 %>Cantidad de correos:
-			<%= form.select :emails, options_for_select([["Quiero artículos y la última hora", "1"], ["Sólo quiero artículos completos", "2"], ["Sólo quiero avisos de Matthew", "3"], ["No quiero ningún correo", "4"]], :selected => @user.emails) %>
+			<%= form.select :emails, options_for_select([["Quiero artículos y la última hora", "1"], ["Sólo quiero artículos completos", "2"], ["Sólo quiero avisos", "3"], ["No quiero ningún correo", "4"]], :selected => @user.emails) %>
 		<% else end %> 
 		
 	</div>
@@ -84,8 +84,8 @@
 	
 	<div class="margin-bottom-10">
 		<strong>
-			<% case @user.sitelanguage when 1 %> Group ID:
-			<% when 2 %> Nº de Grupo:
+			<% case @user.sitelanguage when 1 %> Account ID:
+			<% when 2 %> Nº de Cuenta:
 			<% end %>
 		</strong>
 		<% if current_user.nil? %>
@@ -104,7 +104,7 @@
 		<% else %>
 			<% unless current_user.account.nil?; case current_user.account_role when 1 %>
 				<% case @user.sitelanguage when 1 %> Group owner
-				<% when 2 %> Dueño del grupo
+				<% when 2 %> Líder del grupo
 				<% end %>
 			<% when 2 %>
 				<% case @user.sitelanguage when 1 %> Group member
@@ -130,6 +130,17 @@
 			<% when 2 %> Principiante gratuito
 			<% end %>
 		<% else end end %>
+		<br />
+		
+		<strong>
+			<% case @user.sitelanguage when 1 %> Can read until:
+			<% when 2 %> Puede leer hasta:
+			<% end %>
+		</strong>
+		<% case @user.sitelanguage when 1 %><%= @can_read_date.strftime("%b %d, %Y") %>
+		<% when 2 %><%= @can_read_date.strftime("%d/%m/%Y") %>
+		<% end %>
+	
 	<hr />
 	</div>
 
@@ -144,20 +155,115 @@
 	
 	<div class="margin-bottom-10">
 		<% if @user.status == 2 && @user.account.subscriptions.empty? %>
-			Subscription: Patreon.
-		<% else %> 
-			<% unless @user.account.nil?; @user.account.subscriptions.each do |s| %>
-			Subscription: <%= s.total_amount %>
+			<% case @user.sitelanguage when 1 %> Subscription: Patreon.
+			<% when 2 %> Suscripción: Patreon.
+			<% end %>
 			
-			<div class="margin-left-20">
-				<% s.invoices.each do |i| %>
-					Invoice: <%= i.id %>: <%= i.total_amount %>
-					<% i.payments.each do |p| %>
-						Payment: <%= p.id %>
+			
+		<% else %> 
+			<% unless @user.account.nil? %>
+				<h3>
+					<% case @user.sitelanguage when 1 %> Subscriptions
+					<% when 2 %> Suscripciones
 					<% end %>
-				<% end %>
-			</div>
-			<% end end %>
+				</h3>
+				<table class="admin-table">
+					<tr style="font-weight: bold;" >
+						<td>Nº</td>
+						<td class="right">
+							<% case @user.sitelanguage when 1 %>Amount
+							<% when 2 %>Cantidad
+							<% end %>
+						</td>
+						<td class="right">
+							<% case @user.sitelanguage when 1 %>VAT
+							<% when 2 %>IVA
+							<% end %>
+						</td>
+						<td class="right">
+							Total
+						</td>
+						<td class="right">
+							<% case @user.sitelanguage when 1 %>Created
+							<% when 2 %>Creado
+							<% end %>
+						</td>
+						<td class="right">
+							<% case @user.sitelanguage when 1 %>Next payment
+							<% when 2 %>Siguiente pago
+							<% end %>
+						</td>
+					</tr>
+					<% @user.account.subscriptions.each do |s| %>
+						<tr class="<%= cycle("odd", "even") -%>">
+							<td class="right"><%= s.id %></td>
+							<td class="right"><%= number_to_currency((s.plan_amount.to_f/100.to_f), unit: "€") %></td>
+							<td class="right"><%= number_to_currency((s.vat_amount.to_f/100.to_f), unit: "€") %></td>
+							<td class="right"><%= number_to_currency((s.total_amount.to_f/100.to_f), unit: "€") %></td>
+							<td class="right"><%= s.created_at.strftime("%d/%m/%Y") %></td>
+							<td class="right"><%= s.next_payment_date.strftime("%d/%m/%Y") %></td>
+						</tr>
+					<% end %>
+				</table>
+				
+				<h3>
+					<% case @user.sitelanguage when 1 %> Invoices
+					<% when 2 %> Facturas
+					<% end %>
+				</h3>
+				<table class="admin-table">
+					<tr style="font-weight: bold;" >
+						
+						<td class="right">
+							<% case @user.sitelanguage when 1 %>Date
+							<% when 2 %>Fecha
+							<% end %>
+						</td>
+						<td>Nº</td>
+						<td class="right">
+							<% case @user.sitelanguage when 1 %>Amount
+							<% when 2 %>Cantidad
+							<% end %>
+						</td>
+						<td class="right">
+							<% case @user.sitelanguage when 1 %>VAT
+							<% when 2 %>IVA
+							<% end %>
+						</td>
+						<td class="right">
+							Total
+						</td>
+						<td class="right">
+							<% case @user.sitelanguage when 1 %>Subscription
+							<% when 2 %>Suscripción
+							<% end %>
+						</td>
+						<td class="right">
+							<% case @user.sitelanguage when 1 %>Status
+							<% when 2 %>Estado
+							<% end %>
+						</td>
+						<td class="right">
+							<% case @user.sitelanguage when 1 %>Print
+							<% when 2 %>Imprimir
+							<% end %>
+						</td>
+					</tr>
+					<% @user.account.invoices.each do |i| %>
+						<tr class="<%= cycle("odd", "even") -%>">
+							<td class="right"><%= i.created_at.strftime("%d/%m/%Y") %></td>
+							<td class="right"><%= i.invoice_number %></td>
+							<td class="right"><%= number_to_currency((i.plan_amount.to_f/100.to_f), unit: "€") %></td>
+							<td class="right"><%= number_to_currency((i.tax_amount.to_f/100.to_f), unit: "€") %></td>
+							<td class="right"><%= number_to_currency((i.total_amount.to_f/100.to_f), unit: "€") %></td>
+							<td class="right"><%= i.subscription_id %></td>
+							<td class="right"><%= i.invoice_status %></td>
+							<td class="right"><%= link_to "print", i %></td>
+						</tr>
+					<% end %>
+				</table>
+				
+			<% end %>
 		<% end %>
 	<hr />
 	

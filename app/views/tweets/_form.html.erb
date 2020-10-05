@@ -14,42 +14,67 @@
 	
 	
 	<div class="margin-bottom-10">
-		<strong>Previous:</strong> <%= f.collection_select :previous_id, @previoustweets, :id, :message, {include_blank: true, :selected => @tweet.previous_id}, {:style => "width: 400px;"} %>
-		<%= f.file_field :image  %>
-		<%= f.collection_select :language_id, @languages, :id, :name %>
-		<%= f.select :email_to, options_for_select([["None", "none"], ["E-Mail Alert", "alert"]]) %>
+		<strong>Previous tweet:</strong> <%= f.collection_select :previous_id, @previoustweets, :id, proc {|st| st.message.truncate(70)}, {include_blank: true, :selected => @tweet.previous_id}, {:style => "width: 380px;"} %>
+		<%= f.select :email_to, options_for_select([["Do not send", "none"], ["Test to M", "test"], ["Send email", "alert"]]) %>
+		<%= f.select :send_tweet, options_for_select([["Do not send", "none"], ["Send tweet", "send"]]) %>
 		<%= f.submit %>
 	</div>
 	
-	<div class="margin-bottom-10">
-		<%= f.text_area :message, :class => "width-70 padding-10 font-main font-main-normal", :style => "min-height: 60px;", placeholder: "Tweet text…", maxlength: 280 %>
-	</div>
+	<div class="background-color-yellow padding-10 margin-bottom-10">
+		
+		<div class="margin-bottom-5">
+			Main: <%= f.file_field :image  %> <%= f.check_box :set_article_image %> Use as article main image?
+		</div>
+		<div class="margin-bottom-10">
+			High: <%= f.file_field :image_high  %>
+		</div>
 	
+		<div class="margin-bottom-10">
+			<%= f.text_area :message, :class => "width-70 padding-10 font-main font-main-normal", :style => "min-height: 60px;", placeholder: "Tweet text / photo notes…", maxlength: 280 %>
+		</div>
+		<div class="margin-bottom-5">
+			Link: HERE <%= f.check_box :tweet_this_url %> OR <%= f.text_field :tweet_url, :class => "width-70 padding-5" %>
+		</div>	
+
+		<% if action_name == "edit" %>
+			<div class="margin-bottom-10">
+				<strong>Twitter id:</strong> <%= f.text_field :twitter_tweet_id %>
+			</div>
+		<% end %>
+	
+	</div>
+
 	<div class="margin-bottom-10">
 		<strong>Article:</strong> <%= f.collection_select :article_id, @articles, :id, :headline, {include_blank: true, :selected => @tweet.article_id}, {:style => "width: 400px;"} %>
 		<% if @tweet.article.present? %>
-			| <%= link_to @tweet.article.headline, @tweet.article %>
+			| <%= link_to @tweet.article.short_headline, @tweet.article %>
 		<% end %>
 	</div>
 	
-	<% if action_name == "edit" %>
-		<div class="margin-bottom-10">
-			<strong>Twitter id:</strong> <%= f.text_field :twitter_tweet_id %>
-		</div>
-	<% end %>
+	<hr />
 	
 	<% if action_name == "new" && !params[:article_id].present? %>
 		<div class="margin-bottom-10">
-			<%= f.text_field :new_article_headline, :class => "width-70 padding-5 font-header font-header-small line-10", placeholder: "New article headline…" %>
+			<%= f.text_field :new_article_headline, :class => "width-98 padding-5 font-header font-header-small line-100", placeholder: "New headline…" %>
 		</div>
 		
 		<div class="margin-bottom-10">
-			<%= f.text_field :new_article_lede, :class => "width-70 padding-5 font-main font-main-normal font-italic", placeholder: "New article lede…" %>
+			<%= f.text_field :new_article_short_headline, :class => "width-40 padding-5 font-header font-header-small line-100", placeholder: "New short headline…" %>
 		</div>
-
-		<strong>Type:</strong> <%= f.collection_select :type_id, @types, :id, :name %>
 		
-		<strong>Story:</strong> <%= f.collection_select :story_id, @stories, :id, :headline, {include_blank: true}, {:style => "width: 200px;"} %>
+		<div class="margin-bottom-10">
+			<%= f.text_field :new_article_lede, :class => "width-98 padding-5 font-main font-main-normal font-italic", placeholder: "New article lede…" %>
+		</div>
+		
+		<div class="margin-bottom-10">
+			<%= f.text_area :new_article_text, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 100px;", placeholder: "New article text…" %>
+		</div>
+		
+		<strong>Language:</strong><%= f.collection_select :language_id, @languages, :id, :name %>
+		<strong>Type:</strong> <%= f.collection_select :type_id, @types, :id, :name %>
 		<strong>Translation of:</strong> <%= f.collection_select :original_id, @translationof, :id, :headline, {include_blank: true}, {:style => "width: 200px;"} %>
+	
+		<hr />
 	<% end %>
+
 <% end %>

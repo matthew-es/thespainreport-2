@@ -2,10 +2,34 @@
 <%= render 'form', tweet: @tweet %>
 
 <% if params.has_key?(:article_id) %>
-    <% @tweet.article.tweets.order("created_at DESC").each do |tweet| %>
+    <% @tweet.article.tweets.order("previous_id DESC").each do |t| %>
         <div class="width-100 margin-bottom-10">
-            <div class="width-48 float-left"><%= tweet.message %></div>
-            <div class="width-48 float-left"><%= tweet.quicktranslation %></div>
+            <div class="width-48 float-left">
+                <%= t.message %>
+                <% case t.article.language_id when 1 %><%= link_to "Link", t.tweet_url unless !t.tweet_url %>
+				<% when 2 %><%= link_to "Enlace", t.tweet_url unless !t.tweet_url %>
+				<% end %>
+                
+                <% if t.tweet_url.match(/www.youtube.com\/watch/) %>
+					<div class="video-wrapper">
+						<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{t.tweet_url.split('/watch?v=')[-1]}?rel=0&amp;showinfo=0") %>
+					</div>
+				<% end %>
+                
+                
+                <% if t.upload %>
+                    <br />
+					<%= image_tag ('https://image.thespainreport.es/' + File.basename(t.upload.data)) %>
+					<% t.upload.versions.each do |v| %>
+						<%= image_tag ('https://image.thespainreport.es/' + File.basename(v.data)) %>
+						<br /><%= File.basename(v.data) %>
+					<% end %>
+				<% elsif !t.image.nil? %>
+					<br />
+					<%= image_tag ('https://image.thespainreport.es/' + t.image) %>
+				<% else end %>
+            </div>
+            <div class="width-48 float-left padding-left-10"><%= t.quicktranslation %></div>
             <div class="clear"></div>
         </div>
     <% end %>

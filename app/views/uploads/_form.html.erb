@@ -1,4 +1,5 @@
-<%= form_with url: uploads_path do |f| %>
+<%= form_for(@upload) do |f| %>
 	<%= f.file_field :data  %>
-	<%= f.submit 'Upload file' %>
+	<%= f.collection_select :main_id, @mains, :id, :data, {include_blank: true, :selected => @upload.main_id}, {:style => "width: 190px;"} %>
+	<%= f.submit 'Save' %>
 <% end %>

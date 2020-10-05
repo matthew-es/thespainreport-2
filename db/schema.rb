@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_29_120451) do
+ActiveRecord::Schema.define(version: 2020_10_05_144801) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -26,6 +26,9 @@ ActiveRecord::Schema.define(version: 2020_06_29_120451) do
     t.integer "user_id"
     t.datetime "stripe_payment_method_expiry_reminder"
     t.integer "total_support"
+    t.string "invoice_account_name"
+    t.string "invoice_account_address"
+    t.string "invoice_account_tax_id"
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -171,6 +174,19 @@ ActiveRecord::Schema.define(version: 2020_06_29_120451) do
     t.integer "subscription_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "invoice_year"
+    t.integer "invoice_month"
+    t.integer "invoice_day"
+    t.string "invoice_number"
+    t.string "invoice_customer_address"
+    t.string "invoice_customer_tax_id"
+    t.string "invoice_customer_name"
+    t.string "invoice_concept"
+    t.string "invoice_from_name"
+    t.string "invoice_from_address"
+    t.string "invoice_from_tax_id"
+    t.integer "invoice_status"
+    t.string "invoice_tax_country"
   end
 
   create_table "languages", force: :cascade do |t|
@@ -263,7 +279,8 @@ ActiveRecord::Schema.define(version: 2020_06_29_120451) do
     t.string "image"
     t.integer "article_id"
     t.string "quicktranslation"
-    t.integer "language_id"
+    t.integer "upload_id"
+    t.string "tweet_url"
     t.index ["article_id"], name: "index_tweets_on_article_id"
     t.index ["previous_id"], name: "index_tweets_on_previous_id"
   end
@@ -283,6 +300,8 @@ ActiveRecord::Schema.define(version: 2020_06_29_120451) do
     t.datetime "updated_at", null: false
     t.integer "file_size"
     t.string "file_type"
+    t.integer "main_id"
+    t.integer "version"
   end
 
   create_table "users", force: :cascade do |t|

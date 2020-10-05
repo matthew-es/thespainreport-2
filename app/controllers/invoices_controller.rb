@@ -16,13 +16,33 @@ class InvoicesController < ApplicationController
   # GET /invoices/1
   # GET /invoices/1.json
   def show
-    if current_user.nil? 
+    @invoice = Invoice.find(params[:id])
+		set_status(current_user)
+		
+		if current_user.nil?
 			redirect_to root_url
+		
 		elsif current_user.status == 1
-			
+			@howmanyinvoices = Invoice.where(:invoice_year => Time.current.year).count
+			@new_invoice_number = "TSR-" + Time.current.year.to_s + "-" + (@howmanyinvoices + 1).to_s.rjust(8, '0')
+		
+		elsif @invoice.account.user_id != current_user.id
+			redirect_to edit_user_path(current_user)
+		  puts "here is the problem"
+		  puts @invoice.account.user_id
+		  puts current_user
+		  puts current_user.id
+		elsif @invoice.account.user_id == current_user.id
+			puts @invoice.account.user_id
 		else
 			redirect_to root_url
 		end
+		
+		
+		
+		
+		
+		
   end
 
   # GET /invoices/new
@@ -95,6 +115,10 @@ class InvoicesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def invoice_params
-      params.require(:invoice).permit(:tax_percent, :plan_amount, :tax_amount, :total_amount, :account_id, :subscription_id)
+      params.require(:invoice).permit(
+        :invoice_year, :invoice_month, :invoice_day, :invoice_number, :invoice_status,
+        :invoice_customer_address, :invoice_customer_tax_id, :invoice_customer_name, :invoice_concept,
+        :invoice_from_name, :invoice_from_address, :invoice_from_tax_id,
+        :tax_percent, :plan_amount, :tax_amount, :total_amount, :account_id, :subscription_id)
     end
 end

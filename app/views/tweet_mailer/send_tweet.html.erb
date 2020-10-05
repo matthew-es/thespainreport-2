@@ -1,6 +1,104 @@
-<%= @tweet.message %>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
 
-<% if @tweet.image.present? %>
+<% if @tweet.article  %>
+    <p><strong><%= @tweet.article.headline %></strong></p>
+    
+    <p><em><%= @tweet.article.lede %></em></p>
+    
+    <p><%= markdown(@tweet.article.body) %></p>
+<% end %>
+
+<p><strong>Tweet</strong></p>
+<p><%= @tweet.message %></p>
+<p><%= @tweet.tweet_url %></p>
+
+<p>
+    <ul>
+        <% if @tweet.article  %>
+            <li>Article: <%= article_url(@tweet.article) %></li>
+        <% end %>
+        <% if @tweet.twitter_tweet_id  %>
+            <li>Twitter: <%= "https://twitter.com/matthewbennett/status/" + @tweet.twitter_tweet_id.to_s %></li>
+        <% end %>
+    </ul>
+</p>
+
+<% if @tweet.upload %>
+    <br />
+	<%= image_tag ('https://image.thespainreport.es/' + File.basename(@tweet.upload.data)) %>
+<% elsif !@tweet.image.nil? %>
+	<br />
 	<%= image_tag ('https://image.thespainreport.es/' + @tweet.image) %>
+<% else end %>
+
+<p>
+********************************************************************************************
+</p>
+
+<% if @language == 1 %>
+	Listen to the podcast, Bennett in Spain, here:
+	<a href="https://podcasts.apple.com/podcast/id1495596532" title="Bennett in Spain on Apple Podcasts">Apple Podcasts</a>, 
+	<a href="https://open.spotify.com/show/4A8CdKc4bYPYsapzyxdvWo" title="Bennett in Spain on Spotify">Spotify</a>, 
+	<a href="https://www.ivoox.com/podcast-bennett-in-spain_sq_f1842992_1.html" title="Bennett in Spain on iVoox">iVoox</a>,
+	<a href="https://www.stitcher.com/podcast/the-spain-report" title="Bennett in Spain on Stitcher">Stitcher</a>,
+	<a href="https://#" title="Bennett in Spain on Tunein">Tunein</a>,
+	<a href="https://soundcloud.com/user-842077287/sets/bennett-in-spain" title="Bennett in Spain on SoundCloud">SoundCloud</a>,
+	<a href="https://www.youtube.com/playlist?list=PL3DymtXaX19QyOs-R0bu1eiX6j4c8L-Ey" title="Bennett in Spain on YouTube">YouTube</a>,
+	<a href="https://www.facebook.com/BennettInSpain/playlist/606829756765780" title="Bennett in Spain on Facebook">Facebook</a>
+<% elsif @language == 2 %>
+	Escuche el podcast, Bennett en España, aquí:
+	<a href="https://podcasts.apple.com/podcast/id1495596384" title="Bennett en España en Apple Podcasts">Apple Podcasts</a>, 
+	<a href="https://open.spotify.com/show/7euXMABMb6onzw50VxKK0W" title="Bennett en España en Spotify">Spotify</a>, 
+	<a href="https://www.ivoox.com/podcast-bennett-espana_sq_f1842998_1.html" title="Bennett en España en iVoox">iVoox</a>,
+	<a href="https://www.stitcher.com/podcast/bennett-en-espana" title="Bennett en España en Stitcher">Stitcher</a>,
+	<a href="https://tunein.com/podcasts/News--Politics-Podcasts/Bennett-en-Espana-p1286596/" title="Bennett en España en Tunein">Tunein</a>,
+	<a href="https://soundcloud.com/user-842077287/sets/bennett-en-espana" title="Bennett en España en SoundCloud">SoundCloud</a>,
+	<a href="https://www.youtube.com/playlist?list=PL3DymtXaX19TyCGLrkycaKaCAzha0HwAw" title="Bennett en España en YouTube">YouTube</a>,
+	<a href="https://www.facebook.com/BennettInSpain/playlist/206012307112155" title="Bennett en España en Facebook">Facebook</a>
 <% else %>
 <% end %>
+
+<% if @language == 1 %>
+	<p><strong>Set your email amount:</strong></p>
+	<ul>
+		<li><%= link_to "All articles & updates", update_email_amount_user_url(@user.confirm_token, emails: 1) %></li>
+		<li><%= link_to "Only full articles", update_email_amount_user_url(@user.confirm_token, emails: 2) %></li>
+		<li><%= link_to "Only important announcements", update_email_amount_user_url(@user.confirm_token, emails: 3) %></li>
+		<li><%= link_to "Stop all emails", update_email_amount_user_url(@user.confirm_token, emails: 4) %></li>
+	</ul>
+	<p><strong>Set your email language:</strong></p>
+	<ul>
+		<li><%= link_to "I want emails in English", update_email_language_user_url(@user.confirm_token, emaillanguage: 1) %></li>
+		<li><%= link_to "I want emails in Spanish", update_email_language_user_url(@user.confirm_token, emaillanguage: 2) %></li>
+		<li><%= link_to "I want emails in both languages", update_email_language_user_url(@user.confirm_token, emaillanguage: 3) %></li>
+	</ul>
+<% elsif @language == 2 %>
+	<ul>
+		<% if ['.pdf'].include?File.extname(@article.image) %>
+			<li>Documento: <%= link_to @article.image, 'https://pdf.thespainreport.es/' + @article.image %></li>
+		<% else %>
+		<% end %>
+	</ul>
+	<p><strong>Elija la cantidad de correo que quiere:</strong></p>
+	<ul>
+		<li><%= link_to "Todo: artículos y actualizaciones", update_email_amount_user_url(@user.confirm_token, emails: 1) %></li>
+		<li><%= link_to "Sólo artículos completos", update_email_amount_user_url(@user.confirm_token, emails: 2) %></li>
+		<li><%= link_to "Sólo anuncios importantes", update_email_amount_user_url(@user.confirm_token, emails: 3) %></li>
+		<li><%= link_to "No quiero ningún correo", update_email_amount_user_url(@user.confirm_token, emails: 4) %></li>
+	</ul>
+	<p><strong>Elija el idioma de los correos:</strong></p>
+	<ul>
+		<li><%= link_to "Quiero los artículos en inglés", update_email_language_user_url(@user.confirm_token, emaillanguage: 1) %></li>
+		<li><%= link_to "Quiero los artículos en español", update_email_language_user_url(@user.confirm_token, emaillanguage: 2) %></li>
+		<li><%= link_to "Quiero los artículos en ambos idiomas", update_email_language_user_url(@user.confirm_token, emaillanguage: 3) %></li>
+	</ul>
+<% else %>
+<% end %>
+
+</body>
+</html>

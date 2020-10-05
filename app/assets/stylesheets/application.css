@@ -98,6 +98,7 @@ a.no-hover-bg:hover {background-color: #fff;}
 .margin-bottom-20 {margin-bottom: 20px;}
 .margin-bottom-30 {margin-bottom: 30px;}
 .margin-left-0 {margin-left: 0px;}
+.margin-left-5 {margin-left: 5px;}
 .margin-left-10 {margin-left: 10px;}
 .margin-left-20 {margin-left: 20px;}
 .margin-right-5 {margin-right: 5px;}
@@ -116,12 +117,13 @@ a.no-hover-bg:hover {background-color: #fff;}
 .padding-bottom-0 {padding-bottom: 0px;}
 .padding-bottom-2 {padding-bottom: 2px;}
 .padding-left-5 {padding-left: 5px;}
+.padding-left-10 {padding-left: 10px;}
 
 /* Other stuff */
 .content {width: 650px; margin: 0 auto; padding: 10px 30px; border-left: 2px solid #AA151B; border-right: 2px solid #AA151B;}
 .content-wide {width: 1100px; margin: 0 auto; padding: 10px; border-left: 1px solid #AA151B; border-right: 1px solid #AA151B;}
 .meta {text-transform: uppercase;}
-.label {padding: 2px 5px;}
+.label {padding: 2px 5px;}margin-bo
 .label-big {padding: 4px 8px;}
 .frameimage {width: 200px; border-radius: 50%;}
 .video-wrapper {position: relative; margin-top: 10px; margin-bottom: 10px; padding-bottom: 56.25%; /* 16:9 */ padding-top: 25px; height: 0;}
@@ -158,18 +160,28 @@ input.stripe_email::placeholder {color: #aab7c4;}
 
 /* ---------------------------------------------------------------------------------------------------- */
 
-@media only screen and (max-width: 700px) {
-    body {width: 98%; margin: 0 auto;}
-    .content {width: 100%; margin: 0 auto; padding: 10px 0px 0px 10px; border-left: 0; border-right: 0;}
-    .mobile-100 {width: 100%; margin-bottom: 5px;}
+@media only screen and (max-width: 1150px) {
+    body {width: 100%; margin: 0 auto;}
+    .content-wide {width: 95%; margin: 0 auto; padding-left: 2%; padding-right: 2%; border-left: 0; border-right: 0;}
+}
+
+@media only screen and (max-width: 730px) {
+    .content {width: 95%; margin: 0 auto; padding-left: 2%; padding-right: 2%; border-left: 0; border-right: 0;}
+    .mobile-100 {width: 95%; margin-bottom: 5px;}
     .mobile-width {width: 48%;}
-    p, li {width: 98%; font-size: 19px;}
-    img {width: 98%;}
+    p, li {width: 95%; font-size: 19px;}
     .mobile-bottom-10 {margin-bottom: 5px;}
     .font-main-small {font-size: 17px;}
 }
 
 @media only screen and (max-width: 400px) {
-    .mobile-width {width: 100%;}
+    .mobile-width {width: 95%;}
     .mobile-margins {margin: 0px;}
+}
+
+/* # Printing pages
+---------------------------------------------------------------------------------------------------- */
+@media print {
+   .no-print {display:none;}
+   hr {margin-top: 30px; margin-bottom: 30px;}
 }
