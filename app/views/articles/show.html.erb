@@ -246,17 +246,7 @@
 		<% end %>
 	<%# end of WHO GETS TO READ THE MAIN ARTICLE TEXT? %>
 	
-	
-	<%# PHOTO ESSAYS %>
-	<% if @article.uploads.main %>
-		<% @article.uploads.main.each do |u| %>
-			<%= u.data %><br />
-			<% u.versions.each do |v| %>
-				---<%= v.data %><br />
-			<% end %>
-		<% end %>
-	<% end %>
-	
+
 	
 	<% if @article.audio_file_mp3.present? && @article.language_id == 2 %>
 		<h3>Escuche el podcast Bennett en España aquí:</h3>
