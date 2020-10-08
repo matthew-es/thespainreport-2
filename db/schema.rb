@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_05_144801) do
+ActiveRecord::Schema.define(version: 2020_10_08_162327) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -319,12 +319,12 @@ ActiveRecord::Schema.define(version: 2020_10_05_144801) do
     t.datetime "password_reset_sent_at"
     t.integer "account_id"
     t.integer "account_role"
-    t.string "country"
-    t.string "mailing_address"
+    t.string "address"
     t.integer "level_amount"
     t.integer "frame_id"
     t.boolean "can_read"
     t.datetime "can_read_date"
+    t.integer "country_id"
   end
 
   create_table "webhook_events", force: :cascade do |t|
