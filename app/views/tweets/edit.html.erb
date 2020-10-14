@@ -1,7 +1,7 @@
 <%= render "articles/admintop" %>
 <%= render 'form', tweet: @tweet %>
 
-<% if @tweet.tweet_url.match(/www.youtube.com\/watch/) %>
+<% if @tweet.tweet_url && @tweet.tweet_url.match(/www.youtube.com\/watch/) %>
 	<div class="video-wrapper">
 		<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{@tweet.tweet_url.split('/watch?v=')[-1]}?rel=0&amp;showinfo=0") %>
 	</div>
