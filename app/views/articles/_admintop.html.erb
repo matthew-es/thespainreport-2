@@ -2,7 +2,7 @@
 	
 	<div class="margin-bottom-10 no-print">
 		<%= link_to "Site", root_path %>
-		| <%= link_to "Quick / Thread / Photos", new_tweet_path %>
+		| <%= link_to "Quick / Thread / Photo Essay", new_tweet_path %>
 		| <%= link_to "Article", new_article_path %>
 		|| <% if current_user %>
 			<%= current_user.email %>
@@ -29,7 +29,7 @@
 	
 	<h1 class="font-header font-header-small font-upper line-115 no-print">
 		<% if controller_name == "tweets" %>
-			Quick / Thread / Photos
+			Quick / Thread / Photo Essay
 		<% elsif controller_name == "articles" %>
 			Value energy objects
 		<% elsif controller_name == "uploads" %>

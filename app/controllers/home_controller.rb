@@ -8,8 +8,10 @@ class HomeController < ApplicationController
 		@latestpodcast = Article.english.published.podcast.latestpodcast
 		@podcast = Article.english.published.podcast.notlatestpodcast.lastfive
 		@patrons = Article.english.published.patrons.lastfive
-		@free = Article.english.published.notupdates.nottruth.notstory.notpatrons.notpodcast.lastfive
+		@free = Article.english.published.notupdates.nottruth.notstory.notpatrons.notpodcast.notphoto.notvideo.lastfive
 		@truth = Article.english.published.truth.lastfive
+		@photos = Article.english.published.photo.lastfive
+		@videos = Article.english.published.video.lastfive
 		
 		@rss = Article.published.english.order('created_at DESC')
 		respond_to do |format|
@@ -27,8 +29,10 @@ class HomeController < ApplicationController
 		@latestpodcast = Article.spanish.published.topstory.latestpodcast
 		@podcast = Article.spanish.published.podcast.lastfive
 		@patrons = Article.spanish.published.patrons.lastfive
-		@free = Article.spanish.published.notupdates.nottruth.notstory.notpatrons.notpodcast.lastfive
+		@free = Article.spanish.published.notupdates.nottruth.notstory.notpatrons.notpodcast.notphoto.notvideo.lastfive
 		@truth = Article.spanish.published.truth.lastfive
+		@photos = Article.spanish.published.photo.lastfive
+		@videos = Article.spanish.published.video.lastfive
 		
 		@rss = Article.published.spanish.order('created_at DESC')
 		respond_to do |format|

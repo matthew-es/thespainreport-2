@@ -9,6 +9,7 @@ class TweetsController < ApplicationController
 		@types = Type.all.order(:name)
 		@stories = Article.story.order('headline ASC')
 		@translationof = Article.lastten.order('created_at DESC')
+		@uploads = Upload.all.order('created_at DESC').limit(50)
 	end
 	
 	def index
@@ -62,73 +63,31 @@ class TweetsController < ApplicationController
 	
 	
 	def add_tweet_image
-	
+		
+		# Upload main version of image, update tweet with id
 		if params[:tweet][:image]
-			# Grab the image from the form field, write it to temporary folder
-			@tf = "#{Rails.root}/tmp/#{params[:tweet][:image].original_filename}"
-			File.open(@tf, 'wb') do |f|
-				f.write params[:tweet][:image].read
-			end
+			upload = params[:tweet][:image]
+			version = 1
+			main = ""
+			@upload_main = Uploads::UploadFile.process(upload, version, main)
 			
-			# Put the image on S3
-			s3 = Aws::S3::Resource.new()
-			bucket = 'image.thespainreport.es'
-			name = File.basename(@tf)
-			obj = s3.bucket(bucket).object(name)
-			obj.upload_file(@tf)
-			
-			# Create a new upload entry in Rails database, for use elsewhere
-			@upload = Upload.new(
-					data: obj.public_url,
-					version: 1
-				)
-			@upload.save
-			
-			# Update the tweet with the image reference
-			@tweet.update(
-				upload_id: @upload.id
-			)
+			# Update the tweet with the upload_id
+			@tweet.update(upload_id: @upload_main.id)
 		else
 		end
 		
-		# Add high res version of image, do NOT update tweet
+		# Upload high res version of image, do NOT update tweet
 		if params[:tweet][:image_high]
-			# Grab the image from the form field, write it to temporary folder
-			@tf_high = "#{Rails.root}/tmp/#{params[:tweet][:image_high].original_filename}"
-			File.open(@tf_high, 'wb') do |f|
-				f.write params[:tweet][:image_high].read
-			end
-			
-			# Put the image on S3
-			s3 = Aws::S3::Resource.new()
-			bucket = 'image.thespainreport.es'
-			name = File.basename(@tf_high)
-			obj = s3.bucket(bucket).object(name)
-			obj.upload_file(@tf_high)
-			
-			# Create a new upload entry in Rails database, for use elsewhere
-			@upload_2 = Upload.new(
-					data: obj.public_url,
-					main_id: @upload.id,
-					version: 2
-				)
-			@upload_2.save
-
+			upload = params[:tweet][:image_high]
+			version = 2
+			main = @upload_main.id
+			upload_high = Uploads::UploadFile.process(upload, version, main)
 		else
 		end
 		
 		# Use image as article main image too
 		if params[:tweet][:set_article_image] == "1"
-			if params[:tweet][:image] = ""
-			
-			elsif params[:tweet][:image] != ""
-				@tweet.article.update(image: File.basename(params[:tweet][:image]))
-			else end
-			
-			if @tweet.upload
-				@tweet.article.update(image: File.basename(@tweet.upload.data))
-			else
-			end
+			@tweet.article.update(upload_id: @tweet.upload.id)
 		else
 		end
 		
@@ -161,6 +120,7 @@ class TweetsController < ApplicationController
 		
 		elsif params[:tweet][:send_tweet] == 'send'
 			
+			# With a link?
 			if params[:tweet][:tweet_this_url] == "1"
 				tweetlink = article_url(@tweet.article)
 			elsif params[:tweet][:tweet_url]
@@ -169,23 +129,28 @@ class TweetsController < ApplicationController
 				tweetlink = ""
 			end
 			
+			# Get the image ready if there is one
+			if @tweet.upload
+				@existing = Uploads::TweetExisting.process(@tweet.upload.data)
+			end
+		
+			# In a thread, with an image?
 			if @tweet.previous.present?
-				if @tweet.image
-					@send = $client.update_with_media(@tweet.message + ' ' + tweetlink, File.new(@tf), in_reply_to_status_id: @tweet.previous.twitter_tweet_id)
+				if @tweet.upload
+					@send = $client.update_with_media(@tweet.message + ' ' + tweetlink, @existing, in_reply_to_status_id: @tweet.previous.twitter_tweet_id)
 				else
 					@send = $client.update(@tweet.message + ' ' + tweetlink, in_reply_to_status_id: @tweet.previous.twitter_tweet_id)
 				end
 			else
-				if @tweet.image
-					@send = $client.update_with_media(@tweet.message + ' ' + tweetlink, File.new(@tf))
+				if @tweet.upload
+					@send = $client.update_with_media(@tweet.message + ' ' + tweetlink, @existing)
 				else
 					@send = $client.update(@tweet.message + ' ' + tweetlink)
 				end
 			end
 			
-			@tweet.update(
-				twitter_tweet_id: @send.id
-				)
+			# Update tweet with actual Twitter status id
+			@tweet.update(twitter_tweet_id: @send.id)
 			
 		else
 		end

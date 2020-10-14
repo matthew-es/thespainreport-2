@@ -33,6 +33,7 @@
 <%= render "layouts/logo_account" %>
 
 <div class="margin-top-30">
+	<%# HEADLINE %>
 	<h1 class="font-header font-header-normal line-120 font-upper">
 		<% if current_user.nil? %>
 			<%= @article.headline %>
@@ -42,9 +43,9 @@
 			<%= @article.headline %>
 		<% end %>
 	</h1>
-
+	
+	<%# DATE, TIME, LABELS BELOW HEADLINE %>
 	<div class="meta font-main font-main-tiny">
-	    
 	    <div class="margin-right-5 float-left mobile-bottom-10">
 	    	<% if @article.language_id == 1 %>
 				<%= @article.created_at.strftime("%b %d, %Y, %l:%M %P") %>
@@ -60,7 +61,6 @@
 	    			<%= @article.type.name %>
 	    		</span>
 	    	</div>
-	    	
 	    	
 	    	<% if current_user.nil? %>
 			<% elsif @status == 3 && @can_read == true %>
@@ -87,6 +87,7 @@
 	    	</div>
 	    <% end %>
 	
+	
 	    <% if @articleupdates.present? || @article.status.try(:name) == 'Updated' %>
 	    	<div class="margin-right-5 float-left mobile-bottom-10">
 	    		<span class="label background-color-black font-color-white">
@@ -108,6 +109,8 @@
 	    	</div>
 	    <% end %>
 	    
+	    
+	    <%# TRANSLATION LINKS %>
 		<% if @article.original.blank? %>
 			<% @article.translations.where.not(id: @article).each do |tr| %>
 				<div class="margin-right-5 float-left mobile-bottom-10">
@@ -125,6 +128,8 @@
 			<% end %>
 		<% end %>
 		
+		
+		<%# E-MAIL ME ARTICLE %>
 		<% if !current_user.nil? %>
 			<div class="margin-right-5 float-left mobile-bottom-10">
 				<% if current_user.sitelanguage == 1 %>
@@ -134,16 +139,12 @@
 				<% else end %>
 			</div>
 		<% else end %>
-	    
-	    <% if false %>
-	    <div class="margin-right-5 float-left mobile-bottom-10">
-	    	<%= link_to @article.story.headline, @article.story, class: "label" unless @article.story.nil? %>
-	    </div>
-	    <% end %>
-	    
+	   
 		<div class="clear"></div>
 	</div>
 	
+	
+	<%# ARTICLE TYPE, LEDE AND TEASER LINKS %>
 	<div class="margin-top-5 font-main font-main-normal font-italic">
 		<span class="font-bold"><%= @article.type.try(:name) %>:</span> <%= @article.lede %>
 		
@@ -175,11 +176,38 @@
 			</ul>
 		<% else end %>
 	</div>
+	
 </div>
 
 
-<% if @articletweets && @articletweets.count < 7 %>
-		
+<%# MAIN IMAGE OR VIDEO %>
+<% if @article.video.present? %>
+		<div class="video-wrapper">
+			<% if @article.video.match(/^[0-9]+$/) %>
+				<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{@article.video}") %>
+			<% else %> 
+				<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{@article.video}?rel=0&amp;showinfo=0") %>
+			<% end %>
+		</div>
+<% elsif @article.audio_file_mp3.present? %>
+	<div class="margin-left-20 margin-top-20" >
+		<div class="padding-left-5 font-main font-main-small font-italic" >
+			<span class="font-bold">
+				<% if @article.language_id == 1 %>
+    				Listen now:
+    			<% elsif @article.language_id == 2 %>
+    				Escuche ahora:
+    			<% else end %>
+			</span> <%= @article.audio_intro %>
+		</div>
+		<audio controls>
+		  	<source src="<%= 'https://audio.thespainreport.es/' + @article.audio_file_aac unless @article.audio_file_aac.nil? %>" type="audio/aac">
+		  	<source src="<%= 'https://audio.thespainreport.es/' + @article.audio_file_mp3 unless @article.audio_file_mp3.nil? %>" type="audio/mpeg">
+			Your browser does not support the audio element.
+		</audio>
+	</div>
+<% elsif @article.upload %>
+	<%= image_tag ('https://image.thespainreport.es/' + File.basename(@article.upload.data)) %>
 <% else %>
 	<% if @article.image.present? %>
 		<% if ['.png','.jpg', '.jpeg', '.gif'].include?File.extname(@article.image) %> 
@@ -190,99 +218,58 @@
 	<% end %>
 <% end %>
 
-<% if @article.video.present? || @article.audio_file_mp3.present? %>
-	<% if @article.video.present? %>
-		<div class="video-wrapper">
-			<% if @article.video.match(/^[0-9]+$/) %>
-				<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{@article.video}") %>
-			<% else %> 
-				<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{@article.video}?rel=0&amp;showinfo=0") %>
-			<% end %>
-		</div>
-	<% elsif @article.audio_file_mp3.present? %>
-		<div class="margin-left-20 margin-top-20" >
-			<div class="padding-left-5 font-main font-main-small font-italic" >
-				<span class="font-bold">
-					<% if @article.language_id == 1 %>
-	    				Listen now:
-	    			<% elsif @article.language_id == 2 %>
-	    				Escuche ahora:
-	    			<% else end %>
-				</span> <%= @article.audio_intro %>
-			</div>
-			<audio controls>
-			  	<source src="<%= 'https://audio.thespainreport.es/' + @article.audio_file_aac unless @article.audio_file_aac.nil? %>" type="audio/aac">
-			  	<source src="<%= 'https://audio.thespainreport.es/' + @article.audio_file_mp3 unless @article.audio_file_mp3.nil? %>" type="audio/mpeg">
-				Your browser does not support the audio element.
-			</audio>
-		</div>
-	<% else %>
-	<% end %>
-<% else %>
-<% end %>
-
-
 <div class="margin-top-20">
 	<%# PODCAST REPORT/INTERVIEW EPISODE NOTES %>
-		<% if @article.audio_file_mp3.present? %>
-			<hr />
-			<%= markdown(@article.audio_episode_notes) %>
-			<hr />
-		<% else end %>
-	<%# end of PODCAST REPORT/INTERVIEW EPISODE NOTES %>
+	<% if @article.audio_file_mp3.present? %>
+		<hr />
+		<%= markdown(@article.audio_episode_notes) %>
+		<hr />
+	<% else end %>
 	
 	
 	<%# WHO GETS TO READ THE MAIN ARTICLE TEXT? %>
-		<% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
-			<% if current_user.nil? %>
-				<%= markdown(truncate(@article.body, length: 550)) %>
-			<% elsif @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 5 || @status == 1 %>
-				<%= markdown(@article.body).html_safe %>
-			<% else %>
-				<%= markdown(truncate(@article.body, length: 550)) %>
-			<% end %>
-		<% else %>
+	<% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
+		<% if current_user.nil? %>
+			<%= markdown(truncate(@article.body, length: 550)) %>
+		<% elsif @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 5 || @status == 1 %>
 			<%= markdown(@article.body).html_safe %>
+		<% else %>
+			<%= markdown(truncate(@article.body, length: 550)) %>
 		<% end %>
-	<%# end of WHO GETS TO READ THE MAIN ARTICLE TEXT? %>
-	
+	<% else %>
+		<%= markdown(@article.body).html_safe %>
+	<% end %>
 
 	
+	<%# PODCAST LINKS %>
 	<% if @article.audio_file_mp3.present? && @article.language_id == 2 %>
 		<h3>Escuche el podcast Bennett en España aquí:</h3>
+		<a href="https://www.thespainreport.es/es/rss/podcast" title="Bennett en España RSS">RSS</a>, 
 		<a href="https://podcasts.apple.com/podcast/id1495596384" title="Bennett en España en Apple Podcasts">Apple Podcasts</a>, 
 		<a href="https://open.spotify.com/show/7euXMABMb6onzw50VxKK0W" title="Bennett en España en Spotify">Spotify</a>, 
 		<a href="https://www.ivoox.com/podcast-bennett-espana_sq_f1842998_1.html" title="Bennett en España en iVoox">iVoox</a>,
 		<a href="https://www.stitcher.com/podcast/bennett-en-espana" title="Bennett en España en Stitcher">Stitcher</a>,
-		<a href="https://tunein.com/podcasts/News--Politics-Podcasts/Bennett-en-Espana-p1286596/" title="Bennett en España en Tunein">Tunein</a>,
+		<a href="https://tunein.com/podcasts/News--Politics-Podcasts/Bennett-en-Espana-p1286596/" title="Bennett en España en TuneIn">TuneIn</a>,
 		<a href="https://soundcloud.com/user-842077287/sets/bennett-en-espana" title="Bennett en España en SoundCloud">SoundCloud</a>,
 		<a href="https://www.youtube.com/playlist?list=PL3DymtXaX19TyCGLrkycaKaCAzha0HwAw" title="Bennett en España en YouTube">YouTube</a>,
 		<a href="https://www.facebook.com/BennettInSpain/playlist/206012307112155" title="Bennett en España en Facebook">Facebook</a>
 	<% elsif @article.audio_file_mp3.present? && @article.language_id == 1 %>
 		<h3>Listen to the Bennett in Spain podcast here:</h3>
+		<a href="https://www.thespainreport.es/rss/podcast" title="Bennett in Spain RSS">RSS</a>, 
 		<a href="https://podcasts.apple.com/podcast/id1495596532" title="Bennett in Spain on Apple Podcasts">Apple Podcasts</a>, 
 		<a href="https://open.spotify.com/show/4A8CdKc4bYPYsapzyxdvWo" title="Bennett in Spain on Spotify">Spotify</a>, 
 		<a href="https://www.ivoox.com/podcast-bennett-in-spain_sq_f1842992_1.html" title="Bennett in Spain on iVoox">iVoox</a>,
 		<a href="https://www.stitcher.com/podcast/the-spain-report" title="Bennett in Spain on Stitcher">Stitcher</a>,
-		<a href="https://#" title="Bennett in Spain on Tunein">Tunein</a>,
+		<a href="https://tunein.com/podcasts/News--Politics-Podcasts/Bennett-in-Spain-p1290614/" title="Bennett in Spain on TuneIn">TuneIn</a>,
 		<a href="https://soundcloud.com/user-842077287/sets/bennett-in-spain" title="Bennett in Spain on SoundCloud">SoundCloud</a>,
 		<a href="https://www.youtube.com/playlist?list=PL3DymtXaX19QyOs-R0bu1eiX6j4c8L-Ey" title="Bennett in Spain on YouTube">YouTube</a>,
 		<a href="https://www.facebook.com/BennettInSpain/playlist/606829756765780" title="Bennett in Spain on Facebook">Facebook</a>
 	<% else %>
 	<% end %>
 	
-
-		<% if @article.image.present? %>
-			<% if ['.pdf'].include?File.extname(@article.image) %>
-				<iframe src="<%= 'https://docs.google.com/viewer?url=https://pdf.thespainreport.es/' + @article.image + '&embedded=true' %>" class="margin-top-10" style="width:100%; height:950px;" frameborder="0"></iframe>
-			<% else %>
-			<% end %>
-		<% else %>
-		<% end %>
-
 	
+	<%# INDIVIDUAL TWEETS OR PHOTO ESSAY IMAGES FOR THE ARTICLE %>
 	<% if @articletweets.present? %>
-	
 		<% if !["Thread", "Hilo", "Photos", "Fotos"].include?(@article.type.name) %>
 			<% case @article.language_id when 1 %><h3>Notes/Tweets</h3>
 			<% when 2 %>Apuntes/Tuits
@@ -290,12 +277,16 @@
 		<% end %>
 	
 		<% @articletweets.each do |t| %>
-			<p>
-				<%= t.message %> 
-				<% case t.article.language_id when 1 %><%= link_to "Link", t.tweet_url unless !t.tweet_url %>
-				<% when 2 %><%= link_to "Enlace", t.tweet_url unless !t.tweet_url %>
-				<% end %>
+			<div class="font-main font-main-normal margin-bottom-20">
+				<%# Display the tweet and any link %>
+				<%= t.message %>
+				<% if t.tweet_url.present? %>
+					<% case t.article.language_id when 1 %><%= link_to "Link", t.tweet_url unless !t.tweet_url %>
+					<% when 2 %><%= link_to "Enlace", t.tweet_url unless !t.tweet_url %>
+					<% end %>
+				<% else end %>
 				
+				<%# Display YouTube video if there is one %>
 				<% if t.tweet_url.nil? %>
 				
 				<% elsif t.tweet_url.match(/www.youtube.com\/watch/) %>
@@ -303,17 +294,22 @@
 						<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{t.tweet_url.split('/watch?v=')[-1]}?rel=0&amp;showinfo=0") %>
 					</div>
 				<% else end %>
-					
-				<% if t.upload %>
+				
+				
+				<%# Display tweet image %>
+				<% if t.upload == @article.upload && t == @article.tweets.first %>
+				
+				<% elsif t.upload %>
 					<br />
 					<%= image_tag ('https://image.thespainreport.es/' + File.basename(t.upload.data)) %>
 				<% elsif !t.image.nil? %>
 					<br />
 					<%= image_tag ('https://image.thespainreport.es/' + t.image) %>
 				<% else end %>
-					
-				<br />
 				
+				
+				<%# Display details, link to Twitter, high res image link for patrons %>
+				<div class="border-top-quiet margin-top-5">
 				<span class="font-main font-main-tiny">
 					<% if @article.language_id == 1 %>
 						<strong>Published:</strong> <%= t.created_at.strftime("%b %d, %Y, %l:%M %P") %> 
@@ -325,8 +321,6 @@
 								| <%= link_to "High resolution image for patrons", 'https://image.thespainreport.es/' + File.basename(v.data) %>
 							<% end %>
 						<% end %>
-						
-						
 					<% elsif @article.language_id == 2 %>
 						<strong>Publicado:</strong> <%= t.created_at.strftime("%d/%m/%Y, %H:%M") %> 
 						| <%= link_to "En Twitter", "https://twitter.com/matthewbennett/status/" + t.twitter_tweet_id.to_s %>
@@ -335,80 +329,36 @@
 								| <%= link_to "Imagen de alta resolución para mecenas", 'https://image.thespainreport.es/' + File.basename(v.data) %>
 							<% end %>
 						<% end %>
-						
 					<% else %>
 					<% end %>
 				</span>
-			</p>
-		<% end %>
-		
-	<% end %>
-
-
-
-	<% if @articleupdates.present? %>
-	<% @articleupdates.each do |u| %>
-		<h3 id="<%= u.id %>">
-			<% if current_user.nil? %>
-				<%= u.headline %>
-			<% elsif current_user.status == 1 %>
-				<%= link_to u.headline, edit_article_path(u), class: "editor-link" %>
-			<% else %>
-				<%= u.headline %>
-			<% end %>
-		</h3>
-		<div class="meta font-main font-main-tiny">
-			<div class="margin-right-5 float-left">
-				<% if u.language_id == 1 %>
-					<%= u.created_at.strftime("%b %d, %Y, %l:%M %P") %>
-				<% elsif u.language_id == 2 %>
-					<%= u.created_at.strftime("%d/%m/%Y, %H:%M") %>
-				<% else %>
-				<% end %>
+				</div>
 			</div>
-			<div class="margin-right-5 float-left">
-	    		<span class="label background-color-black font-color-white">
-	    			<% if u.language_id == 1 %>
-	    				Update
-	    			<% elsif u.language_id == 2 %>
-	    				Actualización
-	    			<% else %>
-	    			<% end %>
-	    		</span>
-	    	</div>
-    	</div>
-    	<div class="clear"></div>
-    	<div class="margin-top-10">
-	    	<% if u.image.present? %>
-				<%= image_tag ('https://image.thespainreport.es/' + u.image) %>
-			<% else %>
-			<% end %>
-			<%= markdown(u.body) %>
-		</div>
-	<% end %>
-	</div>
+		<% end %>
 	<% end %>
 	
 	
-	
-	<%# PATRONS ONLY OR MORE FOR PATRONS ACCESS SECTION  %>
-		<% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
-			<%= render "articles/patrons_only_block" %>
-		<% elsif @article.extras_notes.present? || @article.extras_audio_file.present? %>
-			<%= render "articles/patrons_only_block" %>
-		<% else end %>
-	<%# end of PATRONS ONLY OR MORE FOR PATRONS ACCESS SECTION  %>
-	
-	
+	<%# PATRONS EXTRAS HERE...  %>
+	<% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
+		<%= render "articles/patrons_only_block" %>
+	<% elsif @article.extras_notes.present? || @article.extras_audio_file.present? %>
+		<%= render "articles/patrons_only_block" %>
+	<% else end %>
 
+	
+	<%# PLEASE BECOME A PATRON...  %>
 	<div id="payments" class="padding-20 border-patrons margin-top-20">
 		<%= render "payments/pay" %>
 	</div>
 
+
+	<%# PLEASE JOIN NEWSLETTER...  %>
 	<% if current_user.nil? %>
 		<%= render "users/new_reader_form" %>
 	<% else end %>
 
+
+	<%# FOOTER...  %>
 	<div class="padding-20 border-patrons margin-top-20">
 		<%= render "layouts/footer" %>
 	</div>

@@ -10,10 +10,6 @@
 <% if @tweet.upload %>
 	<br />
 	<%= image_tag ('https://image.thespainreport.es/' + File.basename(@tweet.upload.data)) %>
-	<% @tweet.upload.versions.each do |v| %>
-		<%= image_tag ('https://image.thespainreport.es/' + File.basename(v.data)) %>
-		<br /><%= File.basename(v.data) %>
-	<% end %>
 <% elsif !@tweet.image.nil? %>
 	<br />
 	<%= image_tag ('https://image.thespainreport.es/' + @tweet.image) %>

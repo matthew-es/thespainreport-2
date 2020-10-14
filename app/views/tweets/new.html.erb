@@ -20,10 +20,6 @@
                 <% if t.upload %>
                     <br />
 					<%= image_tag ('https://image.thespainreport.es/' + File.basename(t.upload.data)) %>
-					<% t.upload.versions.each do |v| %>
-						<%= image_tag ('https://image.thespainreport.es/' + File.basename(v.data)) %>
-						<br /><%= File.basename(v.data) %>
-					<% end %>
 				<% elsif !t.image.nil? %>
 					<br />
 					<%= image_tag ('https://image.thespainreport.es/' + t.image) %>

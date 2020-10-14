@@ -27,6 +27,10 @@
 
 <p><em><%= @article.lede %></em></p>
 
+<% if @article.upload %>
+	<%= image_tag ('https://image.thespainreport.es/' + File.basename(@article.upload.data)), style: 'max-width: 700px;' %>
+<% else end %>
+
 <% if @article.image.present? %>
 	<% if ['.png','.jpg'].include?File.extname(@article.image) %> 
 		<%= image_tag ('https://image.thespainreport.es/' + @article.image), style: 'max-width: 700px;' %>
@@ -63,9 +67,6 @@
 <% else %>
 	<%= markdown(@article.body).html_safe %>
 <% end %>
-
-
-
 
 <% if @article.extras_notes.present? || @article.extras_audio_file.present? %>
 	<strong>
@@ -132,27 +133,45 @@
 	<% end %>
 <% else end %>
 
-
-
-<% if @article.image.present? %>
-	<% if ['.pdf'].include?File.extname(@article.image) %>
-		<% case @language when 1 %>Original document:
-		<% when 2 %>Documento original:
-		<% end %>
-		<%= link_to @article.image, 'https://pdf.thespainreport.es/' + @article.image %>
-	<% else %>
-	<% end %>
-<% else %>
-<% end %>
-
 <% if @articletweets.present? %>
 	<% @articletweets.each do |t| %>
 		<p>
 			<%= t.message %>
-			<br /><br />
-			<% if t.image.present? %>
+
+			<%# Display tweet image %>
+			<% if t.upload == @article.upload %>
+			
+			<% elsif t.upload %>
+				<br />
+				<%= image_tag ('https://image.thespainreport.es/' + File.basename(t.upload.data)), style: 'max-width: 700px;' %>
+			<% elsif !t.image.nil? %>
+				<br />
 				<%= image_tag ('https://image.thespainreport.es/' + t.image), style: 'max-width: 700px;' %>
+			<% else end %>
+			
+			<%# Display tweet link %>
+			<% if t.tweet_url.present? %>
+				<% case t.article.language_id when 1 %>Link: 
+				<% when 2 %>Enlace: 
+				<% end %>
+				<%= link_to t.tweet_url, t.tweet_url unless !t.tweet_url %>
+			<% else end %>
+			
+			<br /><br />
+			—<span style="font-size: 12px; font-style: italic;">
+			<% if @article.language_id == 1 %>
+				<strong>Published:</strong> <%= t.created_at.strftime("%b %d, %Y, %l:%M %P") %> 
+				<% if t.twitter_tweet_id %>
+					| <%= link_to "On Twitter", "https://twitter.com/matthewbennett/status/" + t.twitter_tweet_id.to_s %>
+				<% end %>
+			<% elsif @article.language_id == 2 %>
+				Publicado:</strong> <%= t.created_at.strftime("%d/%m/%Y, %H:%M") %>
+				<% if t.twitter_tweet_id %>
+					| <%= link_to "En Twitter", "https://twitter.com/matthewbennett/status/" + t.twitter_tweet_id.to_s %>
+				<% end %>
+			<% else %>
 			<% end %>
+			</span>
 		</p>
 	<% end %>
 <% end %>
@@ -189,12 +208,6 @@
 <% end %>
 
 <% if @language == 1 %>
-	<ul>
-		<% if ['.pdf'].include?File.extname(@article.image) %>
-			<li>Document: <%= link_to @article.image, 'https://pdf.thespainreport.es/' + @article.image %></li>
-		<% else %>
-		<% end %>
-	</ul>
 	<p><strong>Set your email amount:</strong></p>
 	<ul>
 		<li><%= link_to "All articles & updates", update_email_amount_user_url(@user.confirm_token, emails: 1) %></li>
@@ -209,12 +222,6 @@
 		<li><%= link_to "I want emails in both languages", update_email_language_user_url(@user.confirm_token, emaillanguage: 3) %></li>
 	</ul>
 <% elsif @language == 2 %>
-	<ul>
-		<% if ['.pdf'].include?File.extname(@article.image) %>
-			<li>Documento: <%= link_to @article.image, 'https://pdf.thespainreport.es/' + @article.image %></li>
-		<% else %>
-		<% end %>
-	</ul>
 	<p><strong>Elija la cantidad de correo que quiere:</strong></p>
 	<ul>
 		<li><%= link_to "Todo: artículos y actualizaciones", update_email_amount_user_url(@user.confirm_token, emails: 1) %></li>

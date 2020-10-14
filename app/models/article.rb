@@ -11,10 +11,8 @@ class Article < ApplicationRecord
     belongs_to :main, class_name: "Article", optional: true
     has_many :components, class_name: "Article", foreign_key: "story_id"
     belongs_to :story, class_name: "Article", optional: true
-    
-    has_many :photoessays
-    has_many :uploads, through: :photoessays
-    
+    belongs_to :upload, optional: true
+
     def to_param
 		"#{id}-#{created_at.strftime("%y%m%d%H%M%S")}-#{headline.parameterize}"
 	end
@@ -52,5 +50,7 @@ class Article < ApplicationRecord
     scope :published, -> {where(status_id: [3, 4])}
     scope :english, -> {where(language_id: 1)}
     scope :spanish, -> {where(language_id: 2)}
+    
+
     
 end

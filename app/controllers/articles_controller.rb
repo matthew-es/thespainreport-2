@@ -17,6 +17,7 @@ class ArticlesController < ApplicationController
 		end
 		@mains = Article.notupdates.order('created_at DESC')
 		@frames = Frame.all.order(:emotional_quest_action)
+		@uploads = Upload.all.order('created_at DESC').limit(50)
 	end
 	
 	def index
@@ -115,10 +116,10 @@ class ArticlesController < ApplicationController
 	
 	def tweet
 		if @article.alertmessage?
-      	@article.alertmessage + ' ' + article_url(@article)
-   	else
-      	@article.type.name + ': ' + @article.headline + ' ' + article_url(@article)
-   	end
+      		@article.alertmessage + ' ' + article_url(@article)
+	   	else
+	      	@article.type.name + ': ' + @article.headline + ' ' + article_url(@article)
+	   	end
 	end
 	
 	def touser
@@ -127,9 +128,38 @@ class ArticlesController < ApplicationController
 		redirect_back(fallback_location: root_path)
 	end
 	
+	def add_article_image
+		article_image = params[:article][:image_main]
+		article_image_high = params[:article][:image_high]
+		
+		# Upload main version of image, update tweet with id
+		if article_image
+			upload = article_image
+			version = 1
+			main = ""
+			@upload_main = Uploads::UploadFile.process(upload, version, main)
+			
+			# Update the article with the upload_id
+			@article.update(upload_id: @upload_main.id)
+		else
+		end
+		
+		# Upload high res version of image, do NOT update tweet
+		if article_image_high
+			upload = article_image_high
+			version = 2
+			main = @upload_main.id
+			upload_high = Uploads::UploadFile.process(upload, version, main)
+		else
+		end
+	end
+	
 	def email_article
 		if params[:article][:email_to] == 'none'
-					
+		
+		elsif params[:article][:email_to] == 'test'
+			user = User.find_by(email: "matthew@thespainreport.com")
+			ArticleMailer.send_article_full(@article, user).deliver_now
 		elsif params[:article][:email_to] == 'alert'
 			if ["Notes"].include?@article.type.name
 				User.emails_notes.emails_english.find_each(batch_size: 50) do |user|
@@ -168,7 +198,8 @@ class ArticlesController < ApplicationController
 	# POST /articles.json
 	def create
 		@article = Article.new(article_params)
-
+		add_article_image
+		
 		respond_to do |format|
 			if @article.save
 				format.html { redirect_to edit_article_path(@article), notice: 'Article was successfully created.' }
@@ -187,6 +218,8 @@ class ArticlesController < ApplicationController
 		
 		respond_to do |format|
 			if @article.update(article_params)
+				add_article_image
+				
 				format.html { redirect_to edit_article_path(@article), notice: 'Article was successfully updated.' }
 				format.json { render :edit, status: :ok, location: @article }
 				
@@ -227,6 +260,6 @@ class ArticlesController < ApplicationController
 			:audio_file_episode, :audio_episode_notes, :audio_file_duration, :audio_file_mp3_length, :audio_file_mp3_type, :audio_file_aac_length, :audio_file_aac_type, 
 			:extras_audio_intro, :extras_audio_teaser, :extras_notes, :extras_notes_teaser, :extras_transcription_file, :extras_transcription_intro, :extras_transcription_teaser, 
 			:short_headline, :headline, :image, :is_breaking, :language_id, :lede, :main_id, :original_id, :status_id, :story_id, :topstory, :type_id, :video,
-			:upload_ids => [])
+			:upload_id)
 		end
 end
