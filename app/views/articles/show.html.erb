@@ -74,7 +74,7 @@
 	    	<% else end %>
 	    <% end %>
 	    
-	    <% if @article.extras_notes.present? || @article.extras_audio_file.present? %>
+	    <% if @article.extras_notes.present? || @article.extras_audio_file.present? || @article.extras_video.present? %>
 	    	<div class="margin-right-5 float-left mobile-bottom-10">
 	    		<span class="label background-color-patrons font-color-white">
 	    			<% if @article.language_id == 1 %>
@@ -148,7 +148,7 @@
 	<div class="margin-top-5 font-main font-main-normal font-italic">
 		<span class="font-bold"><%= @article.type.try(:name) %>:</span> <%= @article.lede %>
 		
-		<% if @articleupdates.present? || @article.extras_notes.present? || @article.extras_audio_file.present? %>
+		<% if @article.extras_notes || @article.extras_audio_file || @article.extras_video %>
 			<ul class="margin-top-5 margin-bottom-0 margin-left-20 margin-right-0">
 				<% if @article.extras_audio_file.present? %>
 					<li><strong>
@@ -168,10 +168,13 @@
 					</li>
 				<% else end %>
 				
-				<% if @articleupdates.present? %>
-					<% @articleupdates.each do |u| %>
-						<li><%= link_to u.headline, article_path(@article, anchor: u.id) %></li>
-					<% end %>
+				<% if @article.extras_video.present? %>
+					<li><strong>
+						<% case @article.language_id when 1 %>More:
+						<% when 2 %>Más:
+						<% end %>
+						</strong> <%= link_to @article.extras_video_teaser, article_path(@article, anchor: 'patrons') %>
+					</li>
 				<% else end %>
 			</ul>
 		<% else end %>
@@ -318,7 +321,13 @@
 						<% end %>
 						<% if t.upload %>
 							<% t.upload.versions.each do |v| %>
-								| <%= link_to "High resolution image for patrons", 'https://image.thespainreport.es/' + File.basename(v.data) %>
+								<% if current_user.nil? %>
+									| <%= link_to "High resolution image for patrons", "https://www.thespainreport.es/value/guarantee" %>
+								<% elsif @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 10 || @status == 1 %>
+									| <%= link_to "High resolution image for patrons", 'https://image.thespainreport.es/' + File.basename(v.data) %>
+								<% else %>
+									| <%= link_to "High resolution image for patrons", "https://www.thespainreport.es/value/guarantee" %>
+								<% end %>
 							<% end %>
 						<% end %>
 					<% elsif @article.language_id == 2 %>
@@ -326,7 +335,13 @@
 						| <%= link_to "En Twitter", "https://twitter.com/matthewbennett/status/" + t.twitter_tweet_id.to_s %>
 						<% if t.upload %>
 							<% t.upload.versions.each do |v| %>
-								| <%= link_to "Imagen de alta resolución para mecenas", 'https://image.thespainreport.es/' + File.basename(v.data) %>
+								<% if current_user.nil? %>
+									| <%= link_to "Imagen de alta resolución para mecenas", "https://www.thespainreport.es/value/guarantee" %>
+								<% elsif @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 10 || @status == 1 %>
+									| <%= link_to "Imagen de alta resolución para mecenas", 'https://image.thespainreport.es/' + File.basename(v.data) %>
+								<% else %>
+									| <%= link_to "Imagen de alta resolución para mecenas", "https://www.thespainreport.es/valor/garantizar" %>
+								<% end %>
 							<% end %>
 						<% end %>
 					<% else %>
@@ -341,7 +356,7 @@
 	<%# PATRONS EXTRAS HERE...  %>
 	<% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
 		<%= render "articles/patrons_only_block" %>
-	<% elsif @article.extras_notes.present? || @article.extras_audio_file.present? %>
+	<% elsif @article.extras_notes.present? || @article.extras_audio_file.present? || @article.extras_video.present? %>
 		<%= render "articles/patrons_only_block" %>
 	<% else end %>
 

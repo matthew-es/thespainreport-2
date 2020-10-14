@@ -276,6 +276,16 @@
 			<% end %>
 			
 			<h3>Patrons: extra video footage</h3>
+			<div class="margin-bottom-10 width-100 margin-right-20">
+				<%= f.text_field :extras_video_teaser, :class => "width-70 padding-5", placeholder: "Patrons extra video teaser…" %>
+			</div>
+			<div class="margin-bottom-10 width-100 margin-right-20">
+				<%= f.text_field :extras_video_intro, :class => "width-30 padding-5", placeholder: "Patrons extra video intro…" %>
+			</div>
+			<div class="margin-bottom-5">
+				Extra video: <%= f.text_field :extras_video, :class => "width-20 padding-5", placeholder: "Video ID…" %>
+			</div>
+			
 	</div>	
 </div>
 	<div class="clear"></div>

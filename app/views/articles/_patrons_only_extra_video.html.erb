@@ -1,0 +1,15 @@
+<% if @article.extras_video.present? %>
+	<h3>VIDEO</h3>
+
+	<div class="margin-top-10 margin-bottom-10">
+		<%= @article.extras_video_intro %>
+	</div>
+	
+	<div class="video-wrapper">
+		<% if @article.extras_video.match(/^[0-9]+$/) %>
+			<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{@article.extras_video}") %>
+		<% else %> 
+			<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{@article.extras_video}?rel=0&amp;showinfo=0") %>
+		<% end %>
+	</div>
+<% else end %>
