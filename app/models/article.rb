@@ -35,8 +35,8 @@ class Article < ApplicationRecord
     scope :photo, -> {Article.joins(:type).merge(Type.photo)}
     scope :notphoto, -> {Article.joins(:type).merge(Type.notphoto)}
     
-    scope :podcast, -> {Article.where.not(audio_file_mp3: "")}
-    scope :notpodcast, -> {Article.where(audio_file_mp3: "")}
+    scope :podcast, -> {Article.where.not(audio_aac_id: "")}
+    scope :notpodcast, -> {Article.where(audio_aac_id: "")}
     scope :latestpodcast, -> {Article.podcast.order('created_at DESC').limit(1)}
     scope :notlatestpodcast, -> {where.not(id: podcast.latestpodcast)}
     
