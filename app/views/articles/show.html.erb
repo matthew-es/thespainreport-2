@@ -74,7 +74,7 @@
 	    	<% else end %>
 	    <% end %>
 	    
-	    <% if @article.extras_notes.present? || @article.extras_audio_file.present? || @article.extras_video.present? %>
+	    <% if @article.extras_notes.present? || @article.extra_audio_aac_id.present? || @article.extras_video.present? %>
 	    	<div class="margin-right-5 float-left mobile-bottom-10">
 	    		<span class="label background-color-patrons font-color-white">
 	    			<% if @article.language_id == 1 %>
@@ -101,7 +101,7 @@
 	    	</div>
 	    <% end %>
 	    
-	    <% if @article.audio_file_mp3.present? %>
+	    <% if @article.audio_aac_id.present? %>
 	    	<div class="margin-right-5 float-left mobile-bottom-10">
 	    		<span class="label background-color-black font-color-white">
 	    			Audio
@@ -148,9 +148,9 @@
 	<div class="margin-top-5 font-main font-main-normal font-italic">
 		<span class="font-bold"><%= @article.type.try(:name) %>:</span> <%= @article.lede %>
 		
-		<% if @article.extras_notes || @article.extras_audio_file || @article.extras_video %>
+		<% if @article.extras_notes.present? || @article.extra_audio_aac_id.present? || @article.extras_video.present? %>
 			<ul class="margin-top-5 margin-bottom-0 margin-left-20 margin-right-0">
-				<% if @article.extras_audio_file.present? %>
+				<% if @article.extra_audio_aac_id.present? %>
 					<li><strong>
 						<% case @article.language_id when 1 %>More Audio:
 						<% when 2 %>Más Audio:
@@ -192,20 +192,19 @@
 				<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{@article.video}?rel=0&amp;showinfo=0") %>
 			<% end %>
 		</div>
-<% elsif @article.audio_file_mp3.present? %>
+<% elsif @article.audio_aac_id.present? %>
+	<h3>
+		<% if @article.language_id == 1 %>
+			Listen now:
+		<% elsif @article.language_id == 2 %>
+			Escuche ahora:
+		<% else end %>
+	</h3>
+
 	<div class="margin-left-20 margin-top-20" >
-		<div class="padding-left-5 font-main font-main-small font-italic" >
-			<span class="font-bold">
-				<% if @article.language_id == 1 %>
-    				Listen now:
-    			<% elsif @article.language_id == 2 %>
-    				Escuche ahora:
-    			<% else end %>
-			</span> <%= @article.audio_intro %>
-		</div>
 		<audio controls>
-		  	<source src="<%= 'https://audio.thespainreport.es/' + @article.audio_file_aac unless @article.audio_file_aac.nil? %>" type="audio/aac">
-		  	<source src="<%= 'https://audio.thespainreport.es/' + @article.audio_file_mp3 unless @article.audio_file_mp3.nil? %>" type="audio/mpeg">
+		  	<source src="<%= 'https://audio.thespainreport.es/' + File.basename(Upload.find(@article.audio_aac_id).data) unless @article.audio_aac_id.nil? %>" type="audio/aac">
+		  	<source src="<%= 'https://audio.thespainreport.es/' + File.basename(Upload.find(@article.audio_mp3_id).data) unless @article.audio_mp3_id.nil? %>" type="audio/mpeg">
 			Your browser does not support the audio element.
 		</audio>
 	</div>
@@ -223,7 +222,7 @@
 
 <div class="margin-top-20">
 	<%# PODCAST REPORT/INTERVIEW EPISODE NOTES %>
-	<% if @article.audio_file_mp3.present? %>
+	<% if @article.audio_aac_id.present? %>
 		<hr />
 		<%= markdown(@article.audio_episode_notes) %>
 		<hr />
@@ -245,7 +244,7 @@
 
 	
 	<%# PODCAST LINKS %>
-	<% if @article.audio_file_mp3.present? && @article.language_id == 2 %>
+	<% if @article.audio_aac_id.present? && @article.language_id == 2 %>
 		<h3>Escuche el podcast Bennett en España aquí:</h3>
 		<a href="https://www.thespainreport.es/es/rss/podcast" title="Bennett en España RSS">RSS</a>, 
 		<a href="https://podcasts.apple.com/podcast/id1495596384" title="Bennett en España en Apple Podcasts">Apple Podcasts</a>, 
@@ -256,7 +255,7 @@
 		<a href="https://soundcloud.com/user-842077287/sets/bennett-en-espana" title="Bennett en España en SoundCloud">SoundCloud</a>,
 		<a href="https://www.youtube.com/playlist?list=PL3DymtXaX19TyCGLrkycaKaCAzha0HwAw" title="Bennett en España en YouTube">YouTube</a>,
 		<a href="https://www.facebook.com/BennettInSpain/playlist/206012307112155" title="Bennett en España en Facebook">Facebook</a>
-	<% elsif @article.audio_file_mp3.present? && @article.language_id == 1 %>
+	<% elsif @article.audio_aac_id.present? && @article.language_id == 1 %>
 		<h3>Listen to the Bennett in Spain podcast here:</h3>
 		<a href="https://www.thespainreport.es/rss/podcast" title="Bennett in Spain RSS">RSS</a>, 
 		<a href="https://podcasts.apple.com/podcast/id1495596532" title="Bennett in Spain on Apple Podcasts">Apple Podcasts</a>, 
@@ -356,7 +355,7 @@
 	<%# PATRONS EXTRAS HERE...  %>
 	<% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
 		<%= render "articles/patrons_only_block" %>
-	<% elsif @article.extras_notes.present? || @article.extras_audio_file.present? || @article.extras_video.present? %>
+	<% elsif @article.extras_notes.present? || @article.extra_audio_aac_id.present? || @article.extras_video.present? %>
 		<%= render "articles/patrons_only_block" %>
 	<% else end %>
 

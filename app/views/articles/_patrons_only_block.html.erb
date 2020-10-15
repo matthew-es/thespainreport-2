@@ -3,7 +3,7 @@
 		<%# DISPLAY PATRONS LABEL %>
 		<div class="float-left margin-right-5">
 			<span class="label background-color-patrons font-main-tiny font-bold font-color-white">
-				<% if controller_name == "articles" && action_name == "show" && (@article.extras_notes.present? || @article.extras_audio_file.present?) %>
+				<% if controller_name == "articles" && action_name == "show" && (@article.extras_notes.present? || @article.extra_audio_aac_id.present? || @article.extras_video.present?) %>
 					<% case @language when 1 %>MORE FOR PATRONS
 					<% when 2 %>MÁS PARA MECENAS
 					<% end %>
@@ -29,7 +29,7 @@
 		
 		<%# DISPLAY EXTRAS TEASER NEXT TO LABELS... %>	
 		<div class="float-left">
-			<% if controller_name == "articles" && action_name == "show" && (@article.extras_notes.present? || @article.extras_audio_file.present?) %>
+			<% if controller_name == "articles" && action_name == "show" && (@article.extras_notes.present? || @article.extra_audio_aac_id.present? || @article.extras_video.present?) %>
 				<%= @frame.access_more_for_patrons %>
 			<% else %>
 				<%= @frame.access_patrons_only %>
@@ -61,7 +61,7 @@
 							</li>
 						<% end %>
 						
-						<% if @article.extras_audio_file.present? %>
+						<% if @article.extra_audio_aac_id.present? %>
 							<li class="font-main font-main-small">
 								<strong>
 									<% case @language when 1 %>Listen:
