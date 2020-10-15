@@ -1,8 +1,13 @@
 <% if @article.extras_video.present? %>
-	<h3>VIDEO</h3>
+	<h3>
+		<% case @article.language_id when 1 %>More Video:
+		<% when 2 %>Más Vídeo:
+		<% end %>
+		<%= @article.extras_video_teaser %>
+	</h3>
 
-	<div class="margin-top-10 margin-bottom-10">
-		<%= @article.extras_video_intro %>
+	<div class="font-main font-main-normal">
+		 <%= @article.extras_video_intro %>
 	</div>
 	
 	<div class="video-wrapper">

@@ -1,5 +1,11 @@
 <% if @article.extras_notes.present? %>
-	<div class="margin-top-30">
+	<h3>
+		<% case @article.language_id when 1 %>More Text
+		<% when 2 %>Más Texto
+		<% end %>
+	</h3>
+	
+	<div class="margin-top-10">
 		<%= markdown(@article.extras_notes).html_safe %>
 	</div>
 <% else end %>

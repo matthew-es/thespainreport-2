@@ -85,26 +85,14 @@
 			<div class="margin-bottom-10">
 				<div class="margin-bottom-10">
 					<div class="margin-bottom-10">
-						<div class="float-left margin-right-15" style="width:33%">
-							<%= f.text_field :audio_file_aac, :class => "width-98 padding-5", placeholder: ".aac" %>
-						</div>
-						<div class="float-left margin-right-20" style="width:7%">
-							<%= f.number_field :audio_file_aac_length, :class => "width-98 padding-5", placeholder: "Length" %>
-						</div>
-						<div class="float-left margin-right-20" style="width:6%">
-							<%= f.text_field :audio_file_aac_type, :class => "width-98 padding-5", placeholder: "audio/aac", value: "audio/aac" %>
+						<div class="margin-bottom-5">
+							.aac: <%= f.collection_select :audio_aac_id, @audios_aac, :id, :data_short_name, {include_blank: true, :selected => @article.audio_aac_id}, {:style => "width: 190px;"} %>
 						</div>
 						<div class="clear"></div>
 					</div>
 					<div class="margin-bottom-10">
-						<div class="float-left margin-right-15" style="width:33%">
-							<%= f.text_field :audio_file_mp3, :class => "width-98 padding-5", placeholder: ".mp3" %>
-						</div>
-						<div class="float-left margin-right-20" style="width:7%">
-							<%= f.number_field :audio_file_mp3_length, :class => "width-98 padding-5", placeholder: "Length" %>
-						</div>
-						<div class="float-left margin-right-20" style="width:6%">
-							<%= f.text_field :audio_file_mp3_type, :class => "width-98 padding-5", placeholder: "audio/mpeg", value: "audio/mpeg" %>
+						<div class="margin-bottom-5">
+							.mp3: <%= f.collection_select :audio_mp3_id, @audios_mp3, :id, :data_short_name, {include_blank: true, :selected => @article.audio_mp3_id}, {:style => "width: 190px;"} %>
 						</div>
 						<div class="clear"></div>
 					</div>
@@ -200,7 +188,7 @@
 		<h3>Patrons: audio report script</h3>
 			<% if @article.original.blank? %>
 				<div class="margin-bottom-10 width-100">
-					<%= f.text_field :extras_notes_teaser, :class => "width-70 padding-5", placeholder: "Patrons audio script teaser…" %>
+					<%= f.text_field :extras_notes_teaser, :class => "width-30 padding-5", placeholder: "Patrons audio script headline…" %>
 				</div>
 				<div class="margin-bottom-10 width-100">
 					<%= f.text_area :extras_notes, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 400px;", placeholder: "Patrons audio script…" %>
@@ -216,7 +204,7 @@
 				</div>
 				<div class="width-48 float-left">
 					<div class="margin-bottom-15 width-100">
-					<%= f.text_field :extras_notes_teaser, :class => "width-98 padding-5", placeholder: "Patrons notes teaser…" %>
+						<%= f.text_field :extras_notes_teaser, :class => "width-98 padding-5", placeholder: "Patrons extra text headline…" %>
 					</div>
 					<div class="margin-bottom-15 width-100">
 						<%= f.text_area :extras_notes, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 600px;", placeholder: "Patrons only notes…" %>
@@ -237,14 +225,17 @@
 		
 		<h3>Patrons: column audio / extra interview questions</h3>
 			<% if @article.original.blank? %>
-				<div class="margin-bottom-10 width-100 margin-right-20">
-					<%= f.text_field :extras_audio_teaser, :class => "width-70 padding-5", placeholder: "Patrons extra audio teaser…" %>
+				<div class="margin-bottom-5">
+					.aac: <%= f.collection_select :extra_audio_aac_id, @audios_aac, :id, :data_short_name, {include_blank: true, :selected => @article.extra_audio_aac_id}, {:style => "width: 190px;"} %>
+				</div>
+				<div class="margin-bottom-5">
+					.mp3: <%= f.collection_select :extra_audio_mp3_id, @audios_mp3, :id, :data_short_name, {include_blank: true, :selected => @article.extra_audio_mp3_id}, {:style => "width: 190px;"} %>
 				</div>
 				<div class="margin-bottom-10 width-100 margin-right-20">
-					<%= f.text_field :extras_audio_intro, :class => "width-30 padding-5", placeholder: "Patrons extra audio intro…" %>
+					<%= f.text_field :extras_audio_teaser, :class => "width-30 padding-5", placeholder: "Patrons extra audio headline…" %>
 				</div>
-				<div class="margin-bottom-10 width-100 margin-right-20">
-					<%= f.text_field :extras_audio_file, :class => "width-20 padding-5", placeholder: "Patrons extra audio file…" %>
+				<div class="margin-bottom-10 width-100">
+					<%= f.text_area :extras_audio_intro, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 70px;", placeholder: "Patrons extra audio intro…" %>
 				</div>
 			<% else %>
 				<div class="width-100">
@@ -257,13 +248,13 @@
 				</div>
 				<div class="width-48 float-left">
 					<div class="margin-bottom-15 width-100">
-					<%= f.text_field :extras_notes_teaser, :class => "width-98 padding-5", placeholder: "Patrons notes teaser…" %>
+					<%= f.text_field :extras_notes_teaser, :class => "width-98 padding-5", placeholder: "Patrons notes headline…" %>
 					</div>
 					<div class="margin-bottom-15 width-100">
 						<%= f.text_area :extras_notes, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 600px;", placeholder: "Patrons only notes…" %>
 					</div>
 					<div class="margin-bottom-15 width-100 margin-right-20">
-						<%= f.text_field :extras_audio_teaser, :class => "width-98 padding-5", placeholder: "Patrons audio teaser…" %>
+						<%= f.text_field :extras_audio_teaser, :class => "width-98 padding-5", placeholder: "Patrons audio headline…" %>
 					</div>
 					<div class="margin-bottom-15 width-100 margin-right-20">
 						<%= f.text_field :extras_audio_intro, :class => "width-98 padding-5", placeholder: "Patrons audio intro…" %>
@@ -275,17 +266,21 @@
 				</div>
 			<% end %>
 			
+			
+			
 			<h3>Patrons: extra video footage</h3>
-			<div class="margin-bottom-10 width-100 margin-right-20">
-				<%= f.text_field :extras_video_teaser, :class => "width-70 padding-5", placeholder: "Patrons extra video teaser…" %>
-			</div>
-			<div class="margin-bottom-10 width-100 margin-right-20">
-				<%= f.text_field :extras_video_intro, :class => "width-30 padding-5", placeholder: "Patrons extra video intro…" %>
-			</div>
 			<div class="margin-bottom-5">
-				Extra video: <%= f.text_field :extras_video, :class => "width-20 padding-5", placeholder: "Video ID…" %>
+				<%= f.text_field :extras_video, :class => "width-20 padding-5", placeholder: "Video ID…" %>
+			</div>
+			<div class="margin-bottom-10 width-100 margin-right-20">
+				<%= f.text_field :extras_video_teaser, :class => "width-30 padding-5", placeholder: "Patrons extra video headline…" %>
 			</div>
 			
+			<div class="margin-bottom-10 width-100">
+				<%= f.text_area :extras_video_intro, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 70px;", placeholder: "Patrons extra video intro…" %>
+			</div>
+			
+
 	</div>	
 </div>
 	<div class="clear"></div>

@@ -8,10 +8,10 @@ class Upload < ApplicationRecord
 	has_many :tweets
 	
 	scope :main, -> {Upload.where(main_id: "")}
-	scope :images, -> {Upload.where(File.extname(data: ['.jpg', '.jpeg']))}
+	scope :audios_aac, -> {Upload.where(file_type: "audio/aac")}
+	scope :audios_mp3, -> {Upload.where(file_type: "audio/mpeg")}
 	
-	
-	 def data_short_name
+	def data_short_name
 	 	File.basename(data)
 	end
 end

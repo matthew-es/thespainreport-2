@@ -47,11 +47,17 @@ xml.rss :version => "2.0",
 							<li><a href=\"https://twitter.com/matthewbennett\">Follow Matthew on Twitter</a></li>
 						 </ol>"
 			
+			aac_upload = Upload.find(article.audio_aac_id)
+			aac_link = "https://audio.thespainreport.es/" + File.basename(aac_upload.data)
+			
+			mp3_upload = Upload.find(article.audio_mp3_id)
+			mp3_link = "https://audio.thespainreport.es/" + File.basename(mp3_upload.data)
+			
 			xml.item do
-				if article.audio_file_aac.present?
-					xml.enclosure :url => "https://audio.thespainreport.es/" + article.audio_file_aac, :length => article.audio_file_aac_length, :type => article.audio_file_aac_type
+				if article.audio_aac_id.present?
+					xml.enclosure :url => aac_link, :length => aac_upload.file_size, :type => aac_upload.file_type
 				else
-					xml.enclosure :url => "https://audio.thespainreport.es/" + article.audio_file_mp3, :length => article.audio_file_mp3_length, :type => article.audio_file_mp3_type
+					xml.enclosure :url => mp3_link, :length => mp3_upload.file_size, :type => mp3_upload.file_type
 				end
 				
 				xml.title article.headline

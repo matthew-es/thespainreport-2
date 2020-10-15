@@ -47,8 +47,11 @@ xml.rss :version => "2.0",
 							<li><a href=\"https://twitter.com/matthewbennett\">Siga a Matthew en Twitter</a></li>
 						 </ol>"
 			
+			mp3_upload = Upload.find(article.audio_mp3_id)
+			mp3_link = "https://audio.thespainreport.es/" + File.basename(mp3_upload.data)
+			
 			xml.item do
-				xml.enclosure :url => "https://audio.thespainreport.es/" + article.audio_file_mp3, :length => article.audio_file_mp3_length, :type => article.audio_file_mp3_type
+				xml.enclosure :url => mp3_link, :length => mp3_upload.file_size, :type => mp3_upload.file_type
 					
 				xml.title article.headline
 				if article.audio_episode_notes.nil?

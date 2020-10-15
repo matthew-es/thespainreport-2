@@ -18,6 +18,8 @@ class ArticlesController < ApplicationController
 		@mains = Article.notupdates.order('created_at DESC')
 		@frames = Frame.all.order(:emotional_quest_action)
 		@uploads = Upload.all.order('created_at DESC').limit(50)
+		@audios_aac = Upload.audios_aac.order('created_at DESC').limit(100)
+		@audios_mp3 = Upload.audios_mp3.order('created_at DESC').limit(100)
 	end
 	
 	def index
@@ -260,6 +262,7 @@ class ArticlesController < ApplicationController
 			:audio_file_episode, :audio_episode_notes, :audio_file_duration, :audio_file_mp3_length, :audio_file_mp3_type, :audio_file_aac_length, :audio_file_aac_type, 
 			:extras_audio_intro, :extras_audio_teaser, :extras_notes, :extras_notes_teaser, :extras_video_teaser, :extras_video_intro, :extras_video, 
 			:short_headline, :headline, :image, :is_breaking, :language_id, :lede, :main_id, :original_id, :status_id, :story_id, :topstory, :type_id, :video,
-			:upload_id)
+			:upload_id, :audio_aac_id, :audio_mp3_id, :extra_audio_aac_id, :extra_audio_mp3_id
+			)
 		end
 end

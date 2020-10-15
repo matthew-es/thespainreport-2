@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_14_192113) do
+ActiveRecord::Schema.define(version: 2020_10_15_100812) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -90,6 +90,10 @@ ActiveRecord::Schema.define(version: 2020_10_14_192113) do
     t.integer "audio_file_aac_length"
     t.string "audio_file_aac_type"
     t.integer "upload_id"
+    t.integer "audio_aac_id"
+    t.integer "audio_mp3_id"
+    t.integer "extra_audio_aac_id"
+    t.integer "extra_audio_mp3_id"
     t.index ["frame_id"], name: "index_articles_on_frame_id"
     t.index ["language_id"], name: "index_articles_on_language_id"
     t.index ["main_id"], name: "index_articles_on_main_id"
