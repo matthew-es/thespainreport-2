@@ -110,30 +110,27 @@
 				<%# PATRONS > €5 // AUDIO REPORT SCRIPTS, PATRONS ONLY COLUMN, PATRONS ONLY COLUMN AUDIO %>
 				<% elsif @status == 2 && @level.between?(5, 9) %>
 					<%= render "articles/patrons_only_report_script", article: @article %>
-					<%= render "articles/patrons_only_column_audio", article: @article %>
+					<%= render "articles/patrons_only_audio", article: @article %>
 			
 				
 				<%# PATRONS > €10 // AUDIO REPORT SCRIPTS, PATRONS ONLY COLUMN, PATRONS ONLY COLUMN AUDIO, EXTRA AUDIO INTERVIEW QUESTIONS %>
 				<% elsif @status == 2 && @level.between?(10, 24) %>
 					<%= render "articles/patrons_only_report_script", article: @article %>
-					<%= render "articles/patrons_only_column_audio", article: @article %>
-					<%= render "articles/patrons_only_extra_interview_questions", article: @article %>
+					<%= render "articles/patrons_only_audio", article: @article %>
 					<%= render "articles/patrons_only_extra_video", article: @article %>
 				
 				
 				<%# PATRONS > €25 // PHOTOS, TRAVEL %>
 				<% elsif @status == 2 && @level >= 25 %>
 					<%= render "articles/patrons_only_report_script", article: @article %>
-					<%= render "articles/patrons_only_column_audio", article: @article %>
-					<%= render "articles/patrons_only_extra_interview_questions", article: @article %>
+					<%= render "articles/patrons_only_audio", article: @article %>
 					<%= render "articles/patrons_only_extra_video", article: @article %>
 				
 				
 				<%# ADMIN %>
 				<% elsif @status == 1 %>
 					<%= render "articles/patrons_only_report_script", article: @article %>
-					<%= render "articles/patrons_only_column_audio", article: @article %>
-					<%= render "articles/patrons_only_extra_interview_questions", article: @article %>
+					<%= render "articles/patrons_only_audio", article: @article %>
 					<%= render "articles/patrons_only_extra_video", article: @article %>
 					
 				<% else end %>

@@ -6,8 +6,8 @@
 		<%= @article.extras_video_teaser %>
 	</h3>
 
-	<div class="font-main font-main-normal">
-		 <%= @article.extras_video_intro %>
+	<div class="">
+		<%= markdown(@article.extras_video_intro).html_safe %>
 	</div>
 	
 	<div class="video-wrapper">

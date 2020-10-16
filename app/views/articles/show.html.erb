@@ -149,7 +149,7 @@
 		<span class="font-bold"><%= @article.type.try(:name) %>:</span> <%= @article.lede %>
 		
 		<% if @article.extras_notes.present? || @article.extra_audio_aac_id.present? || @article.extras_video.present? %>
-			<ul class="margin-top-5 margin-bottom-0 margin-left-20 margin-right-0">
+			<ul class="margin-top-5 margin-bottom-0 margin-left-5 margin-right-0 font-main-lede">
 				<% if @article.extra_audio_aac_id.present? %>
 					<li><strong>
 						<% case @article.language_id when 1 %>More Audio:
