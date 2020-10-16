@@ -94,7 +94,7 @@
 						<strong>Video:</strong> <%= @article.original.video %>
 					</div>
 					<div class="margin-bottom-5">
-						<strong>Image:</strong> <%= File.basename(Upload.find(@article.original.upload_id).data) %>
+						<strong>Image:</strong> <%= File.basename(Upload.find(@article.original.upload_id).data) unless @article.original.upload_id.nil? %>
 					</div>
 				</div>
 				<div class="width-48 float-left padding-left-20">
