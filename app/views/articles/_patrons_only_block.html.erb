@@ -87,9 +87,9 @@
 				<%# 45-DAY FREE TRIAL READERS %>
 				<% elsif @status == 3 && @can_read_date > Time.now %>
 					<%= render "articles/patrons_only_report_script", article: @article %>
-					<%= render "articles/patrons_only_column_audio", article: @article %>
-					<%= render "articles/patrons_only_extra_interview_questions", article: @article %>
+					<%= render "articles/patrons_only_audio", article: @article %>
 					<%= render "articles/patrons_only_extra_video", article: @article %>
+				
 				
 				<%# 45-DAY FREE TRIAL HAS ENDED %>
 				<% elsif @status == 3 && @can_read_date < Time.now %>
@@ -99,19 +99,107 @@
 						<% end %>
 					</div>
 				
+					<% if @article.extras_notes.present? || @article.extra_audio_aac_id.present? || @article.extras_video.present? %>
+						<ul class="margin-top-5 margin-bottom-0 margin-left-5 margin-right-0 font-main-lede">
+							<% if @article.extra_audio_aac_id.present? %>
+								<li><strong>
+									<% case @article.language_id when 1 %>More Audio:
+									<% when 2 %>Más Audio:
+									<% end %>
+									</strong> <%= @article.extras_audio_teaser %>
+								</li>
+							<% else end %>
+			
+							<% if @article.extras_notes.present? %>
+								<li><strong>
+									<% case @article.language_id when 1 %>More Text:
+									<% when 2 %>Más Text:
+									<% end %>
+									</strong> <%= @article.extras_notes_teaser %>
+								</li>
+							<% else end %>
+							
+							<% if @article.extras_video.present? %>
+								<li><strong>
+									<% case @article.language_id when 1 %>More Video:
+									<% when 2 %>Más Vídeo:
+									<% end %>
+									</strong> <%= @article.extras_video_teaser %>
+								</li>
+							<% else end %>
+						</ul>
+					<% else end %>
+						
+				
 				<%# PATRONS WITH A PAYMENT PROBLEM %>
 				
-					
+				
+				
+				<%# PATRONS > €0 %>
+				<% elsif @status == 2 && @level == 0 %>
+					<div class="margin-left-20 margin-top-30 margin-bottom-20" >
+						<% case @language when 1 %>There has been some problem; please email me: matthew@thespainreport.es
+						<% when 2 %>Se ha producido algún problema; póngase en contacto conmigo: matthew@thespainreport.es
+						<% end %>
+					</div>
+				
+				
 				<%# PATRONS > €1 // AUDIO REPORT SCRIPTS %>
 				<% elsif @status == 2 && @level.between?(1, 4) %>
 					<%= render "articles/patrons_only_report_script", article: @article %>
+					<% if @article.extras_notes.present? || @article.extra_audio_aac_id.present? || @article.extras_video.present? %>
+						<ul class="margin-top-20 margin-bottom-0 margin-left-5 margin-right-0 font-main-lede">
+							<% if @article.extra_audio_aac_id.present? %>
+								<li><strong>
+									<% case @article.language_id when 1 %>More Audio:
+									<% when 2 %>Más Audio:
+									<% end %>
+									</strong> <%= @article.extras_audio_teaser %>
+								</li>
+							<% else end %>
+							
+							<% if @article.extras_video.present? %>
+								<li><strong>
+									<% case @article.language_id when 1 %>More Video:
+									<% when 2 %>Más Vídeo:
+									<% end %>
+									</strong> <%= @article.extras_video_teaser %>
+								</li>
+							<% else end %>
+						</ul>
+					<% else end %>
 			
 				
 				<%# PATRONS > €5 // AUDIO REPORT SCRIPTS, PATRONS ONLY COLUMN, PATRONS ONLY COLUMN AUDIO %>
 				<% elsif @status == 2 && @level.between?(5, 9) %>
 					<%= render "articles/patrons_only_report_script", article: @article %>
-					<%= render "articles/patrons_only_audio", article: @article %>
-			
+					
+					<% if @article.extra_audio_aac_id.present? %>
+						<% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
+							<%= render "articles/patrons_only_audio", article: @article %>
+						<% else %>
+							<ul class="margin-top-20 margin-bottom-0 margin-left-5 margin-right-0 font-main-lede">
+								<li><strong>
+									<% case @article.language_id when 1 %>More Audio:
+									<% when 2 %>Más Audio:
+									<% end %>
+									</strong> <%= @article.extras_audio_teaser %>
+								</li>
+							</ul>
+						<% end %>
+					<% else end %>
+					
+					<% if  @article.extras_video.present? %>
+						<ul class="margin-top-20 margin-bottom-0 margin-left-5 margin-right-0 font-main-lede">
+							<li><strong>
+								<% case @article.language_id when 1 %>More Video:
+								<% when 2 %>Más Vídeo:
+								<% end %>
+								</strong> <%= @article.extras_video_teaser %>
+							</li>
+						</ul>
+					<% end %>
+					
 				
 				<%# PATRONS > €10 // AUDIO REPORT SCRIPTS, PATRONS ONLY COLUMN, PATRONS ONLY COLUMN AUDIO, EXTRA AUDIO INTERVIEW QUESTIONS %>
 				<% elsif @status == 2 && @level.between?(10, 24) %>
