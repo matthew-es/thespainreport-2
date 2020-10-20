@@ -1,0 +1,21 @@
+<% if @article.extras_video.present? %>
+	<p>
+		<strong>
+			<% case @article.language_id when 1 %>More Video:
+			<% when 2 %>Más Vídeo:
+			<% end %>
+			<%= @article.extras_video_teaser %>
+		</strong>
+	</p>
+	
+	<p>
+		<%= markdown(@article.extras_video_intro).html_safe %>
+	</p>
+	
+	<p>
+		<% case @article.language_id when 1 %>Video here:
+		<% when 2 %>Vídeo aquí:
+		<% end %>
+		<%= link_to @article.extras_video_teaser, article_url(@article) %>
+	</p>
+<% else end %>

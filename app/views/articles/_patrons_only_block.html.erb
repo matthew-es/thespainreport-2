@@ -86,9 +86,9 @@
 				
 				<%# 45-DAY FREE TRIAL READERS %>
 				<% elsif @status == 3 && @can_read_date > Time.now %>
-					<%= render "articles/patrons_only_report_script", article: @article %>
+					<%= render "articles/patrons_only_text", article: @article %>
 					<%= render "articles/patrons_only_audio", article: @article %>
-					<%= render "articles/patrons_only_extra_video", article: @article %>
+					<%= render "articles/patrons_only_video", article: @article %>
 				
 				
 				<%# 45-DAY FREE TRIAL HAS ENDED %>
@@ -146,7 +146,7 @@
 				
 				<%# PATRONS > €1 // AUDIO REPORT SCRIPTS %>
 				<% elsif @status == 2 && @level.between?(1, 4) %>
-					<%= render "articles/patrons_only_report_script", article: @article %>
+					<%= render "articles/patrons_only_text", article: @article %>
 					<% if @article.extras_notes.present? || @article.extra_audio_aac_id.present? || @article.extras_video.present? %>
 						<ul class="margin-top-20 margin-bottom-0 margin-left-5 margin-right-0 font-main-lede">
 							<% if @article.extra_audio_aac_id.present? %>
@@ -172,7 +172,7 @@
 				
 				<%# PATRONS > €5 // AUDIO REPORT SCRIPTS, PATRONS ONLY COLUMN, PATRONS ONLY COLUMN AUDIO %>
 				<% elsif @status == 2 && @level.between?(5, 9) %>
-					<%= render "articles/patrons_only_report_script", article: @article %>
+					<%= render "articles/patrons_only_text", article: @article %>
 					
 					<% if @article.extra_audio_aac_id.present? %>
 						<% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
@@ -203,23 +203,23 @@
 				
 				<%# PATRONS > €10 // AUDIO REPORT SCRIPTS, PATRONS ONLY COLUMN, PATRONS ONLY COLUMN AUDIO, EXTRA AUDIO INTERVIEW QUESTIONS %>
 				<% elsif @status == 2 && @level.between?(10, 24) %>
-					<%= render "articles/patrons_only_report_script", article: @article %>
+					<%= render "articles/patrons_only_text", article: @article %>
 					<%= render "articles/patrons_only_audio", article: @article %>
-					<%= render "articles/patrons_only_extra_video", article: @article %>
+					<%= render "articles/patrons_only_video", article: @article %>
 				
 				
 				<%# PATRONS > €25 // PHOTOS, TRAVEL %>
 				<% elsif @status == 2 && @level >= 25 %>
-					<%= render "articles/patrons_only_report_script", article: @article %>
+					<%= render "articles/patrons_only_text", article: @article %>
 					<%= render "articles/patrons_only_audio", article: @article %>
-					<%= render "articles/patrons_only_extra_video", article: @article %>
+					<%= render "articles/patrons_only_video", article: @article %>
 				
 				
 				<%# ADMIN %>
 				<% elsif @status == 1 %>
-					<%= render "articles/patrons_only_report_script", article: @article %>
+					<%= render "articles/patrons_only_text", article: @article %>
 					<%= render "articles/patrons_only_audio", article: @article %>
-					<%= render "articles/patrons_only_extra_video", article: @article %>
+					<%= render "articles/patrons_only_video", article: @article %>
 					
 				<% else end %>
 				<div class="clear"></div>

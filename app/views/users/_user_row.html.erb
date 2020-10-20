@@ -19,6 +19,7 @@
 			🔴
 		<% else end %>
 	</td>
+	<td class="right"><%= user.can_read_date.strftime("%d/%m/%Y") unless user.can_read_date.nil? %></td>
 	<td class="right"><%= link_to user.account.id, user.account unless user.account.nil? %></td>
 	<td class="right">
 		<% unless user.account_role.nil?; case user.account_role when 1 %>
@@ -73,7 +74,6 @@
 			🔴
 		<% else end %>	
 	</td>
-	<td class="right"><%= user.updated_at.strftime("%d/%m/%Y, %H:%M") %></td>
-	<td class="right"><%= user.created_at.strftime("%d/%m/%Y") %></td>
+	<td class="right"><%= user.updated_at.strftime("%d/%m/%Y") %></td>
 	<td class="right"><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
 </tr>

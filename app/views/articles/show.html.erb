@@ -210,6 +210,34 @@
 	</div>
 <% elsif @article.upload %>
 	<%= image_tag ('https://image.thespainreport.es/' + File.basename(@article.upload.data)) %>
+	
+	<%# Display details, link to Twitter, high res image link for patrons %>
+	<div class="border-top-quiet margin-top-5">
+	<span class="font-main font-main-tiny">
+		<% if @article.language_id == 1 %>
+			<strong>Published:</strong> <%= @article.upload.created_at.strftime("%b %d, %Y, %l:%M %P") %> 
+			<% if current_user.nil? %>
+				| <%= link_to "High resolution image for patrons", "https://www.thespainreport.es/value/guarantee" %>
+			<% elsif @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 10 || @status == 1 %>
+				| <%= link_to "High resolution image for patrons", 'https://image.thespainreport.es/' + File.basename(@article.upload.data) %>
+			<% else %>
+				| <%= link_to "High resolution image for patrons", "https://www.thespainreport.es/value/guarantee" %>
+			<% end %>
+		<% elsif @article.language_id == 2 %>
+			<strong>Publicado:</strong> <%= @article.upload.created_at.strftime("%d/%m/%Y, %H:%M") %> 
+			<% if current_user.nil? %>
+				| <%= link_to "Imagen de alta resolución para mecenas", "https://www.thespainreport.es/value/guarantee" %>
+			<% elsif @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 10 || @status == 1 %>
+				| <%= link_to "Imagen de alta resolución para mecenas", 'https://image.thespainreport.es/' + File.basename(@article.upload.data) %>
+			<% else %>
+				| <%= link_to "Imagen de alta resolución para mecenas", "https://www.thespainreport.es/valor/garantizar" %>
+			<% end %>
+		<% else %>
+		<% end %>
+	</span>
+	</div>
+	
+	
 <% else %>
 	<% if @article.image.present? %>
 		<% if ['.png','.jpg', '.jpeg', '.gif'].include?File.extname(@article.image) %> 
@@ -273,9 +301,11 @@
 	<%# INDIVIDUAL TWEETS OR PHOTO ESSAY IMAGES FOR THE ARTICLE %>
 	<% if @articletweets.present? %>
 		<% if !["Thread", "Hilo", "Photos", "Fotos"].include?(@article.type.name) %>
-			<% case @article.language_id when 1 %><h3>Notes/Tweets</h3>
-			<% when 2 %>Apuntes/Tuits
-			<% end %>
+			<h3>
+				<% case @article.language_id when 1 %>Notes/Tweets
+				<% when 2 %>Apuntes/Tuits
+				<% end %>
+			</h3>
 		<% end %>
 	
 		<% @articletweets.each do |t| %>

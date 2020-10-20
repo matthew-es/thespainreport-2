@@ -26,7 +26,7 @@ class ArticleMailer < ApplicationMailer
 		@user = user
 		@status = @user.status
 		@level = @user.level_amount
-		@can_read = @user.can_read
+		@can_read_date = @user.can_read_date
 		@account_status = @user.account.account_status
 			
 		headers 'X-SES-CONFIGURATION-SET' => "Emails"

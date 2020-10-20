@@ -1,0 +1,21 @@
+<% if @article.extra_audio_aac_id.present? %>
+	<p>
+		<strong>
+			<% case @article.language_id when 1 %>More Audio:
+			<% when 2 %>Más Audio:
+			<% end %>
+			<%= @article.extras_audio_teaser %>
+		</strong>
+	</p>
+	
+	<p>
+		<%= markdown(@article.extras_audio_intro).html_safe %>
+	</p>
+	
+	<p>
+		<% case @article.language_id when 1 %>Listen here:
+		<% when 2 %>Escuche aquí:
+		<% end %>
+		<%= link_to @article.extras_audio_teaser, article_url(@article) %>
+	</p>
+<% else end %>

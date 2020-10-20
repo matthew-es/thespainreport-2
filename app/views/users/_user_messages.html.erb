@@ -17,13 +17,7 @@
 <% case @status when 1 %>
 	<%= @frame.cta_patron_active_bottom %> <%= link_to @frame.cta_patron_active_bottom_link, @increase %>
 <% when 2 %> 
-	<% case @account_status when 1 %>
-		<%= @frame.cta_patron_active_bottom %> <%= link_to @frame.cta_patron_active_bottom_link, @increase %>
-	<% when 2 %>
-		<%= @frame.cta_patron_paused %> <%= link_to @frame.cta_patron_paused_link, @restart %>
-	<% when 3 %>
-		<%= @frame.cta_patron_cancelled %> <%= link_to @frame.cta_patron_cancelled_link, @restart %>
-	<% else end %>
+	Thank you.
 <% when 3 %>
 	<%= @frame.cta_reader_to_patron %> <%= link_to @frame.cta_reader_to_patron_link, @subscribe %>
 <% else end %>

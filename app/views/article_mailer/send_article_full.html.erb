@@ -5,6 +5,8 @@
 </head>
 <body>
 
+<div style="max-width: 750px;">
+
 <p><strong><%= @article.headline %></strong></p>
 
 <p>
@@ -16,173 +18,157 @@
 
 <% if @status == 3 && @can_read == true %>
 	<strong>
-		<%= @article.type.name.upcase %>, 
-			<% case @article.language_id when 1 %>45 DAYS FREE
-			<% when 2 %>45 DÍAS GRATIS
-			<% end %>
+		<%= @article.type.name.upcase %>— 
+		<% case @article.language_id when 1 %>45 DAYS FREE
+		<% when 2 %>45 DÍAS GRATIS
+		<% end %>
 	</strong>
 <% else %>
 	<strong><%= @article.type.name.upcase %></strong>
 <% end %>
 
-<p><em><%= @article.lede %></em></p>
+<p style="max-width: 700px;"><em><%= @article.lede %></em></p>
 
-<% if @article.upload %>
+<%# MAIN IMAGE OR VIDEO %>
+<% if @article.video.present? %>
+	<%= link_to "Video here", article_url(@article) %>
+<% elsif @article.audio_aac_id.present? %>
+	<%= link_to "Listen here", article_url(@article) %>
+<% elsif @article.upload %>
 	<%= image_tag ('https://image.thespainreport.es/' + File.basename(@article.upload.data)), style: 'max-width: 700px;' %>
-<% else end %>
-
-<% if @article.image.present? %>
-	<% if ['.png','.jpg'].include?File.extname(@article.image) %> 
-		<%= image_tag ('https://image.thespainreport.es/' + @article.image), style: 'max-width: 700px;' %>
+	<hr />
+	<% if @article.language_id == 1 %>
+		<strong>Published:</strong> <%= @article.upload.created_at.strftime("%b %d, %Y, %l:%M %P") %> 
+		<% if @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 10 || @status == 1 %>
+			| <%= link_to "High resolution image for patrons", 'https://image.thespainreport.es/' + File.basename(@article.upload.data) %>
+		<% else %>
+			| <%= link_to "High resolution image for patrons", "https://www.thespainreport.es/value/guarantee" %>
+		<% end %>
+	<% elsif @article.language_id == 2 %>
+		<strong>Publicado:</strong> <%= @article.upload.created_at.strftime("%d/%m/%Y, %H:%M") %> 
+		<% if @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 10 || @status == 1 %>
+			| <%= link_to "Imagen de alta resolución para mecenas", 'https://image.thespainreport.es/' + File.basename(@article.upload.data) %>
+		<% else %>
+			| <%= link_to "Imagen de alta resolución para mecenas", "https://www.thespainreport.es/valor/garantizar" %>
+		<% end %>
 	<% else %>
 	<% end %>
-<% else %>
-<% end %>
+<% elsif @article.image.present? %>
+		<% if ['.png','.jpg', '.jpeg', '.gif'].include?File.extname(@article.image) %> 
+			<%= image_tag ('https://image.thespainreport.es/' + @article.image), style: 'max-width: 700px;' %>
+		<% else %>
+		<% end %>
+<% else end %>
 
-<% if @article.audio_file_mp3.present? %>
-	<ul>
-		<li>
-			<strong>
-				<% case @language when 1 %>Listen: 
-				<% when 2 %>Escuche: 
-				<% end %>
-			</strong>
-			<%= link_to @article.headline, @article %>
-		</li>
-	</ul>
-<% else %>
-<% end %>
+
+<%# PODCAST REPORT/INTERVIEW EPISODE NOTES %>
+<% if @article.audio_aac_id.present? %>
+	<p style="max-width: 700px;">
+	<%= markdown(@article.audio_episode_notes) %>
+	</p>
+<% else end %>
+
 
 <% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
-	<% if @can_read == true %>
+	<% if @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 5 || @status == 1 %>
 		<%= markdown(@article.body).html_safe %>
 	<% else %>
-		<%= markdown(truncate(@article.body, length: 500)) %>
-		<ul>
-			<li>
-				...<%= @frame.access_patrons_only %> <%= link_to @frame.cta_reader_to_patron_link, @subscribe %>
-			</li>
-		</ul>
+		<%= markdown(truncate(@article.body, length: 550)) %>
 	<% end %>
 <% else %>
 	<%= markdown(@article.body).html_safe %>
 <% end %>
 
-<% if @article.extras_notes.present? || @article.extras_audio_file.present? %>
-	<strong>
-		<% case @language when 1 %>More for patrons:
-		<% when 2 %>Más para mecenas:
-		<% end %>
-	</strong>
-	
-	<% case @status when 3, 4, 5 %>
-		<ul>
-			<% if @article.extras_notes.present? %>
-				<li>
-					<strong>
-						<% case @language when 1 %>More:
-						<% when 2 %>Más:
-						<% end %>
-					</strong>
-					<% case @status when 3 %><%= link_to @article.extras_notes_teaser, @subscribe %>
-					<% when 4, 5 %><%= link_to @article.extras_notes_teaser, @restart %>
-					<% end %>
-				</li>
-			<% else end %>
-
-			<% if @article.extras_audio_file.present? %>
-				<li>
-					<strong>
-						<% case @language when 1 %>Listen:
-						<% when 2 %>Escuche:
-						<% end %>
-					</strong>
-					<% case @status when 3 %><%= link_to @article.extras_audio_teaser, @subscribe %>
-					<% when 4, 5 %><%= link_to @article.extras_audio_teaser, @restart %>
-					<% end %>
-				</li>
-			<% else end %>
-			
-			<li>
-			<% case @status when 3 %><%= @frame.access_more_for_patrons %>. <%= link_to @frame.cta_reader_to_patron, @subscribe %>
-			<% when 4 %><%= @frame.access_more_for_patrons %>. <%= link_to @frame.cta_patron_paused, @restart %>
-			<% when 5 %><%= @frame.access_more_for_patrons %>. <%= link_to @frame.cta_patron_cancelled, @restart %>
-			<% end %>
-			</li>
-		</ul>
-	<% when 1, 2 %>
-		<% if @article.extras_notes.present? %>
-			<em><%= @article.extras_notes_teaser %></em>
-			<p><%= markdown(@article.extras_notes).html_safe %></p>
-		<% else end %>
-		
-		<% if @article.extras_audio_file.present? %>
-			<ul>
-				<li>
-					<strong>
-						<% case @language when 1 %>Listen:
-						<% when 2 %>Escuche:
-						<% end %>
-					</strong>
-					<% case @level when 1..9 %><%= link_to @article.extras_audio_teaser, @increase %>
-					<% when 10..Float::INFINITY %><%= link_to @article.extras_audio_file, 'https://audio.thespainreport.es/' + @article.extras_audio_file %> (<%= @article.extras_audio_teaser %>)
-					<% end %>
-				</li>
-			</ul>
-		<% else end %>
-	<% end %>
+<%# PATRONS EXTRAS HERE...  %>
+<% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
+	<%= render "articles/patrons_only_block_email" %>
+<% elsif @article.extras_notes.present? || @article.extra_audio_aac_id.present? || @article.extras_video.present? %>
+	<%= render "articles/patrons_only_block_email" %>
 <% else end %>
 
+
+<%# INDIVIDUAL TWEETS OR PHOTO ESSAY IMAGES FOR THE ARTICLE %>
 <% if @articletweets.present? %>
+	<% if !["Thread", "Hilo", "Photos", "Fotos"].include?(@article.type.name) %>
+		<p><strong>
+			<% case @article.language_id when 1 %>Notes/Tweets
+			<% when 2 %>Apuntes/Tuits
+			<% end %>
+		</strong></p>
+	<% end %>
+
 	<% @articletweets.each do |t| %>
-		<p>
+		<p style="max-width: 700px;">
+			<%# Display the tweet %>
 			<%= t.message %>
 
+			<%# Display the tweet link %>
+			<% if t.tweet_url.nil? %>
+			<% elsif t.tweet_url.match(/www.youtube.com\/watch/) %>
+				<% case @article.language_id when 1 %>Video here:
+				<% when 2 %>Vídeo aquí:
+				<% end %>
+				<%= link_to @article.short_headline, article_url(@article) %>
+			<% elsif t.tweet_url.present? %>
+				<% case t.article.language_id when 1 %><%= link_to "Link", t.tweet_url unless !t.tweet_url %>
+				<% when 2 %><%= link_to "Enlace", t.tweet_url unless !t.tweet_url %>
+				<% end %>
+			<% else end %>
+			
 			<%# Display tweet image %>
-			<% if t.upload == @article.upload %>
+			<% if t.upload == @article.upload && t == @article.tweets.first %>
 			
 			<% elsif t.upload %>
-				<br />
+				<br /><br />
 				<%= image_tag ('https://image.thespainreport.es/' + File.basename(t.upload.data)), style: 'max-width: 700px;' %>
-			<% elsif t.image %>
-				<br />
+			<% elsif !t.image.nil? %>
+				<br /><br />
 				<%= image_tag ('https://image.thespainreport.es/' + t.image), style: 'max-width: 700px;' %>
 			<% else end %>
-			
-			<%# Display tweet link %>
-			<% if t.tweet_url.present? %>
-				<% case t.article.language_id when 1 %>Link: 
-				<% when 2 %>Enlace: 
-				<% end %>
-				<%= link_to t.tweet_url, t.tweet_url unless !t.tweet_url %>
-			<% else end %>
-			
-			<br /><br />
-			—<span style="font-size: 12px; font-style: italic;">
+
+			<%# Display details, link to Twitter, high res image link for patrons %>
+			<hr />
 			<% if @article.language_id == 1 %>
 				<strong>Published:</strong> <%= t.created_at.strftime("%b %d, %Y, %l:%M %P") %> 
 				<% if t.twitter_tweet_id %>
 					| <%= link_to "On Twitter", "https://twitter.com/matthewbennett/status/" + t.twitter_tweet_id.to_s %>
 				<% end %>
-			<% elsif @article.language_id == 2 %>
-				Publicado:</strong> <%= t.created_at.strftime("%d/%m/%Y, %H:%M") %>
-				<% if t.twitter_tweet_id %>
-					| <%= link_to "En Twitter", "https://twitter.com/matthewbennett/status/" + t.twitter_tweet_id.to_s %>
+				<% if t.upload %>
+					<% t.upload.versions.each do |v| %>
+						<% if @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 10 || @status == 1 %>
+							| <%= link_to "High resolution image for patrons", 'https://image.thespainreport.es/' + File.basename(v.data) %>
+						<% else %>
+							| <%= link_to "High resolution image for patrons", "https://www.thespainreport.es/value/guarantee" %>
+						<% end %>
+					<% end %>
 				<% end %>
-			<% else %>
-			<% end %>
-			</span>
+			<% elsif @article.language_id == 2 %>
+				<strong>Publicado:</strong> <%= t.created_at.strftime("%d/%m/%Y, %H:%M") %> 
+				| <%= link_to "En Twitter", "https://twitter.com/matthewbennett/status/" + t.twitter_tweet_id.to_s %>
+				<% if t.upload %>
+					<% t.upload.versions.each do |v| %>
+						<% if @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 10 || @status == 1 %>
+							| <%= link_to "Imagen de alta resolución para mecenas", 'https://image.thespainreport.es/' + File.basename(v.data) %>
+						<% else %>
+							| <%= link_to "Imagen de alta resolución para mecenas", "https://www.thespainreport.es/valor/garantizar" %>
+						<% end %>
+					<% end %>
+				<% end %>
+			<% else end %>
 		</p>
+		<br />
 	<% end %>
 <% end %>
 
-<p>
 
+<p>
+********************************************************************************************
 <br />
 <%= render "users/user_messages" %>
 <br />
 ********************************************************************************************
 </p>
+
 
 <% if @language == 1 %>
 	Listen to the podcast, Bennett in Spain, here:
@@ -190,7 +176,7 @@
 	<a href="https://open.spotify.com/show/4A8CdKc4bYPYsapzyxdvWo" title="Bennett in Spain on Spotify">Spotify</a>, 
 	<a href="https://www.ivoox.com/podcast-bennett-in-spain_sq_f1842992_1.html" title="Bennett in Spain on iVoox">iVoox</a>,
 	<a href="https://www.stitcher.com/podcast/the-spain-report" title="Bennett in Spain on Stitcher">Stitcher</a>,
-	<a href="https://#" title="Bennett in Spain on Tunein">Tunein</a>,
+	<a href="https://tunein.com/podcasts/News--Politics-Podcasts/Bennett-en-Espana-p1286596/" title="Bennett en España en TuneIn">TuneIn</a>,
 	<a href="https://soundcloud.com/user-842077287/sets/bennett-in-spain" title="Bennett in Spain on SoundCloud">SoundCloud</a>,
 	<a href="https://www.youtube.com/playlist?list=PL3DymtXaX19QyOs-R0bu1eiX6j4c8L-Ey" title="Bennett in Spain on YouTube">YouTube</a>,
 	<a href="https://www.facebook.com/BennettInSpain/playlist/606829756765780" title="Bennett in Spain on Facebook">Facebook</a>
@@ -238,5 +224,6 @@
 <% else %>
 <% end %>
 
+</div>
 </body>
 </html>

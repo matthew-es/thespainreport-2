@@ -160,8 +160,10 @@ class ArticlesController < ApplicationController
 		if params[:article][:email_to] == 'none'
 		
 		elsif params[:article][:email_to] == 'test'
-			user = User.find_by(email: "matthew@thespainreport.com")
-			ArticleMailer.send_article_full(@article, user).deliver_now
+			users = [User.find_by(email: "matthew@thespainreport.com"), User.find_by(email: "matbenet77@gmail.com")]
+			users.each do |user|
+				ArticleMailer.send_article_full(@article, user).deliver_now
+			end
 		elsif params[:article][:email_to] == 'alert'
 			if ["Notes"].include?@article.type.name
 				User.emails_notes.emails_english.find_each(batch_size: 50) do |user|
