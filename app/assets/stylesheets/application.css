@@ -131,7 +131,7 @@ a.no-hover-bg:hover {background-color: #fff;}
 .content {width: 650px; margin: 0 auto; padding: 10px 30px; border-left: 2px solid #AA151B; border-right: 2px solid #AA151B;}
 .content-wide {width: 1100px; margin: 0 auto; padding: 10px; border-left: 1px solid #AA151B; border-right: 1px solid #AA151B;}
 .meta {text-transform: uppercase;}
-.label {padding: 2px 5px;}margin-bo
+.label {padding: 2px 5px;}
 .label-big {padding: 4px 8px;}
 .frameimage {width: 200px; border-radius: 50%;}
 .video-wrapper {position: relative; margin-top: 10px; margin-bottom: 10px; padding-bottom: 56.25%; /* 16:9 */ padding-top: 25px; height: 0;}
@@ -153,7 +153,7 @@ td {font-family: Arial; font-size: 14px; vertical-align: top;}
 
 /* Mobile placeholders */
 .mobile-100 {}
-.mobile-margins {}
+.mobile-margins ul, ul li {padding-inline-start: 0; margin-left: 10px;}
 
 /* Responsive, mobiles */
 /* # Media Queries

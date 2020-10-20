@@ -72,6 +72,8 @@ class UsersController < ApplicationController
 				password_reset_sent_at: Time.zone.now,
 				status: 3,
 				level_amount: 0,
+				can_read: true,
+				can_read_date: Time.zone.now + 45.days,
 				frame_id: @frame_id,
 				sitelanguage: params[:set_language],
 				emails: 1,
@@ -98,9 +100,7 @@ class UsersController < ApplicationController
 				
 				user.update(
 					account_id: account.id,
-					account_role: 1,
-					can_read: true,
-					can_read_date: Time.zone.now + 45.days
+					account_role: 1
 					)
 				
 				admin_subject = "✅ New reader: #{user.email}"
@@ -108,6 +108,7 @@ class UsersController < ApplicationController
 					"Email: #{user.email}" + "<br />" + "Language: #{user.sitelanguage}" + "<br />" + "Article: #{sign_up_article}" + "<br />" + "Frame: #{@frame_quest}"
 					).html_safe
 				UserMailer.admin_alert(admin_subject, admin_message).deliver_now
+				
 				session[:user_id] = user.id
 				case user.sitelanguage
 					when 1
@@ -155,10 +156,12 @@ class UsersController < ApplicationController
 	#---------------------------------------------------------------------------
 	def login
 		default_frame_eng
+		redirect_to edit_user_path(current_user) unless current_user.nil?
 	end
 	
 	def entrar
 		default_frame_es
+		redirect_to edit_user_path(current_user) unless current_user.nil?
 	end
 	
 	def newsession

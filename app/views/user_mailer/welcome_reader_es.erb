@@ -5,30 +5,9 @@ Hola,
 <p><%= link_to "Haga clic aquí para confirmar su correo", confirm_email_user_url(@user.confirm_token) %></p>
 
 <p>
-    Últimos Episodios del Podcast:
-    <ul>
-        <% @latestpodcasts.each do |a| %>
-            <li><%= link_to a.headline, a %></li>
-        <% end %>
-    </ul>
-    
     Últimos Artículos:
     <ul>
-        <% @latestfree.each do |a| %>
-            <li><%= link_to a.headline, a %></li>
-        <% end %>
-    </ul>
-    
-    Últimos Verdad y Periodismo:
-    <ul>
-        <% @latesttruth.each do |a| %>
-            <li><%= link_to a.headline, a %></li>
-        <% end %>
-    </ul>
-    
-    Últimos Sólo Mecenas:
-    <ul>
-        <% @latestpatrons.each do |a| %>
+        <% @latestarticles.each do |a| %>
             <li><%= link_to a.headline, a %></li>
         <% end %>
     </ul>

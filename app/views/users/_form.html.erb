@@ -140,10 +140,10 @@
 		<% case @user.sitelanguage when 1 %><%= @can_read_date.strftime("%b %d, %Y") %>
 		<% when 2 %><%= @can_read_date.strftime("%d/%m/%Y") %>
 		<% end %>
+	</div>
 	
 	<hr />
-	</div>
-
+	
 	<div class="margin-bottom-10">
 		<% if current_user.nil? %>
 		<% elsif current_user.sitelanguage == 1 %>
@@ -152,6 +152,8 @@
 			<%= form.submit "Guardar" %>
 		<% else end %>
 	</div>
+	
+	<hr />
 	
 	<div class="margin-bottom-10">
 		<% if @user.status == 2 && @user.account.subscriptions.empty? %>

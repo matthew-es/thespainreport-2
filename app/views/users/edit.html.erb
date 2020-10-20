@@ -5,6 +5,11 @@
     <div class="margin-top-30">
         <h1 class="font-header font-header-normal line-120"><%= @user.email %></h1>
     </div>
+    
+    <% flash.each do |key, value| %>
+		<div class="alert alert-<%= key %>"><p><%= value.html_safe %></p></div>
+	<% end %>
+    
     <%= render 'form', user: @user %>
 </div>
 </div>

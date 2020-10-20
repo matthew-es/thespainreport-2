@@ -23,10 +23,7 @@ class UserMailer < ApplicationMailer
         @frame = Frame.find(@user.frame_id)
         @subscribe = root_url + "value/" + @frame.link_slug
         
-        @latestpodcasts = Article.published.english.podcast.lastfive
-        @latestfree = Article.published.english.notpodcast.notpatrons.nottruth.lastfive
-        @latesttruth = Article.published.english.truth.lastfive
-        @latestpatrons = Article.published.english.patrons.lastfive
+        @latestarticles = Article.published.english.lastten
         
         headers 'X-SES-CONFIGURATION-SET' => "Emails"
         mail(to: @user.email, subject: "✅ Welcome: click this link to confirm your email")
@@ -37,10 +34,7 @@ class UserMailer < ApplicationMailer
         @frame = Frame.find(@user.frame_id)
         @subscribe = root_url + "valor/" + @frame.link_slug
         
-        @latestpodcasts = Article.published.spanish.podcast.lastfive
-        @latestfree = Article.published.spanish.notpodcast.notpatrons.nottruth.lastfive
-        @latesttruth = Article.published.spanish.truth.lastfive
-        @latestpatrons = Article.published.spanish.patrons.lastfive
+        @latestarticles = Article.published.spanish.lastten
         
         headers 'X-SES-CONFIGURATION-SET' => "Emails"
         mail(to: @user.email, subject: "✅ Bienvenido: haga clic en este enlace para confirmar su correo")

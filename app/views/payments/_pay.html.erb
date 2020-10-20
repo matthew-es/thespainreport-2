@@ -15,7 +15,7 @@
 					<h5 class="margin-bottom-0"><%= p.title %></h5>
 					<div class="">
 						<%= image_tag ('https://image.thespainreport.es/' + p.image) %>
-						<div class="mobile-margins font-main-small"><%= markdown(p.description) %></div>
+						<div class="mobile-margins font-main-small" style="min-height: 180px;"><%= markdown(p.description) %></div>
 						<p class="align-centre line-100">
 							<button type="submit" class="width-100 padding-10 font-main-normal" id="price" value="<%= p.price %>" onclick="setAmount(this.value)"><%= number_to_currency((p.price/100.to_f), unit: "€") %></button>
 						</p>
