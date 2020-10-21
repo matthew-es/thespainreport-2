@@ -6,9 +6,11 @@
         <div class="width-100 margin-bottom-10">
             <div class="width-48 float-left">
                 <%= t.message %>
-                <% case t.article.language_id when 1 %><%= link_to "Link", t.tweet_url unless !t.tweet_url %>
-				<% when 2 %><%= link_to "Enlace", t.tweet_url unless !t.tweet_url %>
-				<% end %>
+                <% if t.tweet_url.present? %>
+					<% case t.article.language_id when 1 %><%= link_to "Link", t.tweet_url unless !t.tweet_url %>
+					<% when 2 %><%= link_to "Enlace", t.tweet_url unless !t.tweet_url %>
+					<% end %>
+				<% else end %>
                 
                 <% if t.tweet_url.match(/www.youtube.com\/watch/) %>
 					<div class="video-wrapper">
@@ -24,6 +26,28 @@
 					<br />
 					<%= image_tag ('https://image.thespainreport.es/' + t.image) %>
 				<% else end %>
+				
+				
+				<div class="border-top-quiet margin-top-5">
+				<span class="font-main font-main-tiny">
+					<strong>Published:</strong> <%= t.created_at.strftime("%b %d, %Y, %l:%M %P") %> 
+					<% if t.twitter_tweet_id %>
+						| <%= link_to "On Twitter", "https://twitter.com/matthewbennett/status/" + t.twitter_tweet_id.to_s %>
+					<% end %>
+					<% if t.upload %>
+						<% t.upload.versions.each do |v| %>
+							<% if current_user.nil? %>
+								| <%= link_to "High resolution image for patrons", "https://www.thespainreport.es/value/guarantee" %>
+							<% elsif @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 10 || @status == 1 %>
+								| <%= link_to "High resolution image for patrons", 'https://image.thespainreport.es/' + File.basename(v.data) %>
+							<% else %>
+								| <%= link_to "High resolution image for patrons", "https://www.thespainreport.es/value/guarantee" %>
+							<% end %>
+						<% end %>
+		   			<% end %>
+			    </div>	
+				
+				
             </div>
             <div class="width-48 float-left padding-left-10"><%= t.quicktranslation %></div>
             <div class="clear"></div>
