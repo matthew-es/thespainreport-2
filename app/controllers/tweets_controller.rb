@@ -43,8 +43,9 @@ class TweetsController < ApplicationController
 			if params
 				@tweet.previous_id = params[:previous_id]
 				@tweet.article_id = params[:article_id]
+				
 			end
-			@articletweets = @tweet.article.tweets.order("created_at DESC")
+			@articletweets = @tweet.article.tweets.order("created_at DESC") unless @tweet.article.nil?
 			tweetelements
 		else
 			redirect_to root_url
