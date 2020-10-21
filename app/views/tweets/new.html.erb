@@ -2,7 +2,7 @@
 <%= render 'form', tweet: @tweet %>
 
 <% if params.has_key?(:article_id) %>
-    <% @tweet.article.tweets.order("previous_id DESC").each do |t| %>
+    <% @articletweets.each do |t| %>
         <div class="width-100 margin-bottom-10">
             <div class="width-48 float-left">
                 <%= t.message %>

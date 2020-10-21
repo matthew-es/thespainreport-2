@@ -16,8 +16,7 @@
 	<div class="margin-bottom-10">
 		<strong>Previous tweet:</strong> <%= f.collection_select :previous_id, @previoustweets, :id, proc {|st| st.message.truncate(70)}, {include_blank: true, :selected => @tweet.previous_id}, {:style => "width: 380px;"} %>
 		<% if false %><%= f.select :email_to, options_for_select([["Do not send", "none"], ["Test to M", "test"], ["Send email", "alert"]]) %><% end %>
-		<%= f.select :send_tweet, options_for_select([["Do not send", "none"], ["Send tweet", "send"]]) %>
-		<%= f.submit %>
+		
 	</div>
 	
 	<div class="background-color-yellow padding-10 margin-bottom-10">
@@ -52,6 +51,10 @@
 		<% if @tweet.article.present? %>
 			| <%= link_to @tweet.article.short_headline, @tweet.article %>
 		<% end %>
+		|
+		<%= f.select :send_tweet, options_for_select([["Do not send", "none"], ["Send tweet", "send"]]) %>
+		<%= f.submit %>
+		
 	</div>
 	
 	<hr class="margin-top-20 margin-bottom-20" />
