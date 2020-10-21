@@ -84,6 +84,7 @@ class AccountsController < ApplicationController
 			admin_sets_user_settings
 		end
 		
+		admin_sets_all_can_read_dates
 		redirect_back(fallback_location: root_path)
 	end
 	
@@ -164,6 +165,21 @@ class AccountsController < ApplicationController
 		
 	end
 	
+	def admin_sets_all_can_read_dates
+		new_can_read_date = params[:all_accounts_can_read_date]
+		
+		if new_can_read_date.blank?
+		else
+			User.all.each do |u|
+				if u.can_read_date.nil? || u.can_read_date < new_can_read_date
+					u.update(
+						can_read_date: new_can_read_date
+						)
+				else
+				end
+			end
+		end
+	end
 	
 	
 	# GET /accounts/1/edit

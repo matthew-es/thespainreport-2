@@ -53,6 +53,9 @@
 	<div class="margin-bottom-10">
 		Can read? <%= f.select :can_read, options_for_select([["Yes", true], ["No", false]]), {include_blank: true} %>
 	</div>
+	<div class="margin-bottom-10">
+		Can read to: <%= f.text_field :can_read_date %>
+	</div>
 	
 	<hr />
 	
@@ -63,7 +66,19 @@
 		Email language: <%= f.select :emaillanguage, options_for_select([["English", "1"], ["Spanish", "2"], ["English & Spanish", "3"]]), {include_blank: true} %>
 	</div>
 	<div class="margin-bottom-10">
-		Site language: <%= f.select :sitelanguage, options_for_select([["English", "1"], ["Spanish", "2"]]), {include_blank: true} %> | <%= f.submit %>
+		Site language: <%= f.select :sitelanguage, options_for_select([["English", "1"], ["Spanish", "2"]]), {include_blank: true} %>
+	</div>
+	
+	<hr />
+	
+	<div class="margin-bottom-10">
+		All accounts can read to: <%= f.text_field :all_accounts_can_read_date %>
+	</div>
+	
+	<hr />
+	
+	<div class="margin-bottom-10">
+		<%= f.submit %>
 	</div>
 <% end %>
 
