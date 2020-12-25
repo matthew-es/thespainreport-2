@@ -1,14 +1,66 @@
-<% if @article.extra_audio_aac_id.present? %>
+<% if @article.extras_audio_title.present? %>
 	<h3>
 		<% case @article.language_id when 1 %>More Audio:
 		<% when 2 %>Más Audio:
 		<% end %>
-		<%= @article.extras_audio_teaser %>
+		<%= @article.extras_audio_title %>
 	</h3>
 
-	<div class="">
-		<%= markdown(@article.extras_audio_intro).html_safe %>
+	<p><%= @article.extras_audio_intro %></p>
+	
+	
+	<div class="padding-bottom-20 margin-bottom-30 log-in-border">
+		<%= render 'users/log_in_logic' %>
 	</div>
+	
+	
+	<% if @article.extras_audios %>
+		<% @article.extras_audios.split(/\r\n\r\n/).each do |chunk| %>
+			<% bit1, bit2, bit3, bit4, bit5 = chunk.split("\r\n", 5) %>
+			
+			<div class="patrons-extra-bit">
+				<h3><%= bit3 %></h3>
+				
+				<p class="margin-bottom-0 font-main-small font-italic"><%= bit4 %></p>
+		
+				<div class="margin-left-20 margin-top-10 margin-bottom-20">
+					<audio controls>
+					 	
+					 	<% if current_user.nil? %>
+							<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/aac">
+					  		<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/mpeg">
+							Your browser does not support the audio element.
+						<% elsif @status == 3 && @can_read_date > Time.now %>
+							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true") %>
+						<% elsif @status == 3 && @can_read_date < Time.now %>
+							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=false") %>
+						<% elsif @status == 2 && @level == 0 %>
+							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=false") %>
+						<% elsif @status == 2 && @level.between?(1, 4) %>
+						<% elsif @status == 2 && @level.between?(5, 9) %>
+							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true") %>
+						<% elsif @status == 2 && @level.between?(10, 24) %>
+							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true") %>
+						<% elsif @status == 2 && @level >= 25 %>
+							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true") %>
+						<% elsif @status == 1 %>
+							<source src="<%= 'https://audio.thespainreport.es/' + bit1 unless bit1.nil? %>" type="audio/aac">
+					  		<source src="<%= 'https://audio.thespainreport.es/' + bit2 unless bit2.nil? %>" type="audio/mpeg">
+							Your browser does not support the audio element.
+						<% else end %>
+					 	
+					 	
+					 	
+					 	
+					</audio>
+				</div>
+				
+				<p><%= bit5 %></p>
+			</div>
+		<% end %>
+	<% else end %>
+	
+	
 	
 	<div class="margin-left-20 margin-top-10 margin-bottom-20">
 		<audio controls>

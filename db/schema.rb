@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_15_100812) do
+ActiveRecord::Schema.define(version: 2020_12_20_122519) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -73,13 +73,13 @@ ActiveRecord::Schema.define(version: 2020_10_15_100812) do
     t.string "video"
     t.string "extras_audio_file"
     t.string "extras_audio_intro"
-    t.text "extras_notes"
+    t.text "extras_audios"
     t.string "alertmessage"
     t.string "extras_notes_teaser"
-    t.string "extras_audio_teaser"
+    t.string "extras_audio_title"
+    t.string "extras_videos"
     t.string "extras_video_intro"
-    t.string "extras_video_teaser"
-    t.string "extras_video"
+    t.string "extras_video_title"
     t.string "short_headline"
     t.text "audio_episode_notes"
     t.integer "audio_file_mp3_length"

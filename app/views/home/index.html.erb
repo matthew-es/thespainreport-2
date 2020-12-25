@@ -26,7 +26,7 @@
 
 <%= render "layouts/logo_account" %>
 
-<% @latestpodcast.each do |article| %>
+<% @latestmain.each do |article| %>
 	 <% if article.video.present? %>
 		<div class="video-wrapper">
 			<% if article.video.match(/^[0-9]*$/) %>
@@ -45,73 +45,71 @@
 	 </h1>
 	 
 	 <div class="font-main font-main-normal font-italic"><span class="font-bold"><%= article.type.name %>:</span> <%= article.lede %></div>
- 
-	<% if article.updates.published.any? %>
-		<ul class="margin-top-5 margin-bottom-0 margin-left-20 margin-right-0">
-	      <% article.updates.each do |u| %>
-	        <li><%= link_to u.headline, article_path(article, anchor: u.id) %></li>
-	      <% end %>
-	    </ul>
-   <% else %>
-   <% end %>
+   
+	<% if article.pieces.present? %>
+		<ul class="margin-top-5 margin-bottom-0 margin-left-20 margin-right-0 font-main-small">
+			<% article.pieces.each do |p| %>
+				<li>
+					<strong><%= p.type.name %>:</strong> <%= link_to p.short_headline, p %>
+				</li>
+			<% end %>
+		</ul>
+	<% else end %>
  <% end %>
 
-<div class="margin-top-10">
+<%= render "articles/patrons_only_block" %>
+<%= render "payments/pay" %>
+
+<div class="buy-border margin-top-20">
+	<h3>Videos</h3>
+	<ul class="no-points">
+		<% if @videos.any? %>
+			<% @videos.each do |article| %>
+				<%= render "articles/index_articles_list_link", {article: article} %>
+			<% end %>
+		<% else %>
+			Coming soon....
+		<% end %>
+	</ul>
+	
+	<h3>Podcast</h3>
 	<ul class="no-points">
 		<% if @podcast.any?; @podcast.each do |article| %>
 			<%= render "articles/index_articles_list_link", {article: article} %>
 		<% end end %>
 	</ul>
-</div>
-
-<%= render "articles/patrons_only_block" %>
-
-<h3>Threads & News</h3>
-<ul class="no-points">
-	<% if @free.any?; @free.each do |article| %>
-		<%= render "articles/index_articles_list_link", {article: article} %>
-	<% end end %>
-</ul>
-
-<h3>Photos</h3>
-<ul class="no-points">
-	<% if @photos.any? %>
-		<% @photos.each do |article| %>
-			<%= render "articles/index_articles_list_link", {article: article} %>
+	
+	<h3>Photos</h3>
+	<ul class="no-points">
+		<% if @photos.any? %>
+			<% @photos.each do |article| %>
+				<%= render "articles/index_articles_list_link", {article: article} %>
+			<% end %>
+		<% else %>
+			Coming soon....
 		<% end %>
-	<% else %>
-		Coming soon....
-	<% end %>
-</ul>
-
-<h3>Videos</h3>
-<ul class="no-points">
-	<% if @videos.any? %>
-		<% @videos.each do |article| %>
+	</ul>
+	
+	<h3>Threads & News</h3>
+	<ul class="no-points">
+		<% if @free.any?; @free.each do |article| %>
 			<%= render "articles/index_articles_list_link", {article: article} %>
-		<% end %>
-	<% else %>
-		Coming soon....
-	<% end %>
-</ul>
+		<% end end %>
+	</ul>
+	
+	<h3>Truth & Journalism</h3>
+	<ul class="no-points">
+		<% if @truth.any?; @truth.each do |article| %>
+			<%= render "articles/index_articles_list_link", {article: article} %>
+		<% end end %>
+	</ul>
 
-<h3>Truth & Journalism</h3>
-<ul class="no-points">
-	<% if @truth.any?; @truth.each do |article| %>
-		<%= render "articles/index_articles_list_link", {article: article} %>
-	<% end end %>
-</ul>
- 
-<div id="patrons" class="padding-20 border-patrons margin-top-20">
-	<%= render "payments/pay" %>
 </div>
 
 <% if current_user.nil? %>
 	<%= render "users/new_reader_form" %>
 <% else end %>
 
-<div class="padding-20 border-patrons margin-top-20">
-	<%= render "layouts/footer" %>
-</div>
+<%= render "layouts/footer" %>
 
 </div>

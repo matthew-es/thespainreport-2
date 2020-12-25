@@ -1,20 +1,64 @@
-<% if @article.extras_video.present? %>
+<% if @article.extras_video_title.present? %>
 	<h3>
 		<% case @article.language_id when 1 %>More Video:
 		<% when 2 %>Más Vídeo:
 		<% end %>
-		<%= @article.extras_video_teaser %>
+		<%= @article.extras_video_title %>
 	</h3>
-
-	<div class="">
-		<%= markdown(@article.extras_video_intro).html_safe %>
+	
+	<p><%= @article.extras_video_intro %></p>
+	
+	<p class="font-main-small">
+		<em>
+		<% case @article.language_id when 1 %>Log in now to watch the extra videos:
+		<% when 2 %>Inicie sesión ahora para ver los vídeos adicionales:
+		<% end %>
+		</em>
+	</p>
+	
+	<div class="padding-bottom-20 margin-bottom-30 log-in-border">
+		<%= render 'users/log_in_logic' %>
 	</div>
 	
-	<div class="video-wrapper">
-		<% if @article.extras_video.match(/^[0-9]+$/) %>
-			<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{@article.extras_video}") %>
-		<% else %> 
-			<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{@article.extras_video}?rel=0&amp;showinfo=0") %>
+	<% if @article.extras_videos.present? %>
+		<% @article.extras_videos.split(/\r\n\r\n/).each do |chunk| %>
+			<% bit1, bit2, bit3, bit4 = chunk.split("\r\n", 4) %>
+			
+			<div class="patrons-extra-bit">
+				<h3><%= bit2 %></h3>
+				
+				<p class="margin-bottom-0 font-main-small font-italic"><%= bit3 %></p>
+				
+				<div class="video-wrapper">
+					<% if bit1.match(/^[0-9]+$/) %>
+						
+						<% if current_user.nil? %>
+							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=false") %>
+						<% elsif @status == 3 && @can_read_date > Time.now %>
+							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true") %>
+						<% elsif @status == 3 && @can_read_date < Time.now %>
+							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=false") %>
+						<% elsif @status == 2 && @level == 0 %>
+							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=false") %>
+						<% elsif @status == 2 && @level.between?(1, 4) %>
+						<% elsif @status == 2 && @level.between?(5, 9) %>
+							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true") %>
+						<% elsif @status == 2 && @level.between?(10, 24) %>
+							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true") %>
+						<% elsif @status == 2 && @level >= 25 %>
+							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true") %>
+						<% elsif @status == 1 %>
+							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true") %>
+						<% else end %>
+						
+					<% else %>
+						<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{bit1}?rel=0&amp;showinfo=0") %>
+					<% end %>
+				</div>
+				
+				<p><%= bit4 %></p>
+			</div>
 		<% end %>
-	</div>
+	<% else end %>
+
 <% else end %>

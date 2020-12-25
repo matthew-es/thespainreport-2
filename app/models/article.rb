@@ -7,7 +7,7 @@ class Article < ApplicationRecord
     has_many :tweets
     has_many :translations, class_name: "Article", foreign_key: "original_id"
     belongs_to :original, class_name: "Article", optional: true
-    has_many :updates, class_name: "Article", foreign_key: "main_id"
+    has_many :pieces, class_name: "Article", foreign_key: "main_id"
     belongs_to :main, class_name: "Article", optional: true
     has_many :components, class_name: "Article", foreign_key: "story_id"
     belongs_to :story, class_name: "Article", optional: true
@@ -17,8 +17,8 @@ class Article < ApplicationRecord
 		"#{id}-#{created_at.strftime("%y%m%d%H%M%S")}-#{headline.parameterize}"
 	end
     
-    scope :updates, -> {Article.joins(:type).merge(Type.updates)}
-    scope :notupdates, -> {Article.joins(:type).merge(Type.notupdates)}
+    scope :is_main, -> {where(main_id: '')}
+    scope :latestmain, -> {where(main_id: '').order('created_at DESC').limit(1)}
     scope :nottranslation, -> {where(original_id: '')}
     scope :patrons, -> {Article.joins(:type).merge(Type.patrons)}
     scope :notpatrons, -> {Article.joins(:type).merge(Type.notpatrons)}
@@ -50,7 +50,5 @@ class Article < ApplicationRecord
     scope :published, -> {where(status_id: [3, 4])}
     scope :english, -> {where(language_id: 1)}
     scope :spanish, -> {where(language_id: 2)}
-    
-
-    
+   
 end

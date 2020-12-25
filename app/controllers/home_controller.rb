@@ -5,10 +5,10 @@ class HomeController < ApplicationController
 		set_country
 		
 		@article_id = "0"
-		@latestpodcast = Article.english.published.podcast.latestpodcast
+		@latestmain = Article.english.published.latestmain
 		@podcast = Article.english.published.podcast.notlatestpodcast.lastfive
 		@patrons = Article.english.published.patrons.lastfive
-		@free = Article.english.published.notupdates.nottruth.notstory.notpatrons.notpodcast.notphoto.notvideo.lastfive
+		@free = Article.english.published.nottruth.notstory.notpatrons.notpodcast.notphoto.notvideo.lastfive
 		@truth = Article.english.published.truth.lastfive
 		@photos = Article.english.published.photo.lastfive
 		@videos = Article.english.published.video.lastfive
@@ -26,10 +26,10 @@ class HomeController < ApplicationController
 		set_country
 		
 		@article_id = "0"
-		@latestpodcast = Article.spanish.published.topstory.latestpodcast
+		@latestmain = Article.spanish.published.latestmain
 		@podcast = Article.spanish.published.podcast.lastfive
 		@patrons = Article.spanish.published.patrons.lastfive
-		@free = Article.spanish.published.notupdates.nottruth.notstory.notpatrons.notpodcast.notphoto.notvideo.lastfive
+		@free = Article.spanish.published.nottruth.notstory.notpatrons.notpodcast.notphoto.notvideo.lastfive
 		@truth = Article.spanish.published.truth.lastfive
 		@photos = Article.spanish.published.photo.lastfive
 		@videos = Article.spanish.published.video.lastfive

@@ -1,14 +1,18 @@
-<div class="margin-bottom-30">
+<div class="margin-top-20">
 	
 	<div class="float-left align-left mobile-100">
-		<div class="">
-			<div class="topbutton mobile-100"> 
-				<a href="<%= @subscribe %>" class="topbutton"><%= @frame.emotional_quest_action %></a> 
+		<% if controller_name == "payments" %>
+		
+		<% else %>
+			<div class="">
+				<div class="topbutton mobile-100"> 
+					<a href="<%= @subscribe %>" class="buybutton"><%= @frame.emotional_quest_action %></a> 
+				</div>
 			</div>
-		</div>
-		<div class="margin-top-2 font-main font-italic font-main-small">
-			<%= @frame.emotional_quest_role %>
-		</div>
+			<div class="margin-top-5 font-main font-italic font-main-tiny">
+				<%= @frame.emotional_quest_role %>
+			</div>
+		<% end %>
 	</div>
 	<div class="float-right align-right mobile-100">
 		<div class="width-fixed-logo">

@@ -1,4 +1,4 @@
-<div class="margin-bottom-10">
+<div class="padding-top-20 buy-border margin-top-30 margin-bottom-30">
 	
 	<% if controller_name == 'home' && action_name == 'index' || controller_name == 'articles' && action_name == 'show' && @article.language_id == 1 %>
 		<span class="font-bold font-main-normal">What is The Spain Report?</span>
@@ -27,7 +27,6 @@
 	<p class="margin-centre" style="text-align: center;">
 		&#169;<%= Time.new.year %> Matthew Bennett<br />
 		<a href="<%= root_url %>" title="The Spain Report">The Spain Report</a>
-		| <a href="/" title="The Spain Report in English">In English</a>
 		| <a href="/es" title="The Spain Report en español">En español</a>
 	</p>
 </div>

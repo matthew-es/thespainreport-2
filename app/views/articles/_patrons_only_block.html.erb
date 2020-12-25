@@ -1,9 +1,9 @@
-<div id="patrons" class="alert-warning padding-20 margin-top-20">
+<div id="patrons" class="patrons-border patrons-background padding-20 margin-top-20">
 	<div>
 		<%# DISPLAY PATRONS LABEL %>
 		<div class="float-left margin-right-5">
-			<span class="label background-color-patrons font-main-tiny font-bold font-color-white">
-				<% if controller_name == "articles" && action_name == "show" && (@article.extras_notes.present? || @article.extra_audio_aac_id.present? || @article.extras_video.present?) %>
+			<span class="label patrons-label font-main-tiny font-bold">
+				<% if controller_name == "articles" && action_name == "show" && (@article.extras_audio_title.present? || @article.extras_video_title.present?) %>
 					<% case @language when 1 %>MORE FOR PATRONS
 					<% when 2 %>MÁS PARA MECENAS
 					<% end %>
@@ -29,7 +29,7 @@
 		
 		<%# DISPLAY EXTRAS TEASER NEXT TO LABELS... %>	
 		<div class="float-left">
-			<% if controller_name == "articles" && action_name == "show" && (@article.extras_notes.present? || @article.extra_audio_aac_id.present? || @article.extras_video.present?) %>
+			<% if controller_name == "articles" && action_name == "show" && (@article.extras_audio_title.present? || @article.extras_video_title.present?) %>
 				<%= @frame.access_more_for_patrons %>
 			<% else %>
 				<%= @frame.access_patrons_only %>
@@ -44,51 +44,17 @@
 					<%= render "articles/index_articles_list_link", {article: article} %>
 				<% end end %>
 			</ul>
+			
+			<%= render 'users/log_in_logic' %>
 		<% elsif controller_name == "articles" && action_name == "show" %>
 			
 			<div>
+				
 				<%# IF NOT LOGGED IN, JUST DISPLAY EXTRA TEXT OR EXTRA AUDIO TEASERS %>
 				<% if current_user.nil? %>
-					<ul class="margin-top-20 margin-bottom-20">
-						<% if @article.extras_notes.present? %>
-							<li class="font-main font-main-small">
-								<strong>
-									<% case @language when 1 %>More:
-									<% when 2 %>Más:
-									<% end %>
-								</strong>
-								<%= @article.extras_notes_teaser %>
-							</li>
-						<% end %>
-						
-						<% if @article.extra_audio_aac_id.present? %>
-							<li class="font-main font-main-small">
-								<strong>
-									<% case @language when 1 %>Listen:
-									<% when 2 %>Escuche:
-									<% end %>
-								</strong>
-								<%= @article.extras_audio_teaser %>
-							</li>
-						<% end %>
-						
-						<% if @article.extras_video.present? %>
-							<li class="font-main font-main-small">
-								<strong>
-									<% case @language when 1 %>Video:
-									<% when 2 %>Vídeo:
-									<% end %>
-								</strong>
-								<%= @article.extras_video_teaser %>
-							</li>
-						<% end %>
-					</ul>
 				
 				<%# 45-DAY FREE TRIAL READERS %>
 				<% elsif @status == 3 && @can_read_date > Time.now %>
-					<%= render "articles/patrons_only_text", article: @article %>
-					<%= render "articles/patrons_only_audio", article: @article %>
-					<%= render "articles/patrons_only_video", article: @article %>
 				
 				
 				<%# 45-DAY FREE TRIAL HAS ENDED %>
@@ -99,37 +65,6 @@
 						<% end %>
 					</div>
 				
-					<% if @article.extras_notes.present? || @article.extra_audio_aac_id.present? || @article.extras_video.present? %>
-						<ul class="margin-top-5 margin-bottom-0 margin-left-5 margin-right-0 font-main-lede">
-							<% if @article.extra_audio_aac_id.present? %>
-								<li><strong>
-									<% case @article.language_id when 1 %>More Audio:
-									<% when 2 %>Más Audio:
-									<% end %>
-									</strong> <%= @article.extras_audio_teaser %>
-								</li>
-							<% else end %>
-			
-							<% if @article.extras_notes.present? %>
-								<li><strong>
-									<% case @article.language_id when 1 %>More Text:
-									<% when 2 %>Más Text:
-									<% end %>
-									</strong> <%= @article.extras_notes_teaser %>
-								</li>
-							<% else end %>
-							
-							<% if @article.extras_video.present? %>
-								<li><strong>
-									<% case @article.language_id when 1 %>More Video:
-									<% when 2 %>Más Vídeo:
-									<% end %>
-									</strong> <%= @article.extras_video_teaser %>
-								</li>
-							<% else end %>
-						</ul>
-					<% else end %>
-						
 				
 				<%# PATRONS WITH A PAYMENT PROBLEM %>
 				
@@ -147,34 +82,13 @@
 				<%# PATRONS > €1 // AUDIO REPORT SCRIPTS %>
 				<% elsif @status == 2 && @level.between?(1, 4) %>
 					<%= render "articles/patrons_only_text", article: @article %>
-					<% if @article.extras_notes.present? || @article.extra_audio_aac_id.present? || @article.extras_video.present? %>
-						<ul class="margin-top-20 margin-bottom-0 margin-left-5 margin-right-0 font-main-lede">
-							<% if @article.extra_audio_aac_id.present? %>
-								<li><strong>
-									<% case @article.language_id when 1 %>More Audio:
-									<% when 2 %>Más Audio:
-									<% end %>
-									</strong> <%= @article.extras_audio_teaser %>
-								</li>
-							<% else end %>
-							
-							<% if @article.extras_video.present? %>
-								<li><strong>
-									<% case @article.language_id when 1 %>More Video:
-									<% when 2 %>Más Vídeo:
-									<% end %>
-									</strong> <%= @article.extras_video_teaser %>
-								</li>
-							<% else end %>
-						</ul>
-					<% else end %>
 			
 				
 				<%# PATRONS > €5 // AUDIO REPORT SCRIPTS, PATRONS ONLY COLUMN, PATRONS ONLY COLUMN AUDIO %>
 				<% elsif @status == 2 && @level.between?(5, 9) %>
 					<%= render "articles/patrons_only_text", article: @article %>
 					
-					<% if @article.extra_audio_aac_id.present? %>
+					<% if @article.extras_audio_title.present? %>
 						<% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
 							<%= render "articles/patrons_only_audio", article: @article %>
 						<% else %>
@@ -183,45 +97,36 @@
 									<% case @article.language_id when 1 %>More Audio:
 									<% when 2 %>Más Audio:
 									<% end %>
-									</strong> <%= @article.extras_audio_teaser %>
+									</strong> <%= @article.extras_audio_title %>
 								</li>
 							</ul>
 						<% end %>
 					<% else end %>
 					
-					<% if  @article.extras_video.present? %>
+					<% if  @article.extras_video_title.present? %>
 						<ul class="margin-top-20 margin-bottom-0 margin-left-5 margin-right-0 font-main-lede">
 							<li><strong>
 								<% case @article.language_id when 1 %>More Video:
 								<% when 2 %>Más Vídeo:
 								<% end %>
-								</strong> <%= @article.extras_video_teaser %>
+								</strong> <%= @article.extras_video_title %>
 							</li>
 						</ul>
 					<% end %>
-					
 				
 				<%# PATRONS > €10 // AUDIO REPORT SCRIPTS, PATRONS ONLY COLUMN, PATRONS ONLY COLUMN AUDIO, EXTRA AUDIO INTERVIEW QUESTIONS %>
 				<% elsif @status == 2 && @level.between?(10, 24) %>
-					<%= render "articles/patrons_only_text", article: @article %>
-					<%= render "articles/patrons_only_audio", article: @article %>
-					<%= render "articles/patrons_only_video", article: @article %>
-				
 				
 				<%# PATRONS > €25 // PHOTOS, TRAVEL %>
 				<% elsif @status == 2 && @level >= 25 %>
-					<%= render "articles/patrons_only_text", article: @article %>
-					<%= render "articles/patrons_only_audio", article: @article %>
-					<%= render "articles/patrons_only_video", article: @article %>
-				
 				
 				<%# ADMIN %>
 				<% elsif @status == 1 %>
-					<%= render "articles/patrons_only_text", article: @article %>
-					<%= render "articles/patrons_only_audio", article: @article %>
-					<%= render "articles/patrons_only_video", article: @article %>
 					
 				<% else end %>
+				
+				<%= render "articles/patrons_only_audio", article: @article %>
+				<%= render "articles/patrons_only_video", article: @article %>
 				<div class="clear"></div>
 			</div>
 			
@@ -230,6 +135,5 @@
 		<% end %>
 	</div>
 	
-	<%# DO YOU NEED TO LOG IN...? %>
-	<%= render 'users/log_in_logic' %>
+	
 </div>

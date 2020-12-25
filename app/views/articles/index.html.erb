@@ -9,14 +9,26 @@
 
 	<hr />
 	
-	<h3>Podcast</h3>
+	<h3>Video Reports</h3>
+	<table>
+	<% @videos.each do |article| %>
+		<%= render "articles/admin_articles_table", {article: article} %>
+	<% end %>
+	</table>
+	
+	<h3>Podcast Episodes</h3>
 	<table width="100%">
 	<% @podcast.each do |article| %>
 		<%= render "articles/admin_articles_table", {article: article} %>
 	<% end %>
 	</table>
 	
-	<hr />
+	<h3>Photos</h3>
+	<table width="100%">
+	<% @photos.each do |article| %>
+		<%= render "articles/admin_articles_table", {article: article} %>
+	<% end %>
+	</table>
 	
 	<h3>Patrons Only Columns</h3>
 	<table width="100%">
@@ -27,21 +39,7 @@
 	
 	<hr />
 	
-	<h3>Photos</h3>
-	<table width="100%">
-	<% @photos.each do |article| %>
-		<%= render "articles/admin_articles_table", {article: article} %>
-	<% end %>
-	</table>
-
-	<h3>Videos</h3>
-	<table>
-	<% @videos.each do |article| %>
-		<%= render "articles/admin_articles_table", {article: article} %>
-	<% end %>
-	</table>
-	
-	<h3>Threads & Free</h3>
+	<h3>Free Threads, Chronicles, Analysis</h3>
 	<table width="100%">
 	<% @free.each do |article| %>
 		<%= render "articles/admin_articles_table", {article: article} %>

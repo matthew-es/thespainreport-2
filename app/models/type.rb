@@ -10,8 +10,7 @@ class Type < ApplicationRecord
     scope :notstory, -> {where.not(name: ['Story', 'Tema'])}
     scope :patrons, -> {where(name: ['Patrons only', 'Sólo mecenas'])}
     scope :notpatrons, -> {where.not(name: ['Patrons only', 'Sólo mecenas'])}
-    scope :updates, -> {where(name: ['Update', 'Actualización'])}
-    scope :notupdates, -> {where.not(name: ['Update', 'Actualización'])}
+
     scope :truth, -> {where(name: ['Truth & Journalism', 'Verdad y Periodismo'])}
     scope :nottruth, -> {where.not(name: ['Truth & Journalism', 'Verdad y Periodismo'])}
     scope :audioreport, -> {where(name: ['Audio Report', 'Crónica Audio'])}
