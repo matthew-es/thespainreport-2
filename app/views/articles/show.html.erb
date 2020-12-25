@@ -74,7 +74,7 @@
 	    	<% else end %>
 	    <% end %>
 	    
-	    <% if @article.extras_audio_title.present? || @article.extras_video_title.present? %>
+	    <% if @article.extras_audio_title.present? || @article.extras_video_title.present? || ["Photos", "Fotos"].include?(@article.type.name) %>
 	    	<div class="margin-right-5 float-left mobile-bottom-10">
 	    		<span class="label patrons-label">
 	    			<% if @article.language_id == 1 %>
@@ -205,9 +205,9 @@
 <% if @article.video.present? %>
 	<div class="video-wrapper">
 		<% if @article.video.match(/^[0-9]+$/) %>
-			<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{@article.video}?quality=720p") %>
+			<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{@article.video}?quality=720p", allowfullscreen: true) %>
 		<% else %> 
-			<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{@article.video}?rel=0&amp;showinfo=0") %>
+			<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{@article.video}?rel=0&amp;showinfo=0", allowfullscreen: true) %>
 		<% end %>
 	</div>
 
@@ -332,6 +332,27 @@
 	<% else %>
 	<% end %>
 	
+	<% if ["Photos", "fotos"].include?(@article.type.name) %>
+		<div id="patrons" class="patrons-border patrons-background padding-top-10 padding-left-20 padding-right-20 margin-top-20 margin-bottom-20">
+			
+			<h3>
+		<% case @article.language_id when 1 %>More for patrons:
+		<% when 2 %>Más para mecenas:
+		<% end %>
+		<%= @article.short_headline %>
+	</h3>
+			
+			<p class="font-main-small">
+		<em>
+		<% case @article.language_id when 1 %>Patrons guarantee that 95% of the independent journalism on this site is free for anyone in the world to read, watch or listen to. Patrons contributing more than €10/month also get access to high resolution copies of the photos. Log in now to access them:
+		<% when 2 %>Inicie sesión ahora para ver los vídeos adicionales:
+		<% end %>
+		</em>
+	</p>
+			
+			<%= render 'users/log_in_logic' %>
+		</div>
+	<% else end %>
 	
 	<%# INDIVIDUAL TWEETS OR PHOTO ESSAY IMAGES FOR THE ARTICLE %>
 	<% if @articletweets.present? %>

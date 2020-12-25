@@ -17,6 +17,7 @@
 		
 		<%# DISPLAY 45-DAY FREE TRIAL LABEL FOR LOGGED-IN READERS %>
 		<% if current_user.nil? %>
+		
 		<% elsif @status == 3 && @can_read_date > Time.now %>
 			<div class="margin-right-5 float-left mobile-bottom-10">
 	    		<span class="label background-color-green font-main-tiny font-bold font-color-white">
@@ -52,7 +53,7 @@
 				
 				<%# IF NOT LOGGED IN, JUST DISPLAY EXTRA TEXT OR EXTRA AUDIO TEASERS %>
 				<% if current_user.nil? %>
-				
+					
 				<%# 45-DAY FREE TRIAL READERS %>
 				<% elsif @status == 3 && @can_read_date > Time.now %>
 				
@@ -125,6 +126,7 @@
 					
 				<% else end %>
 				
+				<%= render "articles/patrons_only_column", article: @article %>
 				<%= render "articles/patrons_only_audio", article: @article %>
 				<%= render "articles/patrons_only_video", article: @article %>
 				<div class="clear"></div>

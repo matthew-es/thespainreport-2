@@ -16,9 +16,7 @@
 		</em>
 	</p>
 	
-	<div class="padding-bottom-20 margin-bottom-30 log-in-border">
-		<%= render 'users/log_in_logic' %>
-	</div>
+	<%= render 'users/log_in_logic' %>
 	
 	<% if @article.extras_videos.present? %>
 		<% @article.extras_videos.split(/\r\n\r\n/).each do |chunk| %>
@@ -35,24 +33,24 @@
 						<% if current_user.nil? %>
 							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=false") %>
 						<% elsif @status == 3 && @can_read_date > Time.now %>
-							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true") %>
+							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true", allowfullscreen: true) %>
 						<% elsif @status == 3 && @can_read_date < Time.now %>
 							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=false") %>
 						<% elsif @status == 2 && @level == 0 %>
 							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=false") %>
 						<% elsif @status == 2 && @level.between?(1, 4) %>
 						<% elsif @status == 2 && @level.between?(5, 9) %>
-							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true") %>
+							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true", allowfullscreen: true) %>
 						<% elsif @status == 2 && @level.between?(10, 24) %>
-							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true") %>
+							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true", allowfullscreen: true) %>
 						<% elsif @status == 2 && @level >= 25 %>
-							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true") %>
+							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true", allowfullscreen: true) %>
 						<% elsif @status == 1 %>
-							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true") %>
+							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true", allowfullscreen: true) %>
 						<% else end %>
 						
 					<% else %>
-						<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{bit1}?rel=0&amp;showinfo=0") %>
+						<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{bit1}?rel=0&amp;showinfo=0", allowfullscreen: true) %>
 					<% end %>
 				</div>
 				

@@ -1,12 +1,18 @@
-<% if @article.extras_audio_title.present? %>
+<% if ["Patrons only", "Sólo mecenas"].include?(@article.type.name) %>
 	<h3>
-		<% case @article.language_id when 1 %>More Audio:
-		<% when 2 %>Más Audio:
+		<% case @article.language_id when 1 %>Patrons only:
+		<% when 2 %>Sólo mecenas:
 		<% end %>
-		<%= @article.extras_audio_title %>
+		<%= @article.short_headline %>
 	</h3>
 
-	<p><%= @article.extras_audio_intro %></p>
+	<p class="font-main-small">
+		<em>
+		<% case @article.language_id when 1 %>Patrons guarantee that 95% of the independent journalism on this site is free for anyone in the world to read, watch or listen to. This column is a little thank you, just for them. Log in now to read, or listen to me reading, this one:
+		<% when 2 %>Inicie sesión ahora para ver los vídeos adicionales:
+		<% end %>
+		</em>
+	</p>
 	
 	<%= render 'users/log_in_logic' %>
 	
@@ -44,7 +50,7 @@
 					  		<source src="<%= 'https://audio.thespainreport.es/' + bit2 unless bit2.nil? %>" type="audio/mpeg">
 							Your browser does not support the audio element.
 						<% else end %>
-
+					 	
 					</audio>
 				</div>
 				

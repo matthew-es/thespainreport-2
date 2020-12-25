@@ -1,4 +1,4 @@
-<div class="">
+<div class="padding-bottom-20 margin-bottom-30 log-in-border">
 	<% if current_user.nil? %>
 		<%= form_tag '/login' do %>
 			<% if controller_name == "users" && action_name == "login" || controller_name == "home" && action_name == "index" || controller_name == "articles" && action_name == "show" && @article.language_id == 1 %>
