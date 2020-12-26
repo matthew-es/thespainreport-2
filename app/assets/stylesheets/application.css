@@ -17,10 +17,11 @@ a {color: #2952a3;}
 a:visited {color: #930677;}
 a:hover {background-color: #F1BF00; color: #ffffff;}
 
-button {border: 1px solid #ffffff; border-radius: 3px; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset; cursor: pointer; text-align: center; display: inline-block;}
-button {color: #fffae6; font-family: Georgia; text-decoration: none;}
-button {background-color: #2952a3;}
-button:hover {background-color: #F1BF00; color: #ffffff;}
+button, input[type=submit] {border: 1px solid #ffffff; border-radius: 3px; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset; cursor: pointer; text-align: center; display: inline-block;}
+button, input[type=submit] {color: #fffae6; font-family: Georgia; text-decoration: none;}
+button, input[type=submit] {background-color: #2952a3;}
+button:hover, input[type=submit]:hover {background-color: #F1BF00; color: #ffffff;}
+input[type=submit] {padding: 5px;}
 
 a.label, a.label:visited, a.label:hover {color: #fffae6; font-family: Georgia; text-decoration: none;}
 a.label, a.label:visited {background-color: #2952a3;}
@@ -68,7 +69,7 @@ a.no-hover-bg:hover {background-color: #fff;}
 .border-bottom-1 {border-bottom: 1px solid #AA151B;}
 .border-top-quiet {border-top: 1px solid #cccccc;}
 .border-patrons {border: 2px solid #cc7a00;}
-.border-patrons-top {border-top: 1px dotted #cc7a00;}
+
 .line-100 {line-height: 100%;}
 .line-115 {line-height: 114%;}
 .line-120 {line-height: 120%;}
@@ -76,16 +77,20 @@ a.no-hover-bg:hover {background-color: #fff;}
 .alert {margin-bottom: 10px; padding: 10px;}
 .alert p {padding: 0; margin: 0;}
 .alert-success {border: 2px solid #009900; background-color: #f2ffe6; color: #009900;}
+.alert-notice {color: green;}
 .alert-warning, .alert-tryagain {border: 2px solid #cc7a00; background-color: #fff5cc; color: #cc7a00;}
 .alert-error {border: 2px solid #ff0000; background-color: #ffe6e6; color: #ff0000;}
 .no-points {list-style: none; margin: 0px; padding: 0px;}
 
 .patrons-border {}
+
 .patrons-background {background-color: #fffae6;}
 .patrons-label {background-color: #AA151B;; color: #ffffff;}
 .buy-border {border-top: 2px dashed #F1BF00;}
 .buy-background {background-color: #fffae6;}
 .log-in-border {border-bottom: 2px dashed #AA151B;}
+.log-in-border-top {border-top: 2px dashed #AA151B;}
+.admin-border-split {border-top: 1px dotted #AA151B;}
 
 /* Positioning */
 .clear {clear:both;}

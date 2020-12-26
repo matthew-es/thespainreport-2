@@ -1,20 +1,48 @@
-<div class="margin-top-20">
+<div class="">
 	
-	<div class="float-left align-left mobile-100">
-		<% if controller_name == "payments" %>
+	<div class="float-left align-left mobile-100 margin-top-10">
 		
-		<% else %>
-			<div class="">
-				<div class="topbutton mobile-100"> 
-					<a href="<%= @subscribe %>" class="buybutton"><%= @frame.emotional_quest_action %></a> 
-				</div>
-			</div>
-			<div class="margin-top-5 font-main font-italic font-main-tiny">
-				<%= @frame.emotional_quest_role %>
-			</div>
-		<% end %>
+		
+		
+				<% if current_user.nil? %>
+					<% if controller_name == "payments" %>
+		
+					<% else %>
+						<div class="padding-5">
+							<div class="topbutton mobile-100"> 
+								<a href="<%= @subscribe %>" class="buybutton"><%= @frame.emotional_quest_action %></a> 
+							</div>
+							<div class="margin-top-5 font-main font-italic font-main-tiny">
+								<%= @frame.emotional_quest_role %>
+							</div>
+						</div>
+					<% end %>
+				
+				<% else %>
+					<div class="patrons-background padding-10">
+						<% case @language when 1 %> <%= link_to 'I am a patron', edit_user_path(current_user) %>
+						<% when 2 %> <%= link_to 'Yo soy mecenas', edit_user_path(current_user) %>
+						<% end %>
+						
+						| 
+						<% case @language when 1 %> <%= link_to 'Logout', users_logout_path %>
+						<% when 2 %> <%= link_to 'Salir', users_logout_path %>
+						<% end %>
+						
+						<div class="margin-top-5 font-main font-italic font-main-tiny">
+							<% case @language when 1 %>Patrons guarantee this journalism. 100%.
+							<% when 2 %>Los mecenas garantizan este periodismo. 100%.
+							<% end %>
+						</div>
+					</div>	
+				<% end %>
+		
+		
+		
 	</div>
-	<div class="float-right align-right mobile-100">
+	
+	
+	<div class="float-right align-right mobile-100 margin-top-20">
 		<div class="width-fixed-logo">
 			<% if controller_name == 'payments' && action_name == 'pay' || controller_name == 'payments' && action_name == 'pagar' %>
 			

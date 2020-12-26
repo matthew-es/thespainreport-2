@@ -1,4 +1,4 @@
-<% if @article.extras_video_title.present? %>
+<% if ["Photos", "fotos"].include?(@article.type.name) %>
 	
 	<% if @article.extras_videos.present? %>
 		<% @article.extras_videos.split(/\r\n\r\n/).each do |chunk| %>

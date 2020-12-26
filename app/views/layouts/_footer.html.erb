@@ -1,6 +1,6 @@
 <div class="padding-top-20 buy-border margin-top-30 margin-bottom-30">
 	
-	<% if controller_name == 'home' && action_name == 'index' || controller_name == 'articles' && action_name == 'show' && @article.language_id == 1 %>
+	<% if @language == 1 %>
 		<span class="font-bold font-main-normal">What is The Spain Report?</span>
 		<p class="margin-top-10">
 			Independent reporting and analysis of the most important stories changing the country, 
@@ -9,7 +9,7 @@
 		</p>
 		<p>
 			<strong>Questions, stories, interviews, tips:</strong> matthew@thespainreport.com<br />
-	<% elsif controller_name == 'home' && action_name == 'es' || controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 %>
+	<% elsif @language == 2 %>
 		<span class="font-bold font-main-normal">¿Qué es The Spain Report?</span>
 		<p class="margin-top-10">
 			Información y análisis independientes sobres las noticias y tendencias que están cambiando España.

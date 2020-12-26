@@ -1,14 +1,4 @@
 <% if @article.extras_audio_title.present? %>
-	<h3>
-		<% case @article.language_id when 1 %>More Audio:
-		<% when 2 %>Más Audio:
-		<% end %>
-		<%= @article.extras_audio_title %>
-	</h3>
-
-	<p><%= @article.extras_audio_intro %></p>
-	
-	<%= render 'users/log_in_logic' %>
 	
 	<% if @article.extras_audios %>
 		<% @article.extras_audios.split(/\r\n\r\n/).each do |chunk| %>

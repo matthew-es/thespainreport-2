@@ -23,8 +23,68 @@
 	</div>
 	
 	<div class="margin-bottom-10">
-		<%= f.text_field :emotional_quest_role, :class => "width-33 padding-5 font-main font-main-normal font-italic", placeholder: "because…explain reader role…" %>
+		<%= f.text_field :emotional_quest_role, :class => "width-33 padding-5 font-main font-main-small font-italic", placeholder: "because…explain reader role…" %>
 	</div>
+	
+	<h3>More for patrons/Log-in/Users Block</h3>
+	
+	<div class="margin-bottom-10">
+    <%= f.text_field :access_patrons_only, :class => "width-33 padding-5 font-main font-main-small font-italic", :style => "min-height: 35px;", placeholder: "Access patrons only…" %>
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_field :access_more_for_patrons, :class => "width-33 padding-5 font-main font-main-small font-italic", :style => "min-height: 35px;", placeholder: "Access more for patrons…" %>
+  </div>
+
+
+	<div class="margin-bottom-10">
+    <%= f.text_area :patrons_extra_videos, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Extra videos sales message…" %>
+  </div>
+
+<div class="margin-bottom-10">
+    <%= f.text_area :patrons_extra_audios, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Extra audios sales message…" %>
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_area :patrons_extra_photos, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Extra photos sales message…" %>
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_area :patrons_extra_column, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Extra column sales message…" %>
+  </div>
+
+	<div class="margin-bottom-10">
+    <%= f.text_area :cta_reader_to_patron, :class => "width-50 padding-5", placeholder: "Reader to patron message…" %>:
+    <%= f.text_field :cta_reader_to_patron_link, :class => "width-20 padding-5", placeholder: "Reader to patron link text…" %> (Reader, become a patron…)
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_area :cta_patron_active_bottom, :class => "width-50 padding-5", placeholder: "Thank you patron up-to-date message…" %>:
+    <%= f.text_field :cta_patron_active_bottom_link, :class => "width-20 padding-5", placeholder: "Thank you patron up-to-date link text…" %> (Patron up-to-date…)
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_area :cta_patron_paused, :class => "width-50 padding-5", placeholder: "Declined…get back in message" %>:
+    <%= f.text_field :cta_patron_paused_link, :class => "width-20 padding-5", placeholder: "Declined…get back in link text" %> (Patron declined…)
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_area :cta_patron_cancelled, :class => "width-50 padding-5", placeholder: "Cancelled…get back in message" %>:
+    <%= f.text_field :cta_patron_cancelled_link, :class => "width-20 padding-5", placeholder: "Cancelled…get back in link text" %> (Patron cancelled xxxx…)
+  </div>
+    
+  <div class="margin-bottom-10">
+    <%= f.text_area :cta_patron_active_middle, :class => "width-50 padding-5", placeholder: "Thank you patron MIDDLE message…" %>:
+    <%= f.text_field :cta_patron_active_middle_link, :class => "width-20 padding-5", placeholder: "Thank you patron MIDDLE link text…" %> (Middle patron, increase…)
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_area :cta_patron_active_top, :class => "width-50 padding-5", placeholder: "Thank you patron TOP message…" %>: 
+    <%= f.text_field :cta_patron_active_top_link, :class => "width-20 padding-5", placeholder: "Thank you patron TOP link text…" %> (Top patron, you're the best…)
+  </div>
+	
+	
+	<h3>Pay Block/Pay Page</h3>
 	
 	<div class="margin-bottom-10">
     <%= f.text_area :short_story, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Short story…surroundings, antagonists, threats, risk to treasure…" %>
@@ -58,29 +118,10 @@
     <%= f.text_area :risk_reversal, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Risk reversal, guarantee…" %>
   </div>
   
-  <% if false %>
-    <div class="margin-bottom-10">
-  		<%= f.text_field :image, :class => "width-98 padding-5", placeholder: "Frame image file…" %>
-  	</div>
-  	
-    <div class="margin-bottom-10">
-      <%= image_tag ('http://image.thespainreport.es/' + @frame.image) unless @frame.image.nil? %>
-    </div>
-  <% end %>
-  
-  <h3>ONLY & MORE ACCESS</h3>
-  
-  <div class="margin-bottom-10">
-    <%= f.text_area :access_patrons_only, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Access patrons only…" %>
-  </div>
-  
-  <div class="margin-bottom-10">
-    <%= f.text_area :access_more_for_patrons, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Access more for patrons…" %>
-  </div>
-  
-  <h3>EMAIL SIGN UPS</h3>
-  
-  <div class="margin-bottom-10">
+	
+	<h3>Email block</h3>
+	
+	<div class="margin-bottom-10">
 		<%= f.text_field :email_reader_header, :class => "width-33 padding-5 font-header font-header-small", placeholder: "Email header…" %>
 	</div>
   
@@ -95,39 +136,20 @@
   <div class="margin-bottom-10">
     <%= f.text_field :email_reader_button, :class => "width-20 padding-5", placeholder: "Email button CTA…" %> (Join, send, x)
   </div>
+	
   
-  <h3>CALLS TO ACTION</h3>
+  <% if false %>
+    <div class="margin-bottom-10">
+  		<%= f.text_field :image, :class => "width-98 padding-5", placeholder: "Frame image file…" %>
+  	</div>
+  	
+    <div class="margin-bottom-10">
+      <%= image_tag ('http://image.thespainreport.es/' + @frame.image) unless @frame.image.nil? %>
+    </div>
+  <% end %>
   
-  <div class="margin-bottom-10">
-    <%= f.text_area :cta_reader_to_patron, :class => "width-50 padding-5", placeholder: "Reader to patron message…" %>:
-    <%= f.text_field :cta_reader_to_patron_link, :class => "width-20 padding-5", placeholder: "Reader to patron link text…" %> (Reader, become a patron…)
-  </div>
+  <h3>ONLY & MORE ACCESS</h3>
   
-  <div class="margin-bottom-10">
-    <%= f.text_area :cta_patron_active_bottom, :class => "width-50 padding-5", placeholder: "Thank you patron up-to-date message…" %>:
-    <%= f.text_field :cta_patron_active_bottom_link, :class => "width-20 padding-5", placeholder: "Thank you patron up-to-date link text…" %> (Patron up-to-date…)
-  </div>
   
-  <div class="margin-bottom-10">
-    <%= f.text_area :cta_patron_paused, :class => "width-50 padding-5", placeholder: "Declined…get back in message" %>:
-    <%= f.text_field :cta_patron_paused_link, :class => "width-20 padding-5", placeholder: "Declined…get back in link text" %> (Patron declined…)
-  </div>
-  
-  <div class="margin-bottom-10">
-    <%= f.text_area :cta_patron_cancelled, :class => "width-50 padding-5", placeholder: "Cancelled…get back in message" %>:
-    <%= f.text_field :cta_patron_cancelled_link, :class => "width-20 padding-5", placeholder: "Cancelled…get back in link text" %> (Patron cancelled xxxx…)
-  </div>
-  
-  <h3>NOT IN USE</h3>
-    
-  <div class="margin-bottom-10">
-    <%= f.text_area :cta_patron_active_middle, :class => "width-50 padding-5", placeholder: "Thank you patron MIDDLE message…" %>:
-    <%= f.text_field :cta_patron_active_middle_link, :class => "width-20 padding-5", placeholder: "Thank you patron MIDDLE link text…" %> (Middle patron, increase…)
-  </div>
-  
-  <div class="margin-bottom-10">
-    <%= f.text_area :cta_patron_active_top, :class => "width-50 padding-5", placeholder: "Thank you patron TOP message…" %>: 
-    <%= f.text_field :cta_patron_active_top_link, :class => "width-20 padding-5", placeholder: "Thank you patron TOP link text…" %> (Top patron, you're the best…)
-  </div>
   
 <% end %>

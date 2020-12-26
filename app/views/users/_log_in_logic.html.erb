@@ -1,5 +1,21 @@
-<div class="padding-bottom-20 margin-bottom-30 log-in-border">
+<div class="padding-bottom-20 margin-bottom-10 log-in-border">
 	<% if current_user.nil? %>
+		<p class="font-main-small"><em>
+			<% if controller_name == "home" %>
+				<%= @frame.patrons_extra_column %>
+			<% elsif controller_name == "articles" && action_name == "show" %>
+				<% if @article.extras_video_title.present? %>
+					<%= @frame.patrons_extra_videos %>
+				<% elsif @article.extras_audio_title.present? %>
+					<%= @frame.patrons_extra_videos %>
+				<% elsif ["Photos", "Fotos"].include?(@article.type.name) %>
+					<%= @frame.patrons_extra_photos %>
+				<% elsif ["Patrons only", "Sólo mecenas"].include?(@article.type.name) %>
+					<%= @frame.patrons_extra_column %>
+				<% else end %>
+			<% else end %>
+		</em></p>
+		
 		<%= form_tag '/login' do %>
 			<% if controller_name == "users" && action_name == "login" || controller_name == "home" && action_name == "index" || controller_name == "articles" && action_name == "show" && @article.language_id == 1 %>
 				<div class="float-left margin-right-10 width-100 margin-top-5">
@@ -37,28 +53,33 @@
 			<div class="clear"></div>
 		<% end %>
 	<% elsif !current_user.nil? %>
-		<div class="margin-top-20 border-patrons-top padding-top-5 font-main-small">
-			<%= render "users/user_messages" %>
-		</div>
-		
-		<div class="margin-top-5 border-patrons-top padding-top-5 font-main-small">
-			<% case @status when 1 %>
-				<%= link_to 'Admin', new_tweet_path %> |
-			<% end %>
+		<div class="margin-top-20 log-in-border-top font-main-small">
 			
-			<%= current_user.email %>
-			| 
-			<% case @language when 1 %> <%= link_to 'I am a patron', edit_user_path(current_user) %>
-			<% when 2 %> <%= link_to 'Yo soy mecenas', edit_user_path(current_user) %>
-			<% end %>
-			| 
-			<% case @language when 1 %> <%= link_to 'Logout', users_logout_path %>
-			<% when 2 %> <%= link_to 'Salir', users_logout_path %>
-			<% end %>
-		</div>
+			<div class="font-main-small margin-top-10 padding-top-10">
+				<em>
+					<%= render "users/user_messages" %>
+				</em>
+			</div>
 		
-		<div class="margin-top-5 border-patrons-top padding-top-5 font-main-small font-italic">Problems? matthew@thespainreport.com / (0034) 647 81 81 43 / @matthewbennett</div>
-	<% else %>
-	<% end %>
+			<div class="admin-border-split margin-top-10 padding-top-10">
+				<% case @status when 1 %>
+					<%= link_to 'Admin', new_tweet_path %> |
+				<% end %>
+				<%= current_user.email %>
+				| 
+				<% case @language when 1 %> <%= link_to 'I am a patron', edit_user_path(current_user) %>
+				<% when 2 %> <%= link_to 'Yo soy mecenas', edit_user_path(current_user) %>
+				<% end %>
+				| 
+				<% case @language when 1 %> <%= link_to 'Logout', users_logout_path %>
+				<% when 2 %> <%= link_to 'Salir', users_logout_path %>
+				<% end %>
+			</div>
+		
+			<div class="admin-border-split margin-top-10 padding-top-10">
+				Problems? matthew@thespainreport.com / (0034) 647 81 81 43 / @matthewbennett
+			</div>
+		</div>
+	<% else end %>
 </div>
 <div class="clear"></div>

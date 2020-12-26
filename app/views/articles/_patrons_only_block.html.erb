@@ -1,9 +1,9 @@
-<div id="patrons" class="patrons-border patrons-background padding-20 margin-top-20">
+<div id="patrons" class="patrons-border patrons-background padding-20 margin-top-20 margin-bottom-20">
 	<div>
 		<%# DISPLAY PATRONS LABEL %>
 		<div class="float-left margin-right-5">
 			<span class="label patrons-label font-main-tiny font-bold">
-				<% if controller_name == "articles" && action_name == "show" && (@article.extras_audio_title.present? || @article.extras_video_title.present?) %>
+				<% if controller_name == "articles" && action_name == "show" && (@article.extras_audio_title.present? || @article.extras_video_title.present? || ["Photos", "fotos"].include?(@article.type.name))  %>
 					<% case @language when 1 %>MORE FOR PATRONS
 					<% when 2 %>MÁS PARA MECENAS
 					<% end %>
@@ -37,7 +37,7 @@
 			<% end %>
 		</div>
 		<div class="clear"></div>
-	
+
 		<%# DISPLAY HOME-PAGE MINI LIST OR EXTRA ARTICLE CONTENT %>
 		<% if controller_name == "home" %>
 			<ul class="margin-top-20 margin-bottom-20">
@@ -48,9 +48,48 @@
 			
 			<%= render 'users/log_in_logic' %>
 		<% elsif controller_name == "articles" && action_name == "show" %>
+			<h3>
+			<% if @article.extras_video_title.present? %>
+				<% case @article.language_id when 1 %>More Video:
+				<% when 2 %>Más Vídeo:
+				<% end %>
+				<%= @article.extras_video_title %>
+			<% elsif @article.extras_audio_title.present? %>
+				<% case @article.language_id when 1 %>More Audio:
+				<% when 2 %>Más Audio:
+				<% end %>
+				<%= @article.extras_audio_title %>
+			<% elsif ["Photos", "fotos"].include?(@article.type.name) %>
+				<% case @article.language_id when 1 %>More photos:
+				<% when 2 %>Más para mecenas:
+				<% end %>
+				<%= @article.short_headline %>
+			<% elsif ["Patrons only", "Sólo mecenas"].include?(@article.type.name) %>
+				<% case @article.language_id when 1 %>Patrons only:
+				<% when 2 %>Sólo mecenas:
+				<% end %>
+				<%= @article.short_headline %>
+			<% else end %>
+			</h3>		
+		
+			<% if @article.extras_video_title.present? %>
+				<p><%= @article.extras_video_intro %></p>
+			<% elsif @article.extras_audio_title.present? %>
+				<p><%= @article.extras_audio_intro %></p>
+			<% elsif ["Photos", "fotos"].include?(@article.type.name) %>
+			
+			<% elsif ["Patrons only", "Sólo mecenas"].include?(@article.type.name) %>
+			
+			<% else end %>
+			
+			<%= render 'users/log_in_logic' %>
+			
+			
+			
+			
+			
 			
 			<div>
-				
 				<%# IF NOT LOGGED IN, JUST DISPLAY EXTRA TEXT OR EXTRA AUDIO TEASERS %>
 				<% if current_user.nil? %>
 					
@@ -126,9 +165,12 @@
 					
 				<% else end %>
 				
-				<%= render "articles/patrons_only_column", article: @article %>
-				<%= render "articles/patrons_only_audio", article: @article %>
 				<%= render "articles/patrons_only_video", article: @article %>
+				<%= render "articles/patrons_only_audio", article: @article %>
+				<%= render "articles/patrons_only_photos", article: @article %>
+				<%= render "articles/patrons_only_column", article: @article %>
+				
+				
 				<div class="clear"></div>
 			</div>
 			

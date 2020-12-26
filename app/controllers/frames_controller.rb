@@ -95,7 +95,8 @@ class FramesController < ApplicationController
         :access_patrons_only, :access_more_for_patrons,
         :email_reader_header, :email_reader_text, :email_reader_placeholder, :email_reader_button,
         :cta_reader_to_patron, :cta_patron_active_bottom, :cta_patron_active_middle, :cta_patron_active_top, :cta_patron_paused, :cta_patron_cancelled,
-        :cta_reader_to_patron_link, :cta_patron_active_bottom_link, :cta_patron_active_middle_link, :cta_patron_active_top_link, :cta_patron_paused_link, :cta_patron_cancelled_link
+        :cta_reader_to_patron_link, :cta_patron_active_bottom_link, :cta_patron_active_middle_link, :cta_patron_active_top_link, :cta_patron_paused_link, :cta_patron_cancelled_link,
+        :patrons_extra_videos, :patrons_extra_audios, :patrons_extra_photos, :patrons_extra_column
         )
     end
 end
