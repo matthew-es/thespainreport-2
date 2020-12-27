@@ -25,9 +25,8 @@
 	<div class="margin-bottom-10 align-right">
 		<strong>Main report:</strong> <%= f.collection_select :main_id, @mains.where(language_id: @article.language_id || 1), :id, :headline, {include_blank: true, :selected => @article.main_id}, {:style => "width: 190px;"} %>
 		<strong>Translation of:</strong> <%= f.collection_select :original_id, @translationof, :id, :headline, {include_blank: true, :selected => @article.original_id}, {:style => "width: 190px;"} %>
-		<strong>Frame:</strong> <%= f.collection_select :frame_id, @frames.where(language_id: @article.language_id || 1), :id, :emotional_quest_action, {:selected => @article.frame_id ? @article.frame_id : 1}, {:style => "width: 190px;"}  %>
+		<strong>Frame:</strong> <%= f.collection_select :frame_id, @frames.where(language_id: @article.language_id || 1), :id, :emotional_quest_action, {include_blank: true, :selected => @article.frame_id}, {:style => "width: 190px;"}  %>
 	</div>
-	
 	
 	<h3>Headlines, Lede, Images, Article</h3>
 		<% if @article.original.blank? %>

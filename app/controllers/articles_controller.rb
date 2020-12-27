@@ -57,7 +57,12 @@ class ArticlesController < ApplicationController
 	# GET /articles/1
 	# GET /articles/1.json
 	def show
-		set_language_frame(@article.language_id, @article.frame.id)
+		if @article.frame.present?
+			frame = @article.frame.id
+		else
+		end
+		
+		set_language_frame(@article.language_id, frame)
 		set_status(current_user) unless current_user.nil?
 		set_country
 		

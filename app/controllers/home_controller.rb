@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
 	def index
-		set_language_frame(1, Frame.find_by(link_slug: "guarantee").id)
+		set_language_frame(1, nil)
 		set_status(current_user) unless current_user.nil?
 		set_country
 		
@@ -21,7 +21,7 @@ class HomeController < ApplicationController
 	end
 	
 	def es
-		set_language_frame(2, Frame.find_by(link_slug: "garantizar").id)
+		set_language_frame(2, nil)
 		set_status(current_user) unless current_user.nil?
 		set_country
 		

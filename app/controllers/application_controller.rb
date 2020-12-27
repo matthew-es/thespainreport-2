@@ -62,7 +62,6 @@ class ApplicationController < ActionController::Base
 	
 	def set_language_frame(language, frame)
 		language = language
-		frame = frame
 		
 		if language == 1
 			@language = 1
@@ -82,7 +81,15 @@ class ApplicationController < ActionController::Base
 			@row = Country.where(country_code: "ROW")
 		else end
 		
-		@frame = Frame.find(frame)
+		if frame.nil?
+			if language == 1 
+				@frame = Frame.find_by(link_slug: "guarantee")
+			elsif language == 2
+				@frame = Frame.find_by(link_slug: "garantizar")
+			else end
+		else
+			@frame = Frame.find(frame)
+		end
 		@frame_id = @frame.id
 		
 		@subscribe = root_url + @stub_value + @frame.link_slug
