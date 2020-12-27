@@ -84,13 +84,15 @@ class ApplicationController < ActionController::Base
 		if frame.nil?
 			if language == 1 
 				@frame = Frame.find_by(link_slug: "guarantee")
+				@frame_id = @frame.id
 			elsif language == 2
 				@frame = Frame.find_by(link_slug: "garantizar")
+				@frame_id = @frame.id
 			else end
 		else
 			@frame = Frame.find(frame)
 		end
-		@frame_id = @frame.id
+		
 		
 		@subscribe = root_url + @stub_value + @frame.link_slug
 		@increase = root_url + @stub_increase + @frame.link_slug

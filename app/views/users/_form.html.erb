@@ -31,6 +31,9 @@
 	
 	<div class="margin-bottom-10">
 		<%= form.text_field :email, :class => "width-70 padding-5 font-header font-header-tiny", placeholder: "Your email…" %>
+		<div class="margin-top-10">
+			<%= render "users/user_messages" %>
+		</div>	
 	</div>
 	
 	<div class="margin-bottom-10 admin-border-split padding-top-10">
@@ -145,9 +148,7 @@
 	</div>
 
 
-	<div class="margin-bottom-10">
-		<%= render "users/user_messages" %>
-	</div>
+	
 	
 	<div class="margin-bottom-10 admin-border-split padding-top-10">
 		<strong>Problems?</strong> matthew@thespainreport.es / (0034) 647 81 81 43. We'll fix it together.

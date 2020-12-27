@@ -26,7 +26,7 @@
 		<%= f.text_field :emotional_quest_role, :class => "width-33 padding-5 font-main font-main-small font-italic", placeholder: "because…explain reader role…" %>
 	</div>
 	
-	<h3>More for patrons/Log-in/Users Block</h3>
+	<h3>Log-in Block</h3>
 	
 	<div class="margin-bottom-10">
     <%= f.text_field :access_patrons_only, :class => "width-33 padding-5 font-main font-main-small font-italic", :style => "min-height: 35px;", placeholder: "Access patrons only…" %>
@@ -55,39 +55,93 @@
   <div class="margin-bottom-10">
     <%= f.text_area :patrons_extra_column, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Extra column sales message…" %>
   </div>
-
+  
+  
+  <h3>User messages logged-in/emails</h3>
+  
 	<div class="margin-bottom-10">
-    <%= f.text_area :cta_reader_to_patron, :class => "width-50 padding-5", placeholder: "Reader to patron message…" %>:
-    <%= f.text_field :cta_reader_to_patron_link, :class => "width-20 padding-5", placeholder: "Reader to patron link text…" %> (Reader, become a patron…)
+    <%= f.text_field :reader_45_trial_message, :class => "width-70 padding-5", placeholder: "Reader 45-day trial…" %>:
+    <%= f.text_field :reader_45_trial_linktext, :class => "width-20 padding-5", placeholder: "Reader 45-day trial link text…" %>
   </div>
   
   <div class="margin-bottom-10">
-    <%= f.text_area :cta_patron_active_bottom, :class => "width-50 padding-5", placeholder: "Thank you patron up-to-date message…" %>:
-    <%= f.text_field :cta_patron_active_bottom_link, :class => "width-20 padding-5", placeholder: "Thank you patron up-to-date link text…" %> (Patron up-to-date…)
+    <%= f.text_field :reader_no_45_trial_message, :class => "width-70 padding-5", placeholder: "Reader 45-day trial over…" %>:
+    <%= f.text_field :reader_no_45_trial_linktext, :class => "width-20 padding-5", placeholder: "Reader 45-day trial over link text…" %>
   </div>
   
   <div class="margin-bottom-10">
-    <%= f.text_area :cta_patron_paused, :class => "width-50 padding-5", placeholder: "Declined…get back in message" %>:
-    <%= f.text_field :cta_patron_paused_link, :class => "width-20 padding-5", placeholder: "Declined…get back in link text" %> (Patron declined…)
+    <%= f.text_field :patron_0_message, :class => "width-70 padding-5", placeholder: "Patron 0 message…" %>:
+    <%= f.text_field :patron_0_linktext, :class => "width-20 padding-5", placeholder: "Patron 0 link text…" %>
+  </div>
+
+  <div class="margin-bottom-10">
+    <%= f.text_field :patron_1_4_message, :class => "width-70 padding-5", placeholder: "Patron 1-4 message…" %>:
+    <%= f.text_field :patron_1_4_linktext, :class => "width-20 padding-5", placeholder: "Patron 1-4 link text…" %>
+  </div>
+	
+	<div class="margin-bottom-10">
+    <%= f.text_field :patron_5_9_message, :class => "width-70 padding-5", placeholder: "Patron 5-9 message…" %>:
+    <%= f.text_field :patron_5_9_linktext, :class => "width-20 padding-5", placeholder: "Patron 5-9 link text…" %>
   </div>
   
   <div class="margin-bottom-10">
-    <%= f.text_area :cta_patron_cancelled, :class => "width-50 padding-5", placeholder: "Cancelled…get back in message" %>:
-    <%= f.text_field :cta_patron_cancelled_link, :class => "width-20 padding-5", placeholder: "Cancelled…get back in link text" %> (Patron cancelled xxxx…)
-  </div>
-    
-  <div class="margin-bottom-10">
-    <%= f.text_area :cta_patron_active_middle, :class => "width-50 padding-5", placeholder: "Thank you patron MIDDLE message…" %>:
-    <%= f.text_field :cta_patron_active_middle_link, :class => "width-20 padding-5", placeholder: "Thank you patron MIDDLE link text…" %> (Middle patron, increase…)
+    <%= f.text_field :patron_10_24_message, :class => "width-70 padding-5", placeholder: "Patron 10-24 message…" %>:
+    <%= f.text_field :patron_10_24_linktext, :class => "width-20 padding-5", placeholder: "Patron 10-24 link text…" %>
   </div>
   
   <div class="margin-bottom-10">
-    <%= f.text_area :cta_patron_active_top, :class => "width-50 padding-5", placeholder: "Thank you patron TOP message…" %>: 
-    <%= f.text_field :cta_patron_active_top_link, :class => "width-20 padding-5", placeholder: "Thank you patron TOP link text…" %> (Top patron, you're the best…)
+    <%= f.text_field :patron_25_message, :class => "width-70 padding-5", placeholder: "Patron 25 message…" %>:
+    <%= f.text_field :patron_25_linktext, :class => "width-20 padding-5", placeholder: "Patron 25 link text…" %>
+  </div>
+	
+	<div class="margin-bottom-10">
+    <%= f.text_field :patron_super_message, :class => "width-70 padding-5", placeholder: "Patron super message…" %>:
+    <%= f.text_field :patron_super_linktext, :class => "width-20 padding-5", placeholder: "Patron super link text…" %>
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_field :patron_payment_paused_message, :class => "width-70 padding-5", placeholder: "Patron payment paused…" %>:
+    <%= f.text_field :patron_payment_paused_linktext, :class => "width-20 padding-5", placeholder: "Patron payment paused link text…" %>
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_field :patron_payment_problem_message, :class => "width-70 padding-5", placeholder: "Patron payment problem message…" %>:
+    <%= f.text_field :patron_payment_problem_linktext, :class => "width-20 padding-5", placeholder: "Patron payment problem link text…" %>
+  </div>
+	
+	<div class="margin-bottom-10">
+    <%= f.text_field :admin_message, :class => "width-70 padding-5", placeholder: "Admin message…" %>:
+    <%= f.text_field :admin_linktext, :class => "width-20 padding-5", placeholder: "Admin link text…" %>
   </div>
 	
 	
-	<h3>Pay Block/Pay Page</h3>
+	
+add_column :frames, :reader_45_trial_message, :string
+add_column :frames, :reader_45_trial_linktext, :string
+add_column :frames, :reader_no_45_trial_message, :string
+add_column :frames, :reader_no_45_trial_linktext, :string
+add_column :frames, :patron_0_message, :string
+add_column :frames, :patron_0_linktext, :string
+rename_column :frames, :cta_reader_to_patron, :patron_1_4_message
+rename_column :frames, :cta_reader_to_patron_link, :patron_1_4_linktext
+rename_column :frames, :cta_patron_active_bottom, :patron_5_9_message
+rename_column :frames, :cta_patron_active_bottom_link, :patron_5_9_linktext
+rename_column :frames, :cta_patron_active_top, :patron_super_message
+rename_column :frames, :cta_patron_active_top_link, :patron_super_linktext
+rename_column :frames, :cta_patron_paused, :patron_payment_paused_message
+rename_column :frames, :cta_patron_paused_link, :patron_payment_paused_linktext
+rename_column :frames, :cta_patron_cancelled, :patron_payment_problem_message
+rename_column :frames, :cta_patron_cancelled_link, :patron_payment_problem_linktext
+add_column :frames, :admin_message, :string
+add_column :frames, :admin_linktext, :string
+rename_column :frames, :patron_10_25_message, :patron_10_24_message
+rename_column :frames, :patron_10_25_linktext, :patron_10_24_linktext
+add_column :frames, :patron_25_message, :string
+add_column :frames, :patron_25_linktext, :string
+
+
+	
+	<h3>Pay Block/Page</h3>
 	
 	<div class="margin-bottom-10">
     <%= f.text_area :short_story, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Short story…surroundings, antagonists, threats, risk to treasure…" %>
@@ -150,9 +204,6 @@
       <%= image_tag ('http://image.thespainreport.es/' + @frame.image) unless @frame.image.nil? %>
     </div>
   <% end %>
-  
-  <h3>ONLY & MORE ACCESS</h3>
-  
   
   
 <% end %>

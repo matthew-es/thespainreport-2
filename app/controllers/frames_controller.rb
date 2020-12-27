@@ -94,9 +94,16 @@ class FramesController < ApplicationController
         :money_word_plural, :money_word_verb, :link_slug, :social_proof,:risk_reversal, :language_id, :original_id,
         :access_patrons_only, :access_more_for_patrons,
         :email_reader_header, :email_reader_text, :email_reader_placeholder, :email_reader_button,
-        :cta_reader_to_patron, :cta_patron_active_bottom, :cta_patron_active_middle, :cta_patron_active_top, :cta_patron_paused, :cta_patron_cancelled,
-        :cta_reader_to_patron_link, :cta_patron_active_bottom_link, :cta_patron_active_middle_link, :cta_patron_active_top_link, :cta_patron_paused_link, :cta_patron_cancelled_link,
+        :reader_45_trial_message, :reader_45_trial_linktext, :reader_no_45_trial_message, :reader_no_45_trial_linktext, 
+        :patron_0_message, :patron_0_linktext, :patron_1_4_message, :patron_1_4_linktext, :patron_5_9_message, :patron_5_9_linktext, :patron_10_24_message, :patron_10_24_linktext, :patron_25_message, :patron_25_linktext, :patron_super_message, :patron_super_linktext, 
+        :patron_payment_paused_message, :patron_payment_paused_linktext, :patron_payment_problem_message, :patron_payment_problem_linktext, 
+        :admin_message, :admin_linktext,
         :patrons_extra_videos, :patrons_extra_audios, :patrons_extra_photos, :patrons_extra_column, :patrons_extra_home
         )
     end
 end
+
+
+
+
+ 

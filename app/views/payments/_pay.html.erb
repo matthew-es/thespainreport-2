@@ -84,7 +84,7 @@
 					<% else %>
 						<div id ="customer_email" name="customer_email" value="<%= current_user.email %>">Hi, <%= current_user.email %></div>
 						<% if current_user.account.present? %>
-							<div id ="customer_support" name="customer_email">—Your current total support is: <%= number_to_currency((current_user.account.total_support/100.to_f), unit: "€") unless current_user.account.total_support.nil? %>/month</div>
+							<div id ="customer_support" name="customer_email">—Your current total <% @frame.money_word_singular %> is: <%= number_to_currency((current_user.account.total_support/100.to_f), unit: "€") unless current_user.account.total_support.nil? %>/month</div>
 						<% end %>
 					<% end %>
 			 	</div>

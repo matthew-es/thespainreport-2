@@ -1,23 +1,31 @@
 <% case @language when 1 %>
   You are
-  <% case @status when 1 %>The Boss.
-	<% when 4 %>a Super Patron.
-	<% when 2 %>a Patron.
-	<% when 3 %>a Reader.
+  <% case @status when 1 %>the boss.
+	<% when 4 %>a super patron.
+	<% when 2 %>a patron.
+	<% when 3 %>a reader.
 	<% end %>
 <% when 2 %>
   Ud. es
-  <% case @status when 1 %>El Jefe.
-  	<% when 4 %>Super Mecenas.
-	<% when 2 %>Mecenas.
-	<% when 3 %>Lector.
+  <% case @status when 1 %>el jefe.
+  	<% when 4 %>super mecenas.
+	<% when 2 %>mecenas.
+	<% when 3 %>lector.
 	<% end %>
 <% end %>
 
 <% case @status when 1 %>
-	<%= @frame.cta_patron_active_bottom %> <%= link_to @frame.cta_patron_active_bottom_link, @increase %>
-<% when 2 %> 
-	Thank you.
+	<%= @frame.admin_message %>. <%= link_to @frame.admin_linktext, @subscribe %>
+<% when 2 %>
+	<% if @level >25 %><%= @frame.patron_super_message %>. <%= link_to @frame.patron_super_linktext, @subscribe %>
+	<% elsif @level == 25 %><%= @frame.patron_25_message %>. <%= link_to @frame.patron_25_linktext, @subscribe %>
+	<% elsif @level.between?(10, 24) %><%= @frame.patron_10_24_message %>. <%= link_to @frame.patron_10_24_linktext, @subscribe %>
+	<% elsif @level.between?(5, 9) %><%= @frame.patron_5_9_message %>. <%= link_to @frame.patron_5_9_linktext, @subscribe %>
+	<% elsif @level.between?(1, 4) %><%= @frame.patron_1_4_message %>. <%= link_to @frame.patron_1_4_linktext, @subscribe %>
+	<% elsif @level == 0 %><%= @frame.patron_0_message %>. <%= link_to @frame.patron_0_linktext, @subscribe %>
+	<% else end %>
 <% when 3 %>
-	<%= @frame.cta_reader_to_patron %> <%= link_to @frame.cta_reader_to_patron_link, @subscribe %>
+	<% if @can_read_date > Time.now %><%= @frame.reader_45_trial_message %>. <%= link_to @frame.reader_45_trial_linktext, @subscribe %>
+	<% elsif @can_read_date < Time.now %><%= @frame.reader_no_45_trial_message %>. <%= link_to @frame.reader_no_45_trial_linktext, @subscribe %>
+	<% else end %>
 <% else end %>
