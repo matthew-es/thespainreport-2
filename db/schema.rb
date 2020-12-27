@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_26_144131) do
+ActiveRecord::Schema.define(version: 2020_12_27_105122) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -170,6 +170,7 @@ ActiveRecord::Schema.define(version: 2020_12_26_144131) do
     t.string "patrons_extra_audios"
     t.string "patrons_extra_photos"
     t.string "patrons_extra_column"
+    t.string "patrons_extra_home"
     t.index ["language_id"], name: "index_frames_on_language_id"
     t.index ["original_id"], name: "index_frames_on_original_id"
   end

@@ -20,6 +20,10 @@
 				
 				<% else %>
 					<div class="patrons-background padding-10">
+						<% case @status when 1 %>
+							<%= link_to 'Admin', new_tweet_path %> |
+						<% end %>
+						
 						<% case @language when 1 %> <%= link_to 'I am a patron', edit_user_path(current_user) %>
 						<% when 2 %> <%= link_to 'Yo soy mecenas', edit_user_path(current_user) %>
 						<% end %>
