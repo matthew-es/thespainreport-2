@@ -87,7 +87,6 @@
 	    	</div>
 	    <% end %>
 	
-	
 	    <% if @article.status.try(:name) == 'Updated' %>
 	    	<div class="margin-right-5 float-left mobile-bottom-10">
 	    		<span class="label background-color-black font-color-white">
@@ -139,6 +138,19 @@
 				<% else end %>
 			</div>
 		<% else end %>
+	   
+	   
+	   <%# DISPLAY 45-DAY FREE TRIAL LABEL FOR LOGGED-IN READERS %>
+		<% if current_user.nil? %>
+		<% elsif @status == 3 && @can_read_date > Time.now %>
+			<div class="margin-right-5 float-left mobile-bottom-10">
+	    		<span class="label background-color-green font-color-white">
+	    			<% case @language when 1 %>45 DAYS FREE
+	    			<% when 2 %>45 DÍAS GRATIS
+	    			<% end %>
+	    		</span>
+	    	</div>
+    	<% else end %>
 	   
 		<div class="clear"></div>
 	</div>
@@ -219,13 +231,19 @@
 			<% end %>
 	</div>
 	<% if current_user.nil? %>
-		<ul class="font-main-small">
-			<li>
-				<% case @article.language_id when 1 %><a href="#patrons">Log in</a> to listen.
-				<% when 2 %><a href="#patrons">Inicie sesión</a> para escuchar.
+		<div class="margin-top-10">
+			<p><em>
+				<% case @article.language_id when 1 %><a href="#patrons">Log in</a> to listen:
+				<% when 2 %><a href="#patrons">Inicie sesión</a> para escuchar:
 				<% end %>
-			</li>
-		</ul>
+			</em></p>
+		</div>
+		
+		<audio controls>
+			<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/aac">
+	  		<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/mpeg">
+			Your browser does not support the audio element.
+		</audio>
 	<% elsif @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 5 || @status == 1 %>
 		<div class="margin-left-20 margin-top-20" >
 			<audio controls>
@@ -235,13 +253,19 @@
 			</audio>
 		</div>
 	<% else %>
-		<ul class="font-main-small">
-			<li>
-				<% case @article.language_id when 1 %><a href="#patrons">Log in</a> to listen.
-				<% when 2 %><a href="#patrons">Inicie sesión</a> para escuchar.
+		<div class="margin-top-10">
+			<p><em>
+				<% case @article.language_id when 1 %><a href="#patrons">Log in</a> to listen:
+				<% when 2 %><a href="#patrons">Inicie sesión</a> para escuchar:
 				<% end %>
-			</li>
-		</ul>
+			</em></p>
+		</div>
+		
+		<audio controls>
+			<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/aac">
+	  		<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/mpeg">
+			Your browser does not support the audio element.
+		</audio>
 	<% end %>
 <% elsif @article.upload %>
 	<%= image_tag ('https://image.thespainreport.es/' + File.basename(@article.upload.data)) %>
@@ -296,7 +320,7 @@
 	<% if ["Patrons only", "Sólo mecenas"].include?(@article.type.name) %>
 		<% if current_user.nil? %>
 			<%= markdown(truncate(@article.body, length: 550)) %>
-		<% elsif @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 5 || @status == 1 %>
+		<% elsif @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 1 || @status == 1 %>
 			<%= markdown(@article.body).html_safe %>
 		<% else %>
 			<%= markdown(truncate(@article.body, length: 550)) %>

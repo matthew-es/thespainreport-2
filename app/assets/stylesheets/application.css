@@ -74,18 +74,17 @@ a.no-hover-bg:hover {background-color: #fff;}
 .line-115 {line-height: 114%;}
 .line-120 {line-height: 120%;}
 .line-130 {line-height: 130%;}
-.alert {margin-bottom: 10px; padding: 10px;}
+.alert {}
 .alert p {padding: 0; margin: 0;}
 .alert-success {border: 2px solid #009900; background-color: #f2ffe6; color: #009900;}
-.alert-notice {color: green;}
+.alert-notice {background-color: #ccffcc; color: green;}
 .alert-warning, .alert-tryagain {border: 2px solid #cc7a00; background-color: #fff5cc; color: #cc7a00;}
 .alert-error {border: 2px solid #ff0000; background-color: #ffe6e6; color: #ff0000;}
 .no-points {list-style: none; margin: 0px; padding: 0px;}
 
 .patrons-border {}
-
 .patrons-background {background-color: #fffae6;}
-.patrons-label {background-color: #AA151B;; color: #ffffff;}
+.patrons-label {background-color: #AA151B;; color: #F1BF00;}
 .buy-border {border-top: 2px dashed #F1BF00;}
 .buy-background {background-color: #fffae6;}
 .log-in-border {border-bottom: 2px dashed #AA151B;}

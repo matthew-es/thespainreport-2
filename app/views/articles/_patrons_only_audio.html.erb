@@ -1,45 +1,109 @@
-<% if @article.extras_audio_title.present? %>
+<% if @article.extras_audios.present? %>
+	<% arr = @article.extras_audios.rstrip.split("\r\n\r\n") %>
 	
-	<% if @article.extras_audios %>
-		<% @article.extras_audios.split(/\r\n\r\n/).each do |chunk| %>
-			<% bit1, bit2, bit3, bit4, bit5 = chunk.split("\r\n", 5) %>
+	<% first = arr[0] %>
+	<% bit1, bit2, bit3, bit4, bit5 = first.split("\r\n", 5) %>
+	
+	<div class="patrons-extra-bit">
+		<h3><%= bit3 %></h3>
+				
+		<p class="margin-bottom-0 font-main-small font-italic"><%= bit4 %></p>
+		
+		<div class="margin-left-20 margin-top-10 margin-bottom-20">
+			<audio controls>
+			 	<% if current_user.nil? %>
+					<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/aac">
+			  		<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/mpeg">
+					Your browser does not support the audio element.
+				<% elsif @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 5 || @status == 1 %>
+					<source src="<%= 'https://audio.thespainreport.es/' + bit1 unless bit1.nil? %>" type="audio/aac">
+			  		<source src="<%= 'https://audio.thespainreport.es/' + bit2 unless bit2.nil? %>" type="audio/mpeg">
+					Your browser does not support the audio element.
+				<% else %>
+					<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/aac">
+			  		<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/mpeg">
+					Your browser does not support the audio element.
+				<% end %>
+			</audio>
+		</div>
+		
+		<p><%= bit5 %></p>
+	</div>
+	
+	<% if arr.length > 1 %>
+		<% if @status == 2 && @level < 10 %>
+		<div class="alert-notice padding-10">
+			- PATRONS > 10 CAN LISTEN TO UP TO TWO EXTRA AUDIOS IN EACH ARTICLE<BR />
+			- PATRONS > 25 CAN LISTEN TO ALL EXTRA AUDIOS IN EACH ARTICLE
+		</div>
+		<% end %>
+		
+		<% second = arr[1] %>
+		<% bit1, bit2, bit3, bit4, bit5 = second.split("\r\n", 5) unless second.nil? %>
+		
+		<div class="patrons-extra-bit">
+			<h3><%= bit3 %></h3>
+					
+			<p class="margin-bottom-0 font-main-small font-italic"><%= bit4 %></p>
 			
+			<div class="margin-left-20 margin-top-10 margin-bottom-20">
+				<audio controls>
+				 	<% if current_user.nil? %>
+						<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/aac">
+				  		<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/mpeg">
+						Your browser does not support the audio element.
+					<% elsif @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 10 || @status == 1 %>
+						<source src="<%= 'https://audio.thespainreport.es/' + bit1 unless bit1.nil? %>" type="audio/aac">
+				  		<source src="<%= 'https://audio.thespainreport.es/' + bit2 unless bit2.nil? %>" type="audio/mpeg">
+						Your browser does not support the audio element.
+					<% else %>
+						<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/aac">
+				  		<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/mpeg">
+						Your browser does not support the audio element.
+					<% end %>
+				</audio>
+			</div>
+			
+			<p><%= bit5 %></p>
+		</div>
+	<% end %>
+	
+	<% if arr.length > 2 %>
+		<% if @status == 2 && @level.between?(10, 24) %>
+			<div class="alert-notice padding-10">
+				- XXXX PATRONS > 25 CAN LISTEN TO ALL EXTRA AUDIOS IN EACH ARTICLE
+			</div>
+		<% end %>
+		
+		<% arr[2..-1].each do |chunk| %>
+			<% bit1, bit2, bit3, bit4, bit5 = chunk.split("\r\n", 5) %>
+				
 			<div class="patrons-extra-bit">
 				<h3><%= bit3 %></h3>
-				
+						
 				<p class="margin-bottom-0 font-main-small font-italic"><%= bit4 %></p>
-		
+				
 				<div class="margin-left-20 margin-top-10 margin-bottom-20">
 					<audio controls>
-					 	
 					 	<% if current_user.nil? %>
 							<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/aac">
 					  		<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/mpeg">
 							Your browser does not support the audio element.
-						<% elsif @status == 3 && @can_read_date > Time.now %>
-							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true") %>
-						<% elsif @status == 3 && @can_read_date < Time.now %>
-							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=false") %>
-						<% elsif @status == 2 && @level == 0 %>
-							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=false") %>
-						<% elsif @status == 2 && @level.between?(1, 4) %>
-						<% elsif @status == 2 && @level.between?(5, 9) %>
-							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true") %>
-						<% elsif @status == 2 && @level.between?(10, 24) %>
-							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true") %>
-						<% elsif @status == 2 && @level >= 25 %>
-							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true") %>
-						<% elsif @status == 1 %>
+						<% elsif @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 25 || @status == 1 %>
 							<source src="<%= 'https://audio.thespainreport.es/' + bit1 unless bit1.nil? %>" type="audio/aac">
 					  		<source src="<%= 'https://audio.thespainreport.es/' + bit2 unless bit2.nil? %>" type="audio/mpeg">
 							Your browser does not support the audio element.
-						<% else end %>
-
+						<% else %>
+							<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/aac">
+					  		<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/mpeg">
+							Your browser does not support the audio element.
+						<% end %>
 					</audio>
 				</div>
 				
 				<p><%= bit5 %></p>
 			</div>
 		<% end %>
-	<% else end %>
+	<% end %>
+		
 <% else end %>

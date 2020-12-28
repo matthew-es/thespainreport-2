@@ -105,10 +105,7 @@
 						<% end %>
 					</div>
 				
-				
 				<%# PATRONS WITH A PAYMENT PROBLEM %>
-				
-				
 				
 				<%# PATRONS > €0 %>
 				<% elsif @status == 2 && @level == 0 %>
@@ -118,41 +115,12 @@
 						<% end %>
 					</div>
 				
-				
 				<%# PATRONS > €1 // AUDIO REPORT SCRIPTS %>
 				<% elsif @status == 2 && @level.between?(1, 4) %>
-					<%= render "articles/patrons_only_text", article: @article %>
 			
 				
 				<%# PATRONS > €5 // AUDIO REPORT SCRIPTS, PATRONS ONLY COLUMN, PATRONS ONLY COLUMN AUDIO %>
 				<% elsif @status == 2 && @level.between?(5, 9) %>
-					<%= render "articles/patrons_only_text", article: @article %>
-					
-					<% if @article.extras_audio_title.present? %>
-						<% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
-							<%= render "articles/patrons_only_audio", article: @article %>
-						<% else %>
-							<ul class="margin-top-20 margin-bottom-0 margin-left-5 margin-right-0 font-main-lede">
-								<li><strong>
-									<% case @article.language_id when 1 %>More Audio:
-									<% when 2 %>Más Audio:
-									<% end %>
-									</strong> <%= @article.extras_audio_title %>
-								</li>
-							</ul>
-						<% end %>
-					<% else end %>
-					
-					<% if  @article.extras_video_title.present? %>
-						<ul class="margin-top-20 margin-bottom-0 margin-left-5 margin-right-0 font-main-lede">
-							<li><strong>
-								<% case @article.language_id when 1 %>More Video:
-								<% when 2 %>Más Vídeo:
-								<% end %>
-								</strong> <%= @article.extras_video_title %>
-							</li>
-						</ul>
-					<% end %>
 				
 				<%# PATRONS > €10 // AUDIO REPORT SCRIPTS, PATRONS ONLY COLUMN, PATRONS ONLY COLUMN AUDIO, EXTRA AUDIO INTERVIEW QUESTIONS %>
 				<% elsif @status == 2 && @level.between?(10, 24) %>

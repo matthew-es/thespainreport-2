@@ -21,9 +21,10 @@
 			<%= form.submit "Guardar" %>
 		<% else end %>
 		</div>
-		<div class="float-left margin-top-5">
+		
+		<div class="float-left margin-top-5 margin-left-5">
 			<% flash.each do |key, value| %>
-				<span class="alert alert-<%= key %>"><%= value.html_safe %></span>
+				<span class="alert alert-<%= key %> padding-5"><%= value.html_safe %></span>
 			<% end %>
 		</div>
 		<div class="clear"></div>

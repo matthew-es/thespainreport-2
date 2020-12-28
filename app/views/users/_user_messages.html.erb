@@ -1,15 +1,19 @@
 <% case @language when 1 %>
   You are
   <% case @status when 1 %>the boss.
-	<% when 4 %>a super patron.
-	<% when 2 %>a patron.
+	<% when 2 %>
+		<% if @level >25 %>a super patron.
+		<% elsif @level <= 25 %>a patron.
+		<% end %>
 	<% when 3 %>a reader.
 	<% end %>
 <% when 2 %>
   Ud. es
   <% case @status when 1 %>el jefe.
-  	<% when 4 %>super mecenas.
-	<% when 2 %>mecenas.
+	<% when 2 %>
+		<% if @level >25 %>súper mecenas.
+		<% elsif @level <= 25 %>mecenas.
+		<% end %>
 	<% when 3 %>lector.
 	<% end %>
 <% end %>
