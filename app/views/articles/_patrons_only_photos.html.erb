@@ -1,44 +1,25 @@
 <% if ["Photos", "fotos"].include?(@article.type.name) %>
 	
-	<% if @article.extras_videos.present? %>
-		<% @article.extras_videos.split(/\r\n\r\n/).each do |chunk| %>
-			<% bit1, bit2, bit3, bit4 = chunk.split("\r\n", 4) %>
-			
-			<div class="patrons-extra-bit">
-				<h3><%= bit2 %></h3>
-				
-				<p class="margin-bottom-0 font-main-small font-italic"><%= bit3 %></p>
-				
-				<div class="video-wrapper">
-					<% if bit1.match(/^[0-9]+$/) %>
-						
-						<% if current_user.nil? %>
-							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=false") %>
-						<% elsif @status == 3 && @can_read_date > Time.now %>
-							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true", allowfullscreen: true) %>
-						<% elsif @status == 3 && @can_read_date < Time.now %>
-							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=false") %>
-						<% elsif @status == 2 && @level == 0 %>
-							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=false") %>
-						<% elsif @status == 2 && @level.between?(1, 4) %>
-						<% elsif @status == 2 && @level.between?(5, 9) %>
-							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true", allowfullscreen: true) %>
-						<% elsif @status == 2 && @level.between?(10, 24) %>
-							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true", allowfullscreen: true) %>
-						<% elsif @status == 2 && @level >= 25 %>
-							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true", allowfullscreen: true) %>
-						<% elsif @status == 1 %>
-							<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{bit1}?quality=720p&controls=true", allowfullscreen: true) %>
-						<% else end %>
-						
-					<% else %>
-						<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{bit1}?rel=0&amp;showinfo=0", allowfullscreen: true) %>
+	<% if @can_read_trial_over || @can_read_0 || @can_read_1 || @can_read_5 %>
+		<div class="buy-border-bottom padding-bottom-10">
+			<p class="font-main-small">
+				<% case @language when 1 %>Patrons contributing more than...
+				<% when 2 %>Los mecenas que contribuyen más de...
+				<% end %>
+			</p>
+			<ul class="margin-left-0 font-main-small">
+				<li>
+					<% case @language when 1 %>...€10/month can view and download high-resolution images
+					<% when 2 %>...10 euros/mes pueden ver y descargar imágenes de alta resolución
 					<% end %>
-				</div>
-				
-				<p><%= bit4 %></p>
+				</li>
+			</ul>
+			
+			<div class="align-centre topbutton mobile-100"> 
+				<a href="<%= @increase %>" class="buybutton"><%= @cta %></a> 
 			</div>
-		<% end %>
-	<% else end %>
+			
+		</div>
+	<% end %>
 
 <% else end %>

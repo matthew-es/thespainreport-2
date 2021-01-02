@@ -19,17 +19,17 @@
 <% end %>
 
 <% case @status when 1 %>
-	<%= @frame.admin_message %>. <%= link_to @frame.admin_linktext, @subscribe %>
+	<%= @frame.admin_message %>. <%= link_to @frame.button_cta_increase, @subscribe %>
 <% when 2 %>
-	<% if @level >25 %><%= @frame.patron_super_message %>. <%= link_to @frame.patron_super_linktext, @subscribe %>
-	<% elsif @level == 25 %><%= @frame.patron_25_message %>. <%= link_to @frame.patron_25_linktext, @subscribe %>
-	<% elsif @level.between?(10, 24) %><%= @frame.patron_10_24_message %>. <%= link_to @frame.patron_10_24_linktext, @subscribe %>
-	<% elsif @level.between?(5, 9) %><%= @frame.patron_5_9_message %>. <%= link_to @frame.patron_5_9_linktext, @subscribe %>
-	<% elsif @level.between?(1, 4) %><%= @frame.patron_1_4_message %>. <%= link_to @frame.patron_1_4_linktext, @subscribe %>
-	<% elsif @level == 0 %><%= @frame.patron_0_message %>. <%= link_to @frame.patron_0_linktext, @subscribe %>
+	<% if @level >25 %><%= @frame.patron_super_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
+	<% elsif @level == 25 %><%= @frame.patron_25_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
+	<% elsif @level.between?(10, 24) %><%= @frame.patron_10_24_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
+	<% elsif @level.between?(5, 9) %><%= @frame.patron_5_9_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
+	<% elsif @level.between?(1, 4) %><%= @frame.patron_1_4_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
+	<% elsif @level == 0 %><%= @frame.patron_0_message %>. <%= link_to @frame.button_cta_increase, @subscribe %>
 	<% else end %>
 <% when 3 %>
-	<% if @can_read_date > Time.now %><%= @frame.reader_45_trial_message %>. <%= link_to @frame.reader_45_trial_linktext, @subscribe %>
-	<% elsif @can_read_date < Time.now %><%= @frame.reader_no_45_trial_message %>. <%= link_to @frame.reader_no_45_trial_linktext, @subscribe %>
+	<% if @can_read_date > Time.now %><%= @frame.reader_45_trial_message %>: <%= link_to @frame.button_cta, @subscribe %>
+	<% elsif @can_read_date < Time.now %><%= @frame.reader_no_45_trial_message %>: <%= link_to @frame.button_cta_trial_over, @subscribe %>
 	<% else end %>
 <% else end %>

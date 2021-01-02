@@ -61,7 +61,6 @@ class ArticlesController < ApplicationController
 			frame = @article.frame.id
 		else
 		end
-		
 		set_language_frame(@article.language_id, frame)
 		set_status(current_user) unless current_user.nil?
 		set_country

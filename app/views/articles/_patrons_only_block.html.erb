@@ -83,69 +83,15 @@
 			<% else end %>
 			
 			<%= render 'users/log_in_logic' %>
+			<%= render "articles/patrons_only_video", article: @article %>
+			<%= render "articles/patrons_only_audio", article: @article %>
+			<%= render "articles/patrons_only_photos", article: @article %>
+			<%= render "articles/patrons_only_column", article: @article %>
 			
-			
-			
-			
-			
-			
-			<div>
-				<%# IF NOT LOGGED IN, JUST DISPLAY EXTRA TEXT OR EXTRA AUDIO TEASERS %>
-				<% if current_user.nil? %>
-					
-				<%# 45-DAY FREE TRIAL READERS %>
-				<% elsif @status == 3 && @can_read_date > Time.now %>
-				
-				
-				<%# 45-DAY FREE TRIAL HAS ENDED %>
-				<% elsif @status == 3 && @can_read_date < Time.now %>
-					<div class="margin-left-20 margin-top-30 margin-bottom-20" >
-						<% case @language when 1 %>Your 45-day trial has ended. <a href="/value">Guarantee independent journalism now</a>.
-						<% when 2 %>Su prueba de 45 días ha terminado. <a href="/valor">Garantice el periodismo independiente ahora</a>.
-						<% end %>
-					</div>
-				
-				<%# PATRONS WITH A PAYMENT PROBLEM %>
-				
-				<%# PATRONS > €0 %>
-				<% elsif @status == 2 && @level == 0 %>
-					<div class="margin-left-20 margin-top-30 margin-bottom-20" >
-						<% case @language when 1 %>There has been some problem; please email me: matthew@thespainreport.es
-						<% when 2 %>Se ha producido algún problema; póngase en contacto conmigo: matthew@thespainreport.es
-						<% end %>
-					</div>
-				
-				<%# PATRONS > €1 // AUDIO REPORT SCRIPTS %>
-				<% elsif @status == 2 && @level.between?(1, 4) %>
-			
-				
-				<%# PATRONS > €5 // AUDIO REPORT SCRIPTS, PATRONS ONLY COLUMN, PATRONS ONLY COLUMN AUDIO %>
-				<% elsif @status == 2 && @level.between?(5, 9) %>
-				
-				<%# PATRONS > €10 // AUDIO REPORT SCRIPTS, PATRONS ONLY COLUMN, PATRONS ONLY COLUMN AUDIO, EXTRA AUDIO INTERVIEW QUESTIONS %>
-				<% elsif @status == 2 && @level.between?(10, 24) %>
-				
-				<%# PATRONS > €25 // PHOTOS, TRAVEL %>
-				<% elsif @status == 2 && @level >= 25 %>
-				
-				<%# ADMIN %>
-				<% elsif @status == 1 %>
-					
-				<% else end %>
-				
-				<%= render "articles/patrons_only_video", article: @article %>
-				<%= render "articles/patrons_only_audio", article: @article %>
-				<%= render "articles/patrons_only_photos", article: @article %>
-				<%= render "articles/patrons_only_column", article: @article %>
-				
-				
-				<div class="clear"></div>
-			</div>
+			<div class="clear"></div>
 			
 			
 		<% else %>
 		<% end %>
 	</div>
-	
-	
 </div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_27_152307) do
+ActiveRecord::Schema.define(version: 2021_01_02_223501) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -160,12 +160,7 @@ ActiveRecord::Schema.define(version: 2020_12_27_152307) do
     t.string "patron_5_9_message"
     t.string "patron_payment_paused_message"
     t.string "patron_payment_problem_message"
-    t.string "patron_1_4_linktext"
-    t.string "patron_5_9_linktext"
-    t.string "patron_10_24_linktext"
-    t.string "patron_super_linktext"
-    t.string "patron_payment_paused_linktext"
-    t.string "patron_payment_problem_linktext"
+    t.string "button_cta_increase"
     t.string "patrons_extra_videos"
     t.string "patrons_extra_audios"
     t.string "patrons_extra_photos"
@@ -175,12 +170,8 @@ ActiveRecord::Schema.define(version: 2020_12_27_152307) do
     t.string "patron_0_message"
     t.string "reader_45_trial_message"
     t.string "reader_no_45_trial_message"
-    t.string "admin_linktext"
-    t.string "patron_0_linktext"
-    t.string "reader_45_trial_linktext"
-    t.string "reader_no_45_trial_linktext"
+    t.string "button_cta_trial_over"
     t.string "patron_25_message"
-    t.string "patron_25_linktext"
     t.index ["language_id"], name: "index_frames_on_language_id"
     t.index ["original_id"], name: "index_frames_on_original_id"
   end

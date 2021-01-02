@@ -16,6 +16,32 @@ class ApplicationController < ActionController::Base
 			@can_read_date = @user.can_read_date
 			@level = @user.level_amount
 			@account_status = @user.account.account_status unless @user.account.nil?
+			
+			if @status == 3 && @can_read_date > Time.now
+				@cta = @frame.button_cta
+				@can_read_trial = true
+			elsif @status == 3 && @can_read_date < Time.now
+				@cta = @frame.button_cta_trial_over
+				@can_read_trial_over = true
+			elsif @status == 2 && @level == 0
+				@cta = @frame.button_cta_increase
+				@can_read_0 = true
+			elsif @status == 2 && @level.between?(1, 4)
+				@cta = @frame.button_cta_increase
+				@can_read_1 = true
+			elsif @status == 2 && @level.between?(5, 9)
+				@cta = @frame.button_cta_increase
+				@can_read_5 = true
+			elsif @status == 2 && @level.between?(10, 24)
+				@cta = @frame.button_cta_increase
+				@can_read_10 = true
+			elsif @status == 2 && @level >= 25
+				@cta = @frame.button_cta_increase
+				@can_read_25 = true
+			elsif @status == 1
+				@cta = @frame.button_cta_increase
+				@can_read_admin = true
+			else end
 		end
 	end
 	
@@ -62,8 +88,9 @@ class ApplicationController < ActionController::Base
 	
 	def set_language_frame(language, frame)
 		language = language
+		sales_language = language
 		
-		if language == 1
+		if sales_language == 1
 			@language = 1
 			@stub_value = "value/"
 			@stub_increase = "value/"
@@ -71,7 +98,7 @@ class ApplicationController < ActionController::Base
 			@plans = Plan.english.all.order("price DESC")
 			@countries = Country.all.where.not(country_code: "ROW").order("name_en ASC")
 			@row = Country.where(country_code: "ROW")
-		elsif language == 2
+		elsif sales_language == 2
 			@language = 2
 			@stub_value = "valor/"
 			@stub_increase = "valor/"
@@ -82,10 +109,10 @@ class ApplicationController < ActionController::Base
 		else end
 		
 		if frame.nil?
-			if language == 1 
+			if sales_language == 1 
 				@frame = Frame.find_by(link_slug: "guarantee")
 				@frame_id = @frame.id
-			elsif language == 2
+			elsif sales_language == 2
 				@frame = Frame.find_by(link_slug: "garantizar")
 				@frame_id = @frame.id
 			else end

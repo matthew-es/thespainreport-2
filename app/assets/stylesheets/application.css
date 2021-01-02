@@ -85,8 +85,10 @@ a.no-hover-bg:hover {background-color: #fff;}
 .patrons-border {}
 .patrons-background {background-color: #fffae6;}
 .patrons-label {background-color: #AA151B;; color: #F1BF00;}
-.buy-border {border-top: 2px dashed #F1BF00;}
+.buy-border-top {border-top: 2px dashed #F1BF00;}
+.buy-border-bottom {border-bottom: 2px dashed #F1BF00;}
 .buy-background {background-color: #fffae6;}
+.buy-reminder {background-color: #f4a4a7;}
 .log-in-border {border-bottom: 2px dashed #AA151B;}
 .log-in-border-top {border-top: 2px dashed #AA151B;}
 .admin-border-split {border-top: 1px dotted #AA151B;}

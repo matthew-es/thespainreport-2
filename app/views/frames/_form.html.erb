@@ -60,86 +60,49 @@
   <h3>User messages logged-in/emails</h3>
   
 	<div class="margin-bottom-10">
-    <%= f.text_field :reader_45_trial_message, :class => "width-70 padding-5", placeholder: "Reader 45-day trial…" %>:
-    <%= f.text_field :reader_45_trial_linktext, :class => "width-20 padding-5", placeholder: "Reader 45-day trial link text…" %>
+    <%= f.text_field :reader_45_trial_message, :class => "width-70 padding-5", placeholder: "Reader 45-day trial…" %>
   </div>
   
   <div class="margin-bottom-10">
-    <%= f.text_field :reader_no_45_trial_message, :class => "width-70 padding-5", placeholder: "Reader 45-day trial over…" %>:
-    <%= f.text_field :reader_no_45_trial_linktext, :class => "width-20 padding-5", placeholder: "Reader 45-day trial over link text…" %>
+    <%= f.text_field :reader_no_45_trial_message, :class => "width-70 padding-5", placeholder: "Reader 45-day trial over…" %>
   </div>
   
   <div class="margin-bottom-10">
-    <%= f.text_field :patron_0_message, :class => "width-70 padding-5", placeholder: "Patron 0 message…" %>:
-    <%= f.text_field :patron_0_linktext, :class => "width-20 padding-5", placeholder: "Patron 0 link text…" %>
+    <%= f.text_field :patron_0_message, :class => "width-70 padding-5", placeholder: "Patron 0 message…" %>
   </div>
 
   <div class="margin-bottom-10">
-    <%= f.text_field :patron_1_4_message, :class => "width-70 padding-5", placeholder: "Patron 1-4 message…" %>:
-    <%= f.text_field :patron_1_4_linktext, :class => "width-20 padding-5", placeholder: "Patron 1-4 link text…" %>
+    <%= f.text_field :patron_1_4_message, :class => "width-70 padding-5", placeholder: "Patron 1-4 message…" %>
   </div>
 	
 	<div class="margin-bottom-10">
-    <%= f.text_field :patron_5_9_message, :class => "width-70 padding-5", placeholder: "Patron 5-9 message…" %>:
-    <%= f.text_field :patron_5_9_linktext, :class => "width-20 padding-5", placeholder: "Patron 5-9 link text…" %>
+    <%= f.text_field :patron_5_9_message, :class => "width-70 padding-5", placeholder: "Patron 5-9 message…" %>
   </div>
   
   <div class="margin-bottom-10">
-    <%= f.text_field :patron_10_24_message, :class => "width-70 padding-5", placeholder: "Patron 10-24 message…" %>:
-    <%= f.text_field :patron_10_24_linktext, :class => "width-20 padding-5", placeholder: "Patron 10-24 link text…" %>
+    <%= f.text_field :patron_10_24_message, :class => "width-70 padding-5", placeholder: "Patron 10-24 message…" %>
   </div>
   
   <div class="margin-bottom-10">
-    <%= f.text_field :patron_25_message, :class => "width-70 padding-5", placeholder: "Patron 25 message…" %>:
-    <%= f.text_field :patron_25_linktext, :class => "width-20 padding-5", placeholder: "Patron 25 link text…" %>
+    <%= f.text_field :patron_25_message, :class => "width-70 padding-5", placeholder: "Patron 25 message…" %>
   </div>
 	
 	<div class="margin-bottom-10">
-    <%= f.text_field :patron_super_message, :class => "width-70 padding-5", placeholder: "Patron super message…" %>:
-    <%= f.text_field :patron_super_linktext, :class => "width-20 padding-5", placeholder: "Patron super link text…" %>
+    <%= f.text_field :patron_super_message, :class => "width-70 padding-5", placeholder: "Patron super message…" %>
   </div>
   
   <div class="margin-bottom-10">
-    <%= f.text_field :patron_payment_paused_message, :class => "width-70 padding-5", placeholder: "Patron payment paused…" %>:
-    <%= f.text_field :patron_payment_paused_linktext, :class => "width-20 padding-5", placeholder: "Patron payment paused link text…" %>
+    <%= f.text_field :patron_payment_paused_message, :class => "width-70 padding-5", placeholder: "Patron payment paused…" %>
   </div>
   
   <div class="margin-bottom-10">
-    <%= f.text_field :patron_payment_problem_message, :class => "width-70 padding-5", placeholder: "Patron payment problem message…" %>:
-    <%= f.text_field :patron_payment_problem_linktext, :class => "width-20 padding-5", placeholder: "Patron payment problem link text…" %>
+    <%= f.text_field :patron_payment_problem_message, :class => "width-70 padding-5", placeholder: "Patron payment problem message…" %>
   </div>
 	
 	<div class="margin-bottom-10">
-    <%= f.text_field :admin_message, :class => "width-70 padding-5", placeholder: "Admin message…" %>:
-    <%= f.text_field :admin_linktext, :class => "width-20 padding-5", placeholder: "Admin link text…" %>
+    <%= f.text_field :admin_message, :class => "width-70 padding-5", placeholder: "Admin message…" %>
   </div>
 	
-	
-	
-add_column :frames, :reader_45_trial_message, :string
-add_column :frames, :reader_45_trial_linktext, :string
-add_column :frames, :reader_no_45_trial_message, :string
-add_column :frames, :reader_no_45_trial_linktext, :string
-add_column :frames, :patron_0_message, :string
-add_column :frames, :patron_0_linktext, :string
-rename_column :frames, :cta_reader_to_patron, :patron_1_4_message
-rename_column :frames, :cta_reader_to_patron_link, :patron_1_4_linktext
-rename_column :frames, :cta_patron_active_bottom, :patron_5_9_message
-rename_column :frames, :cta_patron_active_bottom_link, :patron_5_9_linktext
-rename_column :frames, :cta_patron_active_top, :patron_super_message
-rename_column :frames, :cta_patron_active_top_link, :patron_super_linktext
-rename_column :frames, :cta_patron_paused, :patron_payment_paused_message
-rename_column :frames, :cta_patron_paused_link, :patron_payment_paused_linktext
-rename_column :frames, :cta_patron_cancelled, :patron_payment_problem_message
-rename_column :frames, :cta_patron_cancelled_link, :patron_payment_problem_linktext
-add_column :frames, :admin_message, :string
-add_column :frames, :admin_linktext, :string
-rename_column :frames, :patron_10_25_message, :patron_10_24_message
-rename_column :frames, :patron_10_25_linktext, :patron_10_24_linktext
-add_column :frames, :patron_25_message, :string
-add_column :frames, :patron_25_linktext, :string
-
-
 	
 	<h3>Pay Block/Page</h3>
 	
@@ -164,10 +127,6 @@ add_column :frames, :patron_25_linktext, :string
   </div>
   
   <div class="margin-bottom-10">
-    <%= f.text_field :button_cta, :class => "width-20 padding-5", placeholder: "Button CTA NOW…" %> (Pay now, contribute now, fund now, insure now, x)
-  </div>
-  
-  <div class="margin-bottom-10">
     <%= f.text_area :social_proof, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Social proof & momentum…" %>
   </div>
   
@@ -175,6 +134,21 @@ add_column :frames, :patron_25_linktext, :string
     <%= f.text_area :risk_reversal, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Risk reversal, guarantee…" %>
   </div>
   
+  
+  <h3>CTAs</h3>
+	
+	<div class="margin-bottom-10">
+    <%= f.text_field :button_cta, :class => "width-20 padding-5", placeholder: "Button CTA: pay/contribute/support Now…" %> (Pay now, contribute now, fund now, insure now, x)
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_field :button_cta_trial_over, :class => "width-20 padding-5", placeholder: "CTA trial over…" %>
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_field :button_cta_increase, :class => "width-20 padding-5", placeholder: "CTA increase…" %>
+  </div>
+
 	
 	<h3>Email block</h3>
 	

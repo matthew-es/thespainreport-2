@@ -1,8 +1,39 @@
 <% if @article.extras_audios.present? %>
 	<% arr = @article.extras_audios.rstrip.split("\r\n\r\n") %>
-	
+
 	<% first = arr[0] %>
 	<% bit1, bit2, bit3, bit4, bit5 = first.split("\r\n", 5) %>
+	<% if @can_read_trial_over || @can_read_0 || @can_read_1 %>
+		<div class="buy-border-bottom padding-bottom-10">
+			<p class="font-main-small">
+				<% case @language when 1 %>Patrons contributing...
+				<% when 2 %>Los mecenas que contribuyen...
+				<% end %>
+			</p>
+			<ul class="margin-left-0 font-main-small">
+				<li>
+					<% case @language when 1 %>...€5/month can listen to one extra audio/report
+					<% when 2 %>...5 euros/mes pueden ver un vídeo adicional/reportaje
+					<% end %>
+				</li>
+				<li>
+					<% case @language when 1 %>...€10/month can listen to two extra audios/report
+					<% when 2 %>...10 euros/mes pueden ver dos vídeos adicionales/reportaje
+					<% end %>
+				</li>
+				<li>
+					<% case @language when 1 %>...€25/month can listen to all extra audios/report
+					<% when 2 %>...25 euros/mes pueden ver todos los vídeos adicionales/reportaje
+					<% end %>
+				</li>
+			</ul>
+			
+			<div class="align-centre topbutton mobile-100"> 
+				<a href="<%= @increase %>" class="buybutton"><%= @cta %></a> 
+			</div>
+			
+		</div>
+	<% end %>
 	
 	<div class="patrons-extra-bit">
 		<h3><%= bit3 %></h3>
@@ -30,12 +61,33 @@
 		<p><%= bit5 %></p>
 	</div>
 	
+	
+	
 	<% if arr.length > 1 %>
-		<% if @status == 2 && @level < 10 %>
-		<div class="alert-notice padding-10">
-			- PATRONS > 10 CAN LISTEN TO UP TO TWO EXTRA AUDIOS IN EACH ARTICLE<BR />
-			- PATRONS > 25 CAN LISTEN TO ALL EXTRA AUDIOS IN EACH ARTICLE
-		</div>
+		<% if @can_read_5 %>
+			<div class="buy-border-top buy-border-bottom padding-top-10 padding-bottom-10">
+				<p class="font-main-small">
+					<% case @language when 1 %>Patrons contributing...
+					<% when 2 %>Los mecenas que contribuyen...
+					<% end %>
+				</p>
+				<ul class="margin-left-0 font-main-small">
+					<li>
+						<% case @language when 1 %>...€10/month can listen to <strong>two</strong> extra audios/report
+						<% when 2 %>...10 euros/mes pueden escuchar <strong>dos</strong> audios adicionales/reportaje
+						<% end %>
+					</li>
+					<li>
+						<% case @language when 1 %>...€25/month can listen to <strong>all</strong> extra audios/report
+						<% when 2 %>...25 euros/mes pueden escuchar <strong>todos</strong> los audios adicionales/reportaje
+						<% end %>
+					</li>
+				</ul>
+	
+				<div class="align-centre topbutton mobile-100"> 
+					<a href="<%= @increase %>" class="buybutton"><%= @cta %></a> 
+				</div>
+			</div>
 		<% end %>
 		
 		<% second = arr[1] %>
@@ -68,10 +120,27 @@
 		</div>
 	<% end %>
 	
+	
+	
 	<% if arr.length > 2 %>
-		<% if @status == 2 && @level.between?(10, 24) %>
-			<div class="alert-notice padding-10">
-				- XXXX PATRONS > 25 CAN LISTEN TO ALL EXTRA AUDIOS IN EACH ARTICLE
+		<% if @can_read_10 %>
+			<div class="buy-border-top buy-border-bottom padding-top-10 padding-bottom-10">
+				<p class="font-main-small">
+					<% case @language when 1 %>Patrons contributing...
+					<% when 2 %>Los mecenas que contribuyen...
+					<% end %>
+				</p>
+				<ul class="margin-left-0 font-main-small">
+					<li>
+						<% case @language when 1 %>...€25/month can listen to <strong>all</strong> extra audios/report
+						<% when 2 %>...25 euros/mes pueden escuchar <strong>todos</strong> los audios adicionales/reportaje
+						<% end %>
+					</li>
+				</ul>
+	
+				<div class="align-centre topbutton mobile-100"> 
+					<a href="<%= @increase %>" class="buybutton"><%= @cta %></a> 
+				</div>
 			</div>
 		<% end %>
 		

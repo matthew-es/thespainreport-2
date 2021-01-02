@@ -244,7 +244,7 @@
 	  		<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/mpeg">
 			Your browser does not support the audio element.
 		</audio>
-	<% elsif @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 5 || @status == 1 %>
+	<% elsif @can_read_trial || @can_read_5 || @can_read_10 || @can_read_25 || @can_read_admin %>
 		<div class="margin-left-20 margin-top-20" >
 			<audio controls>
 			  	<source src="<%= 'https://audio.thespainreport.es/' + File.basename(Upload.find(@article.audio_aac_id).data) unless @article.audio_aac_id.nil? %>" type="audio/aac">
@@ -277,7 +277,7 @@
 			<strong>Published:</strong> <%= @article.upload.created_at.strftime("%b %d, %Y, %l:%M %P") %> 
 			<% if current_user.nil? %>
 				| <%= link_to "High resolution image for patrons", "https://www.thespainreport.es/value/guarantee" %>
-			<% elsif @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 10 || @status == 1 %>
+			<% elsif @can_read_trial || @can_read_10 || @can_read_25 || @can_read_admin %>
 				| <%= link_to "High resolution image for patrons", 'https://image.thespainreport.es/' + File.basename(@article.upload.data) %>
 			<% else %>
 				| <%= link_to "High resolution image for patrons", "https://www.thespainreport.es/value/guarantee" %>
@@ -286,7 +286,7 @@
 			<strong>Publicado:</strong> <%= @article.upload.created_at.strftime("%d/%m/%Y, %H:%M") %> 
 			<% if current_user.nil? %>
 				| <%= link_to "Imagen de alta resolución para mecenas", "https://www.thespainreport.es/value/guarantee" %>
-			<% elsif @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 10 || @status == 1 %>
+			<% elsif @can_read_trial || @can_read_10 || @can_read_25 || @can_read_admin %>
 				| <%= link_to "Imagen de alta resolución para mecenas", 'https://image.thespainreport.es/' + File.basename(@article.upload.data) %>
 			<% else %>
 				| <%= link_to "Imagen de alta resolución para mecenas", "https://www.thespainreport.es/valor/garantizar" %>
@@ -416,7 +416,7 @@
 							<% t.upload.versions.each do |v| %>
 								<% if current_user.nil? %>
 									| <%= link_to "High resolution image for patrons", "https://www.thespainreport.es/value/guarantee" %>
-								<% elsif @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 10 || @status == 1 %>
+								<% elsif @can_read_trial || @can_read_10 || @can_read_25 || @can_read_admin %>
 									| <%= link_to "High resolution image for patrons", 'https://image.thespainreport.es/' + File.basename(v.data) %>
 								<% else %>
 									| <%= link_to "High resolution image for patrons", "https://www.thespainreport.es/value/guarantee" %>
@@ -430,7 +430,7 @@
 							<% t.upload.versions.each do |v| %>
 								<% if current_user.nil? %>
 									| <%= link_to "Imagen de alta resolución para mecenas", "https://www.thespainreport.es/value/guarantee" %>
-								<% elsif @status == 3 && @can_read_date > Time.now || @status == 2 && @level >= 10 || @status == 1 %>
+								<% elsif @can_read_trial || @can_read_10 || @can_read_25 || @can_read_admin %>
 									| <%= link_to "Imagen de alta resolución para mecenas", 'https://image.thespainreport.es/' + File.basename(v.data) %>
 								<% else %>
 									| <%= link_to "Imagen de alta resolución para mecenas", "https://www.thespainreport.es/valor/garantizar" %>
