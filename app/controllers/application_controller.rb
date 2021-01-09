@@ -45,6 +45,7 @@ class ApplicationController < ActionController::Base
 		end
 	end
 	
+	
 	def set_country
 		require 'uri'
 		require 'net/http'

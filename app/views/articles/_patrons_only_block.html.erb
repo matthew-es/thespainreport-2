@@ -28,6 +28,7 @@
 	    	</div>
     	<% else end %>
 		
+		
 		<%# DISPLAY EXTRAS TEASER NEXT TO LABELS... %>	
 		<div class="float-left">
 			<% if controller_name == "articles" && action_name == "show" && (@article.extras_audio_title.present? || @article.extras_video_title.present?) %>
@@ -38,6 +39,7 @@
 		</div>
 		<div class="clear"></div>
 
+
 		<%# DISPLAY HOME-PAGE MINI LIST OR EXTRA ARTICLE CONTENT %>
 		<% if controller_name == "home" %>
 			<ul class="margin-top-20 margin-bottom-20">
@@ -47,6 +49,7 @@
 			</ul>
 			
 			<%= render 'users/log_in_logic' %>
+			<%= render "home/patrons_only_home" %>
 		<% elsif controller_name == "articles" && action_name == "show" %>
 			<h3>
 			<% if @article.extras_video_title.present? %>
