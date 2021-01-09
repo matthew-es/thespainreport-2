@@ -88,9 +88,8 @@ class ApplicationController < ActionController::Base
 	
 	def set_language_frame(language, frame)
 		language = language
-		sales_language = language
 		
-		if sales_language == 1
+		if language == 1
 			@language = 1
 			@stub_value = "value/"
 			@stub_increase = "value/"
@@ -98,7 +97,7 @@ class ApplicationController < ActionController::Base
 			@plans = Plan.english.all.order("price DESC")
 			@countries = Country.all.where.not(country_code: "ROW").order("name_en ASC")
 			@row = Country.where(country_code: "ROW")
-		elsif sales_language == 2
+		elsif language == 2
 			@language = 2
 			@stub_value = "valor/"
 			@stub_increase = "valor/"
@@ -108,11 +107,12 @@ class ApplicationController < ActionController::Base
 			@row = Country.where(country_code: "ROW")
 		else end
 		
+		frame = frame
 		if frame.nil?
-			if sales_language == 1 
+			if language == 1 
 				@frame = Frame.find_by(link_slug: "guarantee")
 				@frame_id = @frame.id
-			elsif sales_language == 2
+			elsif language == 2
 				@frame = Frame.find_by(link_slug: "garantizar")
 				@frame_id = @frame.id
 			else end

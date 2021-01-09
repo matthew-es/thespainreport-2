@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-	before_action :set_user, only: [:show, :edit, :update, :destroy]
+	before_action :set_user, only: [:show, :update, :destroy]
 	
 	# 1. Set up
 	# 2. Reader sign up, confirm email, first password
@@ -411,18 +411,24 @@ class UsersController < ApplicationController
 		if current_user.nil?
 			redirect_to root_url
 		elsif current_user.status == 1
-			@user = User.find_by_id(params[:id])
+			@user = User.find(params[:id])
+			set_language_frame(current_user.sitelanguage, current_user.frame.id)
 			set_status(@user)
-			set_language_frame(current_user.sitelanguage, current_user.frame_id)
-		elsif User.find_by_id(params[:id]) != current_user
+		elsif User.find(params[:id]) != current_user
 			redirect_to edit_user_path(current_user)
-			set_language_frame(current_user.sitelanguage, current_user.frame_id)
-		elsif User.find_by_id(params[:id]) == current_user
+		elsif User.find(params[:id]) == current_user
+			set_language_frame(current_user.sitelanguage, current_user.frame.id)
 			set_status(current_user)
-			set_language_frame(current_user.sitelanguage, current_user.frame_id)
 		else
 			redirect_to root_url
 		end
+		
+		rescue
+			if current_user.nil?
+				redirect_to root_url
+			else
+				redirect_to edit_user_path(current_user)
+			end
 	end
 
 	# POST /users
