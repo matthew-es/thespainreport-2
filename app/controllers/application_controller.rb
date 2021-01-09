@@ -19,32 +19,38 @@ class ApplicationController < ActionController::Base
 			
 			if @status == 3 && @can_read_date > Time.now
 				@cta = @frame.button_cta
-				@can_read_trial = true
 			elsif @status == 3 && @can_read_date < Time.now
 				@cta = @frame.button_cta_trial_over
-				@can_read_trial_over = true
 			elsif @status == 2 && @level == 0
 				@cta = @frame.button_cta_increase
-				@can_read_0 = true
 			elsif @status == 2 && @level.between?(1, 4)
 				@cta = @frame.button_cta_increase
-				@can_read_1 = true
 			elsif @status == 2 && @level.between?(5, 9)
 				@cta = @frame.button_cta_increase
-				@can_read_5 = true
 			elsif @status == 2 && @level.between?(10, 24)
 				@cta = @frame.button_cta_increase
-				@can_read_10 = true
-			elsif @status == 2 && @level >= 25
+			elsif @status == 2 && (@level >= 25)
 				@cta = @frame.button_cta_increase
-				@can_read_25 = true
 			elsif @status == 1
 				@cta = @frame.button_cta_increase
-				@can_read_admin = true
 			else end
+			
+			admin_reader = @status == 1
+			patron_reader_25 = @status == 2 && (@level >= 25)
+			patron_reader_10 = @status == 2 && @level.between?(10, 24)
+			patron_reader_5 = @status == 2 && @level.between?(5, 9)
+			patron_reader_1 = @status == 2 && @level.between?(1, 4)
+			patron_reader_0 = @status == 2 && (@level == 0)
+			reader_trial = @status == 3 && @can_read_date > Time.now
+			reader_trial_over = @status == 3 && @can_read_date < Time.now
+			
+			@can_read_level_1 = admin_reader || reader_trial || patron_reader_25 || patron_reader_10 || patron_reader_5  || patron_reader_1
+			@can_read_level_5 = admin_reader || reader_trial || patron_reader_25 || patron_reader_10 || patron_reader_5
+			@can_read_level_10 = admin_reader || reader_trial || patron_reader_25 || patron_reader_10
+			@can_read_level_25 = admin_reader || reader_trial || patron_reader_25
+			
 		end
 	end
-	
 	
 	def set_country
 		require 'uri'

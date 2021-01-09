@@ -1,6 +1,6 @@
 <% if ["Photos", "fotos"].include?(@article.type.name) %>
 	
-	<% if @can_read_trial_over || @can_read_0 || @can_read_1 || @can_read_5 %>
+	<% if !@can_read_level_10 %>
 		<div class="buy-border-bottom padding-bottom-10">
 			<p class="font-main-small">
 				<% case @language when 1 %>Patrons contributing more than...
