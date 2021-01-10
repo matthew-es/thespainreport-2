@@ -1,6 +1,6 @@
 <% if ["Patrons only", "Sólo mecenas"].include?(@article.type.name) %>
 	
-	<% if @can_read_trial_over || @can_read_0 || @can_read_1 %>
+	<% if @cannot_read_1 %>
 		<div class="buy-border-bottom padding-bottom-10">
 			<p class="font-main-small">
 				<% case @language when 1 %>Patrons contributing more than...

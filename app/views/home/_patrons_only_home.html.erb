@@ -1,24 +1,23 @@
-	<div class="buy-border-bottom padding-bottom-10">
-			<p class="font-main-small">
-				<% case @language when 1 %>Patrons contributing more than...
-				<% when 2 %>Los mecenas que contribuyen más de...
-				<% end %>
-			</p>
-			<ul class="margin-left-0 font-main-small">
-				<li>
-					<% case @language when 1 %>...€1/month can <strong>read</strong> the Patrons Only column
-					<% when 2 %>...10 euros/mes pueden <strong>leer</strong> la columna Sólo Mecenas
-					<% end %>
-				</li>
-				<li>
-					<% case @language when 1 %>...€5/month can <strong>read and listen</strong> to the Patrons Only column
-					<% when 2 %>...10 euros/mes pueden <strong>leer y escuchar</strong> la columna Sólo Mecenas
-					<% end %>
-				</li>
-			</ul>
-			
-			<div class="align-centre topbutton mobile-100"> 
-				<a href="<%= @increase %>" class="buybutton"><%= @cta %></a> 
-			</div>
-			
-		</div>
+<div class="buy-border-bottom padding-bottom-10">
+	<p class="font-main-small">
+		<% case @language when 1 %>Patrons contributing more than...
+		<% when 2 %>Los mecenas que contribuyen más de...
+		<% end %>
+	</p>
+	<ul class="margin-left-0 font-main-small">
+		<li>
+			<% case @language when 1 %>...€1/month can <strong>read</strong> the Patrons Only column
+			<% when 2 %>...10 euros/mes pueden <strong>leer</strong> la columna Sólo Mecenas
+			<% end %>
+		</li>
+		<li>
+			<% case @language when 1 %>...€5/month can <strong>read and listen</strong> to the Patrons Only column
+			<% when 2 %>...10 euros/mes pueden <strong>leer y escuchar</strong> la columna Sólo Mecenas
+			<% end %>
+		</li>
+	</ul>
+	
+	<div class="align-centre topbutton mobile-100"> 
+		<a href="<%= @increase %>" class="buybutton"><%= @cta %></a> 
+	</div>
+</div>

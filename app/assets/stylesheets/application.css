@@ -66,6 +66,7 @@ a.no-hover-bg:hover {background-color: #fff;}
 .background-color-yellow-border {border: 2px solid #F1BF00;}
 .background-color-patrons {background-color: #f1bf00; color: #fffae6;}
 .background-color-green {background-color: #00b300;}
+.background-color-brown {background-color: #663300;}
 .border-bottom-1 {border-bottom: 1px solid #AA151B;}
 .border-top-quiet {border-top: 1px solid #cccccc;}
 .border-patrons {border: 2px solid #cc7a00;}
@@ -119,6 +120,7 @@ a.no-hover-bg:hover {background-color: #fff;}
 .margin-centre {margin: 0 auto;}
 .margin-top-0 {margin-top: 0px;}
 .margin-top-2 {margin-top: 2px;}
+.margin-top-3 {margin-top: 3px;}
 .margin-top-5 {margin-top: 5px;}
 .margin-top-10 {margin-top: 10px;}
 .margin-top-20 {margin-top: 20px;}

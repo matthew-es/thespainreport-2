@@ -18,11 +18,19 @@
 		<%# DISPLAY 45-DAY FREE TRIAL LABEL FOR LOGGED-IN READERS %>
 		<% if current_user.nil? %>
 		
-		<% elsif @status == 3 && @can_read_date > Time.now %>
+		<% elsif @reader_trial %>
 			<div class="margin-right-5 float-left mobile-bottom-10">
 	    		<span class="label background-color-green font-main-tiny font-bold font-color-white">
 	    			<% case @language when 1 %>45 DAYS FREE
 	    			<% when 2 %>45 DÍAS GRATIS
+	    			<% end %>
+	    		</span>
+	    	</div>
+	    <% elsif @reader_trial_over %>
+			<div class="margin-right-5 float-left mobile-bottom-10">
+	    		<span class="label background-color-brown font-main-tiny font-bold font-color-white">
+	    			<% case @language when 1 %>TRIAL OVER
+	    			<% when 2 %>PRUEBA TERMINADA
 	    			<% end %>
 	    		</span>
 	    	</div>

@@ -61,17 +61,6 @@
 	    			<%= @article.type.name %>
 	    		</span>
 	    	</div>
-	    	
-	    	<% if current_user.nil? %>
-			<% elsif @status == 3 && @can_read == true %>
-				<div class="margin-right-5 float-left mobile-bottom-10">
-	    		<span class="label background-color-green font-color-white">
-	    			<% case @article.language_id when 1 %>45 DAYS FREE
-	    			<% when 2 %>45 DÍAS GRATIS
-	    			<% end %>
-	    		</span>
-	    	</div>
-	    	<% else end %>
 	    <% end %>
 	    
 	    <% if @article.extras_audio_title.present? || @article.extras_video_title.present? || ["Photos", "Fotos"].include?(@article.type.name) %>
@@ -86,7 +75,7 @@
 	    		</span>
 	    	</div>
 	    <% end %>
-	
+	    
 	    <% if @article.status.try(:name) == 'Updated' %>
 	    	<div class="margin-right-5 float-left mobile-bottom-10">
 	    		<span class="label background-color-black font-color-white">
@@ -99,6 +88,7 @@
 	    		</span>
 	    	</div>
 	    <% end %>
+	    
 	    
 	    <% if @article.audio_aac_id.present? %>
 	    	<div class="margin-right-5 float-left mobile-bottom-10">
@@ -138,19 +128,6 @@
 				<% else end %>
 			</div>
 		<% else end %>
-	   
-	   
-	   <%# DISPLAY 45-DAY FREE TRIAL LABEL FOR LOGGED-IN READERS %>
-		<% if current_user.nil? %>
-		<% elsif @status == 3 && @can_read_date > Time.now %>
-			<div class="margin-right-5 float-left mobile-bottom-10">
-	    		<span class="label background-color-green font-color-white">
-	    			<% case @language when 1 %>45 DAYS FREE
-	    			<% when 2 %>45 DÍAS GRATIS
-	    			<% end %>
-	    		</span>
-	    	</div>
-    	<% else end %>
 	   
 		<div class="clear"></div>
 	</div>
