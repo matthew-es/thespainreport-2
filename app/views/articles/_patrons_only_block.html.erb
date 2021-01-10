@@ -2,7 +2,7 @@
 	<div>
 		<%# DISPLAY PATRONS LABEL %>
 		<div class="float-left margin-right-5">
-			<span class="label patrons-label font-main-tiny font-bold">
+			<span class="label super-patrons-label font-main-tiny font-bold">
 				<% if controller_name == "articles" && action_name == "show" && (@article.extras_audio_title.present? || @article.extras_video_title.present? || ["Photos", "fotos"].include?(@article.type.name))  %>
 					<% case @language when 1 %>MORE FOR PATRONS
 					<% when 2 %>MÁS PARA MECENAS
@@ -14,28 +14,6 @@
 				<% end %>
 			</span>
 		</div>
-		
-		<%# DISPLAY 45-DAY FREE TRIAL LABEL FOR LOGGED-IN READERS %>
-		<% if current_user.nil? %>
-		
-		<% elsif @reader_trial %>
-			<div class="margin-right-5 float-left mobile-bottom-10">
-	    		<span class="label background-color-green font-main-tiny font-bold font-color-white">
-	    			<% case @language when 1 %>45 DAYS FREE
-	    			<% when 2 %>45 DÍAS GRATIS
-	    			<% end %>
-	    		</span>
-	    	</div>
-	    <% elsif @reader_trial_over %>
-			<div class="margin-right-5 float-left mobile-bottom-10">
-	    		<span class="label background-color-brown font-main-tiny font-bold font-color-white">
-	    			<% case @language when 1 %>TRIAL OVER
-	    			<% when 2 %>PRUEBA TERMINADA
-	    			<% end %>
-	    		</span>
-	    	</div>
-    	<% else end %>
-		
 		
 		<%# DISPLAY EXTRAS TEASER NEXT TO LABELS... %>	
 		<div class="float-left">

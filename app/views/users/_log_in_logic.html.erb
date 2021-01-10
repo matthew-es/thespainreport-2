@@ -61,21 +61,29 @@
 				</em>
 			</div>
 		
+			
 			<div class="admin-border-split margin-top-10 padding-top-10">
-				<% case @status when 1 %>
-					<%= link_to 'Admin', new_tweet_path %> |
-				<% end %>
-				<%= current_user.email %>
-				| 
-				<% case @language when 1 %> <%= link_to 'I am a patron', edit_user_path(current_user) %>
-				<% when 2 %> <%= link_to 'Yo soy mecenas', edit_user_path(current_user) %>
-				<% end %>
-				| 
-				<% case @language when 1 %> <%= link_to 'Logout', users_logout_path %>
-				<% when 2 %> <%= link_to 'Salir', users_logout_path %>
-				<% end %>
+				
+				<%= render "users/user_labels" %>
+				
+				<div class="float-left">
+					<% case @status when 1 %>
+						<%= link_to 'Send', new_tweet_path %> |
+					<% end %>
+					<%= current_user.email %>
+					| 
+					<% case @language when 1 %> <%= link_to 'I am a patron', edit_user_path(current_user) %>
+					<% when 2 %> <%= link_to 'Yo soy mecenas', edit_user_path(current_user) %>
+					<% end %>
+					| 
+					<% case @language when 1 %> <%= link_to 'Logout', users_logout_path %>
+					<% when 2 %> <%= link_to 'Salir', users_logout_path %>
+					<% end %>
+				</div>
+				<div class="clear"></div>
 			</div>
-		
+			
+			
 			<div class="admin-border-split margin-top-10 padding-top-10">
 				Problems? matthew@thespainreport.com / (0034) 647 81 81 43 / @matthewbennett
 			</div>

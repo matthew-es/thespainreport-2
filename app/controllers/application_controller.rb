@@ -35,20 +35,21 @@ class ApplicationController < ActionController::Base
 				@cta = @frame.button_cta_increase
 			else end
 			
-			@admin_reader = @status == 1
-			@patron_reader_25 = @status == 2 && (@level >= 25)
+			@admin = @status == 1
+			@super_patron = @status == 2 && (@level > 25)
+			@patron_reader_25 = @status == 2 && (@level == 25)
 			@patron_reader_10 = @status == 2 && @level.between?(10, 24)
 			@patron_reader_5 = @status == 2 && @level.between?(5, 9)
 			@patron_reader_1 = @status == 2 && @level.between?(1, 4)
 			@patron_reader_0 = @status == 2 && (@level == 0)
+			@patron = @patron_reader_0 || @patron_reader_1 || @patron_reader_5 || @patron_reader_10 || @patron_reader_25
 			@reader_trial = @status == 3 && @can_read_date > Time.now
 			@reader_trial_over = @status == 3 && @can_read_date < Time.now
 			
-			@can_read_level_1 = @admin_reader || @reader_trial || @patron_reader_25 || @patron_reader_10 || @patron_reader_5  || @patron_reader_1
-			@can_read_level_5 = @admin_reader || @reader_trial || @patron_reader_25 || @patron_reader_10 || @patron_reader_5
-			@can_read_level_10 = @admin_reader || @reader_trial || @patron_reader_25 || @patron_reader_10
-			@can_read_level_25 = @admin_reader || @reader_trial || @patron_reader_25
-			
+			@can_read_level_1 = @admin || @reader_trial|| @super_patron || @patron_reader_25 || @patron_reader_10 || @patron_reader_5  || @patron_reader_1
+			@can_read_level_5 = @admin || @reader_trial|| @super_patron || @patron_reader_25 || @patron_reader_10 || @patron_reader_5
+			@can_read_level_10 = @admin || @reader_trial|| @super_patron || @patron_reader_25 || @patron_reader_10
+			@can_read_level_25 = @admin || @reader_trial|| @super_patron || @patron_reader_25
 			@cannot_read_1 = @reader_trial_over || @patron_reader_0|| @patron_reader_1
 			@cannot_read_2 = @reader_trial_over || @patron_reader_0|| @patron_reader_1 || @patron_reader_5
 		end

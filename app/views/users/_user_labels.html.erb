@@ -1,0 +1,43 @@
+<div class="float-left meta font-main font-main-tiny margin-top-3" >
+	<% if @reader_trial %>
+		<div class="margin-right-5 float-left mobile-bottom-10">
+		<span class="label background-color-green font-color-white">
+			<% case @language when 1 %>45 DAYS FREE
+			<% when 2 %>45 DÍAS GRATIS
+			<% end %>
+		</span>
+	</div>
+	<% elsif @reader_trial_over %>
+	<div class="margin-right-5 float-left mobile-bottom-10">
+		<span class="label background-color-brown font-color-white">
+			<% case @language when 1 %>TRIAL OVER
+			<% when 2 %>PRUEBA TERMINADA
+			<% end %>
+		</span>
+	</div>
+	<% elsif @patron %>
+	<div class="margin-right-5 float-left mobile-bottom-10">
+		<span class="label patrons-label">
+			<% case @language when 1 %>PATRON
+			<% when 2 %>MECENAS
+			<% end %>
+		</span>
+	</div>
+	<% elsif @super_patron %>
+	<div class="margin-right-5 float-left mobile-bottom-10">
+		<span class="label super-patrons-label">
+			<% case @language when 1 %>SUPER PATRON
+			<% when 2 %>SUPER MECENAS
+			<% end %>
+		</span>
+	</div>
+	<% elsif @admin %>
+	<div class="margin-right-5 float-left mobile-bottom-10">
+		<span class="label background-color-black font-color-white">
+			<% case @language when 1 %>ADMIN
+			<% when 2 %>ADMIN
+			<% end %>
+		</span>
+	</div>
+	<% else end %>
+</div>

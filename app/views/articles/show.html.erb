@@ -57,7 +57,7 @@
 	    
 	    <% if ["Sólo mecenas", "Patrons only"].include?@article.type.name %>
 	    	<div class="margin-right-5 float-left mobile-bottom-10">
-	    		<span class="label patrons-label">
+	    		<span class="label super-patrons-label">
 	    			<%= @article.type.name %>
 	    		</span>
 	    	</div>
@@ -65,7 +65,7 @@
 	    
 	    <% if @article.extras_audio_title.present? || @article.extras_video_title.present? || ["Photos", "Fotos"].include?(@article.type.name) %>
 	    	<div class="margin-right-5 float-left mobile-bottom-10">
-	    		<span class="label patrons-label">
+	    		<span class="label super-patrons-label">
 	    			<% if @article.language_id == 1 %>
 						More for patrons
 					<% elsif @article.language_id == 2 %>
@@ -89,7 +89,6 @@
 	    	</div>
 	    <% end %>
 	    
-	    
 	    <% if @article.audio_aac_id.present? %>
 	    	<div class="margin-right-5 float-left mobile-bottom-10">
 	    		<span class="label background-color-black font-color-white">
@@ -97,7 +96,6 @@
 	    		</span>
 	    	</div>
 	    <% end %>
-	    
 	    
 	    <%# TRANSLATION LINKS %>
 		<% if @article.original.blank? %>

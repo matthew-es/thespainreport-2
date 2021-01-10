@@ -18,45 +18,11 @@
 				
 				<% else %>
 					<div class="patrons-background padding-10">
-						<div class="float-left meta font-main font-main-tiny margin-top-3" >
-							<% if @reader_trial %>
-								<div class="margin-right-5 float-left mobile-bottom-10">
-					    		<span class="label background-color-green font-color-white">
-					    			<% case @language when 1 %>45 DAYS FREE
-					    			<% when 2 %>45 DÍAS GRATIS
-					    			<% end %>
-					    		</span>
-					    	</div>
-					    	<% elsif @reader_trial_over %>
-							<div class="margin-right-5 float-left mobile-bottom-10">
-					    		<span class="label background-color-brown font-color-white">
-					    			<% case @language when 1 %>TRIAL OVER
-					    			<% when 2 %>PRUEBA TERMINADA
-					    			<% end %>
-					    		</span>
-					    	</div>
-					    	<% elsif @patrons %>
-							<div class="margin-right-5 float-left mobile-bottom-10">
-					    		<span class="label background-color-brown font-color-white">
-					    			<% case @language when 1 %>TRIAL OVER
-					    			<% when 2 %>MECENAS
-					    			<% end %>
-					    		</span>
-					    	</div>
-					    	<% elsif @super_patron %>
-							<div class="margin-right-5 float-left mobile-bottom-10">
-					    		<span class="label background-color-brown font-color-white">
-					    			<% case @language when 1 %>TRIAL OVER
-					    			<% when 2 %>PRUEBA TERMINADA
-					    			<% end %>
-					    		</span>
-					    	</div>
-					    	<% else end %>
-						</div>
+						<%= render "users/user_labels" %>
 						
 						<div class="float-left">
 						<% case @status when 1 %>
-							<%= link_to 'Admin', new_tweet_path %> |
+							<%= link_to 'Send', new_tweet_path %> |
 						<% end %>
 						
 						<% case @language when 1 %> <%= link_to 'I am a patron', edit_user_path(current_user) %>
