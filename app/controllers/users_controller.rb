@@ -109,15 +109,29 @@ class UsersController < ApplicationController
 					).html_safe
 				UserMailer.admin_alert(admin_subject, admin_message).deliver_now
 				
+				puts "step 1"
+				
 				session[:user_id] = user.id
+				
+				puts "step 2"
+				
 				case user.sitelanguage
 					when 1
+						
+						puts "step 3"
+						
 						UserMailer.welcome_reader(user).deliver_now
+						
+						puts "step 4"
+						
 						@url_stub = "/value/"
 					when 2
 				   		UserMailer.welcome_reader_es(user).deliver_now
 				   		@url_stub = "/valor/"
 				end
+				
+				puts "step 5"
+				
 				flash[:success] = @frame_value_now_message
 				# redirect_to @url_stub + @frame_stub
 				redirect_to edit_user_path(user)

@@ -67,7 +67,8 @@ class ArticlesController < ApplicationController
 		
 		if ["Published", "Updated"].include?@article.status.name
 			
-			@article_id = @article.id	
+			@article_id = @article.id
+			@frame_id = @article.frame.id
 			@articletweets = @article.tweets.order('created_at ASC')
 			@articlepieces = @article.pieces.published.order('created_at ASC')
 			

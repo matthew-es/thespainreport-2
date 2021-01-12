@@ -6,7 +6,6 @@ class ArticleMailer < ApplicationMailer
 	def send_article_full new_mail, user
 		@article = new_mail
 		@articletweets = @article.tweets.order('created_at ASC')
-		@articleupdates = @article.updates.published.order('created_at ASC')
 		@language = @article.language_id
 		@frame = @article.frame
 		
@@ -35,11 +34,12 @@ class ArticleMailer < ApplicationMailer
 	
 	def email_subject
 		case @article.type.name
-			when "Patrons only", "Sólo mecenas" then @emoji = "🔓"
+			when "Patrons only", "Sólo mecenas" then @emoji = "🔓 🔥 💎 📝"
+			when "Video", "Vídeo" then @emoji = "🎥"
 			when "Podcast" then @emoji = "🎧"
-			when "Notes", "Apuntes" then @emoji = "📝"
-			when "Truth & Journalism", "Verdad y Periodismo" then @emoji = "🔎"
-			else @emoji = "🟢"
+			when "Photos", "Fotos" then @emoji = "📷"
+			when "Truth & Journalism", "Verdad y Periodismo" then @emoji = "🔎 📝"
+			else @emoji = "📝"
 		end
 		
 		"#{@emoji} #{@article.type.name}: #{@article.headline}"
