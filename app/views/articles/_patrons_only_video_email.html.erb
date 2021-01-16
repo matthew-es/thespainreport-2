@@ -1,21 +1,22 @@
-<% if @article.extras_video.present? %>
-	<p>
-		<strong>
-			<% case @article.language_id when 1 %>More Video:
-			<% when 2 %>Más Vídeo:
-			<% end %>
-			<%= @article.extras_video_teaser %>
-		</strong>
-	</p>
+<% if @article.extras_videos.present? %>
 	
-	<p>
-		<%= markdown(@article.extras_video_intro).html_safe %>
-	</p>
+	<% arr = @article.extras_videos.rstrip.split("\r\n\r\n") %>
 	
-	<p>
-		<% case @article.language_id when 1 %>Video here:
-		<% when 2 %>Vídeo aquí:
-		<% end %>
-		<%= link_to @article.extras_video_teaser, article_url(@article) %>
-	</p>
+	<% arr[0..-1].each do |chunk| %>
+		<% bit1, bit2, bit3, bit4 = chunk.split("\r\n", 4) %>
+			
+			<p><strong><%= bit2 %></strong></p>
+			
+			<p><em><%= bit3 %></em></p>
+			
+			<p><%= bit4 %></p>
+			
+			<p>
+				<% case @language when 1 %><%= link_to "Watch video here", article_url(@article) %>
+				<% when 2 %><%= link_to "Mire el vídeo aquí", article_url(@article) %>
+				<% end %>
+			</p>
+		</div>
+	<% end %>
+
 <% else end %>

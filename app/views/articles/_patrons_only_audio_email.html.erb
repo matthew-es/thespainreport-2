@@ -1,21 +1,21 @@
-<% if @article.extra_audio_aac_id.present? %>
-	<p>
-		<strong>
-			<% case @article.language_id when 1 %>More Audio:
-			<% when 2 %>Más Audio:
+<% if @article.extras_audios.present? %>
+	<% arr = @article.extras_audios.rstrip.split("\r\n\r\n") %>
+	
+	<% arr[0..-1].each do |chunk| %>
+		<% bit1, bit2, bit3, bit4, bit5 = chunk.split("\r\n", 5) %>
+			
+		<p><strong><%= bit3 %></strong></p>
+					
+		<p><em><%= bit4 %></em></p>
+		
+		<p><%= bit5 %></p>
+		
+		<p>
+			<% case @language when 1 %><%= link_to "Listen to audio here", article_url(@article) %>
+			<% when 2 %><%= link_to "Escuche el audio aquí", article_url(@article) %>
 			<% end %>
-			<%= @article.extras_audio_teaser %>
-		</strong>
-	</p>
-	
-	<p>
-		<%= markdown(@article.extras_audio_intro).html_safe %>
-	</p>
-	
-	<p>
-		<% case @article.language_id when 1 %>Listen here:
-		<% when 2 %>Escuche aquí:
-		<% end %>
-		<%= link_to @article.extras_audio_teaser, article_url(@article) %>
-	</p>
+		</p>
+		
+	<% end %>
+
 <% else end %>
