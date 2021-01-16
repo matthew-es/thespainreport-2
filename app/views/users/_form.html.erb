@@ -14,12 +14,9 @@
 <div class="patrons-background padding-20 margin-bottom-20">
 	<div class="margin-bottom-10">
 		<div class="float-left">
-		<% if current_user.nil? %>
-		<% elsif current_user.sitelanguage == 1 %>
-			<%= form.submit "Save" %>
-		<% elsif current_user.sitelanguage == 2 %>
-			<%= form.submit "Guardar" %>
-		<% else end %>
+			<% case @language when 1 %><%= form.submit "Save" %>
+			<% when 2 %><%= form.submit "Guardar" %>
+			<% end %>
 		</div>
 		
 		<div class="float-left margin-top-5 margin-left-5">
@@ -38,11 +35,18 @@
 	</div>
 	
 	<div class="margin-bottom-10 admin-border-split padding-top-10">
-		<%= form.password_field :password, :class => "width-70 padding-5 font-header font-header-tiny", placeholder: "New password…" %>
+		<% case @language when 1 %><%= form.password_field :password, :class => "width-70 padding-5 font-header font-header-tiny", placeholder: "New password…" %>
+		<% when 2 %><%= form.password_field :password, :class => "width-70 padding-5 font-header font-header-tiny", placeholder: "Contraseña nueva…" %>
+		<% end %>
+		
 	</div>
 	
 	<div class="margin-bottom-10">
-		<%= form.password_field :password_confirmation, :class => "width-70 padding-5 font-header font-header-tiny", placeholder: "Confirm new password…" %>
+		<% case @language when 1 %><%= form.password_field :password_confirmation, :class => "width-70 padding-5 font-header font-header-tiny", placeholder: "Confirm new password…" %>
+		<% when 2 %><%= form.password_field :password_confirmation, :class => "width-70 padding-5 font-header font-header-tiny", placeholder: "Confirme la contraseña nueva…" %>
+		<% end %>
+		
+		
 	</div>
 	
 	<div class="margin-bottom-10 admin-border-split padding-top-10">

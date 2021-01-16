@@ -128,8 +128,8 @@ class ApplicationController < ActionController::Base
 			else end
 		else
 			@frame = Frame.find(frame)
+			@frame_id = @frame.id
 		end
-		
 		
 		@subscribe = root_url + @stub_value + @frame.link_slug
 		@increase = root_url + @stub_increase + @frame.link_slug
