@@ -49,7 +49,7 @@ class ArticleMailer < ApplicationMailer
 	def email_subject
 		case @article.type.name
 			when "Patrons only", "Sólo mecenas" then @emoji = "🔓 📝"
-			when "Video", "Vídeo" then @emoji = "🎥"
+			when "Video", "Vídeo", "Video Blog", "Vídeo Blog" then @emoji = "🎥"
 			when "Podcast" then @emoji = "🎧"
 			when "Photos", "Fotos" then @emoji = "📷"
 			when "Truth & Journalism", "Verdad y Periodismo" then @emoji = "🔎 📝"
