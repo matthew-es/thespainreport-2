@@ -3,14 +3,17 @@
 <table class="font-main-vsmall">
 	<thead>
 		<tr style="border-bottom: 1px solid #990000;">
-			<th>ID</th>
-			<th class="align-right">Total</th>
-			<th class="align-right" colspan="2">Tax</th>
-			<th class="align-right">Plan</th>
-			<th>Account</th>
-			<th>Status</th>
-			<th>Subs</th>
-			<th colspan="3"></th>
+			<th class="align-right padding-right-10">ID</th>
+			<th class="align-right padding-right-10">Created</th>
+			<th class="align-right padding-right-10">Invoice date</th>
+			<th class="align-right padding-right-10">Base</th>
+			<th class="align-right padding-right-10">Tax</th>
+			<th class="align-right padding-right-10">Tax %</th>
+			<th class="align-right padding-right-10">Total</th>
+			<th class="align-right padding-right-10">Account</th>
+			<th class="align-right padding-right-10">Status</th>
+			<th class="align-right padding-right-10">Subs</th>
+			<th colspan="2"></th>
 		</tr>
 	</thead>
 
@@ -18,12 +21,14 @@
 		<% @invoices.each do |invoice| %>
 			<tr class="<%= cycle("odd", "even") -%>">
 				<td class="align-left padding-top-2 padding-bottom-2"><%= link_to invoice.id, edit_invoice_path(invoice) %></td>
-				<td class="align-right"><%= number_to_currency((invoice.total_amount/100.to_f), unit: "€") %></td>
-				<td class="align-right"><%= number_to_currency((invoice.tax_amount/100.to_f), unit: "€") %></td>
-				<td class="align-right"><%= number_to_percentage((invoice.tax_percent.to_f*100), precision: 1) %></td>
-				<td class="align-right"><%= number_to_currency((invoice.plan_amount/100.to_f), unit: "€") %></td>
-				<td class="align-left"><%= link_to invoice.account_id, invoice.account %></td>
-				<td class="right">
+				<td class="align-right padding-right-10"><%= invoice.created_at.strftime("%d/%m/%Y") %></td>
+				<td class="align-right padding-right-10"><%= invoice.invoice_day %>/<%= invoice.invoice_month %>/<%= invoice.invoice_year %></td>
+				<td class="align-right padding-right-10"><%= number_to_currency((invoice.plan_amount/100.to_f), unit: "€") %></td>
+				<td class="align-right padding-right-10"><%= number_to_currency((invoice.tax_amount/100.to_f), unit: "€") %></td>
+				<td class="align-right padding-right-10"><%= number_to_percentage((invoice.tax_percent.to_f*100), precision: 1) %></td>
+				<td class="align-right padding-right-10"><%= number_to_currency((invoice.total_amount/100.to_f), unit: "€") %></td>
+				<td class="align-right padding-right-10"><%= link_to invoice.account_id, invoice.account %></td>
+				<td class="align-right padding-right-10">
 					<% unless invoice.account.nil?; case invoice.account.account_status when 1 %>
 						Up-to-date
 					<% when 2 %>
@@ -35,15 +40,7 @@
 					<% else end end %>
 				</td>
 				<td class="align-left"><%= link_to invoice.subscription_id, invoice.subscription %></td>
-				
-				
-				
-				
-				
-				
-				
 				<td><%= link_to 'Show', invoice %></td>
-				
 				<td><%= link_to 'D?', invoice, method: :delete, data: { confirm: 'Are you sure?' } %></td>
 			</tr>
 		<% end %>
