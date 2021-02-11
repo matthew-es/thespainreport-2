@@ -55,6 +55,8 @@ class ApplicationController < ActionController::Base
 		end
 	end
 	
+	
+	
 	def set_country
 		require 'uri'
 		require 'net/http'
@@ -95,6 +97,8 @@ class ApplicationController < ActionController::Base
 		puts data
 		puts threats
 	end
+	
+	
 	
 	def set_language_frame(language, frame)
 		language = language
