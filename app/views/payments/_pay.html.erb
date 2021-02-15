@@ -1,11 +1,14 @@
 	<% if controller_name == "payments" %>
 		<div id="payments" class="">
-		<h1 class="font-header font-header-normal line-120 font-upper"><%= @frame.emotional_quest_action %></h1>
+			<h1 class="font-header font-header-normal line-120 font-upper">
+				<%= @frame.emotional_quest_action %>
+			</h1>
 	<% elsif controller_name == "articles" || controller_name == "home" %>
 		<div id="payments" class="padding-top-20 buy-border-top margin-top-30">
-		<h3 class="margin-top-0"><%= @frame.emotional_quest_action %></h3>
+			<h3 class="margin-top-0">
+				<%= @frame.emotional_quest_action %>
+			</h3>
 	<% else end %>
-	
 	
 	
 	<div class="font-main font-main-normal">
@@ -17,6 +20,7 @@
 		</p>
 	</div>
 		
+	
 	<div class="width-98">
 		<% @plans.each do |p| %>
 			<div class="width-33 float-left margin-right-5 mobile-width">
@@ -25,13 +29,14 @@
 					<%= image_tag ('https://image.thespainreport.es/' + p.image) %>
 					<div class="mobile-margins font-main-small" style="min-height: 150px;"><%= markdown(p.description) %></div>
 					<p class="align-centre line-100">
-						<button type="submit" class="buybutton width-100 font-main-normal" id="price" value="<%= p.price %>" onclick="setAmount(this.value)"><%= number_to_currency((p.price/100.to_f), unit: "€") %></button>
+						<button type="submit" class="buybutton width-100 font-main-normal" id="price" value="<%= p.price %>" onclick="changeAmount(this.value)"><%= number_to_currency((p.price/100.to_f), unit: "€") %></button>
 					</p>
 				</div>
 			</div>
 		<% end %>
 		<div class="clear"></div>
 	</div>
+	
 	
 	<div class="margin-top-10 margin-bottom-10 padding-top-10 padding-left-20 padding-right-20 padding-bottom-10 buy-background buy-border">
 		<div id="ajax_form_one">
@@ -48,7 +53,7 @@
 							<% when 2 %>¿En qué país paga impuestos?
 							<% end %>
 							
-							<select name="select_residence_country" id="select_residence_country" onchange="changeResidence()" onclick="changeResidence()">
+							<select name="select_residence_country" id="select_residence_country" onchange="changeCountry()" onclick="changeCountry()">
 								<% case @language when 1 %><option id="" value="" disabled>--EU Countries--</option>
 								<% when 2 %><option id="" value="" disabled>--Países UE--</option>
 								<% end %>

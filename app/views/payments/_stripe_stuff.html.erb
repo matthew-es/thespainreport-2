@@ -55,13 +55,13 @@
  				payment_method: {card: card}
  			}
  		).then(function(result) {
- 			var at = document.getElementById("authenticity_token").value;
- 			var pi = document.getElementById("stripe_payment_intent_for_server").value;
- 			var si = document.getElementById("stripe_setup_intent_for_server").value;
  			var em = document.getElementById("email_for_server").value;
- 			var pa = document.getElementById("plan_amount_for_server").value;
- 			var ipc = document.getElementById("ip_country_code_for_server").value;
- 			var rc = document.getElementById("residence_country_code_for_server").value;
+ 			var at = document.getElementById("authenticity_token").value;
+			var pa = document.getElementById("plan_amount_for_server").value;
+			var rc = document.getElementById("residence_country_code_for_server").value;
+			
+			var pi = document.getElementById("stripe_payment_intent_for_server").value;
+ 			var si = document.getElementById("stripe_setup_intent_for_server").value;
  			
  			if (result.error) {
  				sendError(result)
@@ -73,11 +73,10 @@
  				'email_for_server=' + em 
  				+ '&authenticity_token=' + at 
  				+ '&plan_amount_for_server=' + pa 
- 				+ '&stripe_pm_for_server=' + pm 
+ 				+ '&residence_country_code_for_server=' + rc 
  				+ '&stripe_payment_intent_for_server=' + pi 
  				+ '&stripe_setup_intent_for_server=' + si 
- 				+ '&ip_country_code_for_server=' + ipc 
- 				+ '&residence_country_code_for_server=' + rc;
+ 				+ '&stripe_pm_for_server=' + pm;
  				
 				var xhttp = new XMLHttpRequest();
 				  xhttp.onreadystatechange = function() {

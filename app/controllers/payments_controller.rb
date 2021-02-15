@@ -19,7 +19,6 @@ class PaymentsController < ApplicationController
 			@frame = Frame.find_by(link_slug: "guarantee")
 		end
 		set_language_frame(1, @frame.id)
-		set_country
 		
 		how_much
 		@article_id = "0"
@@ -39,7 +38,6 @@ class PaymentsController < ApplicationController
 			@frame = Frame.find_by(link_slug: "garantizar")
 		end
 		set_language_frame(2, @frame.id)
-		set_country
 		
 		how_much
 		@article_id = "0"
@@ -53,6 +51,32 @@ class PaymentsController < ApplicationController
 		end
 	end
 	
+	
+	# Setup, check customer, create new customer with card, calculate amount, first payment
+	def stripe_get_payment_intent
+		@payment_intent = Stripe::PaymentIntent.create({
+			amount: 1000,
+			currency: "eur"
+		})
+		
+		Payment.create!(
+			total_amount: @payment_intent.amount,
+			external_payment_id: @payment_intent.id,
+			external_payment_status: @payment_intent.status
+			)
+		
+		@setup_intent = Stripe::SetupIntent.create({
+			usage: "off_session"
+			})
+		
+		puts @setup_intent.client_secret
+		puts @payment_intent.id
+		puts @setup_intent.id
+		render json: { secret: @setup_intent.client_secret, payment_intent: @payment_intent.id, setup_intent: @setup_intent.id }, status: 200
+	end
+	
+	
+	# Create a new reader patron with an account if the email address does not already exist
 	def tsr_new_user_patron
 		autopassword = 'L e @ 4' + SecureRandom.hex(32)
 		generate_token = SecureRandom.urlsafe_base64.to_s
@@ -88,30 +112,8 @@ class PaymentsController < ApplicationController
 			)
 	end
 	
-	# Stripe payments
-	# Setup, check customer, create new customer with card, calculate amount, first payment
-	def stripe_get_payment_intent
-		@payment_intent = Stripe::PaymentIntent.create({
-			amount: 1000,
-			currency: "eur"
-		})
-		
-		Payment.create!(
-			total_amount: @payment_intent.amount,
-			external_payment_id: @payment_intent.id,
-			external_payment_status: @payment_intent.status
-			)
-		
-		@setup_intent = Stripe::SetupIntent.create({
-			usage: "off_session"
-			})
-		
-		puts @setup_intent.client_secret
-		puts @payment_intent.id
-		puts @setup_intent.id
-		render json: { secret: @setup_intent.client_secret, payment_intent: @payment_intent.id, setup_intent: @setup_intent.id }, status: 200
-	end
 	
+	# Does the user exist? 
 	def check_user
 		if current_user.nil?
 			@user = User.find_by(email: params[:email_for_server])
@@ -120,7 +122,8 @@ class PaymentsController < ApplicationController
 		end
 	end
 	
-	# Does the user exist? Is the user the current user? Does he already have an account?
+	
+	# Is the user the current user? Does he already have an account?
 	def stripe_credit_card
 		check_user
 		
@@ -201,13 +204,18 @@ class PaymentsController < ApplicationController
 	
 	def stripe_calculate_total_amount
 		check_user
-		
 		@account = @user.account
+		set_country
 		
-		@plan_amount = params[:plan_amount_for_server]
-		@ip_country = params[:ip_country_code_for_server]
+		@ip_country = @ip_lookup_country
 		@residence_country = params[:residence_country_code_for_server]
 		@card_country = @account.stripe_payment_method_card_country
+		
+		puts @ip_country
+		puts @residence_country
+		puts @card_country
+		
+		@plan_amount = params[:plan_amount_for_server]
 		@payment_method = @account.stripe_payment_method
 		@payment_intent_for_server = params[:stripe_payment_intent_for_server]
 		
@@ -237,7 +245,16 @@ class PaymentsController < ApplicationController
 			@vat_country = @card_country
 		end
 		
-		@vat_rate = Country.find_by(country_code: @vat_country).tax_percent
+		puts @vat_country
+		
+		country = Country.find_by(country_code: @vat_country)
+		
+		if country.nil?
+			@vat_rate = 0
+		else
+			@vat_rate = country.tax_percent
+		end
+		
 		vat_calc = @plan_amount.to_f * @vat_rate
 		total_calc = @plan_amount.to_f + vat_calc
 		

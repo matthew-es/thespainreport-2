@@ -63,7 +63,6 @@ class ArticlesController < ApplicationController
 		end
 		set_language_frame(@article.language_id, frame)
 		set_status(current_user) unless current_user.nil?
-		set_country
 		
 		if ["Published", "Updated"].include?@article.status.name
 			

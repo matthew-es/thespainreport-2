@@ -2,7 +2,6 @@ class HomeController < ApplicationController
 	def index
 		set_language_frame(1, nil)
 		set_status(current_user) unless current_user.nil?
-		set_country
 		
 		@article_id = "0"
 		@latestmain = Article.english.published.latestmain
@@ -23,7 +22,6 @@ class HomeController < ApplicationController
 	def es
 		set_language_frame(2, nil)
 		set_status(current_user) unless current_user.nil?
-		set_country
 		
 		@article_id = "0"
 		@latestmain = Article.spanish.published.latestmain

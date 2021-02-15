@@ -70,7 +70,7 @@ class ApplicationController < ActionController::Base
 		response = http.request(request)
 		data = JSON.parse(response.read_body)
 		
-		@ip_country = data["country_code"]
+		@ip_lookup_country = data["country_code"]
 		@ip_address = data["ip"]
 		
 		puts @ip_country
