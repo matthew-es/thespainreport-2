@@ -17,8 +17,10 @@
 	
 	root 'home#index'
 	
-	get 'signup' => 'users#signup'
-	get 'apuntese' => 'users#apuntese'
+	get 'signup' => redirect('newsletter')
+	get 'newsletter' => 'users#signup'
+	get 'apuntese' => redirect('boletin')
+	get 'boletin' => 'users#apuntese'
 	post 'new_reader' => 'users#new_reader'
 	
 	get 'users/login' => 'users#login'

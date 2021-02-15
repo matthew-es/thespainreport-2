@@ -17,15 +17,19 @@
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-CB6TBCMP88"></script>
-		<script>
-		  window.dataLayer = window.dataLayer || [];
-		  function gtag(){dataLayer.push(arguments);}
-		  gtag('js', new Date());
 		
-		  gtag('config', 'G-CB6TBCMP88');
-		</script>
+		<% if Rails.env.development? %>
+		<% elsif Rails.env.production? %>var stripe = Stripe('pk_live_f3zUjE1jlVSKmQ5yN6F6Ad5D00ccfaQL8m');
+			<!-- Global site tag (gtag.js) - Google Analytics -->
+			<script async src="https://www.googletagmanager.com/gtag/js?id=G-CB6TBCMP88"></script>
+			<script>
+			  window.dataLayer = window.dataLayer || [];
+			  function gtag(){dataLayer.push(arguments);}
+			  gtag('js', new Date());
+			
+			  gtag('config', 'G-CB6TBCMP88');
+			</script>
+		<% else end %>
 		
 		
 		<% if controller_name == "home" || controller_name == "payments" || controller_name == "articles" && action_name == "show" %>
