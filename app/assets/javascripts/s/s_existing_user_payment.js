@@ -12,7 +12,7 @@ function setupExistingpayment() {
 	var xhttp = new XMLHttpRequest();
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 1 || 2 || 3) {
-	    	var content = 'Doing some sums for the tax man…<br />' + '<img src="<%= asset_path('ajax-loader.gif') %>" class="ajax_form_message_image" id="ajax_form_message_image" />';
+	    	var content = 'Doing some sums for the tax man…<br />' + '<img src="<%= asset_path(\'ajax-loader.gif\') %>" class="ajax_form_message_image" id="ajax_form_message_image" />';
 		    document.getElementById("ajax_form_message").style.display = "block";
 		    document.getElementById("ajax_form_message").innerHTML = content;
 	    }
