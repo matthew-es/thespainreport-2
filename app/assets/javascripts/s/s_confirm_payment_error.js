@@ -27,7 +27,9 @@ function sendError(result) {
  		// Display the server solution message to the user
  		xhttp.onreadystatechange = function() {
  			if (this.readyState == 1 || 2 || 3) {
-	    	var content = 'Checking card…<br />' + '<img src="<%= asset_path('ajax-loader.gif') %>" class="ajax_form_message_image" id="ajax_form_message_image" />';
+	    	
+	    		var content = 'Checking card…<br />' + '<img src="<%= asset_path(\'ajax-loader.gif\') %>" class="ajax_form_message_image" id="ajax_form_message_image" />';
+	    	
 	    	document.getElementById("ajax_form_message").style.display = "block";
 	    	document.getElementById("ajax_form_message").className = "margin-top-10 padding-10 alert-warning";
 	    	document.getElementById("ajax_form_message").innerHTML = content;

@@ -3,7 +3,6 @@ function preciseTaxes( num, precision ) {
 	    return (+(Math.round(+(num + 'e' + precision)) + 'e' + -precision)).toFixed(precision);
 	}
 
-
 // How much does the reader want to contribute? How much tax is applicable..?
 
 function startAmount() {
