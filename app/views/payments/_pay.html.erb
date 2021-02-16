@@ -53,7 +53,7 @@
 							<% when 2 %>¿En qué país paga impuestos?
 							<% end %>
 							
-							<select name="select_residence_country" id="select_residence_country" onchange="changeCountry()" onclick="changeCountry()">
+							<select name="select_residence_country" id="select_residence_country" onchange="changeCountry()" onclick="changeCountry()" onfocus="getSetup()">
 								<% case @language when 1 %><option id="" value="" disabled>--EU Countries--</option>
 								<% when 2 %><option id="" value="" disabled>--Países UE--</option>
 								<% end %>
@@ -100,7 +100,7 @@
 				
 				<div class="font-payment margin-top-10">
 					<% if current_user.nil? || !current_user.account.present? || !current_user.account.stripe_payment_method.present? %>
-						<div id="card-element" onmouseover="getSetup(); this.onmouseover = null">
+						<div id="card-element" onmouseover="getSetup()">
 						<!-- A Stripe Element will be inserted here. -->
 						</div>
 						<div id="card-errors" role="alert"></div>
