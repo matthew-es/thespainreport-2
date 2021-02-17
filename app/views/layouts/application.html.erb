@@ -16,29 +16,19 @@
 		<%= javascript_include_tag 'application' %>
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		
-		
-		<% if Rails.env.development? %>
-		<% elsif Rails.env.production? %>
-			<!-- Global site tag (gtag.js) - Google Analytics -->
-			<script async src="https://www.googletagmanager.com/gtag/js?id=G-CB6TBCMP88"></script>
-			<script>
-			  window.dataLayer = window.dataLayer || [];
-			  function gtag(){dataLayer.push(arguments);}
-			  gtag('js', new Date());
-			
-			  gtag('config', 'G-CB6TBCMP88');
-			</script>
-		<% else end %>
-		
+	</head>
+	<body>
+		<%= yield %>
 		
 		<% if controller_name == "home" || controller_name == "payments" || controller_name == "articles" && action_name == "show" %>
 			<%= javascript_include_tag 's/s_amounts' %>
 			<%= javascript_include_tag 's/s_country' %>
 			<%= javascript_include_tag 's/s_email' %>
+			
+			<script src="https://js.stripe.com/v3"></script>
 			<%= javascript_include_tag 's/s_stripe_intents' %>
 			<%= javascript_include_tag 's/s_stripe_form_submit' %>
-			<%= javascript_include_tag 's/s_confirm_payment' %>
+			<%= javascript_include_tag 's/s_stripe_confirm_payment' %>
 			
 			<script type="text/javascript">
 				// Set up things on page load...
@@ -49,9 +39,18 @@
 				}, false);
 			</script>
 		<% else end %>
-
-	</head>
-	<body>
-		<%= yield %>
+		
+		
+		<% if Rails.env.production? %>
+			<!-- Global site tag (gtag.js) - Google Analytics -->
+			<script async src="https://www.googletagmanager.com/gtag/js?id=G-CB6TBCMP88"></script>
+			<script>
+			  window.dataLayer = window.dataLayer || [];
+			  function gtag(){dataLayer.push(arguments);}
+			  gtag('js', new Date());
+			
+			  gtag('config', 'G-CB6TBCMP88');
+			</script>
+		<% else end %>
 	</body>
 </html>

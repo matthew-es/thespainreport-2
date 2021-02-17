@@ -53,7 +53,7 @@
 							<% when 2 %>¿En qué país paga impuestos?
 							<% end %>
 							
-							<select name="select_residence_country" id="select_residence_country" onchange="changeCountry()" onclick="changeCountry()" onfocus="getSetup()">
+							<select name="select_residence_country" id="select_residence_country" onfocus="getSetup()" onchange="changeCountry()" onclick="changeCountry()" >
 								<% case @language when 1 %><option id="" value="" disabled>--EU Countries--</option>
 								<% when 2 %><option id="" value="" disabled>--Países UE--</option>
 								<% end %>
@@ -225,6 +225,5 @@
 		</div>
 		
 <%= render "payments/server_stuff" %>
-<%= render "payments/stripe_stuff" %>
 
 </div>
