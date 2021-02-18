@@ -122,16 +122,16 @@
 				<div class="font-payment">Increase your <%= @frame.money_word_singular %> by € <input type="number" /> €<span id="plan_amount"></span>/month:</div>
 			<% end %>
 			
-			<div id="ajax_form_message" class="margin-top-10 padding-10 alert-warning" style="display:none;">
+			<div id="ajax_form_message" class="margin-top-10 padding-10 buy-border" style="display:none;">
 			</div>
 			
-			<div id="ajax_form_confirm" class="margin-top-10 alert-warning padding-10" style="display: none;">
+			<div id="ajax_form_confirm" class="margin-top-10 padding-10 buy-border" style="display: none;">
 				<div class="width-50 align-left margin-centre">
 					Plan amount: <span id="confirm_plan_amount"></span><br />
 					VAT rate: <span id="confirm_vat_rate"></span><br />
 					VAT amount: <span id="confirm_vat_amount"></span><br />
 					Total amount: <span id="confirm_total_amount"></span><br />
-					<button id="confirm_first_payment" class="margin-top-10 width-50 padding-5 font-main-small" onclick="confirmPayment()">Confirm <%= @frame.money_word_singular %></button>
+					<button id="confirm_first_payment" class="margin-top-10 padding-5 buybutton font-main-normal" onclick="confirmPayment()">Confirm <%= @frame.money_word_singular %></button>
 					<button id="confirm_sca_payment" onclick="ConfirmScaPayment()" style="display:none;" data-secret="">Re-confirm SCA Payment</button>
 				</div>
 			</div>

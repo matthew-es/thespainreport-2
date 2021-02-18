@@ -1,0 +1,13 @@
+	<% case Rails.env when "development" %>var stripe = Stripe('pk_test_oUZEXSyy5GEIblpAxKNIvs5X');
+	<% when "production" %>var stripe = Stripe('pk_live_f3zUjE1jlVSKmQ5yN6F6Ad5D00ccfaQL8m');
+	<% end %>
+	
+	var ajax_image = '<br /><img src="<%= asset_path('ajax-loader.gif') %>" class="ajax_form_message_image" id="ajax_form_message_image" />';
+	
+	var elements = stripe.elements({
+		<% if @language == 2 %>
+			locale: 'es'
+		<% else %>
+			locale: 'en'
+		<% end %>
+	});

@@ -379,12 +379,11 @@ class PaymentsController < ApplicationController
 		    total_support: @new_total_support
 		    )
 		    
-		    if @account.payments.count > 1
-				render json: {message: ""}, status: 200
+		    if @account.payments.count > 0
+				render json: {message: ""}, status: 200 and return
 			else
-				render json: {message: ""}, status: 201
+				render json: {message: ""}, status: 201 and return
 			end
-			
 		rescue Stripe::CardError => e
 			@payment = @account.payments.last
 			@payment.update(
@@ -413,7 +412,6 @@ class PaymentsController < ApplicationController
 			render json: {message: "A problem has ocurred. Your card has not been charged. Please reload the page and try again."}, status: 400
 		end
 	end
-
 	
 	def stripe_payment_log_details
 		@user = User.find_by_email(params[:email_for_server])

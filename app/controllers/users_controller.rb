@@ -423,6 +423,7 @@ class UsersController < ApplicationController
 	# GET /users/1/edit
 	def edit
 		if current_user.nil?
+			puts "current_user nil cannot edit user"
 			redirect_to root_url
 		elsif current_user.status == 1
 			@user = User.find(params[:id])
@@ -434,11 +435,13 @@ class UsersController < ApplicationController
 			set_language_frame(current_user.sitelanguage, current_user.frame.id)
 			set_status(current_user)
 		else
+			puts "some other user edit problem"
 			redirect_to root_url
 		end
 		
 		rescue
 			if current_user.nil?
+				puts "edit action failed, rescued, generic home page redirect"
 				redirect_to root_url
 			else
 				redirect_to edit_user_path(current_user)

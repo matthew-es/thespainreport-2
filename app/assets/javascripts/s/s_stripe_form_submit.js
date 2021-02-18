@@ -1,15 +1,3 @@
-	<% case Rails.env when "development" %>var stripe = Stripe('pk_test_oUZEXSyy5GEIblpAxKNIvs5X');
-	<% when "production" %>var stripe = Stripe('pk_live_f3zUjE1jlVSKmQ5yN6F6Ad5D00ccfaQL8m');
-	<% end %>
-	
-	var elements = stripe.elements({
-		<% if @language == 2 %>
-			locale: 'es'
-		<% else %>
-			locale: 'en'
-		<% end %>
-	});
-	
 	var style = {
 		base: {
 			color: '#32325d',
@@ -63,6 +51,9 @@
  			if (result.error) {
  				sendError(result)
  			} else {
+ 				// Hide send button
+ 				document.getElementById("card-button").style.display = "none";
+ 				
  				// Send stuff to server to check user/account and calculate VAT
  				var pm = result.setupIntent.payment_method;
  				
@@ -78,7 +69,7 @@
 				var xhttp = new XMLHttpRequest();
 				  xhttp.onreadystatechange = function() {
 				    if (this.readyState == 1 || 2 || 3) {
-				    	var content = 'Doing some sums for the tax man…<br />' + '<img src="<%= asset_path('ajax-loader.gif') %>" class="ajax_form_message_image" id="ajax_form_message_image" />';
+				    	var content = 'Doing some sums for the tax man…<br />' + ajax_image;
 					    document.getElementById("ajax_form_message").style.display = "block";
 					    document.getElementById("ajax_form_message").innerHTML = content;
 				    }

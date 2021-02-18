@@ -87,6 +87,7 @@ a.no-hover-bg:hover {background-color: #fff;}
 .patrons-background {background-color: #fffae6;}
 .patrons-label {background-color: #AA151B;; color: #FFFFFF;}
 .super-patrons-label {background-color: #AA151B;; color: #F1BF00;}
+.buy-border {border: 2px dashed #F1BF00;}
 .buy-border-top {border-top: 2px dashed #F1BF00;}
 .buy-border-bottom {border-bottom: 2px dashed #F1BF00;}
 .buy-background {background-color: #fffae6;}
