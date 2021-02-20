@@ -42,9 +42,11 @@
  		).then(function(result) {
  			var em = document.getElementById("email_for_server").value;
  			var at = document.getElementById("authenticity_token").value;
+ 			var la = document.getElementById("language_for_server").value;
+ 			var fr = document.getElementById("frame_for_server").value;
+ 			
 			var pa = document.getElementById("plan_amount_for_server").value;
 			var rc = document.getElementById("residence_country_code_for_server").value;
-			
 			var pi = document.getElementById("stripe_payment_intent_for_server").value;
  			var si = document.getElementById("stripe_setup_intent_for_server").value;
  			
@@ -59,6 +61,8 @@
  				
  				var string_for_server = 
  				'email_for_server=' + em 
+ 				+ '&language_for_server=' + la
+ 				+ '&frame_for_server=' + fr
  				+ '&authenticity_token=' + at 
  				+ '&plan_amount_for_server=' + pa 
  				+ '&residence_country_code_for_server=' + rc 

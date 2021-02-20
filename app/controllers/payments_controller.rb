@@ -51,6 +51,14 @@ class PaymentsController < ApplicationController
 		end
 	end
 	
+	def payment_messages
+		case @language when "1"
+			@success_first = "Well done! Your payment has succeeded. Welcome aboard. Please check your email now."
+		when "2"
+			@success_first = "¡Enhorabuena! Su pago se ha realizado con éxito. Bienvenido a bordo. Mire su correo electrónico"
+		end
+	end
+	
 	
 	# Setup, check customer, create new customer with card, calculate amount, first payment
 	def stripe_get_payment_intent
@@ -78,20 +86,7 @@ class PaymentsController < ApplicationController
 	
 	# Create a new reader patron with an account if the email address does not already exist
 	def tsr_new_user_patron
-		autopassword = 'L e @ 4' + SecureRandom.hex(32)
-		generate_token = SecureRandom.urlsafe_base64.to_s
-		@new_tsr_user = User.create!(
-			email: params[:email_for_server],
-			confirm_token: generate_token,
-			password: autopassword,
-			password_confirmation: autopassword,
-			password_reset_sent_at: Time.zone.now,
-			status: 2,
-			sitelanguage: 1,
-			emails: 1,
-			emaillanguage: 1,
-			email_confirmed: false
-			)
+		Patrons::CreateNewPatron.process(params)
 	end
 	
 	def tsr_new_account
@@ -297,7 +292,9 @@ class PaymentsController < ApplicationController
 	
 	def stripe_first_payment
 		check_user
-		
+		@language = params[:language_for_server]
+		payment_messages
+
 		@account = @user.account
 		@account_id = @account.id
 		@residence_country = @account.residence_country
@@ -380,7 +377,7 @@ class PaymentsController < ApplicationController
 		    )
 		    
 		    if @account.payments.count > 0
-				render json: {message: ""}, status: 200 and return
+				render json: {message: @success_first}, status: 200 and return
 			else
 				render json: {message: ""}, status: 201 and return
 			end

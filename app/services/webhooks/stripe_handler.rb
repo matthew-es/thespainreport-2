@@ -69,38 +69,35 @@ module Webhooks
                     UserMailer.admin_alert(admin_subject, admin_message).deliver_now
                     
                 when 'payment_intent.succeeded'
-                    @payment = Payment.find_by(external_payment_id: event.data["data"]["object"]["id"])
-                    @payment.update(
-                        external_payment_status: event.data["data"]["object"]["status"]
-                        )
-                   
-                    account = Account.find_by(stripe_customer_id: event.data["data"]["object"]["customer"])
-                    accountowner = User.find_by(account_id: account, account_role: 1)
+                    stripe_event_id = event.data["id"]
+                    stripe_event_type = event.data["type"]
+                    stripe_object_id = event.data["data"]["object"]["id"]
+                    stripe_object_status = event.data["data"]["object"]["status"]
+                    stripe_customer_id = event.data["data"]["object"]["customer"]
                     
-                    user = "matbenet77@gmail.com"
-                    user_subject = "Funds received. Thank you for your support…!"
-                    user_message = (
-                        "Thank you very much for guaranteeing this independent journalism…!" + "<br /><br />" + 
-                        "Your account ID: #{account.id}" + "<br />" +
-                        "Your email: #{accountowner.email}" + "<br />" +
-                        "Funds received: € #{event.data["data"]["object"]["amount"]/100.to_f}" + "<br /><br />" + 
-                        "All of the regular funds from hundreds of reader patrons really do add up to make this possible." + "<br /><br />" +
-                        "More facts, reality, truth and context about how Spain is really changing."
-                        ).html_safe
-                    UserMailer.user_alert(user, user_subject, user_message).deliver_now
+                    amount = event["data"]["data"]["object"]["amount"] ? event["data"]["data"]["object"]["amount"]/100.to_f : "0"
                     
-                    admin_subject = "New funds: €#{event.data["data"]["object"]["amount"]/100.to_f} from #{account.user.email}"
+                    account = Account.find_by(stripe_customer_id: stripe_customer_id)
+                    account_id = account.id
+                    account_owner = User.find_by(account_id: account_id, account_role: 1)
+                    account_email = account_owner.email
+                    language = account_owner.sitelanguage
+                
+                    admin_subject = "€#{amount} from #{account_email}"
                     admin_message = (
-                         "Event ID: #{event.data["id"]}" + "<br />" + 
-                         "Object ID: #{event.data["data"]["object"]["id"]}" + "<br />" + 
-                         "Stripe ID: #{event.data["data"]["object"]["customer"]}" + "<br />" +
-                         "Account ID: #{account.id}" + "<br />" +
-                         "Customer email: #{account.user.email}" + "<br />" +
-                         "Type: #{event.data["type"]}" + "<br />" + 
-                         "Amount: € #{event.data["data"]["object"]["amount"]/100.to_f}"
+                         "Account ID: #{account_id}" + "<br />" +
+                         "Customer email: #{account_email}" + "<br /><br />" +
+                         "Event ID: #{stripe_event_id}" + "<br />" + 
+                         "Object ID: #{stripe_object_id}" + "<br />" + 
+                         "Customer ID: #{stripe_customer_id}" + "<br />" +
+                         "Type: #{stripe_event_type}" + "<br />" + 
+                         "Amount: € #{amount}"
                         ).html_safe
-                    UserMailer.admin_alert(admin_subject, admin_message).deliver_now
-                    
+
+                    @payment = Payment.find_by(external_payment_id: stripe_object_id)
+                    @payment.update(external_payment_status: stripe_object_status)
+                    PaymentMailer.payment_success(account_id, account_email, language, amount).deliver_now
+                    PaymentMailer.payment_admin_message(admin_subject, admin_message).deliver_now
             end
         end
     end

@@ -7,13 +7,14 @@
 	<input type="hidden" name="ip_address_for_server" id="ip_address_for_server" value="">
 	<input type="hidden" name="residence_country_code_for_server" id="residence_country_code_for_server" value="">
 	<input type="hidden" name="email_for_server" id="email_for_server" value="" />
+	<input type="hidden" name="language_for_server" id="language_for_server" value="<%= @language %>" />
 	
 	<input type="hidden" name="plan_amount_for_server" id="plan_amount_for_server" value="" />
 	<input type="hidden" name="vat_rate_for_server" id="vat_rate_for_server" value="" />
 	<input type="hidden" name="vat_amount_for_server" id="vat_amount_for_server" value="" />
 	<input type="hidden" name="total_amount_for_server" id="total_amount_for_server" value="" />
 	
-	<input type="hidden" name="frame_id_for_server" id="frame_id_for_server" value="<%= @frame.id %>" />
+	<input type="hidden" name="frame_for_server" id="frame_for_server" value="<%= @frame.id %>" />
 	<input type="hidden" name="frame_link_slug_for_server" id="frame_link_slug_for_server" value="<%= @frame.link_slug %>" />
 	<input type="hidden" name="frame_emotional_quest_action_for_server" id="frame_emotional_quest_action_for_server" value="<%= @frame.emotional_quest_action %>" />
 	<input type="hidden" name="frame_money_word_singular_for_server" id="frame_money_word_singular_for_server" value="<%= @frame.money_word_singular %>" />

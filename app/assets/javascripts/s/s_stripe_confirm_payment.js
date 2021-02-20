@@ -3,7 +3,8 @@
 function confirmPayment() {
 	var e = document.getElementById("email_for_server").value;
  	var at = document.getElementById("authenticity_token").value;
- 	var cid = document.getElementById("frame_id_for_server").value;
+ 	var la = document.getElementById("language_for_server").value;
+ 	var cid = document.getElementById("frame_for_server").value;
  	var cls = document.getElementById("frame_link_slug_for_server").value;
  	var ceq = document.getElementById("frame_emotional_quest_action_for_server").value;
  	var cmw = document.getElementById("frame_money_word_singular_for_server").value;
@@ -13,10 +14,12 @@ function confirmPayment() {
  	var pa = document.getElementById("plan_amount_for_server").value;
  	var va = document.getElementById("vat_amount_for_server").value;
  	var ta = document.getElementById("total_amount_for_server").value;
+ 	
  	var string_for_server = 
  	'email_for_server=' + e
  	+ '&authenticity_token=' + at
- 	+ '&frame_id_for_server=' + cid 
+ 	+ '&language_for_server=' + la
+ 	+ '&frame_for_server=' + cid 
  	+ '&frame_link_slug_for_server=' + cls
  	+ '&frame_emotional_quest_action_for_server=' + ceq
  	+ '&frame_money_word_singular_for_server=' + cmw 
@@ -49,10 +52,11 @@ function confirmPayment() {
 	    	document.getElementById("ajax_form_message").innerHTML = details["message"];
 	    }
 	    if (this.readyState == 4 && this.status == 200) {
-	     document.getElementById("ajax_form_message").style.display = "none";
-	     document.getElementById("ajax_form_confirm").style.display = "none";
-	     document.getElementById("ajax_form_welcome").style.display = "block";
-	     document.getElementById("ajax_form_welcome_new").style.display = "inline";
+			var details = JSON.parse(this.responseText);
+			document.getElementById("ajax_form_confirm").style.display = "none";
+			document.getElementById("ajax_form_message").style.display = "block";
+			document.getElementById("ajax_form_message").className = "margin-top-10 padding-10 alert-success";
+			document.getElementById("ajax_form_message").innerHTML = details["message"];
 	    }
 	    if (this.readyState == 4 && this.status == 201) {
 	     document.getElementById("ajax_form_message").style.display = "none";

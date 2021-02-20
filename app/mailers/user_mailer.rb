@@ -20,13 +20,18 @@ class UserMailer < ApplicationMailer
     
     def welcome_reader(user)
         @user = user
-        @frame = Frame.find(@user.frame_id)
-        @subscribe = root_url + "value/" + @frame.link_slug
+        emoji = ("\u2705").force_encoding('utf-8')
         
-        @latestarticles = Article.published.english.lastten
+        case @user.sitelanguage when 1
+            @latestarticles = Article.published.english.lastten
+            subject = emoji + " Welcome: click this link to confirm your email"
+        when 2
+            @latestarticles = Article.published.spanish.lastten
+            subject = emoji + " Bienvenido: haga clic en este enlace para confirmar su correo"
+        end
         
         headers 'X-SES-CONFIGURATION-SET' => "Emails"
-        mail(to: @user.email, subject: "✅ Welcome: click this link to confirm your email")
+        mail(to: @user.email, subject: subject)
     end
     
     def welcome_reader_es(user)

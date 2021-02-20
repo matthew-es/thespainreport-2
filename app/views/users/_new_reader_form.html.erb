@@ -8,16 +8,16 @@
 	<%= form_tag '/new_reader' do |f| %>
 		<div class="width-100">
 			<div class="float-left margin-right-10 width-100 margin-top">
-				<input type="email" name="email" id="email" class="padding-10 width-90" placeholder="<%= @frame.email_reader_placeholder %>" />
+				<input type="email_for_server" name="email_for_server" id="email_for_server" class="padding-10 width-90" placeholder="<%= @frame.email_reader_placeholder %>" />
 			</div>
 			<div class="float-left margin-top-5">
 				<button type="submit" class="padding-7 font-main-small"><%= @frame.email_reader_button %></button>
 			</div>
 			<div class="clear"></div>
 		</div>
-		<input type="hidden" id="set_language" name="set_language" value="<%= @language %>" />
-		<input type="hidden" id="article_id" name="article_id" value="<%= @article_id %>" />
-		<input type="hidden" id="frame_id" name="frame_id" value="<%= @frame_id %>" />
+		<input type="hidden" id="language_for_server" name="language_for_server" value="<%= @language %>" />
+		<input type="hidden" id="article_for_server" name="article_for_server" value="<%= @article_id %>" />
+		<input type="hidden" id="frame_for_server" name="frame_for_server" value="<%= @frame_id %>" />
 	<% end %>
 	
 	<% flash.each do |key, value| %>

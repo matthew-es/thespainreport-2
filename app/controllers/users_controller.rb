@@ -38,107 +38,22 @@ class UsersController < ApplicationController
 	end
 	
 	def new_reader
-		autopassword = 'L e @ 4' + SecureRandom.hex(32)
-		generate_token = SecureRandom.urlsafe_base64.to_s
+		user = User.find_by(email: params[:email_for_server])
+		url_path = URI(request.referer).path
 		
-		@user = User.find_by(email: params[:email])
-		@article_id = params[:article_id]
-		@frame = Frame.find_by(id: params[:frame_id])
-		@frame_id = @frame.id
-		@frame_quest = @frame.emotional_quest_action
-		@frame_value_now_message = @frame.emotional_quest_role
-		@frame_stub = @frame.link_slug
-		
-		case @article_id
-			when "0"
-				case URI(request.referer).path
-					when "/" then sign_up_article = "/"
-					when "/es" then sign_up_article = "/es"
-					when "/signup" then sign_up_article = "/signup"
-					when "/apuntese" then sign_up_article = "/apuntese"
-				end
-			else
-				a = Article.find(@article_id)
-				sign_up_article = a.headline
-		end
-		
-		if @user.nil?
-			begin
-				user = User.create!(
-				email: params[:email],
-				confirm_token: generate_token,
-				password: autopassword,
-				password_confirmation: autopassword,
-				password_reset_sent_at: Time.zone.now,
-				status: 3,
-				level_amount: 0,
-				can_read: true,
-				can_read_date: Time.zone.now + 45.days,
-				frame_id: @frame_id,
-				sitelanguage: params[:set_language],
-				emails: 1,
-				emaillanguage: params[:set_language],
-				email_confirmed: false
-				)
-				
-				Bookmark.create!(
-					user_id: user.id,
-					new_email_reader_article: true,
-					article_id: @article_id,
-					article_headline: sign_up_article,
-					frame_id: @frame_id,
-					frame_emotional_quest_action: @frame_quest
-					)
-				
-				account = Account.create!(
-					user_id: user.id,
-					account_status: 4,
-					account_status_date: Time.zone.now,
-					conversation_status: 1,
-					total_support: 0
-					)
-				
-				user.update(
-					account_id: account.id,
-					account_role: 1
-					)
-				
-				admin_subject = "✅ New reader: #{user.email}"
-				admin_message = (
-					"Email: #{user.email}" + "<br />" + "Language: #{user.sitelanguage}" + "<br />" + "Article: #{sign_up_article}" + "<br />" + "Frame: #{@frame_quest}"
-					).html_safe
-				UserMailer.admin_alert(admin_subject, admin_message).deliver_now
-				
-				puts "step 1"
-				
-				session[:user_id] = user.id
-				
-				puts "step 2"
-				
-				case user.sitelanguage
-					when 1
-						
-						puts "step 3"
-						
-						UserMailer.welcome_reader(user).deliver_now
-						
-						puts "step 4"
-						
-						@url_stub = "/value/"
-					when 2
-				   		UserMailer.welcome_reader_es(user).deliver_now
-				   		@url_stub = "/valor/"
-				end
-				
-				puts "step 5"
-				
-				flash[:success] = @frame_value_now_message
-				# redirect_to @url_stub + @frame_stub
-				redirect_to edit_user_path(user)
-			rescue Exception => e
+		if user.nil?
+			newpatron = Patrons::CreateNewPatron.process(params, url_path)
+			
+			case newpatron.sitelanguage
+				when 1 then message = "Thanks for signing up..."
+				when 2 then message = "Gracias por apuntarse..."
 			end
+			
+			session[:user_id] = newpatron.id
+			flash[:success] = message
+			redirect_to edit_user_path(newpatron)
 		else
-			case params[:set_language]
+			case params[:language_for_server]
 				when "1" then @message = "Try again…"
 				when "2" then @message = "Inténtelo de nuevo…"
 			end
@@ -149,20 +64,14 @@ class UsersController < ApplicationController
 	
 	def confirm_email
 		default_frame_eng
-		
 		@user = User.find_by_confirm_token(params[:id])
-		@user.update(
-			email_confirmed: true
-			)
+		@user.update(email_confirmed: true)
 	end
 	
 	def confirmar_correo
 		default_frame_es
-		
 		@user = User.find_by_confirm_token(params[:id])
-		@user.update(
-			email_confirmed: true
-			)
+		@user.update(email_confirmed: true)
 	end
 	
 	
