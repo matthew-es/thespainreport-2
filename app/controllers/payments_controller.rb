@@ -191,10 +191,6 @@ class PaymentsController < ApplicationController
 		@residence_country = params[:residence_country_code_for_server]
 		@card_country = @account.stripe_payment_method_card_country
 		
-		puts @ip_country
-		puts @residence_country
-		puts @card_country
-		
 		@plan_amount = params[:plan_amount_for_server]
 		@payment_method = @account.stripe_payment_method
 		@payment_intent_for_server = params[:stripe_payment_intent_for_server]
@@ -279,9 +275,10 @@ class PaymentsController < ApplicationController
 		check_user
 		@language = params[:language_for_server]
 		payment_messages
-
+	
 		@account = @user.account
 		@account_id = @account.id
+
 		@residence_country = @account.residence_country
 		@card_country = @account.stripe_payment_method_card_country
 		@vat_country = @account.vat_country
@@ -294,6 +291,9 @@ class PaymentsController < ApplicationController
 		@total_amount = params[:total_amount_for_server]
 		@payment = Payment.where(account_id: @account_id).last
 		
+		puts @payment
+		puts "Payment has been found..."
+		
 		@time = Time.zone.now
 		@frequency = "month"
 		@time_next = case @frequency
@@ -302,6 +302,8 @@ class PaymentsController < ApplicationController
 		end
 		
 		begin
+			puts "Beginning subscription now..."
+			
 			@subscription = Subscription.create(
 				account_id: @account_id,
 				residence_country: @residence_country,
@@ -313,16 +315,17 @@ class PaymentsController < ApplicationController
 				vat_rate: @vat_rate,
 				vat_amount: @vat_amount,
 				total_amount: @total_amount,
-				article_from_server: params[:article_from_server],
+				article_from_server: params[:article_for_server],
 				frame_id: params[:frame_id_for_server],
 				frame_link_slug: params[:frame_link_slug_for_server],
 				frame_emotional_quest_action: params[:frame_emotional_quest_action_for_server],
 				frame_money_word_singular: params[:frame_money_word_singular_for_server],
 				frame_button_cta: params[:frame_button_cta_for_server],
-				referrer_url: params[:referrer_for_server],
 				last_payment_date: @time,
 				next_payment_date: @time_next
 				)
+			
+			puts "Subscription now created..."
 			
 			@invoice = Invoice.create(
 				account_id: @account_id,

@@ -168,7 +168,6 @@
 			<% when 2 %> Suscripción: Patreon.
 			<% end %>
 			
-			
 		<% else %> 
 			<% unless @user.account.nil? %>
 				<h3>
@@ -176,6 +175,7 @@
 					<% when 2 %> Suscripciones
 					<% end %>
 				</h3>
+				
 				<table class="admin-table">
 					<tr style="font-weight: bold;" >
 						<td>Nº</td>
@@ -203,6 +203,13 @@
 							<% end %>
 						</td>
 					</tr>
+					
+					<% if @user.account.subscriptions.empty? %>
+						<tr><td colspan="6">
+							--/--
+						</td></tr>
+					<% end %>
+					
 					<% @user.account.subscriptions.each do |s| %>
 						<tr class="<%= cycle("odd", "even") -%>">
 							<td class="right"><%= s.id %></td>
@@ -258,6 +265,13 @@
 							<% end %>
 						</td>
 					</tr>
+					
+					<% if @user.account.invoices.empty? %>
+						<tr><td colspan="8">
+							--/--
+						</td></tr>
+					<% end %>
+					
 					<% @user.account.invoices.each do |i| %>
 						<tr class="<%= cycle("odd", "even") -%>">
 							<td class="right"><%= i.created_at.strftime("%d/%m/%Y") %></td>
