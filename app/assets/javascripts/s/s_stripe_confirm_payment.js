@@ -9,7 +9,6 @@ function confirmPayment() {
  	var ceq = document.getElementById("frame_emotional_quest_action_for_server").value;
  	var cmw = document.getElementById("frame_money_word_singular_for_server").value;
  	var cbt = document.getElementById("frame_button_cta_for_server").value;
- 	var aid = document.getElementById("article_id_for_server").value;
  	var ref = document.getElementById("referrer_for_server").value;
  	var pa = document.getElementById("plan_amount_for_server").value;
  	var va = document.getElementById("vat_amount_for_server").value;
@@ -24,7 +23,6 @@ function confirmPayment() {
  	+ '&frame_emotional_quest_action_for_server=' + ceq
  	+ '&frame_money_word_singular_for_server=' + cmw 
  	+ '&frame_button_cta_for_server=' + cbt
- 	+ '&article_id_for_server=' + aid
  	+ '&referrer_for_server=' + ref
  	+ '&plan_amount_for_server=' + pa 
  	+ '&vat_amount_for_server=' + va 

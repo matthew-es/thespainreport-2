@@ -19,7 +19,7 @@
 	<input type="hidden" name="frame_emotional_quest_action_for_server" id="frame_emotional_quest_action_for_server" value="<%= @frame.emotional_quest_action %>" />
 	<input type="hidden" name="frame_money_word_singular_for_server" id="frame_money_word_singular_for_server" value="<%= @frame.money_word_singular %>" />
 	<input type="hidden" name="frame_button_cta_for_server" id="frame_button_cta_for_server" value="<%= @frame.button_cta %>" />
-	<input type="hidden" name="article_id_for_server" id="article_id_for_server" value="<%= @article_id %>" />
+	<input type="hidden" name="article_for_server" id="article_for_server" value="<%= yield(:title) %>" />
 	<input type="hidden" name="referrer_for_server" id="referrer_for_server" value="<%= request.referrer %>" />
 	
 	<%= hidden_field_tag 'authenticity_token', form_authenticity_token %>

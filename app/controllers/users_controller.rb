@@ -39,10 +39,9 @@ class UsersController < ApplicationController
 	
 	def new_reader
 		user = User.find_by(email: params[:email_for_server])
-		url_path = URI(request.referer).path
 		
 		if user.nil?
-			newpatron = Patrons::CreateNewPatron.process(params, url_path)
+			newpatron = Patrons::CreateNewPatron.process(params)
 			
 			case newpatron.sitelanguage
 				when 1 then message = "Thanks for signing up..."
@@ -54,10 +53,11 @@ class UsersController < ApplicationController
 			redirect_to edit_user_path(newpatron)
 		else
 			case params[:language_for_server]
-				when "1" then @message = "Try again…"
-				when "2" then @message = "Inténtelo de nuevo…"
+				when "1" then message = "Try again…"
+				when "2" then message = "Inténtelo de nuevo…"
 			end
-			flash[:tryagain] = @message
+			
+			flash[:tryagain] = message
 			redirect_back(fallback_location: root_path)
 		end
 	end

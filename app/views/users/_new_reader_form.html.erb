@@ -16,11 +16,11 @@
 			<div class="clear"></div>
 		</div>
 		<input type="hidden" id="language_for_server" name="language_for_server" value="<%= @language %>" />
-		<input type="hidden" id="article_for_server" name="article_for_server" value="<%= @article_id %>" />
+		<input type="hidden" id="article_for_server" name="article_for_server" value="<%= yield(:title) %>" />
 		<input type="hidden" id="frame_for_server" name="frame_for_server" value="<%= @frame_id %>" />
 	<% end %>
 	
 	<% flash.each do |key, value| %>
-		<div class="alert alert-<%= key %>"><p><%= value.html_safe %></p></div>
+		<div class="alert alert-<%= key %>"><p><%= value.html_safe unless value.nil? %></p></div>
 	<% end %>
 </div>

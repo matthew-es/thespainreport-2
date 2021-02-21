@@ -34,17 +34,6 @@ class UserMailer < ApplicationMailer
         mail(to: @user.email, subject: subject)
     end
     
-    def welcome_reader_es(user)
-        @user = user
-        @frame = Frame.find(@user.frame_id)
-        @subscribe = root_url + "valor/" + @frame.link_slug
-        
-        @latestarticles = Article.published.spanish.lastten
-        
-        headers 'X-SES-CONFIGURATION-SET' => "Emails"
-        mail(to: @user.email, subject: "✅ Bienvenido: haga clic en este enlace para confirmar su correo")
-    end
-    
     def user_alert(user, user_subject, user_message)
         @user = user
         @subject = user_subject

@@ -85,26 +85,12 @@ class PaymentsController < ApplicationController
 	
 	
 	# Create a new reader patron with an account if the email address does not already exist
-	def tsr_new_user_patron
-		Patrons::CreateNewPatron.process(params)
-	end
-	
-	def tsr_new_account
-		@account = Account.create!(
+	def tsr_update_account(account)
+		@account = account.update(
 		    account_status: 1,
 		    conversation_status: 1,
 		    account_status_date: Time.zone.now
 		    )
-		
-		@user = User.find_by_email(params[:email_for_server])
-		@user.update(
-		    account_id: @account.id,
-		    account_role: 1
-		    )
-		
-		@account.update(
-			user_id: @user.id
-			)
 	end
 	
 	
@@ -142,7 +128,6 @@ class PaymentsController < ApplicationController
 						stripe_calculate_total_amount
 					end	
 				else
-					tsr_new_account
 					new_stripe_customer
 					stripe_calculate_total_amount
 				end
@@ -166,8 +151,8 @@ class PaymentsController < ApplicationController
 				render json: {message: "You need to log in first…"}, status: 499
 			end
 		else
-			tsr_new_user_patron
-			tsr_new_account
+			@user = Patrons::CreateNewPatron.process(params)
+			tsr_update_account(@user.account)
 			new_stripe_customer
 			stripe_calculate_total_amount
 		end
@@ -328,7 +313,7 @@ class PaymentsController < ApplicationController
 				vat_rate: @vat_rate,
 				vat_amount: @vat_amount,
 				total_amount: @total_amount,
-				article_id: params[:article_id_for_server],
+				article_id: "",
 				frame_id: params[:frame_id_for_server],
 				frame_link_slug: params[:frame_link_slug_for_server],
 				frame_emotional_quest_action: params[:frame_emotional_quest_action_for_server],
@@ -454,7 +439,6 @@ class PaymentsController < ApplicationController
 	end
 	
 	def stripe_confirm_payment
-		
 	end
 
 	def stripe_next_payments
