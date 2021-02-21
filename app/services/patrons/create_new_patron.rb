@@ -6,10 +6,8 @@ module Patrons
         email_from_server = params[:email_for_server]
         article_from_server = params[:article_for_server]
         frame = Frame.find_by(id: params[:frame_for_server])
-        sign_up_article = params[:article_for_server]
-        
-        puts sign_up_article
-        
+        article_from_server = params[:article_for_server]
+
         frame_id = frame.id
 		frame_quest_action = frame.emotional_quest_action
 		frame_quest_role = frame.emotional_quest_role
@@ -31,7 +29,8 @@ module Patrons
             emails: 1,
             emaillanguage: language_from_server,
             email_confirmed: false,
-            frame_id: frame_id
+            frame_id: frame_id,
+            article_from_server: article_from_server
             )
 		
 		account = Account.create!(
@@ -50,7 +49,7 @@ module Patrons
         admin_subject = "New reader: " + new_patron.email
         admin_message = (
         	"New reader: " + new_patron.email + 
-        	"<br />Article: " + sign_up_article + 
+        	"<br />Article: " + article_from_server + 
         	"<br />Frame: " + frame_quest_action
 			).html_safe
 			

@@ -98,7 +98,7 @@ class SubscriptionsController < ApplicationController
       params.require(:subscription).permit(
         :account_id, :article_id, :plan_amount, :vat_country, :vat_rate, :vat_amount, :total_amount, :frame_id, :frame_name, :frame_buttontext, 
         :frame_slug, :card_country, :latest_paid_date, :ip_country, :ip_address, :residence_country, :next_payment_date, :last_payment_date,
-        :motivation_general_environment, :motivation_specific_brand
+        :motivation_general_environment, :motivation_specific_brand, :article_from_server
         )
     end
 end

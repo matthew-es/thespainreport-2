@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_02_223501) do
+ActiveRecord::Schema.define(version: 2021_02_21_133937) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -271,10 +271,9 @@ ActiveRecord::Schema.define(version: 2021_01_02_223501) do
     t.integer "frame_id"
     t.string "vat_country"
     t.string "frame_link_slug"
-    t.integer "article_id"
     t.string "frame_emotional_quest_action"
     t.string "frame_button_cta"
-    t.string "referrer_url"
+    t.string "article_from_server"
     t.datetime "next_payment_date"
     t.string "frame_money_word_singular"
     t.text "motivation_general_environment"
@@ -336,6 +335,7 @@ ActiveRecord::Schema.define(version: 2021_01_02_223501) do
     t.boolean "can_read"
     t.datetime "can_read_date"
     t.integer "country_id"
+    t.string "article_from_server"
   end
 
   create_table "webhook_events", force: :cascade do |t|

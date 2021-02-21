@@ -313,7 +313,7 @@ class PaymentsController < ApplicationController
 				vat_rate: @vat_rate,
 				vat_amount: @vat_amount,
 				total_amount: @total_amount,
-				article_id: "",
+				article_from_server: params[:article_from_server],
 				frame_id: params[:frame_id_for_server],
 				frame_link_slug: params[:frame_link_slug_for_server],
 				frame_emotional_quest_action: params[:frame_emotional_quest_action_for_server],
