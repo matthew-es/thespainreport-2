@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
 	end
 	helper_method :current_user
 	
+	
 	def set_status(user)
 		if user.nil?
 		
@@ -36,15 +37,16 @@ class ApplicationController < ActionController::Base
 			else end
 			
 			@admin = @status == 1
-			@super_patron = @status == 2 && (@level > 25)
-			@patron_reader_25 = @status == 2 && (@level == 25)
-			@patron_reader_10 = @status == 2 && @level.between?(10, 24)
-			@patron_reader_5 = @status == 2 && @level.between?(5, 9)
-			@patron_reader_1 = @status == 2 && @level.between?(1, 4)
+			@super_patron = @status == 2 && (@level > 2500)
+			@patron_reader_25 = @status == 2 && (@level == 2500)
+			@patron_reader_10 = @status == 2 && @level.between?(1000, 2400)
+			@patron_reader_5 = @status == 2 && @level.between?(500, 900)
+			@patron_reader_1 = @status == 2 && @level.between?(100, 400)
 			@patron_reader_0 = @status == 2 && (@level == 0)
 			@patron = @patron_reader_0 || @patron_reader_1 || @patron_reader_5 || @patron_reader_10 || @patron_reader_25
 			@reader_trial = @status == 3 && @can_read_date > Time.now
 			@reader_trial_over = @status == 3 && @can_read_date < Time.now
+			@reader = @readertrial || @reader_trial_over
 			
 			@can_read_level_1 = @admin || @reader_trial|| @super_patron || @patron_reader_25 || @patron_reader_10 || @patron_reader_5  || @patron_reader_1
 			@can_read_level_5 = @admin || @reader_trial|| @super_patron || @patron_reader_25 || @patron_reader_10 || @patron_reader_5
@@ -54,7 +56,6 @@ class ApplicationController < ActionController::Base
 			@cannot_read_2 = @reader_trial_over || @patron_reader_0|| @patron_reader_1 || @patron_reader_5
 		end
 	end
-	
 	
 	
 	def set_country
@@ -99,7 +100,6 @@ class ApplicationController < ActionController::Base
 	end
 	
 	
-	
 	def set_language_frame(language, frame)
 		language = language
 		
@@ -139,5 +139,16 @@ class ApplicationController < ActionController::Base
 		@increase = root_url + @stub_increase + @frame.link_slug
 		@restart = root_url + @stub_restart + @frame.link_slug
 	end
+	
+	def has_existing_payment_method
+		unless current_user.nil? || !current_user.account.present? || !current_user.account.stripe_payment_method.present?
+			@existing_pm = Stripe::PaymentMethod.retrieve(current_user.account.stripe_payment_method)
+			@existing_pm_brand = @existing_pm.card.brand
+			@existing_pm_last4 = @existing_pm.card.last4
+			@existing_pm_month = @existing_pm.card.exp_month
+			@existing_pm_year = @existing_pm.card.exp_year
+		end
+	end
+	
 	
 end

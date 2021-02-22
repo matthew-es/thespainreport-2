@@ -92,16 +92,21 @@
 		<% end %>
 	</div>
 	
+	<%# ACCOUNT INFORMATION %>
 	<div class="margin-bottom-10">
 		<strong>
 			<% case @user.sitelanguage when 1 %> Account ID:
 			<% when 2 %> Nº de Cuenta:
 			<% end %>
 		</strong>
+		
 		<% if current_user.nil? %>
-		<% elsif current_user.status == 1 %><%= form.number_field :account_id %>
-		<% else %><%= current_user.account_id %> 
+		<% elsif current_user.status == 1 %>
+			<%= form.number_field :account_id %>
+		<% else %>
+			<%= current_user.account_id %> 
 		<% end %>
+		
 		<br />
 		
 		<strong>
@@ -109,8 +114,10 @@
 			<% when 2 %> Papel:
 			<% end %>
 		</strong>
+		
 		<% if current_user.nil? %>
-		<% elsif current_user.status == 1 %><%= form.select :account_role, options_for_select([["Group Owner", "1"], ["Group Member", "2"]], :selected => @user.account_role) %> 
+		<% elsif current_user.status == 1 %>
+			<%= form.select :account_role, options_for_select([["Group Owner", "1"], ["Group Member", "2"]], :selected => @user.account_role) %> 
 		<% else %>
 			<% unless current_user.account.nil?; case current_user.account_role when 1 %>
 				<% case @user.sitelanguage when 1 %> Group owner
@@ -122,6 +129,20 @@
 				<% end %>
 			<% else end end %>
 		<% end %>
+		
+		<% if current_user.account_role == 1 %>
+			<br />
+			
+			<strong>
+				<% case @user.sitelanguage when 1 %> Total support:
+				<% when 2 %> Apoyo total:
+				<% end %>
+			</strong>
+			
+			<%= number_to_currency((current_user.account.total_support/100.to_f), unit: "€") %>
+	
+		<% else end %>
+		
 		<br />
 		
 		<strong>
@@ -129,6 +150,7 @@
 			<% when 2 %> Estado:
 			<% end %>
 		</strong>
+		
 		<% unless current_user.account.nil?; case current_user.account.account_status when 1 %>
 			Up-to-date
 		<% when 2 %>
@@ -140,6 +162,7 @@
 			<% when 2 %> Principiante gratuito
 			<% end %>
 		<% else end end %>
+		
 		<br />
 		
 		<strong>
@@ -237,6 +260,11 @@
 						</td>
 						<td>Nº</td>
 						<td class="right">
+							<% case @user.sitelanguage when 1 %>Subscription
+							<% when 2 %>Suscripción
+							<% end %>
+						</td>
+						<td class="right">
 							<% case @user.sitelanguage when 1 %>Amount
 							<% when 2 %>Cantidad
 							<% end %>
@@ -249,11 +277,7 @@
 						<td class="right">
 							Total
 						</td>
-						<td class="right">
-							<% case @user.sitelanguage when 1 %>Subscription
-							<% when 2 %>Suscripción
-							<% end %>
-						</td>
+						
 						<td class="right">
 							<% case @user.sitelanguage when 1 %>Status
 							<% when 2 %>Estado
@@ -276,10 +300,11 @@
 						<tr class="<%= cycle("odd", "even") -%>">
 							<td class="right"><%= i.created_at.strftime("%d/%m/%Y") %></td>
 							<td class="right"><%= i.invoice_number %></td>
+							<td class="right"><%= i.subscription_id %>, <%= i.account_id %></td>
 							<td class="right"><%= number_to_currency((i.plan_amount.to_f/100.to_f), unit: "€") %></td>
 							<td class="right"><%= number_to_currency((i.tax_amount.to_f/100.to_f), unit: "€") %></td>
 							<td class="right"><%= number_to_currency((i.total_amount.to_f/100.to_f), unit: "€") %></td>
-							<td class="right"><%= i.subscription_id %></td>
+							
 							<td class="right"><%= i.invoice_status %></td>
 							<td class="right"><%= link_to "print", i %></td>
 						</tr>

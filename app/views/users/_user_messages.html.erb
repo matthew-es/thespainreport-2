@@ -1,35 +1,26 @@
 <% case @language when 1 %>
   You are
-  <% case @status when 1 %>the boss.
-	<% when 2 %>
-		<% if @level >25 %>a super patron.
-		<% elsif @level <= 25 %>a patron.
-		<% end %>
-	<% when 3 %>a reader.
-	<% end %>
+  	<% if @admin %>the boss.
+	<% elsif @super_patron %>a super patron.
+	<% elsif @patron %>a patron.
+	<% elsif @reader %>a reader.
+	<% else end %>
 <% when 2 %>
   Ud. es
-  <% case @status when 1 %>el jefe.
-	<% when 2 %>
-		<% if @level >25 %>súper mecenas.
-		<% elsif @level <= 25 %>mecenas.
-		<% end %>
-	<% when 3 %>lector.
-	<% end %>
+	<% if @admin %>el jefe.
+	<% elsif @super_patron %>súper mecenas.
+	<% elsif @patron %>mecenas.
+	<% elsif @reader %>lector.
+	<% else end %>
 <% end %>
 
-<% case @status when 1 %>
-	<%= @frame.admin_message %>. <%= link_to @frame.button_cta_increase, @subscribe %>
-<% when 2 %>
-	<% if @level >25 %><%= @frame.patron_super_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
-	<% elsif @level == 25 %><%= @frame.patron_25_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
-	<% elsif @level.between?(10, 24) %><%= @frame.patron_10_24_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
-	<% elsif @level.between?(5, 9) %><%= @frame.patron_5_9_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
-	<% elsif @level.between?(1, 4) %><%= @frame.patron_1_4_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
-	<% elsif @level == 0 %><%= @frame.patron_0_message %>. <%= link_to @frame.button_cta_increase, @subscribe %>
-	<% else end %>
-<% when 3 %>
-	<% if @can_read_date > Time.now %><%= @frame.reader_45_trial_message %>: <%= link_to @frame.button_cta, @subscribe %>
-	<% elsif @can_read_date < Time.now %><%= @frame.reader_no_45_trial_message %>: <%= link_to @frame.button_cta_trial_over, @subscribe %>
-	<% else end %>
+<% if @admin %><%= @frame.admin_message %>. <%= link_to @frame.button_cta_increase, @subscribe %>
+<% elsif @super_patron %><%= @frame.patron_super_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
+<% elsif @patron_reader_25 %><%= @frame.patron_25_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
+<% elsif @patron_reader_10 %><%= @frame.patron_10_24_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
+<% elsif @patron_reader_5 %><%= @frame.patron_5_9_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
+<% elsif @patron_reader_1 %><%= @frame.patron_1_4_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
+<% elsif @patron_reader_0 %><%= @frame.patron_0_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
+<% elsif @reader_trial %><%= @frame.reader_45_trial_message %>: <%= link_to @frame.button_cta, @subscribe %>
+<% elsif @reader_trial_over %><%= @frame.reader_no_45_trial_message %>: <%= link_to @frame.button_cta_trial_over, @subscribe %>
 <% else end %>

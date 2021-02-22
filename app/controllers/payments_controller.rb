@@ -19,6 +19,7 @@ class PaymentsController < ApplicationController
 			@frame = Frame.find_by(link_slug: "guarantee")
 		end
 		set_language_frame(1, @frame.id)
+		set_status(current_user) unless current_user.nil?
 		
 		how_much
 		@article_id = "0"
@@ -38,6 +39,7 @@ class PaymentsController < ApplicationController
 			@frame = Frame.find_by(link_slug: "garantizar")
 		end
 		set_language_frame(2, @frame.id)
+		set_status(current_user) unless current_user.nil?
 		
 		how_much
 		@article_id = "0"
@@ -275,7 +277,7 @@ class PaymentsController < ApplicationController
 		check_user
 		@language = params[:language_for_server]
 		payment_messages
-	
+		
 		@account = @user.account
 		@account_id = @account.id
 
@@ -291,9 +293,6 @@ class PaymentsController < ApplicationController
 		@total_amount = params[:total_amount_for_server]
 		@payment = Payment.where(account_id: @account_id).last
 		
-		puts @payment
-		puts "Payment has been found..."
-		
 		@time = Time.zone.now
 		@frequency = "month"
 		@time_next = case @frequency
@@ -302,8 +301,6 @@ class PaymentsController < ApplicationController
 		end
 		
 		begin
-			puts "Beginning subscription now..."
-			
 			@subscription = Subscription.create(
 				account_id: @account_id,
 				residence_country: @residence_country,
@@ -316,7 +313,7 @@ class PaymentsController < ApplicationController
 				vat_amount: @vat_amount,
 				total_amount: @total_amount,
 				article_from_server: params[:article_for_server],
-				frame_id: params[:frame_id_for_server],
+				frame_id: params[:frame_for_server],
 				frame_link_slug: params[:frame_link_slug_for_server],
 				frame_emotional_quest_action: params[:frame_emotional_quest_action_for_server],
 				frame_money_word_singular: params[:frame_money_word_singular_for_server],
@@ -359,13 +356,23 @@ class PaymentsController < ApplicationController
 			if @account.total_support.nil?
 				@account.total_support = 0
 			end
+			
 			@new_total_support = @account.total_support + @subscription.plan_amount
 			@account.update!(
-		    total_support: @new_total_support
+		    	total_support: @new_total_support
 		    )
 		    
+		    @user.update(
+		    	status: 2,
+		    	level_amount: @new_total_support
+		    	)
+		    
 		    if @account.payments.count > 0
-				render json: {message: @success_first}, status: 200 and return
+		    	respond_to do |format|
+		            session[:user_id] = @user.id
+			        format.json { render json: {message: @success_first, url: edit_user_path(@user)}, status: 200 and return }
+			    end
+				# render json: {message: @success_first}, status: 200 and return
 			else
 				render json: {message: ""}, status: 201 and return
 			end

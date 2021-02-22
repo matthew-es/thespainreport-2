@@ -1,6 +1,9 @@
 // Presented with invoice elements, amount, VAT, user clicks confirm...
 
 function confirmPayment() {
+	// Hide confirm button
+	document.getElementById("confirm_first_payment").style.display = "none";
+	
 	var e = document.getElementById("email_for_server").value;
  	var at = document.getElementById("authenticity_token").value;
  	var la = document.getElementById("language_for_server").value;
@@ -55,6 +58,8 @@ function confirmPayment() {
 			document.getElementById("ajax_form_message").style.display = "block";
 			document.getElementById("ajax_form_message").className = "margin-top-10 padding-10 alert-success";
 			document.getElementById("ajax_form_message").innerHTML = details["message"];
+			
+			window.location.href = details["url"];
 	    }
 	    if (this.readyState == 4 && this.status == 201) {
 	     document.getElementById("ajax_form_message").style.display = "none";
