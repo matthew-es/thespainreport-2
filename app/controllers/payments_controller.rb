@@ -126,6 +126,7 @@ class PaymentsController < ApplicationController
 							stripe_calculate_total_amount
 						end
 					else
+						tsr_update_account(@account)
 						new_stripe_customer
 						stripe_calculate_total_amount
 					end	
@@ -186,13 +187,11 @@ class PaymentsController < ApplicationController
 	
 	def stripe_calculate_total_amount
 		check_user
-		@account = @user.account
 		set_country
 		
 		@ip_country = @ip_lookup_country
 		@residence_country = params[:residence_country_code_for_server]
 		@card_country = @account.stripe_payment_method_card_country
-		
 		@plan_amount = params[:plan_amount_for_server]
 		@payment_method = @account.stripe_payment_method
 		@payment_intent_for_server = params[:stripe_payment_intent_for_server]
@@ -204,7 +203,7 @@ class PaymentsController < ApplicationController
 			customer: @account.stripe_customer_id,
 			payment_method: @payment_method
 			})
-			
+		
 		@payment = Payment.find_by(external_payment_id: @payment_intent_for_server)
 		@payment.update(
 			total_amount: @total_amount,
@@ -212,7 +211,7 @@ class PaymentsController < ApplicationController
 			payment_method: @payment_method,
 			card_country: @card_country
 			)
-		    
+
 		render json: {plan_amount: @plan_amount.to_f, vat_country: @vat_country, vat_rate: @vat_rate.to_f, vat_amount: @vat_amount, total_amount: @total_amount}, status: 200
 	end
 	
@@ -255,8 +254,8 @@ class PaymentsController < ApplicationController
 			expand: ['invoice_settings.default_payment_method']
 		})
 	
-		@stripe_to_account = Account.find_by(id: @user.account.id)
-		@stripe_to_account.update(
+		@account = Account.find_by(id: @user.account.id)
+		@account.update(
 			stripe_customer_id: @customer.id,
 			stripe_payment_method: @customer.invoice_settings.default_payment_method.id,
 			stripe_payment_method_card_country: @customer.invoice_settings.default_payment_method.card.country,
@@ -333,10 +332,22 @@ class PaymentsController < ApplicationController
 			    total_amount: @subscription.total_amount
 				)
 			
+			puts @invoice
+			puts @invoice.account
+			puts @invoice.account_id
+			puts @invoice.account.id
+			puts @invoice.subscription_id
+			puts @invoice.subscription.id
+			puts @invoice.plan_amount
+			
 			@payment.update(
 				subscription_id: @subscription.id,
 				invoice_id: @invoice.id
 				)
+			
+			puts @payment
+			puts @payment.subscription_id
+			puts @payment.subscription.id
 			
 			@stripe_payment = Stripe::PaymentIntent.confirm(@payment.external_payment_id)
 			case @stripe_payment.status
