@@ -12,13 +12,18 @@ class HomeController < ApplicationController
 		@truth = Article.english.published.truth.lastfive
 		@photos = Article.english.published.photo.lastfive
 		@videos = Article.english.published.video.lastfive
-		
+			
 		@rss = Article.published.english.order('created_at DESC')
 		respond_to do |format|
 			format.html
 			format.rss { render :layout => false }
 		end
 	end
+	
+		
+
+		
+	
 	
 	def es
 		set_language_frame(2, nil)

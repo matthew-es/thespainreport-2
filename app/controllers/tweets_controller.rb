@@ -117,7 +117,12 @@ class TweetsController < ApplicationController
 		end
 	end
 	
+	
 	def send_tweet
+		telegram_url = URI("https://api.telegram.org/bot1698686662:AAEnIS4N46FlIcoN5JbRIs0H9eCJNcQl5HY/sendMessage")
+		telegram_url_photo = URI("https://api.telegram.org/bot1698686662:AAEnIS4N46FlIcoN5JbRIs0H9eCJNcQl5HY/sendPhoto")
+		discord_url = URI("https://discord.com/api/webhooks/813774247804665947/VCgCWCb9xfuqV3rV2TRzDnHFNnSGuQWpqwNZCHgln60WEIOqu7oVNyAqwpxr2L2lDe0B")
+		
 		if params[:tweet][:send_tweet] == 'none'
 		
 		elsif params[:tweet][:send_tweet] == 'send'
@@ -140,19 +145,43 @@ class TweetsController < ApplicationController
 			if @tweet.previous.present?
 				if @tweet.upload
 					@send = $client.update_with_media(@tweet.message + ' ' + tweetlink, @existing, in_reply_to_status_id: @tweet.previous.twitter_tweet_id)
+					@tweet.update(twitter_tweet_id: @send.id)
+					
+					Net::HTTP.post_form(telegram_url_photo, {'chat_id' => '@matthewbennett_es', 'photo' => @tweet.upload.data})
+					Net::HTTP.post_form(telegram_url, {'chat_id' => '@matthewbennett_es', 'text' => @tweet.message})
+					Net::HTTP.post_form(discord_url, 'content' => 'https://twitter.com/matthewbennett/status/' + @tweet.twitter_tweet_id.to_s)
 				else
 					@send = $client.update(@tweet.message + ' ' + tweetlink, in_reply_to_status_id: @tweet.previous.twitter_tweet_id)
+					@tweet.update(twitter_tweet_id: @send.id)
+					
+					Net::HTTP.post_form(telegram_url, {'chat_id' => '@matthewbennett_es', 'text' => @tweet.message})
+					Net::HTTP.post_form(discord_url, 'content' => @tweet.message)
 				end
 			else
 				if @tweet.upload
 					@send = $client.update_with_media(@tweet.message + ' ' + tweetlink, @existing)
+					@tweet.update(twitter_tweet_id: @send.id)
+					
+					Net::HTTP.post_form(telegram_url_photo, {'chat_id' => '@matthewbennett_es', 'photo' => @tweet.upload.data})
+					Net::HTTP.post_form(telegram_url, {'chat_id' => '@matthewbennett_es', 'text' => @tweet.message})
+					Net::HTTP.post_form(discord_url, 'content' => 'https://twitter.com/matthewbennett/status/' + @tweet.twitter_tweet_id.to_s)
+				
+				#	discord_message = {:content => @tweet.message, :file => @tweet.upload.data}.to_json
+				#	puts discord_message 
+				#	Net::HTTP.post(discord_url, discord_message, "Content-Type" => "multipart/form-data")
+				#	Net::HTTP.post_form(discord_url, ('content' => @tweet.message {'embeds' => [{'image' => {'url' => @tweet.upload.data}]}}))
+				#	Net::HTTP.post_form(discord_url, ['content' => @tweet.message, 'embeds' => {'image' => {'url' => @tweet.upload.data}}])
 				else
 					@send = $client.update(@tweet.message + ' ' + tweetlink)
+					@tweet.update(twitter_tweet_id: @send.id)
+					
+					Net::HTTP.post_form(telegram_url, {'chat_id' => '@matthewbennett_es', 'text' => @tweet.message})
+					Net::HTTP.post_form(discord_url, 'content' => @tweet.message)
 				end
 			end
 			
 			# Update tweet with actual Twitter status id
-			@tweet.update(twitter_tweet_id: @send.id)
+			
 			
 		else
 		end
