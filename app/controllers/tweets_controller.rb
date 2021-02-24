@@ -159,13 +159,23 @@ class TweetsController < ApplicationController
 				end
 			else
 				if @tweet.upload
-					@send = $client.update_with_media(@tweet.message + ' ' + tweetlink, @existing)
-					@tweet.update(twitter_tweet_id: @send.id)
+					# @send = $client.update_with_media(@tweet.message + ' ' + tweetlink, @existing)
+					# @tweet.update(twitter_tweet_id: @send.id)
 					
-					Net::HTTP.post_form(telegram_url_photo, {'chat_id' => '@matthewbennett_es', 'photo' => @tweet.upload.data})
-					Net::HTTP.post_form(telegram_url, {'chat_id' => '@matthewbennett_es', 'text' => @tweet.message})
-					Net::HTTP.post_form(discord_url, 'content' => 'https://twitter.com/matthewbennett/status/' + @tweet.twitter_tweet_id.to_s)
-				
+					# Net::HTTP.post_form(telegram_url_photo, {'chat_id' => '@matthewbennett_es', 'photo' => @tweet.upload.data})
+					# Net::HTTP.post_form(telegram_url, {'chat_id' => '@matthewbennett_es', 'text' => @tweet.message})
+					# Net::HTTP.post_form(discord_url, 'content' => 'https://twitter.com/matthewbennett/status/' + @tweet.twitter_tweet_id.to_s)
+					
+				#	uri = discord_url
+				#	puts discord_url
+				#	req = Net::HTTP::Post.new(uri)
+				#	req.set_form([['content', @tweet.message], ['file', @existing]])
+				#	req.content_type = 'multipart/form-data'
+				#	
+				#	Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+				#	  http.request(req)
+				#	end
+					
 				#	discord_message = {:content => @tweet.message, :file => @tweet.upload.data}.to_json
 				#	puts discord_message 
 				#	Net::HTTP.post(discord_url, discord_message, "Content-Type" => "multipart/form-data")
@@ -175,8 +185,8 @@ class TweetsController < ApplicationController
 					@send = $client.update(@tweet.message + ' ' + tweetlink)
 					@tweet.update(twitter_tweet_id: @send.id)
 					
-					Net::HTTP.post_form(telegram_url, {'chat_id' => '@matthewbennett_es', 'text' => @tweet.message})
-					Net::HTTP.post_form(discord_url, 'content' => @tweet.message)
+				#	Net::HTTP.post_form(telegram_url, {'chat_id' => '@matthewbennett_es', 'text' => @tweet.message})
+				#	Net::HTTP.post_form(discord_url, 'content' => @tweet.message)
 				end
 			end
 			

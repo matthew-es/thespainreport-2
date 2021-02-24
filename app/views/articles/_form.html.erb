@@ -187,6 +187,9 @@
 		
 		
 		<h3><span class="label background-color-patrons font-color-white">patrons only column</span> / free article / sales post</h3>
+		<div id="" class="margin-top-20 margin-bottom-10">
+			Characters: <span id="text_length" class="font-bold"></span>/<span id="text_max" class="font-bold"></span> (<span id="text_left" class="font-bold"></span>)
+		</div>
 		<div class="margin-bottom-10">
 			<% if @article.original.blank? %>
 				<%= f.text_area :body, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 450px;", placeholder: "Article text…" %>
@@ -202,7 +205,38 @@
 				</div>
 			<% end %>
 		</div>
-	
+		<script>
+			window.addEventListener('load', textLength);
+			var text_to_measure = document.getElementById('article_body');
+			text_to_measure.addEventListener("keydown", textLength);
+			text_to_measure.addEventListener("input", textLength);
+			
+				function textLength() {
+					var text_max = 2000;
+					var text_length = text_to_measure.value.length;
+					var text_left = (text_max - text_length);
+					
+					document.getElementById('text_length').innerHTML = text_length;
+					document.getElementById('text_max').innerHTML = text_max;
+					document.getElementById('text_left').innerHTML = text_left;
+					
+					if (text_left > 0) {
+					document.getElementById('text_length').style.cssText = "color: green; background-color: #e6ffe6;";
+					document.getElementById('text_left').style.cssText = "color: green; background-color: #e6ffe6;";
+					}
+					
+					if (text_left < 50) {
+						document.getElementById('text_length').style.cssText = "color: orange; background-color: #ffe4b3;";
+						document.getElementById('text_left').style.cssText = "color: orange; background-color: #ffe4b3;";
+					}
+					
+					if (text_left < 0) {
+						document.getElementById('text_length').style.cssText = "color: red; background-color: #ffe6e6;";
+						document.getElementById('text_left').style.cssText = "color: red; background-color: #ffe6e6;";
+					}
+				};
+		</script>
+		
 		<h3>Patrons: extra videos</h3>
 		<div class="alert-warning padding-10 margin-top-10">	
 			<% if @article.original.blank? %>

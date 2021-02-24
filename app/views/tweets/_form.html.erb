@@ -32,13 +32,47 @@
 	</div>
 	
 	<div class="background-color-yellow padding-10 margin-bottom-10">
+		<div id="" class="margin-bottom-10">
+			Characters: <span id="text_length" class="font-bold"></span>/<span id="text_max" class="font-bold"></span> (<span id="text_left" class="font-bold"></span>)
+		</div>
 		<div class="margin-bottom-10">
-			<%= f.text_area :message, :class => "width-70 padding-10 font-main font-main-normal", :style => "min-height: 60px;", placeholder: "Tweet text / photo notes…", maxlength: 280 %>
+			<%= f.text_area :message, :class => "width-70 padding-10 font-main font-main-normal", :style => "min-height: 90px;", placeholder: "Tweet text / photo notes…", maxlength: 300 %>
 		</div>
 		<div class="">
 			Link: HERE <%= f.check_box :tweet_this_url %> OR <%= f.text_field :tweet_url, :class => "width-70 padding-5", placeholder: "article URL / YouTube for thread videos..." %>
 		</div>	
 	</div>
+	<script>
+			window.addEventListener('load', textLength);
+			var text_to_measure = document.getElementById('tweet_message');
+			text_to_measure.addEventListener("keydown", textLength);
+			text_to_measure.addEventListener("input", textLength);
+			
+				function textLength() {
+					var text_max = 280;
+					var text_length = text_to_measure.value.length;
+					var text_left = (text_max - text_length);
+					
+					document.getElementById('text_length').innerHTML = text_length;
+					document.getElementById('text_max').innerHTML = text_max;
+					document.getElementById('text_left').innerHTML = text_left;
+					
+					if (text_left > 0) {
+					document.getElementById('text_length').style.cssText = "color: green; background-color: #e6ffe6;";
+					document.getElementById('text_left').style.cssText = "color: green; background-color: #e6ffe6;";
+					}
+					
+					if (text_left < 50) {
+						document.getElementById('text_length').style.cssText = "color: orange; background-color: #ffe4b3;";
+						document.getElementById('text_left').style.cssText = "color: orange; background-color: #ffe4b3;";
+					}
+					
+					if (text_left < 0) {
+						document.getElementById('text_length').style.cssText = "color: red; background-color: #ffe6e6;";
+						document.getElementById('text_left').style.cssText = "color: red; background-color: #ffe6e6;";
+					}
+				};
+		</script>
 
 	<div class="margin-bottom-10">
 		<% if action_name == "edit" %>
@@ -47,7 +81,7 @@
 			</div>
 		<% end %>
 		
-		<strong>Article:</strong> <%= f.collection_select :article_id, @articles, :id, :headline, {include_blank: true, :selected => @tweet.article_id}, {:style => "width: 400px;"} %>
+		<strong>Article:</strong> <%= f.collection_select :article_id, @articles, :id, :short_headline, {include_blank: true, :selected => @tweet.article_id}, {:style => "width: 400px;"} %>
 		<% if @tweet.article.present? %>
 			| <%= link_to @tweet.article.short_headline, @tweet.article %>
 		<% end %>
