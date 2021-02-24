@@ -60,16 +60,22 @@
 					if (text_left > 0) {
 					document.getElementById('text_length').style.cssText = "color: green; background-color: #e6ffe6;";
 					document.getElementById('text_left').style.cssText = "color: green; background-color: #e6ffe6;";
+					document.getElementById('submit-button').disabled = false;
+					document.getElementById('submit-button').style.cssText = "";
 					}
 					
-					if (text_left < 50) {
+					if (text_left < 24) {
 						document.getElementById('text_length').style.cssText = "color: orange; background-color: #ffe4b3;";
 						document.getElementById('text_left').style.cssText = "color: orange; background-color: #ffe4b3;";
+						document.getElementById('submit-button').disabled = false;
+						document.getElementById('submit-button').style.cssText = "";
 					}
 					
 					if (text_left < 0) {
 						document.getElementById('text_length').style.cssText = "color: red; background-color: #ffe6e6;";
 						document.getElementById('text_left').style.cssText = "color: red; background-color: #ffe6e6;";
+						document.getElementById('submit-button').disabled = true;
+						document.getElementById('submit-button').style.cssText = "background-color: red";
 					}
 				};
 		</script>
@@ -87,7 +93,7 @@
 		<% end %>
 		|
 		<%= f.select :send_tweet, options_for_select([["Do not send", "none"], ["Send tweet", "send"]]) %>
-		<%= f.submit %>
+		<%= f.submit :id => "submit-button" %>
 		
 	</div>
 	
