@@ -91,8 +91,8 @@
 		<% if @tweet.article.present? %>
 			| <%= link_to @tweet.article.short_headline, @tweet.article %>
 		<% end %>
-		|
-		<%= f.select :send_tweet, options_for_select([["Do not send", "none"], ["Send tweet", "send"]]) %>
+		| Covid<%= f.check_box :discord_covid %> Politics<%= f.check_box :discord_politics %> Economy<%= f.check_box :discord_economy %> Media<%= f.check_box :discord_media %>
+		| <%= f.select :send_tweet, options_for_select([["Do not send", "none"], ["Send tweet", "send"]]) %>
 		<%= f.submit :id => "submit-button" %>
 		
 	</div>

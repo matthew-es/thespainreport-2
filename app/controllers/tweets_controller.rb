@@ -118,29 +118,54 @@ class TweetsController < ApplicationController
 	end
 	
 	
-	def send_tweet
-		# Set up language things and API references for different places...
+	def send_discord_message(discord_url)
+		discord_message = @tweet.message + ' ' + @tweetlink + ' ' + ' <https://twitter.com/matthewbennett/status/' + @tweet.twitter_tweet_id.to_s + '>'
 		
-		telegram_url = URI("https://api.telegram.org/bot1698686662:AAEnIS4N46FlIcoN5JbRIs0H9eCJNcQl5HY/")
-		case @tweet.article.language_id when 1
-			discord_url = URI("https://discord.com/api/webhooks/814107529373679677/lMvRTAbDKtVOtDbfghfKS-NXGvN8It1tUiJshIRh6Velt3WS3eVfoFngGJMMD_MU_3_9")
-			telegram_chat_id = "@matthewbennett_en"
-		when 2
-			discord_url = URI("https://discord.com/api/webhooks/813774247804665947/VCgCWCb9xfuqV3rV2TRzDnHFNnSGuQWpqwNZCHgln60WEIOqu7oVNyAqwpxr2L2lDe0B")
-			telegram_chat_id = "@matthewbennett_es"
+		if @tweet.upload
+			# Photo + message to Discord...
+			req = Net::HTTP::Post.new(discord_url)
+			req.set_form([['content', discord_message], ['file', @existing]])
+			req.content_type = 'multipart/form-data'
+			Net::HTTP.start(discord_url.hostname, discord_url.port, use_ssl: true) do |http|
+				http.request(req)
+			end
+		else
+			# Message to Discord...
+			Net::HTTP.post_form(discord_url, 'content' => discord_message)
 		end
+	end
+	
+	
+	def send_telegram_message
+		telegram_url = URI("https://api.telegram.org/bot1698686662:AAEnIS4N46FlIcoN5JbRIs0H9eCJNcQl5HY/")
+		case @tweet.article.language_id when 1 then telegram_chat_id = "@matthewbennett_en"
+		when 2 then telegram_chat_id = "@matthewbennett_es"
+		end
+		telegram_message = @tweet.message + ' ' + @tweetlink
 		
+		if @tweet.upload
+			# Photo + message to Telegram...
+			Net::HTTP.post_form(telegram_url + 'sendPhoto', {'chat_id' => telegram_chat_id, 'photo' => @tweet.upload.data})
+			Net::HTTP.post_form(telegram_url + 'sendMessage', {'chat_id' => telegram_chat_id, 'text' => telegram_message})
+		else
+			# Message to Telegram...
+			Net::HTTP.post_form(telegram_url + 'sendMessage', {'chat_id' => telegram_chat_id, 'text' => telegram_message})
+		end
+	end
+	
+	
+	def send_tweet
 		if params[:tweet][:send_tweet] == 'none'
 		
 		elsif params[:tweet][:send_tweet] == 'send'
 			
 			# With a link?
 			if params[:tweet][:tweet_this_url] == "1"
-				tweetlink = article_url(@tweet.article)
+				@tweetlink = article_url(@tweet.article)
 			elsif params[:tweet][:tweet_url]
-				tweetlink = params[:tweet][:tweet_url]
+				@tweetlink = params[:tweet][:tweet_url]
 			else 
-				tweetlink = ""
+				@tweetlink = ""
 			end
 			
 			# Write the tweet image to a temporary file for Twitter and Discord...
@@ -151,44 +176,46 @@ class TweetsController < ApplicationController
 			# Send to Twitter: thread or just a single tweet...
 			if @tweet.previous.present?
 				if @tweet.upload
-					@send = $client.update_with_media(@tweet.message + ' ' + tweetlink, @existing, in_reply_to_status_id: @tweet.previous.twitter_tweet_id)
+					@send = $client.update_with_media(@tweet.message + ' ' + @tweetlink, @existing, in_reply_to_status_id: @tweet.previous.twitter_tweet_id)
 				else
-					@send = $client.update(@tweet.message + ' ' + tweetlink, in_reply_to_status_id: @tweet.previous.twitter_tweet_id)
+					@send = $client.update(@tweet.message + ' ' + @tweetlink, in_reply_to_status_id: @tweet.previous.twitter_tweet_id)
 				end
 			else
 				if @tweet.upload
-					@send = $client.update_with_media(@tweet.message + ' ' + tweetlink, @existing)
+					@send = $client.update_with_media(@tweet.message + ' ' + @tweetlink, @existing)
 				else
-					@send = $client.update(@tweet.message + ' ' + tweetlink)
+					@send = $client.update(@tweet.message + ' ' + @tweetlink)
 				end
 			end
 			
 			# Update the TSR tweet object with the actual tweet ID...
 			@tweet.update(twitter_tweet_id: @send.id)
 			
-			# Send to Telegram, Discord: with or without image...
-			discord_message = @tweet.message + ' ' + tweetlink + ' ' + ' <https://twitter.com/matthewbennett/status/' + @tweet.twitter_tweet_id.to_s + '>'
-			telegram_message = @tweet.message + ' ' + tweetlink
-			
-			if @tweet.upload
-				# Photo + message to Telegram...
-				Net::HTTP.post_form(telegram_url + 'sendPhoto', {'chat_id' => telegram_chat_id, 'photo' => @tweet.upload.data})
-				Net::HTTP.post_form(telegram_url + 'sendMessage', {'chat_id' => telegram_chat_id, 'text' => telegram_message})
-				
-				# Photo + message to Discord...			
-				req = Net::HTTP::Post.new(discord_url)
-				req.set_form([['content', discord_message], ['file', @existing]])
-				req.content_type = 'multipart/form-data'
-				Net::HTTP.start(discord_url.hostname, discord_url.port, use_ssl: true) do |http|
-					http.request(req)
-				end	
-			else
-				# Message to Telegram...
-				Net::HTTP.post_form(telegram_url + 'sendMessage', {'chat_id' => telegram_chat_id, 'text' => telegram_message})
-				
-				# Message to Discord...
-				Net::HTTP.post_form(discord_url, 'content' => discord_message)
+			# Send to Discord channels...
+			case @tweet.article.language_id when 1
+				discord_url = URI("https://discord.com/api/webhooks/814107529373679677/lMvRTAbDKtVOtDbfghfKS-NXGvN8It1tUiJshIRh6Velt3WS3eVfoFngGJMMD_MU_3_9")
+				send_discord_message(discord_url)
+			when 2
+				discord_url = URI("https://discord.com/api/webhooks/813774247804665947/VCgCWCb9xfuqV3rV2TRzDnHFNnSGuQWpqwNZCHgln60WEIOqu7oVNyAqwpxr2L2lDe0B")
+				send_discord_message(discord_url)
 			end
+			
+			if params[:tweet][:discord_covid] == "1"
+				discord_url = URI("https://discord.com/api/webhooks/814430104863637545/Kapadua6nUMTO8KzT9o5ADHyz5xavoHf1dBRntOppmfGEN84NjfYFOOUMQwENZF4zVdV")
+				send_discord_message(discord_url)
+			elsif params[:tweet][:discord_politics] == "1"
+				discord_url = URI("https://discord.com/api/webhooks/814434525672898630/GKOIOlFF-FOhHy33qSvz1GoFqA1pQXPi4HtDnytPC-59NbU8UOZusDyIe0sRzVLj385c")
+				send_discord_message(discord_url)
+			elsif params[:tweet][:discord_economy] == "1"
+				discord_url = URI("https://discord.com/api/webhooks/813753000065105940/cS0r2dhsSrAJ_gf7l-fk-qejM64rLYOJwx_coOEfJn7Rs2urwOPz8zVayxUtWqVA30p3")
+				send_discord_message(discord_url)
+			elsif params[:tweet][:discord_media] == "1"
+				discord_url = URI("https://discord.com/api/webhooks/814434756569464853/5ZWwFJ8rYQ-rqwvxhKATXU0I3UtsBWt3D6lKto75UYLWSd5ribuHicNpWEX3OwfkthHf")
+				send_discord_message(discord_url)
+			else end
+			
+			# Send to Telegram...
+			# send_telegram_message
 
 		else
 		end
