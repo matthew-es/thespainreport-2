@@ -118,11 +118,19 @@ class TweetsController < ApplicationController
 	end
 	
 	
+	def write_exsiting_image_to_temp
+		# Write the tweet image to a temporary file for Twitter and Discord...
+		if @tweet.upload
+			@existing = Uploads::TweetExisting.process(@tweet.upload.data)
+		end
+	end
+	
+	
 	def send_discord_message(discord_url)
 		discord_message = @tweet.message + ' ' + @tweetlink + ' ' + ' <https://twitter.com/matthewbennett/status/' + @tweet.twitter_tweet_id.to_s + '>'
 		
 		if @tweet.upload
-			# Photo + message to Discord...
+			write_exsiting_image_to_temp
 			req = Net::HTTP::Post.new(discord_url)
 			req.set_form([['content', discord_message], ['file', @existing]])
 			req.content_type = 'multipart/form-data'
@@ -168,20 +176,18 @@ class TweetsController < ApplicationController
 				@tweetlink = ""
 			end
 			
-			# Write the tweet image to a temporary file for Twitter and Discord...
-			if @tweet.upload
-				@existing = Uploads::TweetExisting.process(@tweet.upload.data)
-			end
 		
 			# Send to Twitter: thread or just a single tweet...
 			if @tweet.previous.present?
 				if @tweet.upload
+					write_exsiting_image_to_temp
 					@send = $client.update_with_media(@tweet.message + ' ' + @tweetlink, @existing, in_reply_to_status_id: @tweet.previous.twitter_tweet_id)
 				else
 					@send = $client.update(@tweet.message + ' ' + @tweetlink, in_reply_to_status_id: @tweet.previous.twitter_tweet_id)
 				end
 			else
 				if @tweet.upload
+					write_exsiting_image_to_temp
 					@send = $client.update_with_media(@tweet.message + ' ' + @tweetlink, @existing)
 				else
 					@send = $client.update(@tweet.message + ' ' + @tweetlink)
