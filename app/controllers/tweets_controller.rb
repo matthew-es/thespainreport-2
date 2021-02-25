@@ -131,14 +131,15 @@ class TweetsController < ApplicationController
 		
 		if @tweet.upload
 			write_exsiting_image_to_temp
+			
 			req = Net::HTTP::Post.new(discord_url)
 			req.set_form([['content', discord_message], ['file', @existing]])
 			req.content_type = 'multipart/form-data'
+			
 			Net::HTTP.start(discord_url.hostname, discord_url.port, use_ssl: true) do |http|
 				http.request(req)
 			end
 		else
-			# Message to Discord...
 			Net::HTTP.post_form(discord_url, 'content' => discord_message)
 		end
 	end
@@ -146,17 +147,17 @@ class TweetsController < ApplicationController
 	
 	def send_telegram_message
 		telegram_url = URI("https://api.telegram.org/bot1698686662:AAEnIS4N46FlIcoN5JbRIs0H9eCJNcQl5HY/")
+		telegram_message = @tweet.message + ' ' + @tweetlink
+		
 		case @tweet.article.language_id when 1 then telegram_chat_id = "@matthewbennett_en"
 		when 2 then telegram_chat_id = "@matthewbennett_es"
 		end
-		telegram_message = @tweet.message + ' ' + @tweetlink
+		
 		
 		if @tweet.upload
-			# Photo + message to Telegram...
 			Net::HTTP.post_form(telegram_url + 'sendPhoto', {'chat_id' => telegram_chat_id, 'photo' => @tweet.upload.data})
 			Net::HTTP.post_form(telegram_url + 'sendMessage', {'chat_id' => telegram_chat_id, 'text' => telegram_message})
 		else
-			# Message to Telegram...
 			Net::HTTP.post_form(telegram_url + 'sendMessage', {'chat_id' => telegram_chat_id, 'text' => telegram_message})
 		end
 	end
@@ -221,7 +222,7 @@ class TweetsController < ApplicationController
 			else end
 			
 			# Send to Telegram...
-			# send_telegram_message
+			send_telegram_message
 
 		else
 		end
