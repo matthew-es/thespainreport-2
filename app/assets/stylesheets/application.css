@@ -176,7 +176,7 @@ a.no-hover-bg:hover {background-color: #fff;}
 .label {padding: 2px 5px;}
 .label-big {padding: 4px 8px;}
 .frameimage {width: 200px; border-radius: 50%;}
-.video-wrapper {position: relative; margin-top: 10px; margin-bottom: 10px; padding-bottom: 56.25%; /* 16:9 */ padding-top: 25px; height: 0;}
+.video-wrapper {position: relative; margin-top: 0px; margin-bottom: 10px; padding-bottom: 56.25%; /* 16:9 */ padding-top: 25px; height: 0;}
 .video-wrapper iframe {position: absolute; top: 0; left: 0; width: 99%; height: 100%;}
 
 

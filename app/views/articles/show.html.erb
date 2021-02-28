@@ -37,12 +37,14 @@
 		<% end %>
 	</h1>
 	
-	<div class="margin-top-5 font-main font-main-normal font-italic">
-		<span class="font-bold"><%= @article.type.try(:name) %>:</span> <%= @article.lede %>
+	<%# Intro block... %>
+	<div class="margin-bottom-20">
+		<%# Lede... %>
+		<div class="margin-top-5 font-main font-main-normal font-italic">
+			<span class="font-bold"><%= @article.type.try(:name) %>:</span> <%= @article.lede %>
 		</div>
 	
 	
-	<div>
 		<%# Byline... %>
 		<div class="float-left">
 			<img src="<%= asset_path('matthew_mask_web.jpg') %>" style="border-radius: 50%; max-width: 70px;" />
@@ -201,13 +203,11 @@
 <% elsif @article.audio_aac_id.present? && ["Patrons Column", "Columna Mecenas"].include?(@article.type.name) %>
 	
 	<% if current_user.nil? %>
-		<div class="margin-top-10">
-			<p><em>
+			<p class="font-main-small"><em>
 				<% case @language when 1 %><a href="#patrons">Log in</a> to listen:
 				<% when 2 %><a href="#patrons">Inicie sesión</a> para escuchar:
 				<% end %>
 			</em></p>
-		</div>
 		
 		<audio controls>
 			<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/aac">
