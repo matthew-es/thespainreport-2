@@ -6,7 +6,7 @@ class HomeController < ApplicationController
 		
 		@article_id = "0"
 		@latestmain = Article.english.published.latestmain
-		@podcast = Article.english.published.podcast.notlatestpodcast.lastfive
+		@podcast = Article.english.published.podcast.lastfive
 		@patrons = Article.english.published.patrons.lastfive
 		@free = Article.english.published.nottruth.notstory.notpatrons.notpodcast.notphoto.notvideo.lastfive
 		@truth = Article.english.published.truth.lastfive

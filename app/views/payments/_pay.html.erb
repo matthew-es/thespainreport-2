@@ -30,7 +30,7 @@
 				<h5 class="margin-bottom-0"><%= p.title %></h5>
 				<div class="">
 					<%= image_tag ('https://image.thespainreport.es/' + p.image) %>
-					<div class="mobile-margins font-main-small margin-left-15 margin-bottom-10" style="min-height: 150px;">
+					<div class="mobile-margins font-main-small margin-bottom-10" style="min-height: 150px;">
 						<%= markdown(p.description) %>
 					</div>
 					<p class="align-centre line-100">
@@ -227,12 +227,6 @@
 	
 	<%# SALES STUFF AND INSTRUCTIONS... %>
 	
-	
-	<div class="margin-top-20">
-		<p class="font-main-small">* <%= @frame.social_proof %></p>
-		<p class="font-main-small">** <%= @frame.risk_reversal %></p>
-	</div>
-	
 	<div class="margin-top-20">
 		<p class="font-bold margin-bottom-0 font-main-small">
 			<% case @language when 1 %>How does it work?
@@ -270,6 +264,10 @@
 		</ol>
 	</div>
 	
+	<div class="margin-top-20">
+		<p class="font-main-small">* <%= @frame.social_proof %></p>
+		<p class="font-main-small">** <%= @frame.risk_reversal %></p>
+	</div>
 	
 	<%# STORE VALUES FOR SERVER IN FORM FIELDS... %>	
 	<%= render "payments/server_stuff" %>
