@@ -143,6 +143,7 @@ a.no-hover-bg:hover {background-color: #fff;}
 .margin-left-0 {margin-left: 0px;}
 .margin-left-5 {margin-left: 5px;}
 .margin-left-10 {margin-left: 10px;}
+.margin-left-15 {margin-left: 15px;}
 .margin-left-20 {margin-left: 20px;}
 .margin-right-5 {margin-right: 5px;}
 .margin-right-10 {margin-right: 10px;}
@@ -218,7 +219,8 @@ input.stripe_email::placeholder {color: #aab7c4;}
 @media only screen and (max-width: 730px) {
     .content {width: 95%; margin: 0 auto; padding-left: 2%; padding-right: 2%; border-left: 0; border-right: 0;}
     .mobile-100 {width: 95%; margin-bottom: 5px;}
-    .mobile-width {width: 48%;}
+    .mobile-width {width: 95%;}
+    .buybutton {width: 100%;}
     p, li {width: 95%; font-size: 19px;}
     .mobile-bottom-10 {margin-bottom: 5px;}
     .font-main-small {font-size: 17px;}

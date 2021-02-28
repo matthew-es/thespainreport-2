@@ -38,12 +38,11 @@
 	</h1>
 	
 	<%# Intro block... %>
-	<div class="margin-bottom-20">
+	<div class="margin-bottom-10">
 		<%# Lede... %>
 		<div class="margin-top-5 font-main font-main-normal font-italic">
 			<span class="font-bold"><%= @article.type.try(:name) %>:</span> <%= @article.lede %>
 		</div>
-	
 	
 		<%# Byline... %>
 		<div class="float-left">
@@ -274,7 +273,7 @@
 
 
 
-<div class="margin-top-20">
+<div class="margin-top-10">
 	<%# PODCAST REPORT/INTERVIEW EPISODE NOTES %>
 	<% if ["Podcast"].include?(@article.type.name) %>
 		<hr />
@@ -331,10 +330,10 @@
 	
 	<%# INDIVIDUAL TWEETS OR PHOTO ESSAY IMAGES FOR THE ARTICLE %>
 	<% if @articletweets.present? %>
-		<% if !["Thread", "Hilo", "Photos", "Fotos"].include?(@article.type.name) %>
+		<% if !["Notes", "Apuntes", "Photos", "Fotos"].include?(@article.type.name) %>
 			<h3>
-				<% case @article.language_id when 1 %>Notes/Tweets
-				<% when 2 %>Apuntes/Tuits
+				<% case @article.language_id when 1 %>Notes
+				<% when 2 %>Apuntes
 				<% end %>
 			</h3>
 		<% end %>

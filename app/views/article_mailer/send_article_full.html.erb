@@ -123,10 +123,10 @@
 
 <%# INDIVIDUAL TWEETS OR PHOTO ESSAY IMAGES FOR THE ARTICLE %>
 <% if @articletweets.present? %>
-	<% if !["Thread", "Hilo", "Photos", "Fotos"].include?(@article.type.name) %>
+	<% if !["Notes", "Apuntes", "Photos", "Fotos"].include?(@article.type.name) %>
 		<p><strong>
-			<% case @article.language_id when 1 %>Notes/Tweets
-			<% when 2 %>Apuntes/Tuits
+			<% case @article.language_id when 1 %>Notes
+			<% when 2 %>Apuntes
 			<% end %>
 		</strong></p>
 	<% end %>
