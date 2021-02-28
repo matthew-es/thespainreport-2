@@ -37,136 +37,153 @@
 		<% end %>
 	</h1>
 	
-	<%# DATE, TIME, LABELS BELOW HEADLINE %>
-	<div class="meta font-main font-main-tiny">
-	    <div class="margin-right-5 float-left mobile-bottom-10">
-	    	<% case @language when 1 %><%= @article.created_at.strftime("%b %d, %Y, %l:%M %P") %>
-	    	<% when 2 %><%= @article.created_at.strftime("%d/%m/%Y, %H:%M") %>
+	<div class="margin-top-5 font-main font-main-normal font-italic">
+		<span class="font-bold"><%= @article.type.try(:name) %>:</span> <%= @article.lede %>
+		</div>
+	
+	
+	<div>
+		<%# Byline... %>
+		<div class="float-left">
+			<img src="<%= asset_path('matthew_mask_web.jpg') %>" style="border-radius: 50%; max-width: 70px;" />
+		</div>
+		<div class="float-left font-main-small margin-top-10 margin-left-10">
+			By Matthew Bennett<br />
+			
+			<%# Date... %>
+			<% case @language when 1 %><%= @article.created_at.strftime("%b %d, %Y, %l:%M %P") %>
+		    <% when 2 %><%= @article.created_at.strftime("%d/%m/%Y, %H:%M") %>
 			<% end %>
-	    </div>
-	    
-	    <% if ["Columna Mecenas", "Patrons Column"].include?@article.type.name %>
-	    	<div class="margin-right-5 float-left mobile-bottom-10">
-	    		<span class="label super-patrons-label">
-	    			<% case @language when 1 %>PATRONS <span class="font-color-yellow">COLUMN</span>
-			    	<% when 2 %><span class="font-color-yellow">COLUMNA</span> MECENAS
+			
+			<%# Labels... %>
+			<div class="meta font-main font-main-tiny margin-top-5">
+			    <% if ["Columna Mecenas", "Patrons Column"].include?@article.type.name %>
+			    	<div class="margin-right-5 float-left mobile-bottom-10">
+			    		<span class="label super-patrons-label">
+			    			<% case @language when 1 %>PATRONS <span class="font-color-yellow">COLUMN</span>
+					    	<% when 2 %><span class="font-color-yellow">COLUMNA</span> MECENAS
+							<% end %>
+			    		</span>
+			    	</div>
+			    <% end %>
+			    
+			    <% if @article.extras_audio_title.present? || @article.extras_video_title.present? || ["Photos", "Fotos"].include?(@article.type.name) %>
+			    	<div class="margin-right-5 float-left mobile-bottom-10">
+			    		<span class="label super-patrons-label">
+			    			<% case @language when 1 %><span class="font-color-yellow">MORE FOR</span> patrons
+					    	<% when 2 %><span class="font-color-yellow">MÁS PARA</span> mecenas
+							<% end %>
+			    		</span>
+			    	</div>
+			    <% end %>
+			    
+			    <% if @article.status.try(:name) == 'Updated' %>
+			    	<div class="margin-right-5 float-left mobile-bottom-10">
+			    		<span class="label background-color-black font-color-white">
+			    			<% case @language when 1 %>Updated
+					    	<% when 2 %>Actualizado
+							<% end %>
+			    		</span>
+			    	</div>
+			    <% end %>
+			    
+			    <% if @article.audio_aac_id.present? %>
+			    	<div class="margin-right-5 float-left mobile-bottom-10">
+			    		<span class="label background-color-black font-color-white">
+			    			Audio
+			    		</span>
+			    	</div>
+			    <% end %>
+			    
+			    <%# TRANSLATION LINKS %>
+				<% if @article.original.blank? %>
+					<% @article.translations.where.not(id: @article).each do |tr| %>
+						<div class="margin-right-5 float-left mobile-bottom-10">
+							<%= link_to tr.language.prompt, tr, class: "label" %>
+						</div>
 					<% end %>
-	    		</span>
-	    	</div>
-	    <% end %>
-	    
-	    <% if @article.extras_audio_title.present? || @article.extras_video_title.present? || ["Photos", "Fotos"].include?(@article.type.name) %>
-	    	<div class="margin-right-5 float-left mobile-bottom-10">
-	    		<span class="label super-patrons-label">
-	    			<% case @language when 1 %><span class="font-color-yellow">MORE FOR</span> patrons
-			    	<% when 2 %><span class="font-color-yellow">MÁS PARA</span> mecenas
+				<% else %>
+					<div class="margin-right-5 float-left mobile-bottom-10">
+						<%= link_to @article.original.language.prompt, @article.original, class: "label" %>
+					</div>
+					<% @article.original.translations.where.not(id: @article).each do |tr| %>
+						<div class="margin-right-5 float-left mobile-bottom-10">
+							<%= link_to tr.language.prompt, tr, class: "label" %>
+						</div>
 					<% end %>
-	    		</span>
-	    	</div>
-	    <% end %>
-	    
-	    <% if @article.status.try(:name) == 'Updated' %>
-	    	<div class="margin-right-5 float-left mobile-bottom-10">
-	    		<span class="label background-color-black font-color-white">
-	    			<% case @language when 1 %>Updated
-			    	<% when 2 %>Actualizado
-					<% end %>
-	    		</span>
-	    	</div>
-	    <% end %>
-	    
-	    <% if @article.audio_aac_id.present? %>
-	    	<div class="margin-right-5 float-left mobile-bottom-10">
-	    		<span class="label background-color-black font-color-white">
-	    			Audio
-	    		</span>
-	    	</div>
-	    <% end %>
-	    
-	    <%# TRANSLATION LINKS %>
-		<% if @article.original.blank? %>
-			<% @article.translations.where.not(id: @article).each do |tr| %>
-				<div class="margin-right-5 float-left mobile-bottom-10">
-					<%= link_to tr.language.prompt, tr, class: "label" %>
-				</div>
-			<% end %>
-		<% else %>
-			<div class="margin-right-5 float-left mobile-bottom-10">
-				<%= link_to @article.original.language.prompt, @article.original, class: "label" %>
-			</div>
-			<% @article.original.translations.where.not(id: @article).each do |tr| %>
-				<div class="margin-right-5 float-left mobile-bottom-10">
-					<%= link_to tr.language.prompt, tr, class: "label" %>
-				</div>
-			<% end %>
-		<% end %>
-		
-		<%# E-MAIL ME ARTICLE %>
-		<% if !current_user.nil? %>
-			<div class="margin-right-5 float-left mobile-bottom-10">
-				<% case @language when 1 %><%= link_to 'Email article', articles_touser_path(article_id: @article.id), class: 'label' %>
-		    	<% when 2 %><%= link_to 'Envíame artículo', articles_touser_path(article_id: @article.id), class: 'label' %>
 				<% end %>
+				
+				<%# E-MAIL ME ARTICLE %>
+				<% if !current_user.nil? %>
+					<div class="margin-right-5 float-left mobile-bottom-10">
+						<% case @language when 1 %><%= link_to 'Email article', articles_touser_path(article_id: @article.id), class: 'label' %>
+				    	<% when 2 %><%= link_to 'Envíame artículo', articles_touser_path(article_id: @article.id), class: 'label' %>
+						<% end %>
+					</div>
+				<% else end %>
+			   
+				<div class="clear"></div>
 			</div>
-		<% else end %>
-	   
+			
+			
+			<%# TEASER LINKS %>
+			<div class="font-main font-main-normal font-italic margin-top-5">
+				
+				<% if @article.extras_audio_title.present? || @article.extras_video_title.present? || @articlepieces.present? || @article.main.present? %>
+					<ul class="font-main-small">
+						<% if @article.extras_audio_title.present? %>
+							<li><strong>
+								<% case @article.language_id when 1 %>More audio for patrons:
+								<% when 2 %>Más audio para mecenas:
+								<% end %>
+								</strong> <%= link_to @article.extras_audio_title, article_path(@article, anchor: 'patrons') %>
+							</li>
+						<% else end %>
+		
+						<% if @article.extras_video_title.present? %>
+							<li><strong>
+								<% case @article.language_id when 1 %>More video for patrons:
+								<% when 2 %>Más vídeo para mecenas:
+								<% end %>
+								</strong> <%= link_to @article.extras_video_title, article_path(@article, anchor: 'patrons') %>
+							</li>
+						<% else end %>
+						
+						<% if @articlepieces.present? %>
+							<li>
+								<strong><%= @article.type.name %></strong>: <%= @article.short_headline %>
+							</li>
+							<% @articlepieces.each do |p| %>
+								<li>
+									<strong><%= p.type.name %>:</strong> <%= link_to p.short_headline, p %>
+								</li>
+							<% end %>				
+						<% else end %>
+					
+						<% if @article.main.present? %>
+							<li>
+								<strong><%= @article.main.type.name %></strong>: <%= link_to @article.main.short_headline, @article.main %>
+							</li>
+							<% @article.main.pieces.each do |p| %>
+								<li>
+									<% if p == @article %>
+										<strong><%= p.type.name %>:</strong> <%= p.short_headline %>
+									<% else %>
+										<strong><%= p.type.name %>:</strong> <%= link_to p.short_headline, p %>
+									<% end %>
+								</li>
+							<% end %>				
+						<% else end %>
+					
+					</ul>
+				<% else end %>
+			</div>
+			
+		</div>
 		<div class="clear"></div>
 	</div>
 	
 	
-	<%# ARTICLE TYPE, LEDE AND TEASER LINKS %>
-	<div class="margin-top-5 font-main font-main-normal font-italic">
-		<span class="font-bold"><%= @article.type.try(:name) %>:</span> <%= @article.lede %>
-		
-		<% if @article.extras_audio_title.present? || @article.extras_video_title.present? || @articlepieces.present? || @article.main.present? %>
-			<ul class="margin-top-5 margin-bottom-0 margin-left-5 margin-right-0 font-main-small">
-				<% if @article.extras_audio_title.present? %>
-					<li><strong>
-						<% case @article.language_id when 1 %>More audio for patrons:
-						<% when 2 %>Más audio para mecenas:
-						<% end %>
-						</strong> <%= link_to @article.extras_audio_title, article_path(@article, anchor: 'patrons') %>
-					</li>
-				<% else end %>
-
-				<% if @article.extras_video_title.present? %>
-					<li><strong>
-						<% case @article.language_id when 1 %>More video for patrons:
-						<% when 2 %>Más vídeo para mecenas:
-						<% end %>
-						</strong> <%= link_to @article.extras_video_title, article_path(@article, anchor: 'patrons') %>
-					</li>
-				<% else end %>
-				
-				<% if @articlepieces.present? %>
-					<li>
-						<strong><%= @article.type.name %></strong>: <%= @article.short_headline %>
-					</li>
-					<% @articlepieces.each do |p| %>
-						<li>
-							<strong><%= p.type.name %>:</strong> <%= link_to p.short_headline, p %>
-						</li>
-					<% end %>				
-				<% else end %>
-			
-				<% if @article.main.present? %>
-					<li>
-						<strong><%= @article.main.type.name %></strong>: <%= link_to @article.main.short_headline, @article.main %>
-					</li>
-					<% @article.main.pieces.each do |p| %>
-						<li>
-							<% if p == @article %>
-								<strong><%= p.type.name %>:</strong> <%= p.short_headline %>
-							<% else %>
-								<strong><%= p.type.name %>:</strong> <%= link_to p.short_headline, p %>
-							<% end %>
-						</li>
-					<% end %>				
-				<% else end %>
-			
-			</ul>
-		<% else end %>
-	</div>
 	
 </div>
 
@@ -182,12 +199,7 @@
 	</div>
 
 <% elsif @article.audio_aac_id.present? && ["Patrons Column", "Columna Mecenas"].include?(@article.type.name) %>
-	<div class="margin-top-20 font-main-tiny">
-		<span class="label patrons-label">
-			<% case @article.language_id when 1 %>LISTEN <span class="font-color-yellow">NOW</span>:</span>
-			<% when 2 %>ESCUCHE <span class="font-color-yellow">AHORA</span>:</span>
-			<% end %>
-	</div>
+	
 	<% if current_user.nil? %>
 		<div class="margin-top-10">
 			<p><em>

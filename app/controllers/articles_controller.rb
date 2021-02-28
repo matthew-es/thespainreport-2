@@ -17,7 +17,7 @@ class ArticlesController < ApplicationController
 		end
 		@mains = Article.is_main.order('created_at DESC')
 		@frames = Frame.all.order(:emotional_quest_action)
-		@uploads = Upload.all.order('created_at DESC').limit(50)
+		@uploads = Upload.all.order('created_at DESC').limit(100)
 		@audios_aac = Upload.audios_aac.order('created_at DESC').limit(100)
 		@audios_mp3 = Upload.audios_mp3.order('created_at DESC').limit(100)
 	end
