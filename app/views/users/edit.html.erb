@@ -1,7 +1,7 @@
 <% title @user.email %>
 
-<div class="content">
     <%= render "layouts/logo_account" %>
+    
     <div class="margin-top-30">
         <h1 class="font-header font-header-normal line-120"><%= @user.email %></h1>
     </div>
@@ -9,5 +9,3 @@
     <%= render 'form', user: @user %>
 
 <%= render "layouts/footer" %>
-
-</div>

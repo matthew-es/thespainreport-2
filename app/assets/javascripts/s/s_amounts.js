@@ -3,18 +3,26 @@ function preciseTaxes( num, precision ) {
 	    return (+(Math.round(+(num + 'e' + precision)) + 'e' + -precision)).toFixed(precision);
 	}
 
-// How much does the reader want to contribute? How much tax is applicable..?
 
-function startAmount() {
-	var setup_amount = 2500;
+// Format the price right in each language
+function priceLanguage(amount) {
+	var price_language = document.getElementById("language_for_server").value;
+	console.log(price_language);
+	console.log(amount);
 	
-	document.getElementById("plan_amount").innerHTML = preciseTaxes(parseFloat(setup_amount/100), 2);
-	document.getElementById("plan_amount_for_server").value = setup_amount;
+	if (price_language == "1") {
+		price_format = "€" + preciseTaxes(parseFloat(amount/100), 2) + "/month";
+	} else if (price_language == "2") {
+		price_format = preciseTaxes(parseFloat(amount/100), 2) + " euros al mes";
+	}
 }
 
-function changeAmount(clicked_value) {
-	var setup_amount = clicked_value;
+
+// How much does the reader want to contribute?
+function setAmount(amount) {
+	priceLanguage(amount);
 	
-	document.getElementById("plan_amount").innerHTML = preciseTaxes(parseFloat(setup_amount/100), 2);
-	document.getElementById("plan_amount_for_server").value = clicked_value;
+	document.getElementById("plan_amount").innerHTML = price_format;
+	document.getElementById("plan_amount_for_server").value = amount;
+	document.getElementById("plan_amount").style.cssText = "color: black; background-color: #ffe4b3;";
 }

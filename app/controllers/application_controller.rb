@@ -37,11 +37,11 @@ class ApplicationController < ActionController::Base
 			else end
 			
 			@admin = @status == 1
-			@super_patron = @status == 2 && (@level > 2500)
-			@patron_reader_25 = @status == 2 && (@level == 2500)
-			@patron_reader_10 = @status == 2 && @level.between?(1000, 2400)
-			@patron_reader_5 = @status == 2 && @level.between?(500, 900)
-			@patron_reader_1 = @status == 2 && @level.between?(100, 400)
+			@super_patron = @status == 2 && (@level > 25)
+			@patron_reader_25 = @status == 2 && (@level == 25)
+			@patron_reader_10 = @status == 2 && @level.between?(10, 24)
+			@patron_reader_5 = @status == 2 && @level.between?(5, 9)
+			@patron_reader_1 = @status == 2 && @level.between?(1, 4)
 			@patron_reader_0 = @status == 2 && (@level == 0)
 			@patron = @patron_reader_0 || @patron_reader_1 || @patron_reader_5 || @patron_reader_10 || @patron_reader_25
 			@reader_trial = @status == 3 && @can_read_date > Time.now

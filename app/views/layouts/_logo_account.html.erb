@@ -1,63 +1,13 @@
+<% if controller_name == "articles" && action_name == "show" && ["Photos", "Fotos"].include?(@article.type.name) %>
+		<div class="content-wide">
+	<% else %>
+		<div class="content">
+	<% end %>
+
+
 <div class="">
 	
-	<div class="float-left align-left mobile-100 margin-top-10">
-		
-				<% if current_user.nil? %>
-					<% if controller_name == "payments" %>
-		
-					<% else %>
-						<div class="padding-5">
-							<div class="topbutton mobile-100"> 
-								<a href="<%= @subscribe %>" class="buybutton"><%= @frame.emotional_quest_action %></a> 
-							</div>
-							<div class="margin-top-5 font-main font-italic font-main-tiny">
-								<%= @frame.emotional_quest_role %>
-							</div>
-						</div>
-					<% end %>
-				
-				<% else %>
-					<div class="patrons-background padding-10">
-						<%= render "users/user_labels" %>
-						
-						<div class="float-left">
-						<% case @status when 1 %>
-							<%= link_to 'Send', new_tweet_path %> |
-						<% end %>
-						
-						<% case @language when 1 %> <%= link_to 'I am a patron', edit_user_path(current_user) %>
-						<% when 2 %> <%= link_to 'Yo soy mecenas', edit_user_path(current_user) %>
-						<% end %>
-						
-						| 
-						<% case @language when 1 %> <%= link_to 'Logout', users_logout_path %>
-						<% when 2 %> <%= link_to 'Salir', users_logout_path %>
-						<% end %>
-						</div>
-					
-						
-
-						<div class="clear"></div>
-						
-						
-						<div class="margin-top-5 font-main font-italic font-main-tiny">
-							<% case @language when 1 %>Patrons guarantee this journalism. 100%.
-							<% when 2 %>Los mecenas garantizan este periodismo. 100%.
-							<% end %>
-						</div>
-					</div>
-					
-					
-					
-					
-				<% end %>
-		
-		
-		
-	</div>
-	
-	
-	<div class="float-right align-right mobile-100 margin-top-20">
+	<div class="float-left align-right margin-top-10 background-color-red padding-5">
 		<div class="width-fixed-logo">
 			<% if controller_name == 'payments' && action_name == 'pay' || controller_name == 'payments' && action_name == 'pagar' %>
 			
@@ -72,5 +22,52 @@
 			</a>
 		</div>
 	</div>
+	
+	<div class="float-right align-right margin-top-15">
+		
+				<% if current_user.nil? %>
+					<% if controller_name == "payments" %>
+		
+					<% else %>
+						<div class="">
+							<div class="topbutton mobile-100"> 
+								<a href="<%= @subscribe %>" class="buybutton"><%= @frame.emotional_quest_action %></a> 
+							</div>
+							<div class="margin-top-5 font-main font-italic font-main-tiny">
+								<%= @frame.emotional_quest_role %>
+							</div>
+						</div>
+					<% end %>
+				
+				<% else %>
+					<div class="patrons-background padding-10">
+						<%= render "users/user_labels" %>
+						
+						<div class="float-left">
+							<% case @status when 1 %>
+								<%= link_to 'Send', new_tweet_path %> |
+							<% end %>
+							
+							<% case @language when 1 %> <%= link_to 'I am a patron', edit_user_path(current_user) %>
+							<% when 2 %> <%= link_to 'Yo soy mecenas', edit_user_path(current_user) %>
+							<% end %>
+							
+							| 
+							<% case @language when 1 %> <%= link_to 'Logout', users_logout_path %>
+							<% when 2 %> <%= link_to 'Salir', users_logout_path %>
+							<% end %>
+						</div>
+
+						<div class="clear"></div>
+					</div>
+					
+				<% end %>
+
+	</div>
+	
+	
+	
 	<div class="clear"></div>
 </div>
+
+<div class="margin-top-30">

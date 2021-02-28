@@ -210,13 +210,19 @@ class TweetsController < ApplicationController
 			if params[:tweet][:discord_covid] == "1"
 				discord_url = URI("https://discord.com/api/webhooks/814430104863637545/Kapadua6nUMTO8KzT9o5ADHyz5xavoHf1dBRntOppmfGEN84NjfYFOOUMQwENZF4zVdV")
 				send_discord_message(discord_url)
-			elsif params[:tweet][:discord_politics] == "1"
+			else end
+			
+			if params[:tweet][:discord_politics] == "1"
 				discord_url = URI("https://discord.com/api/webhooks/814434525672898630/GKOIOlFF-FOhHy33qSvz1GoFqA1pQXPi4HtDnytPC-59NbU8UOZusDyIe0sRzVLj385c")
 				send_discord_message(discord_url)
-			elsif params[:tweet][:discord_economy] == "1"
+			else end
+			
+			if params[:tweet][:discord_economy] == "1"
 				discord_url = URI("https://discord.com/api/webhooks/813753000065105940/cS0r2dhsSrAJ_gf7l-fk-qejM64rLYOJwx_coOEfJn7Rs2urwOPz8zVayxUtWqVA30p3")
 				send_discord_message(discord_url)
-			elsif params[:tweet][:discord_media] == "1"
+			else end
+			
+			if params[:tweet][:discord_media] == "1"
 				discord_url = URI("https://discord.com/api/webhooks/814434756569464853/5ZWwFJ8rYQ-rqwvxhKATXU0I3UtsBWt3D6lKto75UYLWSd5ribuHicNpWEX3OwfkthHf")
 				send_discord_message(discord_url)
 			else end

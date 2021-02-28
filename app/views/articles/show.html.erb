@@ -23,16 +23,9 @@
  	<meta property="og:article:author" content="Matthew Bennett"/>
  	<meta property="og:article:section" content="<%= @article.story.headline unless @article.story.nil? %>"/>
 <% end %>
-
-<% if ["Photos", "Fotos"].include?(@article.type.name) %>
-	<div class="content-wide">
-<% else %>
-	<div class="content">
-<% end %>
 	
 <%= render "layouts/logo_account" %>
 
-<div class="margin-top-30">
 	<%# HEADLINE %>
 	<h1 class="font-header font-header-normal line-120 font-upper">
 		<% if current_user.nil? %>
@@ -52,10 +45,12 @@
 			<% end %>
 	    </div>
 	    
-	    <% if ["Sólo mecenas", "Patrons only"].include?@article.type.name %>
+	    <% if ["Columna Mecenas", "Patrons Column"].include?@article.type.name %>
 	    	<div class="margin-right-5 float-left mobile-bottom-10">
 	    		<span class="label super-patrons-label">
-	    			<%= @article.type.name %>
+	    			<% case @language when 1 %>PATRONS <span class="font-color-yellow">COLUMN</span>
+			    	<% when 2 %><span class="font-color-yellow">COLUMNA</span> MECENAS
+					<% end %>
 	    		</span>
 	    	</div>
 	    <% end %>
@@ -63,8 +58,8 @@
 	    <% if @article.extras_audio_title.present? || @article.extras_video_title.present? || ["Photos", "Fotos"].include?(@article.type.name) %>
 	    	<div class="margin-right-5 float-left mobile-bottom-10">
 	    		<span class="label super-patrons-label">
-	    			<% case @language when 1 %>More for patrons
-			    	<% when 2 %>Más para mecenas
+	    			<% case @language when 1 %><span class="font-color-yellow">MORE FOR</span> patrons
+			    	<% when 2 %><span class="font-color-yellow">MÁS PARA</span> mecenas
 					<% end %>
 	    		</span>
 	    	</div>
@@ -186,11 +181,11 @@
 		<% end %>
 	</div>
 
-<% elsif @article.audio_aac_id.present? && ["Patrons only", "Sólo mecenas"].include?(@article.type.name) %>
+<% elsif @article.audio_aac_id.present? && ["Patrons Column", "Columna Mecenas"].include?(@article.type.name) %>
 	<div class="margin-top-20 font-main-tiny">
 		<span class="label patrons-label">
-			<% case @article.language_id when 1 %>LISTEN NOW:</span>
-			<% when 2 %>ESCUCHE AHORA:</span>
+			<% case @article.language_id when 1 %>LISTEN <span class="font-color-yellow">NOW</span>:</span>
+			<% when 2 %>ESCUCHE <span class="font-color-yellow">AHORA</span>:</span>
 			<% end %>
 	</div>
 	<% if current_user.nil? %>
@@ -277,13 +272,13 @@
 	
 	
 	<%# ARTICLE TEXT %>
-	<% if ["Patrons only", "Sólo mecenas"].include?(@article.type.name) %>
+	<% if ["Patrons Column", "Columna Mecenas"].include?(@article.type.name) %>
 		<% if current_user.nil? %>
-			<%= markdown(truncate(@article.body, length: 550)) %>
+			<%= markdown(truncate(@article.body, length: 350)) %>
 		<% elsif @can_read_level_1 %>
 			<%= markdown(@article.body).html_safe %>
 		<% else %>
-			<%= markdown(truncate(@article.body, length: 550)) %>
+			<%= markdown(truncate(@article.body, length: 350)) %>
 		<% end %>
 	<% else %>
 		<%= markdown(@article.body).html_safe %>
@@ -399,7 +394,7 @@
 	<% end %>
 	
 	<%# PATRONS EXTRAS HERE...  %>
-	<% if @article.extras_audio_title.present? || @article.extras_video_title.present? || ["Patrons only", "Sólo mecenas"].include?(@article.type.name) %>
+	<% if @article.extras_audio_title.present? || @article.extras_video_title.present? || ["Patrons Column", "Columna Mecenas"].include?(@article.type.name) %>
 		<%= render "articles/patrons_only_block" %>
 	<% else end %>
 
@@ -413,6 +408,3 @@
 
 	<%# FOOTER...  %>
 	<%= render "layouts/footer" %>
-
-</div>
-<div class="clear"></div>

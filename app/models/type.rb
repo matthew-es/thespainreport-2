@@ -8,8 +8,8 @@ class Type < ApplicationRecord
     
     scope :story, -> {where(name: ['Story', 'Tema'])}
     scope :notstory, -> {where.not(name: ['Story', 'Tema'])}
-    scope :patrons, -> {where(name: ['Patrons only', 'Sólo mecenas'])}
-    scope :notpatrons, -> {where.not(name: ['Patrons only', 'Sólo mecenas'])}
+    scope :patrons, -> {where(name: ['Patrons Column', 'Columna Mecenas'])}
+    scope :notpatrons, -> {where.not(name: ['Patrons Column', 'Columna Mecenas'])}
 
     scope :truth, -> {where(name: ['Truth & Journalism', 'Verdad y Periodismo'])}
     scope :nottruth, -> {where.not(name: ['Truth & Journalism', 'Verdad y Periodismo'])}

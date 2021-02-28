@@ -20,8 +20,8 @@
 			</span>
 		<% elsif @super_patron %>
 			<span class="label super-patrons-label">
-				<% case @language when 1 %>SUPER PATRON
-				<% when 2 %>SUPER MECENAS
+				<% case @language when 1 %><span class="font-color-yellow">SUPER</span> PATRON
+				<% when 2 %><span class="font-color-yellow">SUPER</span> MECENAS
 				<% end %>
 			</span>
 		<% elsif @admin %>

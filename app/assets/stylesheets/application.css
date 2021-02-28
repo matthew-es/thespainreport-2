@@ -13,7 +13,7 @@ input[type=text], input[type=email], input[type=password], input[type=number], t
 a.logo, a.logo:visited {background-color: #AA151B; color: #ffffff; font-family: Georgia; text-decoration: none;}
 a.logo:hover {background-color: #AA151B;}
 
-a {color: #2952a3;}
+a {color: #2952a3; text-decoration: underline;}
 a:visited {color: #930677;}
 a:hover {background-color: #F1BF00; color: #ffffff;}
 
@@ -85,7 +85,7 @@ a.no-hover-bg:hover {background-color: #fff;}
 
 .patrons-border {}
 .patrons-background {background-color: #fffae6;}
-.patrons-label {background-color: #AA151B;; color: #FFFFFF;}
+.patrons-label {background-color: #AA151B;; color: #F1BF00;}
 .super-patrons-label {background-color: #AA151B;; color: #F1BF00;}
 .buy-border {border: 2px dashed #F1BF00;}
 .buy-border-top {border-top: 2px dashed #F1BF00;}
@@ -126,6 +126,7 @@ a.no-hover-bg:hover {background-color: #fff;}
 .margin-top-3 {margin-top: 3px;}
 .margin-top-5 {margin-top: 5px;}
 .margin-top-10 {margin-top: 10px;}
+.margin-top-15 {margin-top: 15px;}
 .margin-top-20 {margin-top: 20px;}
 .margin-top-25 {margin-top: 25px;}
 .margin-top-30 {margin-top: 30px;}

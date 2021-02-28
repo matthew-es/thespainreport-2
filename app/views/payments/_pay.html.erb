@@ -32,12 +32,67 @@
 					<%= image_tag ('https://image.thespainreport.es/' + p.image) %>
 					<div class="mobile-margins font-main-small" style="min-height: 150px;"><%= markdown(p.description) %></div>
 					<p class="align-centre line-100">
-						<button type="submit" class="buybutton width-100 font-main-normal" id="price" value="<%= p.price %>" onclick="changeAmount(this.value)"><%= number_to_currency((p.price/100.to_f), unit: "€") %></button>
+						<button type="submit" class="buybutton width-100 font-main-normal" id="price" value="<%= p.price %>" onclick="setAmount(this.value)"><%= number_to_currency((p.price/100.to_f), unit: "€") %></button>
 					</p>
 				</div>
 			</div>
 		<% end %>
 		<div class="clear"></div>
+	</div>
+	
+	<div class="margin-bottom-20">
+		<div class="margin-right-5 margin-top-2 float-left mobile-bottom-10 font-main-tiny">
+		<span class="label super-patrons-label">
+			<% case @language when 1 %><span class="font-color-yellow">SUPER</span> PATRON
+			<% when 2 %><span class="font-color-yellow">SUPER</span> MECENAS
+			<% end %>
+		</span>
+		</div>
+		
+		<em>
+		Want to <%= @frame.money_word_verb %> journalism more? Choose: 
+			<a data-price="5000" onclick="setAmount(this.dataset.price)">
+				<% case @language when 1 %>€50</a>
+				<% when 2 %>50 euros</a>
+				<% end %>
+			</a>
+			/
+			<a data-price="10000" onclick="setAmount(this.dataset.price)">
+				<% case @language when 1 %>€100</a>
+				<% when 2 %>100 euros</a>
+				<% end %>
+			</a>
+			/
+			<a data-price="20000" onclick="setAmount(this.dataset.price)">
+				<% case @language when 1 %>€200</a>
+				<% when 2 %>200 euros</a>
+				<% end %>
+			</a>
+			/
+			<a data-price="50000" onclick="setAmount(this.dataset.price)">
+				<% case @language when 1 %>€500</a>
+				<% when 2 %>500 euros</a>
+				<% end %>
+			</a>
+			/
+			<a data-price="100000" onclick="setAmount(this.dataset.price)">
+				<% case @language when 1 %>€1,000</a>
+				<% when 2 %>1.000 euros</a>
+				<% end %>
+			</a>
+			/
+			<a data-price="150000" onclick="setAmount(this.dataset.price)">
+				<% case @language when 1 -%>€1,500</a>
+				<% when 2 -%>1.500 euros</a>
+				<% end %>
+			/
+			<a data-price="200000" onclick="setAmount(this.dataset.price)">
+				<% case @language when 1 %>€2,000</a>.
+				<% when 2 %>2.000 euros</a>.
+				<% end %>
+			
+			You can create groups of friends with any combination of the three main levels.
+		</em>
 	</div>
 	
 	<%# DISPLAY PAYMENT FORM... %>
@@ -59,8 +114,8 @@
 			<div class="margin-top-10">
 				<ul class="font-main-small">
 					<li>
-						<% case @language when 1 %>Select a new <%= @frame.money_word_singular %>: <strong>€<span id="plan_amount"></span>/month</strong>
-						<% when 2 %>Su <%= @frame.money_word_singular %>: €<span id="plan_amount"></span>/mes
+						<% case @language when 1 %>New <%= @frame.money_word_singular %>: <span id="plan_amount"></span>
+						<% when 2 %>Nueva <%= @frame.money_word_singular %>: <span id="plan_amount"></span>
 						<% end %>
 					</li>
 					<li>
@@ -125,7 +180,7 @@
 				<% if current_user.nil? || !current_user.account.present? || !current_user.account.stripe_payment_method.present? %>
 					<button id="card-button" class="buybutton width-50 font-main-normal" data-secret=""><%= @frame.button_cta %></button>
 				<% elsif current_user.account.stripe_payment_method.present? %>
-					<button id="button_existing_payment_method" class="width-33 padding-5 font-main-normal" onClick="setupExistingpayment()"><%= @frame.button_cta %></button>
+					<button id="button_existing_payment_method" class="buybutton width-50 padding-5 font-main-normal" onClick="setupExistingpayment()"><%= @frame.button_cta %></button>
 				<% end %>
 			</div>
 			

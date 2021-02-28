@@ -168,6 +168,15 @@ class ArticlesController < ApplicationController
 			users.each do |user|
 				ArticleMailer.send_article_full(@article, user).deliver_now
 			end
+		elsif params[:article][:email_to] == 'discord'
+			if @article.type.name == "Patrons Column"
+				discord_url = URI("https://discord.com/api/webhooks/815276312247795723/72Ib0XzZ1SLjxahBaR7QWE10lM9IdDt5yxncxXtpxe6fILJnTcv9paDuX-hkODMl3nwK")
+			elsif @article.type.name = "Columna Mecenas"
+				discord_url = URI("https://discord.com/api/webhooks/815290225273995324/nAJkFq869-Q1n16rPWn9W96gshhNHmOuZfA8FJUj7rLgjUX-R5eO6LS-cj3PzTN93NjM")
+			else end
+			
+			discord_message = @article.short_headline.upcase + "\n\n" + @article.body
+			Net::HTTP.post_form(discord_url, 'content' => discord_message)
 		elsif params[:article][:email_to] == 'alert'
 			if ["Notes"].include?@article.type.name
 				User.emails_notes.emails_english.find_each(batch_size: 50) do |user|

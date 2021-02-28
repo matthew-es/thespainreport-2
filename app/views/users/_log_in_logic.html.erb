@@ -10,7 +10,7 @@
 					<%= @frame.patrons_extra_videos %>
 				<% elsif ["Photos", "Fotos"].include?(@article.type.name) %>
 					<%= @frame.patrons_extra_photos %>
-				<% elsif ["Patrons only", "Sólo mecenas"].include?(@article.type.name) %>
+				<% elsif ["Patrons Column", "Columna Mecenas"].include?(@article.type.name) %>
 					<%= @frame.patrons_extra_column %>
 				<% else end %>
 			<% else end %>
@@ -52,6 +52,7 @@
 			<% else end %>
 			<div class="clear"></div>
 		<% end %>
+		
 	<% elsif !current_user.nil? %>
 		<div class="margin-top-20 log-in-border-top font-main-small">
 			
