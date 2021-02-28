@@ -28,12 +28,13 @@
 
 		<%# DISPLAY HOME-PAGE MINI LIST OR EXTRA ARTICLE CONTENT %>
 		<% if controller_name == "home" %>
-			<ul class="margin-top-20 margin-bottom-20">
-				<% if @patrons.any?; @patrons.each do |article| %>
-					<%= render "articles/index_articles_list_link", {article: article} %>
-				<% end end %>
-			</ul>
-			
+			<div class="margin-top-10 margin-bottom-10 padding-left-20">
+				<ul class="">
+					<% if @patrons.any?; @patrons.each do |article| %>
+						<%= render "articles/index_articles_list_link", {article: article} %>
+					<% end end %>
+				</ul>
+			</div>
 			<%= render 'users/log_in_logic' %>
 			<%= render "home/patrons_only_home" %>
 		<% elsif controller_name == "articles" && action_name == "show" %>
