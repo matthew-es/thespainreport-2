@@ -34,7 +34,7 @@
 						<%= markdown(p.description) %>
 					</div>
 					<p class="align-centre line-100">
-						<button type="submit" class="buybutton width-100 font-main-normal" id="price" value="<%= p.price %>" onclick="setAmount(this.value)"><%= number_to_currency((p.price/100.to_f), unit: "€") %></button>
+						<button type="submit" class="buybutton width-100 font-main-normal" id="price" value="<%= p.price %>" onclick="setAmount(this.value); checkAmount();"><%= number_to_currency((p.price.to_f), unit: "€") %></button>
 					</p>
 				</div>
 			</div>
@@ -52,48 +52,7 @@
 		</div>
 		
 		<em>
-		Want to <%= @frame.money_word_verb %> journalism more? Choose: 
-			<a data-price="5000" onclick="setAmount(this.dataset.price)">
-				<% case @language when 1 %>€50</a>
-				<% when 2 %>50 euros</a>
-				<% end %>
-			</a>
-			/
-			<a data-price="10000" onclick="setAmount(this.dataset.price)">
-				<% case @language when 1 %>€100</a>
-				<% when 2 %>100 euros</a>
-				<% end %>
-			</a>
-			/
-			<a data-price="20000" onclick="setAmount(this.dataset.price)">
-				<% case @language when 1 %>€200</a>
-				<% when 2 %>200 euros</a>
-				<% end %>
-			</a>
-			/
-			<a data-price="50000" onclick="setAmount(this.dataset.price)">
-				<% case @language when 1 %>€500</a>
-				<% when 2 %>500 euros</a>
-				<% end %>
-			</a>
-			/
-			<a data-price="100000" onclick="setAmount(this.dataset.price)">
-				<% case @language when 1 %>€1,000</a>
-				<% when 2 %>1.000 euros</a>
-				<% end %>
-			</a>
-			/
-			<a data-price="150000" onclick="setAmount(this.dataset.price)">
-				<% case @language when 1 -%>€1,500</a>
-				<% when 2 -%>1.500 euros</a>
-				<% end %>
-			/
-			<a data-price="200000" onclick="setAmount(this.dataset.price)">
-				<% case @language when 1 %>€2,000</a>.
-				<% when 2 %>2.000 euros</a>.
-				<% end %>
-			
-			You can create groups of friends with any combination of the three main levels.
+		Want to <%= @frame.money_word_verb %> journalism more? Type your own amount into the box below. You can create groups of friends with any combination of the three main levels.
 		</em>
 	</div>
 	
@@ -114,11 +73,24 @@
 			
 			<%# Select a contribution amount and tax country... %>
 			<div class="margin-top-10">
+				
 				<ul class="font-main-small">
 					<li>
-						<% case @language when 1 %>New <%= @frame.money_word_singular %>: <span id="plan_amount"></span>
-						<% when 2 %>Nueva <%= @frame.money_word_singular %>: <span id="plan_amount"></span>
+						<% case @language when 1 %>New <%= @frame.money_word_singular %>: € 
+						<% when 2 %>Nueva <%= @frame.money_word_singular %>: 
 						<% end %>
+						
+						<input type="number" id="plan_amount" min="5" step="5" max="2000" value="25" >
+						
+						<% case @language when 1 %> / month
+						<% when 2 %> euros al mes
+						<% end %>
+						
+						<span id="payment_form_errors" class="color-red background-light-red hide">
+							<% case @language when 1 %>...multiple of 5 between 5 and 2,000 
+							<% when 2 %>...múltiplo de 5 entre 5 y 2.000
+							<% end %>
+						</span>
 					</li>
 					<li>
 						<% case @language when 1 %>Which country do you pay taxes in?
@@ -154,12 +126,18 @@
 			<%# If new user, or not logged in, display box for new email... %>	
 			<% if current_user.nil? %>
 				<div class="margin-top-10">
-					<% case @language when 1 then @place_email = "Enter your email address…" %>
-					<% when 2 then @place_email = "Introduzca su correo electrónico…" %>
-					<% end %>
 					<input id="customer_email" name="customer_email" type="text" class="StripeElement stripe_email width-100" placeholder="<%= @place_email %>" data-email="" value="" onfocus="getSetup()" onkeyup="setEmail()" onchange="setEmail()" onclick="setEmail()" />
 				</div>
 			<% else end %>
+			
+			<%# Invoice address form if needed... %>
+			<div id="invoice_details" style="display: none;">
+				<h3>Invoice details</h3>
+				<input id="invoice_name" name="invoice_name" type="text" class="StripeElement stripe_email width-100" placeholder="<%= @place_invoice_name %>" data-address="" onkeyup="setTaxName()" onchange="setTaxName()" onclick="setTaxName()" />
+				<input id="invoice_tax_id" name="invoice_tax_id" type="text" class="StripeElement stripe_email width-100 margin-top-10" placeholder="<%= @place_invoice_tax_id %>" data-address="" onkeyup="setTaxId()" onchange="setTaxId()" onclick="setTaxId()" />
+				<input id="invoice_address" name="invoice_address" type="text" class="StripeElement stripe_email width-100 margin-top-10" placeholder="<%= @place_invoice_address %>" data-address="" onkeyup="setTaxAddress()" onchange="setTaxAddress()" onclick="setTaxAddress()" />
+				<h3>Card details</h3>
+			</div>
 
 			
 			<%# If Stripe payment method, display that; otherwise, display Stripe new credit card form... %>

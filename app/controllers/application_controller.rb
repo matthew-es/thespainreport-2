@@ -37,11 +37,11 @@ class ApplicationController < ActionController::Base
 			else end
 			
 			@admin = @status == 1
-			@super_patron = @status == 2 && (@level > 25)
-			@patron_reader_25 = @status == 2 && (@level == 25)
-			@patron_reader_10 = @status == 2 && @level.between?(10, 24)
-			@patron_reader_5 = @status == 2 && @level.between?(5, 9)
-			@patron_reader_1 = @status == 2 && @level.between?(1, 4)
+			@super_patron = @status == 2 && (@level > 2500)
+			@patron_reader_25 = @status == 2 && (@level == 2500)
+			@patron_reader_10 = @status == 2 && @level.between?(1000, 2499)
+			@patron_reader_5 = @status == 2 && @level.between?(500, 999)
+			@patron_reader_1 = @status == 2 && @level.between?(100, 499)
 			@patron_reader_0 = @status == 2 && (@level == 0)
 			@patron = @patron_reader_0 || @patron_reader_1 || @patron_reader_5 || @patron_reader_10 || @patron_reader_25
 			@reader_trial = @status == 3 && @can_read_date > Time.now
@@ -57,6 +57,16 @@ class ApplicationController < ActionController::Base
 		end
 	end
 	
+	def set_payment_method(user)
+		if	current_user.account.stripe_payment_method.present?
+			@existing_pm = Stripe::PaymentMethod.retrieve(current_user.account.stripe_payment_method)
+			@existing_pm_brand = @existing_pm.card.brand
+			@existing_pm_last4 = @existing_pm.card.last4
+			@existing_pm_month = @existing_pm.card.exp_month
+			@existing_pm_year = @existing_pm.card.exp_year
+		else 
+		end
+	end
 	
 	def set_country
 		require 'uri'
@@ -139,6 +149,19 @@ class ApplicationController < ActionController::Base
 		@increase = root_url + @stub_increase + @frame.link_slug
 		@restart = root_url + @stub_restart + @frame.link_slug
 	end
+	
+	def placeholders
+		case @language
+			when 1
+				@place_email = "Enter your email address..."
+				@place_invoice_name = "Enter your invoice name..."
+				@place_invoice_tax_id = "Enter your tax ID..."
+				@place_invoice_address = "Enter your invoice address..."
+			when 2
+				@place_email = "Introduzca su correo electrónico…"
+		end
+	end
+	
 	
 	def has_existing_payment_method
 		unless current_user.nil? || !current_user.account.present? || !current_user.account.stripe_payment_method.present?

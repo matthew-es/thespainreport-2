@@ -20,17 +20,10 @@ class PaymentsController < ApplicationController
 		end
 		set_language_frame(1, @frame.id)
 		set_status(current_user) unless current_user.nil?
-		
+		set_payment_method(current_user) unless current_user.nil?
+		placeholders
 		how_much
 		@article_id = "0"
-		
-		unless current_user.nil? || !current_user.account.present? || !current_user.account.stripe_payment_method.present?
-			@existing_pm = Stripe::PaymentMethod.retrieve(current_user.account.stripe_payment_method)
-			@existing_pm_brand = @existing_pm.card.brand
-			@existing_pm_last4 = @existing_pm.card.last4
-			@existing_pm_month = @existing_pm.card.exp_month
-			@existing_pm_year = @existing_pm.card.exp_year
-		end
 	end
 	
 	def pagar
@@ -40,18 +33,12 @@ class PaymentsController < ApplicationController
 		end
 		set_language_frame(2, @frame.id)
 		set_status(current_user) unless current_user.nil?
-		
+		set_payment_method(current_user) unless current_user.nil?
+		placeholders
 		how_much
 		@article_id = "0"
-		
-		unless current_user.nil? || !current_user.account.present? || !current_user.account.stripe_payment_method.present?
-			@existing_pm = Stripe::PaymentMethod.retrieve(current_user.account.stripe_payment_method)
-			@existing_pm_brand = @existing_pm.card.brand
-			@existing_pm_last4 = @existing_pm.card.last4
-			@existing_pm_month = @existing_pm.card.exp_month
-			@existing_pm_year = @existing_pm.card.exp_year
-		end
 	end
+	
 	
 	def payment_messages
 		case @language when "1"

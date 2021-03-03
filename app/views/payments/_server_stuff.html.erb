@@ -22,5 +22,9 @@
 	<input type="hidden" name="article_for_server" id="article_for_server" value="<%= yield(:title) %>" />
 	<input type="hidden" name="referrer_for_server" id="referrer_for_server" value="<%= request.referrer %>" />
 	
+	<input type="hidden" name="invoice_name_for_server" id="invoice_name_for_server" value="" />
+	<input type="hidden" name="invoice_tax_id_for_server" id="invoice_tax_id_for_server" value="" />
+	<input type="hidden" name="invoice_address_for_server" id="invoice_address_for_server" value="" />
+	
 	<%= hidden_field_tag 'authenticity_token', form_authenticity_token %>
 </form>

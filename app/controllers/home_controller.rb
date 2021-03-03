@@ -2,7 +2,8 @@ class HomeController < ApplicationController
 	def index
 		set_language_frame(1, nil)
 		set_status(current_user) unless current_user.nil?
-		has_existing_payment_method
+		set_payment_method(current_user) unless current_user.nil?
+		placeholders
 		
 		@article_id = "0"
 		@latestmain = Article.english.published.latestmain

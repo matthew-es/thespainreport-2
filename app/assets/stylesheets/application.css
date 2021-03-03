@@ -32,6 +32,7 @@ button.buybutton {padding: 7px;}
 button.buybutton, button.buybutton:visited, button.buybutton:hover {border: 1px solid #997a00; border-radius: 3px; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset; cursor: pointer; text-align: center; display: inline-block;}
 button.buybutton, button.buybutton:visited {background-color: #f1bf00; color: #fffae6; font-family: Georgia; text-decoration: none;}
 button.buybutton:hover {background-color: #997a00; color: #fff;}
+button.greyedout, button.greyedout:hover {background-color: grey;}
 
 a.buybutton {padding: 7px;}
 a.buybutton, a.buybutton:visited, a.buybutton:hover {border: 1px solid #997a00; border-radius: 3px; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset; cursor: pointer; text-align: center; display: inline-block;}
@@ -42,6 +43,7 @@ a.editor-link, a.editor-link:visited, a.editor-link:hover, h1 a, h1 a:visited, h
 a.no-hover-bg:hover {background-color: #fff;}
 
 /* Appearances */
+.color-red {color: red;}
 .font-bold {font-weight: bold;}
 .font-italic {font-style: italic;}
 .font-upper {text-transform: uppercase;}
@@ -71,6 +73,7 @@ a.no-hover-bg:hover {background-color: #fff;}
 .border-bottom-1 {border-bottom: 1px solid #AA151B;}
 .border-top-quiet {border-top: 1px solid #cccccc;}
 .border-patrons {border: 2px solid #cc7a00;}
+.background-light-red {background-color: #ffe6e6;}
 
 .line-100 {line-height: 100%;}
 .line-115 {line-height: 114%;}
@@ -97,7 +100,9 @@ a.no-hover-bg:hover {background-color: #fff;}
 .log-in-border-top {border-top: 2px dashed #AA151B;}
 .admin-border-split {border-top: 1px dotted #AA151B;}
 
+
 /* Positioning */
+.hide {display: none;}
 .clear {clear:both;}
 .float-left {float: left;}
 .float-right {float: right;}

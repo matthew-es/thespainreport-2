@@ -134,8 +134,8 @@
 					<ul class="font-main-small">
 						<% if @article.extras_audio_title.present? %>
 							<li><strong>
-								<% case @article.language_id when 1 %>More audio for patrons:
-								<% when 2 %>Más audio para mecenas:
+								<% case @article.language_id when 1 %>More audio:
+								<% when 2 %>Más audio:
 								<% end %>
 								</strong> <%= link_to @article.extras_audio_title, article_path(@article, anchor: 'patrons') %>
 							</li>
@@ -143,8 +143,8 @@
 		
 						<% if @article.extras_video_title.present? %>
 							<li><strong>
-								<% case @article.language_id when 1 %>More video for patrons:
-								<% when 2 %>Más vídeo para mecenas:
+								<% case @article.language_id when 1 %>More video:
+								<% when 2 %>Más vídeo:
 								<% end %>
 								</strong> <%= link_to @article.extras_video_title, article_path(@article, anchor: 'patrons') %>
 							</li>

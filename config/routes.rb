@@ -63,6 +63,12 @@
 	get 'suscribirse/:slug', to: redirect { |path, req| "valor/#{path[:slug]}" }
 	get 'valor/:slug' => 'payments#pagar'
 	get 'valor/' => 'payments#pagar'
+	get 'patron', to: redirect('value/patron')
+	get 'mecenas', to: redirect('valor/mecenas')
+	get 'patron', to: redirect('value/patron')
+	get 'mecenas', to: redirect('valor/mecenas')
+	get 'superpatron', to: redirect('value/superpatron')
+	get 'supermecenas', to: redirect('valor/supermecenas')
 	
 	get 'stripe_get_payment_intent' => 'payments#stripe_get_payment_intent'
 	get 'confirm_credit_card' => 'payments#stripe_confirm_payment'

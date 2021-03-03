@@ -63,6 +63,8 @@ class ArticlesController < ApplicationController
 		end
 		set_language_frame(@article.language_id, frame)
 		set_status(current_user) unless current_user.nil?
+		set_payment_method(current_user) unless current_user.nil?
+		placeholders
 		
 		if ["Published", "Updated"].include?@article.status.name
 			
@@ -70,14 +72,6 @@ class ArticlesController < ApplicationController
 			@frame_id = @article.frame.id
 			@articletweets = @article.tweets.order('created_at ASC')
 			@articlepieces = @article.pieces.published.order('created_at ASC')
-			
-			unless current_user.nil? || current_user.account.blank? || !current_user.account.stripe_payment_method.present?
-			 @existing_pm = Stripe::PaymentMethod.retrieve(current_user.account.stripe_payment_method)
-			 @existing_pm_brand = @existing_pm.card.brand
-			 @existing_pm_last4 = @existing_pm.card.last4
-			 @existing_pm_month = @existing_pm.card.exp_month
-			 @existing_pm_year = @existing_pm.card.exp_year
-			end
 			
 		elsif current_user.nil?
 			redirect_to root_url
