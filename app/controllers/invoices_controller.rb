@@ -17,7 +17,9 @@ class InvoicesController < ApplicationController
   # GET /invoices/1.json
   def show
     @invoice = Invoice.find(params[:id])
-		set_status(current_user)
+		set_language_frame(current_user.sitelanguage, current_user.frame.id)
+		set_status(current_user) unless current_user.nil?
+		
 		
 		if current_user.nil?
 			redirect_to root_url

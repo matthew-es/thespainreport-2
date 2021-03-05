@@ -85,6 +85,7 @@
 			<hr />
 			Status: <%= form.select :status, options_for_select([["Author", "1"], ["Reader", "3"], ["Patron", "2"], ["Super Patron", "4"]], :selected => @user.status) %><br />
 			Level amount: <%= form.number_field :level_amount %><br />
+			<hr />
 			Can read? <%= form.check_box :can_read %><br />
 			Can read date: <%= form.datetime_field :can_read_date, :size => '35' %>
 			<hr />
@@ -139,11 +140,13 @@
 				<% end %>
 			</strong>
 			
-			<%= number_to_currency((current_user.account.total_support/100.to_f), unit: "€") %>
-	
+			<%= number_to_currency((@user.account.total_support/100.to_f), unit: "€") %><br />
+			<strong>Invoice name:</strong> <%= @user.account.invoice_account_name %><br />
+			<strong>Invoice tax ID:</strong> <%= @user.account.invoice_account_tax_id %><br />
+			<strong>Invoice address:</strong> <%= @user.account.invoice_account_address %><br />
 		<% else end %>
 		
-		<br />
+		<hr />
 		
 		<strong>
 			<% case @user.sitelanguage when 1 %> Status:
@@ -260,8 +263,8 @@
 						</td>
 						<td>Nº</td>
 						<td class="right">
-							<% case @user.sitelanguage when 1 %>Subscription
-							<% when 2 %>Suscripción
+							<% case @user.sitelanguage when 1 %>Subscr.
+							<% when 2 %>Suscr.
 							<% end %>
 						</td>
 						<td class="right">
@@ -299,8 +302,8 @@
 					<% @user.account.invoices.each do |i| %>
 						<tr class="<%= cycle("odd", "even") -%>">
 							<td class="right"><%= i.created_at.strftime("%d/%m/%Y") %></td>
-							<td class="right"><%= i.invoice_number %></td>
-							<td class="right"><%= i.subscription_id %>, <%= i.account_id %></td>
+							<td class="left"><%= i.invoice_number %></td>
+							<td class="right"><%= i.subscription_id %></td>
 							<td class="right"><%= number_to_currency((i.plan_amount.to_f/100.to_f), unit: "€") %></td>
 							<td class="right"><%= number_to_currency((i.tax_amount.to_f/100.to_f), unit: "€") %></td>
 							<td class="right"><%= number_to_currency((i.total_amount.to_f/100.to_f), unit: "€") %></td>

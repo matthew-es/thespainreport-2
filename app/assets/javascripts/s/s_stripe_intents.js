@@ -2,6 +2,7 @@
 
 function getSetup() {
     document.getElementById("customer_email").onfocus = null;
+    document.getElementById("customer_email").onmouseover = null;
     document.getElementById("card-element").onmouseover = null;
     document.getElementById("select_residence_country").onfocus = null;
     

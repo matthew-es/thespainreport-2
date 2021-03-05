@@ -35,6 +35,56 @@ function setSuperAmount(amount) {
 }
 
 
+// Check the invoice deatils are minimally filled in...
+function checkVatDetails() {
+	var na = document.getElementById("invoice_name").value.length
+	var id = document.getElementById("invoice_tax_id").value.length
+	var ad = document.getElementById("invoice_address").value.length
+	
+	
+	if (na == 0) {
+		document.getElementById("card-button").disabled = true;
+		document.getElementById("invoice_name").style.cssText = "border: orange 2px solid; outline-color: orange; color: orange;";
+	}
+	else if (na < 7) {
+		document.getElementById("card-button").disabled = true;
+		document.getElementById("invoice_name").style.cssText = "border: red 2px solid; outline-color: red; color: red;";
+	} else if (na >= 7) {
+		document.getElementById("invoice_name").style.cssText = "border: green 2px solid; outline-color: green; color: green;";
+	}
+	
+	
+	if (id == 0) {
+		document.getElementById("card-button").disabled = true;
+		document.getElementById("invoice_tax_id").style.cssText = "border: orange 2px solid; outline-color: orange; color: orange;";
+	}
+	else if (id < 7) {
+		document.getElementById("card-button").disabled = true;
+		document.getElementById("invoice_tax_id").style.cssText = "border: red 2px solid; outline-color: red; color: red;";
+	} else if (id >= 7) {
+		document.getElementById("invoice_tax_id").style.cssText = "border: green 2px solid; outline-color: green; color: green;";
+	}
+	
+	
+	if (ad == 0) {
+		document.getElementById("card-button").disabled = true;
+		document.getElementById("invoice_address").style.cssText = "border: orange 2px solid; outline-color: orange; color: orange;";
+	}
+	else if (ad < 7) {
+		document.getElementById("card-button").disabled = true;
+		document.getElementById("invoice_address").style.cssText = "border: red 2px solid; outline-color: red; color: red;";
+	} else if (ad >= 7) {
+		document.getElementById("invoice_address").style.cssText = "border: green 2px solid; outline-color: green; color: green;";
+	}
+
+
+	if (na >= 7 && id >= 7 && ad >= 7) {
+		document.getElementById("card-button").disabled = false;
+		checkEmail();
+	}
+}
+
+
 // Super patrons: check how much is in the box...
 function checkAmount() {
 	var amount_max = 2000;
@@ -43,12 +93,14 @@ function checkAmount() {
 	var amount = to_check.value;
 	
 	if (amount <= amount_max && amount >= amount_min) {
-		document.getElementById("plan_amount").style.cssText = "border: green 3px solid; outline-color: green; color: green;";
+		document.getElementById("plan_amount").style.cssText = "border: green 2px solid; outline-color: green; color: green;";
 		document.getElementById("customer_email").disabled = false;
-		document.getElementById("card-element").disabled = false;
+		document.getElementById("card-button").disabled = false;
 		
 		if (amount >= amount_vat) {
 			document.getElementById("invoice_details").style.display = "block";
+			document.getElementById("card-button").disabled = true;
+			checkVatDetails();
 		}
 		if (amount < amount_vat) {
 			document.getElementById("invoice_details").style.display = "none";
@@ -58,10 +110,11 @@ function checkAmount() {
 	}
 	
 	if (amount > amount_max || amount < amount_min || amount % 5 != 0) {
-		document.getElementById("plan_amount").style.cssText = "border: red 3px solid; outline-color: red; color: red;";
+		document.getElementById("plan_amount").style.cssText = "border: red 2px solid; outline-color: red; color: red;";
 		document.getElementById("invoice_details").style.display = "none";
 		document.getElementById("payment_form_errors").style.display = "inline";
 		document.getElementById("customer_email").disabled = true;
+		document.getElementById("card-button").disabled = true;
 	}
 	
 	document.getElementById("plan_amount_for_server").value = (amount * 100);

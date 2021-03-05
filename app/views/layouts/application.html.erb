@@ -36,15 +36,8 @@
 				// Set up things on page load...
 				window.addEventListener('load', function () {    
 				   	startCountry();
-				   	
-				   	<% if controller_name == "payments" && ["superpatron"].include?(action_name) %>
-				   		setSuperAmount(25);
-				   		checkAmount();
-				   	<% else %>
-				  	 	setSuperAmount(25);
-				  	 	checkAmount();
-				   	<% end %>
-				   	
+					setSuperAmount(25);
+			  	 	checkAmount();
 				   	setEmail();
 				   	setExistingEmail();
 				}, false);
@@ -52,8 +45,6 @@
 				var to_check = document.getElementById('plan_amount');
 				to_check.addEventListener("keydown", checkAmount);
 				to_check.addEventListener("input", checkAmount);
-				to_check.addEventListener("click", checkAmount);
-				to_check.addEventListener("mouseover", checkAmount);
 				
 			</script>
 		<% else end %>

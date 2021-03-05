@@ -1,23 +1,24 @@
-<% case @user.sitelanguage when 1 then @thistitle = "Invoice "
-when 2 then @thistitle = "Factura "
-end %>
+<% case @language when 1 %><% title "Invoice Nº:" + @invoice.invoice_number + ", Matthew Bennett" %>
+<% when 2 %><% title "Factura Nº" + @invoice.invoice_number + ", Matthew Bennett" %>
+<% end %>
 
-<% title @thistitle + @invoice.invoice_number + ", Matthew Bennett" unless @invoice.invoice_number.nil? %>
-
+<%= render "layouts/logo_account" %>
 
 <% if current_user.status == 1 %>
 	<%= render "articles/admintop" %>
 <% else end %>
 
+
+
 <h1 class="font-header font-header-normal line-120 font-upper">
-	<% case @user.sitelanguage when 1 %>Invoice
+	<% case @language when 1 %>Invoice
 	<% when 2 %>Factura
 	<% end %>
 </h1>
 
 <div class="margin-bottom-5">
 	<div class="float-left font-bold">
-		<% case @user.sitelanguage when 1 %>Invoice Nº:
+		<% case @language when 1 %>Invoice Nº:
 		<% when 2 %>Nº de Factura:
 		<% end %>
 	</div>
@@ -28,7 +29,7 @@ end %>
 </div>
 <div class="margin-bottom-10">
 	<div class="float-left font-bold">
-		<% case @user.sitelanguage when 1 %>Invoice date:
+		<% case @language when 1 %>Invoice date:
 		<% when 2 %>Fecha de Factura:
 		<% end %>
 	</div>
@@ -40,7 +41,7 @@ end %>
 
 <div class="margin-bottom-5">
 	<div class="float-left font-bold">
-		<% case @user.sitelanguage when 1 %>From:
+		<% case @language when 1 %>From:
 		<% when 2 %>De:
 		<% end %>
 	</div>
@@ -52,7 +53,7 @@ end %>
 </div>
 <div class="margin-bottom-10">
 	<div class="float-left font-bold">
-		<% case @user.sitelanguage when 1 %>Tax ID:
+		<% case @language when 1 %>Tax ID:
 		<% when 2 %>NIF:
 		<% end %>
 	</div>
@@ -64,7 +65,7 @@ end %>
 
 <div class="margin-bottom-5">
 	<div class="float-left font-bold">
-		<% case @user.sitelanguage when 1 %>To:
+		<% case @language when 1 %>To:
 		<% when 2 %>Para:
 		<% end %>
 	</div>
@@ -76,7 +77,7 @@ end %>
 </div>
 <div class="margin-bottom-5">
 	<div class="float-left font-bold">
-		<% case @user.sitelanguage when 1 %>Custopmer Tax ID:
+		<% case @language when 1 %>Custopmer Tax ID:
 		<% when 2 %>NIF del Cliente:
 		<% end %>
 	</div>
@@ -85,7 +86,7 @@ end %>
 </div>
 <div class="margin-bottom-5">
 	<div class="float-left font-bold">
-		<% case @user.sitelanguage when 1 %>Account ID:
+		<% case @language when 1 %>Account ID:
 		<% when 2 %>Nº de Cuenta:
 		<% end %>
 	</div>
@@ -94,7 +95,7 @@ end %>
 </div>
 <div class="margin-bottom-10">
 	<div class="float-left font-bold">
-		<% case @user.sitelanguage when 1 %>Email:
+		<% case @language when 1 %>Email:
 		<% when 2 %>Correo electrónico:
 		<% end %>
 	</div>
@@ -110,7 +111,7 @@ end %>
 
 <div class="margin-bottom-5">
 	<div class="float-left font-bold">
-		<% case @user.sitelanguage when 1 %>Concept:
+		<% case @language when 1 %>Concept:
 		<% when 2 %>Concepto:
 		<% end %>
 	</div>
@@ -123,7 +124,7 @@ end %>
 
 <div class="margin-bottom-5">
 	<div class="float-left font-bold">
-		<% case @user.sitelanguage when 1 %>Base:
+		<% case @language when 1 %>Base:
 		<% when 2 %>Base:
 		<% end %>
 	</div>
@@ -133,7 +134,7 @@ end %>
 
 <div class="margin-bottom-5">
 	<div class="float-left font-bold">
-		<% case @user.sitelanguage when 1 %>VAT:
+		<% case @language when 1 %>VAT:
 		<% when 2 %>IVA:
 		<% end %>
 	</div>
@@ -143,7 +144,7 @@ end %>
 
 <div class="margin-bottom-5">
 	<div class="float-left font-bold">
-		<% case @user.sitelanguage when 1 %>VAT:
+		<% case @language when 1 %>VAT:
 		<% when 2 %>IVA:
 		<% end %>
 	</div>
@@ -153,7 +154,7 @@ end %>
 
 <div class="margin-bottom-5">
 	<div class="float-left font-bold">
-		<% case @user.sitelanguage when 1 %>Total:
+		<% case @language when 1 %>Total:
 		<% when 2 %>Total:
 		<% end %>
 	</div>
@@ -165,7 +166,7 @@ end %>
 
 <div class="margin-bottom-5">
 	<div class="float-left font-bold">
-		<% case @user.sitelanguage when 1 %>Invoice status:
+		<% case @language when 1 %>Invoice status:
 		<% when 2 %>Estado de la factura:
 		<% end %>
 	</div>
@@ -179,7 +180,7 @@ end %>
 </div>
 <div class="margin-bottom-10">
 	<div class="float-left font-bold">
-		<% case @user.sitelanguage when 1 %>Payment Nº:
+		<% case @language when 1 %>Payment Nº:
 		<% when 2 %>Nº de pago:
 		<% end %>
 	</div>
@@ -196,12 +197,12 @@ end %>
 
 <div class="margin-bottom-10">
 	<div class="float-left font-bold">
-		<% case @user.sitelanguage when 1 %>Thanks!
+		<% case @language when 1 %>Thanks!
 		<% when 2 %>¡Gracias!
 		<% end %>
 	</div>
 	<div class="float-left margin-left-5">
-		<% case @user.sitelanguage when 1 %>Your support really does make independent journalism possible.
+		<% case @language when 1 %>Your support really does make independent journalism possible.
 		<% when 2 %>Su apoyo hace que este periodismo independiente sea posible.
 		<% end %>
 	</div>

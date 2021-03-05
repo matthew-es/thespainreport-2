@@ -16,6 +16,9 @@ function confirmPayment() {
  	var pa = document.getElementById("plan_amount_for_server").value;
  	var va = document.getElementById("vat_amount_for_server").value;
  	var ta = document.getElementById("total_amount_for_server").value;
+ 	var inna = document.getElementById("invoice_name_for_server").value;
+ 	var inid = document.getElementById("invoice_tax_id_for_server").value;
+ 	var inad = document.getElementById("invoice_address_for_server").value;
  	
  	var string_for_server = 
  	'email_for_server=' + e
@@ -29,7 +32,11 @@ function confirmPayment() {
  	+ '&article_for_server=' + art
  	+ '&plan_amount_for_server=' + pa 
  	+ '&vat_amount_for_server=' + va 
- 	+ '&total_amount_for_server=' + ta;
+ 	+ '&total_amount_for_server=' + ta
+ 	+ '&invoice_name_for_server=' + inna
+ 	+ '&invoice_tax_id_for_server=' + inid
+ 	+ '&invoice_address_for_server=' + inad
+ 	;
  
 	var xhttp = new XMLHttpRequest();
 	  xhttp.onreadystatechange = function() {

@@ -169,7 +169,7 @@ class PaymentsController < ApplicationController
 			card_country: @card_country
 			)
 		
-		render json: {plan_amount: @plan_amount.to_f, vat_country: @vat_country, vat_rate: @vat_rate.to_f, vat_amount: @vat_amount, total_amount: @total_amount}, status: 200
+		render json: {email: @user.email, plan_amount: @plan_amount.to_f, vat_country: @vat_country, vat_rate: @vat_rate.to_f, vat_amount: @vat_amount, total_amount: @total_amount}, status: 200
 	end
 	
 	def stripe_calculate_total_amount
@@ -199,7 +199,7 @@ class PaymentsController < ApplicationController
 			card_country: @card_country
 			)
 
-		render json: {plan_amount: @plan_amount.to_f, vat_country: @vat_country, vat_rate: @vat_rate.to_f, vat_amount: @vat_amount, total_amount: @total_amount}, status: 200
+		render json: {email: @user.email, plan_amount: @plan_amount.to_f, vat_country: @vat_country, vat_rate: @vat_rate.to_f, vat_amount: @vat_amount, total_amount: @total_amount}, status: 200
 	end
 	
 	def eu_vat_logic
@@ -227,7 +227,10 @@ class PaymentsController < ApplicationController
 		
 		@account.update(
 		    vat_country: @vat_country,
-		    residence_country: @residence_country
+		    residence_country: @residence_country,
+		    invoice_account_name: params[:invoice_name_for_server],
+		    invoice_account_tax_id: params[:invoice_tax_id_for_server],
+		    invoice_account_address: params[:invoice_address_for_server]
 		    )
 	end
 	
@@ -308,33 +311,35 @@ class PaymentsController < ApplicationController
 				next_payment_date: @time_next
 				)
 			
-			puts "Subscription now created..."
+			how_many_invoices = Invoice.all.where(invoice_year: Time.current.year).count
+			invoice_number = "SPAIN-" + Time.current.year.to_s + '-' + (how_many_invoices + 1).to_s.rjust(8, '0')
 			
 			@invoice = Invoice.create(
 				account_id: @account_id,
 				subscription_id: @subscription.id,
 				plan_amount: @subscription.plan_amount,
 				tax_percent: @subscription.vat_rate,
+				invoice_tax_country: "",
 				tax_amount: @subscription.vat_amount,
-			    total_amount: @subscription.total_amount
+			    total_amount: @subscription.total_amount,
+			    invoice_number: invoice_number,
+			    invoice_year: Time.now.year,
+			    invoice_month: Time.now.month,
+			    invoice_day: Time.now.day,
+			    invoice_customer_name: @account.invoice_account_name,
+			    invoice_customer_tax_id: @account.invoice_account_tax_id,
+			    invoice_customer_address: @account.invoice_account_address,
+			    invoice_concept: "Independent journalism. Periodismo independiente.",
+			    invoice_from_name: "Matthew Bennett",
+			    invoice_from_tax_id: "X3630511F",
+			    invoice_from_address: "Avenida Príncipe de Asturias 42, 3C, 30007 Murcia"
 				)
-			
-			puts @invoice
-			puts @invoice.account
-			puts @invoice.account_id
-			puts @invoice.account.id
-			puts @invoice.subscription_id
-			puts @invoice.subscription.id
-			puts @invoice.plan_amount
+				
 			
 			@payment.update(
 				subscription_id: @subscription.id,
 				invoice_id: @invoice.id
 				)
-			
-			puts @payment
-			puts @payment.subscription_id
-			puts @payment.subscription.id
 			
 			@stripe_payment = Stripe::PaymentIntent.confirm(@payment.external_payment_id)
 			case @stripe_payment.status

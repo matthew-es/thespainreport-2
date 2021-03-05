@@ -51,6 +51,10 @@
 			var pi = document.getElementById("stripe_payment_intent_for_server").value;
  			var si = document.getElementById("stripe_setup_intent_for_server").value;
  			
+ 			var inna = document.getElementById("invoice_name_for_server").value;
+		 	var inid = document.getElementById("invoice_tax_id_for_server").value;
+		 	var inad = document.getElementById("invoice_address_for_server").value;
+ 			
  			if (result.error) {
  				sendError(result)
  			} else {
@@ -70,7 +74,11 @@
  				+ '&residence_country_code_for_server=' + rc 
  				+ '&stripe_payment_intent_for_server=' + pi 
  				+ '&stripe_setup_intent_for_server=' + si 
- 				+ '&stripe_pm_for_server=' + pm;
+ 				+ '&stripe_pm_for_server=' + pm
+ 				+ '&invoice_name_for_server=' + inna
+			 	+ '&invoice_tax_id_for_server=' + inid
+			 	+ '&invoice_address_for_server=' + inad
+ 				;
  				
 				var xhttp = new XMLHttpRequest();
 				  xhttp.onreadystatechange = function() {
@@ -94,7 +102,9 @@
 					     var details_vat_rate = details["vat_rate"]
 					     var details_vat_amount = details["vat_amount"]
 					     var details_total_amount = details["total_amount"]
+					     var details_email = details["email"]
 					     
+					     document.getElementById("confirm_email").innerHTML = details_email;
 					     document.getElementById("confirm_plan_amount").innerHTML = "€ " + preciseTaxes(details_plan_amount/100, 2);
 					     document.getElementById('confirm_vat_rate').innerHTML = preciseTaxes(details_vat_rate*100, 1) + "%";
 					     if (details_vat_amount == "0") {
