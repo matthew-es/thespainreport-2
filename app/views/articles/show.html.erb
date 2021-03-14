@@ -208,6 +208,7 @@
 			<% when 2 %><strong>Publicado:</strong> <%= @article.upload.created_at.strftime("%d/%m/%Y, %H:%M") %> 
 			<% end %>
 	
+	<% if false %>
 			<% if current_user.nil? %>
 				<% case @language when 1 %> | <%= link_to "High resolution image for patrons", "https://www.thespainreport.es/value/guarantee" %>
 				<% when 2 %> | <%= link_to "Imagen de alta resolución para mecenas", "https://www.thespainreport.es/value/guarantee" %>
@@ -221,6 +222,7 @@
 				<% when 2 %> | <%= link_to "Imagen de alta resolución para mecenas", "https://www.thespainreport.es/valor/garantizar" %>
 				<% end %>
 			<% end %>
+	<% end %>
 		</span>
 	</div>
 <% else %>
@@ -236,7 +238,7 @@
 
 <% if @article.audio_aac_id.present? %>
 	
-	<% if current_user.nil? %>
+	<% if ["Patrons Column", "Columna Mecenas"].include?(@article.type.name) && current_user.nil? %>
 			<p class="font-main-small"><em>
 				<% case @language when 1 %><a href="#patrons">Log in</a> to listen:
 				<% when 2 %><a href="#patrons">Inicie sesión</a> para escuchar:
@@ -248,7 +250,7 @@
 	  		<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/mpeg">
 			Your browser does not support the audio element.
 		</audio>
-	<% elsif @can_read_level_5 %>
+	<% elsif ["Patrons Column", "Columna Mecenas"].include?(@article.type.name) && @can_read_level_5 %>
 		<div class="margin-left-20 margin-top-20" >
 			<audio controls>
 			  	<source src="<%= 'https://audio.thespainreport.es/' + File.basename(Upload.find(@article.audio_aac_id).data) unless @article.audio_aac_id.nil? %>" type="audio/aac">
