@@ -1,16 +1,11 @@
 module Patrons
-    class CreateNewPatron
+    class CreateNewUser
         def self.process(params)
 
         language_from_server = params[:language_for_server]
         email_from_server = params[:email_for_server]
         article_from_server = params[:article_for_server]
         frame = Frame.find_by(id: params[:frame_for_server])
-        article_from_server = params[:article_for_server]
-
-        frame_id = frame.id
-		frame_quest_action = frame.emotional_quest_action
-		frame_quest_role = frame.emotional_quest_role
 		
         autopassword = 'L e @ 4' + SecureRandom.hex(32)
 		generate_token = SecureRandom.urlsafe_base64.to_s
@@ -29,28 +24,15 @@ module Patrons
             emails: 1,
             emaillanguage: language_from_server,
             email_confirmed: false,
-            frame_id: frame_id,
+            frame_id: frame.id,
             article_from_server: article_from_server
             )
-		
-		account = Account.create!(
-			user_id: new_patron.id,
-			account_status: 4,
-			account_status_date: Time.zone.now,
-			conversation_status: 1,
-			total_support: 0
-			)
-		
-		new_patron.update(
-			account_id: account.id,
-			account_role: 1
-			)
 
         admin_subject = "New reader: " + new_patron.email
         admin_message = (
         	"New reader: " + new_patron.email + 
-        	"<br />Article: " + article_from_server + 
-        	"<br />Frame: " + frame_quest_action
+        	"<br />Article: " + new_patron.article_from_server + 
+        	"<br />Frame: " + new_patron.frame.emotional_quest_action
 			).html_safe
 			
 		UserMailer.welcome_reader(new_patron).deliver_now

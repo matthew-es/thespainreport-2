@@ -318,6 +318,39 @@ class UsersController < ApplicationController
 		redirect_to users_path
 	end
 	
+	
+	def account_boss_adds_user
+		user = User.find_by(email: params[:email_for_server])
+		
+		if user.nil?
+			puts "Getting ready to create account member..."
+			new_account_member = Patrons::CreateNewUser.process(params)
+			puts "New user created"
+			Patrons::AddAccountMember.process(new_account_member, current_user.account_id)
+			puts "Account member added..."
+		else
+			puts "User already exists..."
+		end
+		
+#		user = User.find_by_email(params[:email])
+#		s = Subscription.find_by_id(params[:subscription_id])
+#		
+#		user.update(
+#			account_subscription_id: s.id,
+#			role: new_role,
+#			access_date: s.stripe_subscription_current_period_end_date
+#		)
+		
+		redirect_to edit_user_path(current_user)
+		flash[:success] = "New group member added."
+	end
+	
+	def unlink_account_member(user)
+		Patrons::UnlinkAccountMember(user, current_user.account_id)
+		redirect_to edit_user_path(current_user)
+		flash[:success] = "Group member unlinked."
+	end
+	
 	# GET /users/new
 	def new
 		if current_user.nil? 
@@ -338,11 +371,13 @@ class UsersController < ApplicationController
 			@user = User.find(params[:id])
 			set_language_frame(current_user.sitelanguage, current_user.frame.id)
 			set_status(@user)
+			@members = @user.account.users.members
 		elsif User.find(params[:id]) != current_user
 			redirect_to edit_user_path(current_user)
 		elsif User.find(params[:id]) == current_user
 			set_language_frame(current_user.sitelanguage, current_user.frame.id)
 			set_status(current_user)
+			@members = @user.account.users.members
 		else
 			puts "some other user edit problem"
 			redirect_to root_url

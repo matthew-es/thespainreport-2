@@ -3,6 +3,7 @@ class User < ApplicationRecord
 	has_secure_password
 	belongs_to :account, optional: true
 	belongs_to :frame, optional: true
+	belongs_to :subscription, optional: true
 	
 	validates :email, :uniqueness => {:case_sensitive => false, message: "—try your e-mail again…"}
 	validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, message: "—try your e-mail again…"
@@ -34,8 +35,8 @@ class User < ApplicationRecord
    scope :readers, -> {where(status: 3)}
    
    
-   scope :account_owner, -> {where(account_role: 1)}
-   scope :account_member, -> {where(account_role: 2)}
+   scope :bosses, -> {where(account_role: 1)}
+   scope :members, -> {where(account_role: 2)}
    
    scope :nil_status, -> {where(status: nil)}
    

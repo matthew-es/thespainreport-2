@@ -142,6 +142,7 @@ class PaymentsController < ApplicationController
 			end
 		else
 			@user = Patrons::CreateNewPatron.process(params)
+			@account = Patrons::CreateNewAccount.process(@user)
 			tsr_update_account(@user.account)
 			new_stripe_customer
 			stripe_calculate_total_amount

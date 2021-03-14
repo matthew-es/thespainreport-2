@@ -185,6 +185,8 @@
 		<strong>Problems?</strong> matthew@thespainreport.es / (0034) 647 81 81 43. We'll fix it together.
 	</div>
 </div>
+<% end %>
+
 
 
 <div class="patrons-background padding-20">
@@ -202,7 +204,11 @@
 					<% end %>
 				</h3>
 				
-				<table class="admin-table">
+				
+					
+					<% @user.account.subscriptions.each do |s| %>
+						
+						<table class="admin-table">
 					<tr style="font-weight: bold;" >
 						<td>Nº</td>
 						<td class="right">
@@ -235,8 +241,7 @@
 							--/--
 						</td></tr>
 					<% end %>
-					
-					<% @user.account.subscriptions.each do |s| %>
+						
 						<tr class="<%= cycle("odd", "even") -%>">
 							<td class="right"><%= s.id %></td>
 							<td class="right"><%= number_to_currency((s.plan_amount.to_f/100.to_f), unit: "€") %></td>
@@ -245,8 +250,29 @@
 							<td class="right"><%= s.created_at.strftime("%d/%m/%Y") %></td>
 							<td class="right"><%= s.next_payment_date.strftime("%d/%m/%Y") %></td>
 						</tr>
+						</table>
+						
+						<div class="margin-left-30">
+							<% @members.each do |m| %>
+								<div class="margin-top-5">
+									<%= m.email %> | <%= m.account_role %> | <%= link_to 'Unlink', unlink_account_member_user_url(m), data: { confirm: 'Are you sure?' } %>
+								</div>
+							<% end %>
+							
+							<div class="margin-top-5">
+								<%= form_tag '/account_boss_adds_user',  :style => 'margin-bottom: 10px;', :id => 'account_boss_adds_user' do %>
+									<input type="email" name="email_for_server" id="email" placeholder="Enter new e-mail…">
+									<input type="hidden" name="account_id" id="account_id" value="<%= @user.account.id %>">
+									<input type="hidden" name="subscription_id" id="subscription_id" value="<%= @user.account.subscriptions.last.id %>">
+									<input type="hidden" name="frame_for_server" id="frame_for_server" value="<%= @user.frame.id %>">
+									<input type="hidden" name="article_for_server" id="article_for_server" value="Added by <%= @user.email %>">
+									<button type="submit" class="linkbutton">Add User</button>
+								<% end %>
+							</div>
+						</div>
+						
 					<% end %>
-				</table>
+				
 				
 				<h3>
 					<% case @user.sitelanguage when 1 %> Invoices
@@ -318,4 +344,3 @@
 		<% end %>
 	</div>
 </div>
-<% end %>

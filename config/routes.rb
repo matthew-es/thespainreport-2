@@ -139,6 +139,8 @@
 	
 	post 'editor_creates_new_user' => 'users#editor_creates_new_user'
 	post 'editor_modifies_accounts' => 'accounts#admin_modifies_accounts_and_users'
+	post 'account_boss_adds_user' => 'users#account_boss_adds_user'
+	
 	post 'upload_files' => 'uploads#upload_files'
 	
 	resources :users do
@@ -149,6 +151,7 @@
 	  get :introducir_clave_nueva
 	  get :update_email_amount
 	  get :update_email_language
+	  get :unlink_account_member
 	end
 	end
 	resources :uploads
