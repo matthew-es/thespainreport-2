@@ -32,6 +32,8 @@ class Article < ApplicationRecord
     scope :notaudiointerview, -> {Article.joins(:type).merge(Type.notaudiointerview)}
     scope :video, -> {Article.joins(:type).merge(Type.video)}
     scope :notvideo, -> {Article.joins(:type).merge(Type.notvideo)}
+    scope :videoblog, -> {Article.joins(:type).merge(Type.videoblog)}
+    scope :notvideoblog, -> {Article.joins(:type).merge(Type.notvideoblog)}
     scope :photo, -> {Article.joins(:type).merge(Type.photo)}
     scope :notphoto, -> {Article.joins(:type).merge(Type.notphoto)}
     

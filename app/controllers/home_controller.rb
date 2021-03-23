@@ -13,6 +13,7 @@ class HomeController < ApplicationController
 		@truth = Article.english.published.truth.lastfive
 		@photos = Article.english.published.photo.lastfive
 		@videos = Article.english.published.video.lastfive
+		@videoblogs = Article.english.published.videoblog.lastfive
 			
 		@rss = Article.published.english.order('created_at DESC')
 		respond_to do |format|
@@ -38,6 +39,7 @@ class HomeController < ApplicationController
 		@truth = Article.spanish.published.truth.lastfive
 		@photos = Article.spanish.published.photo.lastfive
 		@videos = Article.spanish.published.video.lastfive
+		@videoblogs = Article.spanish.published.videoblog.lastfive
 		
 		@rss = Article.published.spanish.order('created_at DESC')
 		respond_to do |format|

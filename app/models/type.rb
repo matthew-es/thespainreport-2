@@ -21,6 +21,8 @@ class Type < ApplicationRecord
     scope :notthread, -> {where(name: ['Notes', 'Apuntes'])}
     scope :video, -> {where(name: ['Video', 'Vídeo'])}
     scope :notvideo, -> {where.not(name: ['Video', 'Vídeo'])}
+    scope :videoblog, -> {where(name: ['Video Blog', 'Vídeo Blog'])}
+    scope :notvideoblog, -> {where.not(name: ['Video Blog', 'Vídeo Blog'])}
     scope :photo, -> {where(name: ['Photos', 'Fotos'])}
     scope :notphoto, -> {where.not(name: ['Photos', 'Fotos'])}
     

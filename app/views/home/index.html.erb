@@ -59,9 +59,20 @@
 <%= render "payments/pay" %>
 
 <div class="buy-border-top margin-top-20">
-	<h3>Videos</h3>
+	<h3>Video Reports</h3>
 	<ul class="no-points">
 		<% if @videos.any? %>
+			<% @videos.each do |article| %>
+				<%= render "articles/index_articles_list_link", {article: article} %>
+			<% end %>
+		<% else %>
+			Coming soon....
+		<% end %>
+	</ul>
+	
+	<h3>Video Blog</h3>
+	<ul class="no-points">
+		<% if @videoblogs.any? %>
 			<% @videos.each do |article| %>
 				<%= render "articles/index_articles_list_link", {article: article} %>
 			<% end %>
@@ -88,7 +99,7 @@
 		<% end %>
 	</ul>
 	
-	<h3>Threads & News</h3>
+	<h3>Notes</h3>
 	<ul class="no-points">
 		<% if @free.any?; @free.each do |article| %>
 			<%= render "articles/index_articles_list_link", {article: article} %>
