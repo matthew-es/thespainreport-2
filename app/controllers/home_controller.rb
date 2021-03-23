@@ -8,6 +8,7 @@ class HomeController < ApplicationController
 		@article_id = "0"
 		@latestmain = Article.english.published.latestmain
 		@podcast = Article.english.published.podcast.lastfive
+		@notes = Article.english.published.notes.lastfive
 		@patrons = Article.english.published.patrons.lastfive
 		@free = Article.english.published.nottruth.notstory.notpatrons.notpodcast.notphoto.notvideo.lastfive
 		@truth = Article.english.published.truth.lastfive
@@ -34,6 +35,7 @@ class HomeController < ApplicationController
 		@article_id = "0"
 		@latestmain = Article.spanish.published.latestmain
 		@podcast = Article.spanish.published.podcast.lastfive
+		@notes = Article.spanish.published.notes.lastfive
 		@patrons = Article.spanish.published.patrons.lastfive
 		@free = Article.spanish.published.nottruth.notstory.notpatrons.notpodcast.notphoto.notvideo.lastfive
 		@truth = Article.spanish.published.truth.lastfive

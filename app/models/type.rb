@@ -19,6 +19,7 @@ class Type < ApplicationRecord
     scope :notaudiointerview, -> {where.not(name: ['Audio Interview', 'Entrevista Audio'])}
     scope :thread, -> {where(name: ['Notes', 'Apuntes'])}
     scope :notthread, -> {where(name: ['Notes', 'Apuntes'])}
+    scope :notes, -> {where(name: ['Notes', 'Apuntes'])}
     scope :video, -> {where(name: ['Video', 'Vídeo'])}
     scope :notvideo, -> {where.not(name: ['Video', 'Vídeo'])}
     scope :videoblog, -> {where(name: ['Video Blog', 'Vídeo Blog'])}
