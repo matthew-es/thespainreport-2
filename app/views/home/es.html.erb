@@ -72,7 +72,7 @@
 	
 	<h3>Vídeo Blog</h3>
 	<ul class="no-points">
-		<% if @videos.any? %>
+		<% if @videoblogs.any? %>
 			<% @videoblogs.each do |article| %>
 				<%= render "articles/index_articles_list_link", {article: article} %>
 			<% end %>
