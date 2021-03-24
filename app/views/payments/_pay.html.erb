@@ -57,9 +57,6 @@
 			<% when 2 %>
 				¿Quiere <%= @frame.money_word_verb %> el periodismo más? Introduzca su propia cantidad abajo. Puede crear grupos de amigos con cualquier combinación de los tres principales niveles.
 			<% end %>
-		
-		
-		
 		</em>
 	</div>
 	
@@ -226,9 +223,14 @@
 				<li>Enter your email address and credit card details</li>
 				<li>The server will check your card and do some sums…</li>
 				<li>Click "<%= @frame.button_cta %>"</li>
-				<li>That's it, welcome aboard, you will get a couple of emails</li>
+				<li>That's it, done, welcome aboard, you will get a confirmation email</li>
 			<% when 2 %>
-				Spanish instructions
+				<li>Haga clic en <%= @frame.money_word_singular %> que quiere <%= @frame.money_word_verb %></li>
+				<li>Elija el país donde paga impuestos</li>
+				<li>Introduzca su correo electrónico y los detalles de su tarjeta de crédito</li>
+				<li>El servidor comprobará su tarjeta y hará algunas sumas…</li>
+				<li>Haga clic en "<%= @frame.button_cta %>"</li>
+				<li>Ya está, hecho, bienvenido a bordo, recibirá un correo de confirmación</li>
 			<% end %>
 		</ol>
 	</div>
@@ -241,11 +243,11 @@
 		</p>
 		<ol class="instructions margin-top-5">
 			<% case @language when 1 %>
-				<li>If you would like to <%= @frame.money_word_verb %> a larger <%= @frame.money_word_singular %>, please click here</li>
 				<li>You can print receipts or invoices for all your <%= @frame.money_word_plural %> in "My Account"</li>
 				<li>Any problems or questions, email: matthew@thespainreport.es</li>
 			<% when 2 %>
-				More Spanish instructions
+				<li>Puede imprimir facturas para sus <%= @frame.money_word_plural %> en "Yo soy mecenas"</li>
+				<li>Cualquier problema o pregunta: matthew@thespainreport.es</li>
 			<% end %>
 		</ol>
 	</div>
