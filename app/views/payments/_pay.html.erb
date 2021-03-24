@@ -158,9 +158,9 @@
 			<%# PAYMENT BUTTON %>
 			<div class="font-payment margin-top-10 align-centre">
 				<% if current_user.nil? || !current_user.account.present? || !current_user.account.stripe_payment_method.present? %>
-					<button id="card-button" class="buybutton width-50 font-main-normal" data-secret=""><%= @frame.button_cta %></button>
+					<button id="card-button" class="buybutton font-main-normal" data-secret=""><%= @frame.button_cta %></button>
 				<% elsif current_user.account.stripe_payment_method.present? %>
-					<button id="button_existing_payment_method" class="buybutton width-50 padding-5 font-main-normal" onClick="setupExistingpayment()"><%= @frame.button_cta %></button>
+					<button id="button_existing_payment_method" class="buybutton padding-5 font-main-normal" onClick="setupExistingpayment()"><%= @frame.button_cta %></button>
 				<% end %>
 			</div>
 			
