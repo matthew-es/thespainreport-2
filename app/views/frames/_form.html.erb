@@ -25,6 +25,58 @@
 	<div class="margin-bottom-10">
 		<%= f.text_field :emotional_quest_role, :class => "width-33 padding-5 font-main font-main-small font-italic", placeholder: "because…explain reader role…" %>
 	</div>
+
+	
+	<div class="margin-bottom-10">
+    <%= f.text_area :short_story, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Short story…surroundings, antagonists, threats, risk to treasure…" %>
+  </div>
+	
+	<div class="margin-bottom-10">
+		<%= f.text_field :link_slug, :class => "width-20 padding-5", placeholder: "Payment page link slug…" %> (pay, subscribe, guarantee, support, contribute, x)
+	</div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_field :money_word_singular, :class => "width-20 padding-5", placeholder: "Money word singular…" %> "There was a problem with your [payment, subscription, fund, contribution, x]…"
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_field :money_word_with_article, :class => "width-20 padding-5", placeholder: "Money word with article…" %> "Click on [THE payment, subscription, fund, contribution, x]…" / "Haga clic en [LA contribución, X...]
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_field :money_word_plural, :class => "width-20 padding-5", placeholder: "Money word plural…" %> "All of the regular X from hundreds of reader patrons…"
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_field :money_word_verb, :class => "width-20 padding-5", placeholder: "Money word verb…" %> "Click on the [money_word] you wish to X…"
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_field :money_word_verb_phrase, :class => "width-20 padding-5", placeholder: "Money word verb phrase…" %> "Want to XXXXX XXXX [support journalism more]?" / "¿Quiere XXXX XXXX [contribuir más al periodismo]?"
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_area :social_proof, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Social proof & momentum…" %>
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_area :risk_reversal, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Risk reversal, guarantee…" %>
+  </div>
+  
+	<h3>CTAs</h3>
+	
+	<div class="margin-bottom-10">
+    <%= f.text_field :button_cta, :class => "width-20 padding-5", placeholder: "Button CTA: pay/contribute/support Now…" %> (Pay now, contribute now, fund now, insure now, x)
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_field :button_cta_trial_over, :class => "width-20 padding-5", placeholder: "CTA trial over…" %>
+  </div>
+  
+  <div class="margin-bottom-10">
+    <%= f.text_field :button_cta_increase, :class => "width-20 padding-5", placeholder: "CTA increase…" %>
+  </div>
+
 	
 	<h3>Log-in Block</h3>
 	
@@ -102,53 +154,6 @@
 	<div class="margin-bottom-10">
     <%= f.text_field :admin_message, :class => "width-70 padding-5", placeholder: "Admin message…" %>
   </div>
-	
-	
-	<h3>Pay Block/Page</h3>
-	
-	<div class="margin-bottom-10">
-    <%= f.text_area :short_story, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Short story…surroundings, antagonists, threats, risk to treasure…" %>
-  </div>
-	
-	<div class="margin-bottom-10">
-		<%= f.text_field :link_slug, :class => "width-20 padding-5", placeholder: "Payment page link slug…" %> (pay, subscribe, guarantee, support, contribute, x)
-	</div>
-  
-  <div class="margin-bottom-10">
-    <%= f.text_field :money_word_singular, :class => "width-20 padding-5", placeholder: "Money word singular…" %> "There was a problem with your [payment, subscription, fund, contribution, x]…"
-  </div>
-  
-  <div class="margin-bottom-10">
-    <%= f.text_field :money_word_plural, :class => "width-20 padding-5", placeholder: "Money word plural…" %> "All of the regular X from hundreds of reader patrons…"
-  </div>
-  
-  <div class="margin-bottom-10">
-    <%= f.text_field :money_word_verb, :class => "width-20 padding-5", placeholder: "Money word verb…" %> "Click on the [money_word] you wish to X…"
-  </div>
-  
-  <div class="margin-bottom-10">
-    <%= f.text_area :social_proof, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Social proof & momentum…" %>
-  </div>
-  
-  <div class="margin-bottom-10">
-    <%= f.text_area :risk_reversal, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 35px;", placeholder: "Risk reversal, guarantee…" %>
-  </div>
-  
-  
-  <h3>CTAs</h3>
-	
-	<div class="margin-bottom-10">
-    <%= f.text_field :button_cta, :class => "width-20 padding-5", placeholder: "Button CTA: pay/contribute/support Now…" %> (Pay now, contribute now, fund now, insure now, x)
-  </div>
-  
-  <div class="margin-bottom-10">
-    <%= f.text_field :button_cta_trial_over, :class => "width-20 padding-5", placeholder: "CTA trial over…" %>
-  </div>
-  
-  <div class="margin-bottom-10">
-    <%= f.text_field :button_cta_increase, :class => "width-20 padding-5", placeholder: "CTA increase…" %>
-  </div>
-
 	
 	<h3>Email block</h3>
 	

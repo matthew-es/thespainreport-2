@@ -53,9 +53,9 @@
 		
 		<em>
 			<% case @language when 1 %>
-				Want to <%= @frame.money_word_verb %> journalism more? Type your own amount into the box below. You can create groups of friends with any combination of the three main levels.
+				Want to <%= @frame.money_word_verb_phrase %>? Type your own amount into the box below. You can create groups of friends with any combination of the three main levels.
 			<% when 2 %>
-				¿Quiere <%= @frame.money_word_verb %> el periodismo más? Introduzca su propia cantidad abajo. Puede crear grupos de amigos con cualquier combinación de los tres principales niveles.
+				¿Quiere <%= @frame.money_word_verb_phrase %>? Introduzca su propia cantidad abajo. Puede crear grupos de amigos con cualquier combinación de los tres principales niveles.
 			<% end %>
 		</em>
 	</div>
@@ -67,11 +67,27 @@
 			<%# If user already exists and is logged in, say hello... %>
 			<% if current_user.nil? %>
 			<% else %>
-				<div id ="customer_email" name="customer_email" type="text" data-email="<%= current_user.email %>">Hi, <strong><%= current_user.email %></strong></div>
+				<div id ="customer_email" name="customer_email" type="text" data-email="<%= current_user.email %>">
+					<% case @language when 1 %>Hi, 
+					<% when 2 %>Hola,  
+					<% end %>
+					<strong><%= current_user.email %></strong>
+				</div>
 				<div id ="customer_support" name="customer_support" class="margin-top-10">
-					Your current total <% @frame.money_word_singular %> is 
-					<strong><%= number_to_currency((current_user.account.total_support/100.to_f), unit: "€") unless current_user.account.total_support.nil? %>/month</strong>.
-					You can increase it here.</div>
+					<% case @language when 1 %>Your current <%= @frame.money_word_singular %> is €
+					<% when 2 %>Su <%= @frame.money_word_singular %> actual es 
+					<% end %>
+
+					<strong>
+						<% case @language when 1 %><%= number_to_currency((current_user.account.total_support/100.to_f), unit: "") unless current_user.account.total_support.nil? %>
+						<% when 2 %><%= number_to_currency((current_user.account.total_support/100.to_f), unit: "", separator: ",", delimiter: ".") unless current_user.account.total_support.nil? %>
+						<% end %>
+					</strong>
+
+					<% case @language when 1 %> / month
+					<% when 2 %> euros al mes
+					<% end %>
+				</div>
 				
 			<% end %>
 			
@@ -218,14 +234,14 @@
 		</p>
 		<ol class="instructions margin-top-5">
 			<% case @language when 1 %>
-				<li>Click on the <%= @frame.money_word_singular %> you wish to <%= @frame.money_word_verb %></li>
+				<li>Click on <%= @frame.money_word_with_article %> you wish to <%= @frame.money_word_verb %></li>
 				<li>Make sure your tax country is correct</li>
 				<li>Enter your email address and credit card details</li>
 				<li>The server will check your card and do some sums…</li>
 				<li>Click "<%= @frame.button_cta %>"</li>
 				<li>That's it, done, welcome aboard, you will get a confirmation email</li>
 			<% when 2 %>
-				<li>Haga clic en <%= @frame.money_word_singular %> que quiere <%= @frame.money_word_verb %></li>
+				<li>Haga clic en <%= @frame.money_word_with_article %> que quiere <%= @frame.money_word_verb %></li>
 				<li>Elija el país donde paga impuestos</li>
 				<li>Introduzca su correo electrónico y los detalles de su tarjeta de crédito</li>
 				<li>El servidor comprobará su tarjeta y hará algunas sumas…</li>

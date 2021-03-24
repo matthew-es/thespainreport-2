@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_21_133937) do
+ActiveRecord::Schema.define(version: 2021_03_24_185718) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -172,6 +172,8 @@ ActiveRecord::Schema.define(version: 2021_02_21_133937) do
     t.string "reader_no_45_trial_message"
     t.string "button_cta_trial_over"
     t.string "patron_25_message"
+    t.string "money_word_verb_phrase"
+    t.string "money_word_with_article"
     t.index ["language_id"], name: "index_frames_on_language_id"
     t.index ["original_id"], name: "index_frames_on_original_id"
   end
