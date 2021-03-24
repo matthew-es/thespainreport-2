@@ -243,10 +243,12 @@
 		</ol>
 	</div>
 	
-	<div class="margin-top-20">
-		<p class="font-main-small">* <%= @frame.social_proof %></p>
-		<p class="font-main-small">** <%= @frame.risk_reversal %></p>
-	</div>
+	<% if false %>
+		<div class="margin-top-20">
+			<p class="font-main-small">* <%= @frame.social_proof %></p>
+			<p class="font-main-small">** <%= @frame.risk_reversal %></p>
+		</div>
+	<% end %>
 	
 	<%# STORE VALUES FOR SERVER IN FORM FIELDS... %>	
 	<%= render "payments/server_stuff" %>
