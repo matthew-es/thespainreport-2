@@ -52,7 +52,14 @@
 		</div>
 		
 		<em>
-		Want to <%= @frame.money_word_verb %> journalism more? Type your own amount into the box below. You can create groups of friends with any combination of the three main levels.
+			<% case @language when 1 %>
+				Want to <%= @frame.money_word_verb %> journalism more? Type your own amount into the box below. You can create groups of friends with any combination of the three main levels.
+			<% when 2 %>
+				¿Quiere <%= @frame.money_word_verb %> el periodismo más? Introduzca su propia cantidad abajo. Puede crear grupos de amigos con cualquier combinación de los tres principales niveles.
+			<% end %>
+		
+		
+		
 		</em>
 	</div>
 	
