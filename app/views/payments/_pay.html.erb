@@ -24,13 +24,13 @@
 	
 	
 	<%# DISPLAY PLANS... %>
-	<div class="width-98">
+	<div class="width-98 margin-bottom-10">
 		<% @plans.each do |p| %>
 			<div class="width-33 float-left margin-right-5 mobile-width">
 				<h5 class="margin-bottom-0"><%= p.title %></h5>
 				<div class="">
 					<%= image_tag ('https://image.thespainreport.es/' + p.image) %>
-					<div class="mobile-margins font-main-small margin-bottom-10" style="min-height: 150px;">
+					<div class="mobile-margins font-main-small margin-bottom-10" style="min-height: 140px;">
 						<%= markdown(p.description) %>
 					</div>
 					<p class="align-centre line-100">
