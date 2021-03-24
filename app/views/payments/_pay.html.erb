@@ -74,13 +74,17 @@
 					<strong><%= current_user.email %></strong>
 				</div>
 				<div id ="customer_support" name="customer_support" class="margin-top-10">
-					<% case @language when 1 %>Your current <%= @frame.money_word_singular %> is €
+					<% case @language when 1 %>Your current <%= @frame.money_word_singular %> is
 					<% when 2 %>Su <%= @frame.money_word_singular %> actual es 
 					<% end %>
 
 					<strong>
-						<% case @language when 1 %><%= number_to_currency((current_user.account.total_support/100.to_f), unit: "") unless current_user.account.total_support.nil? %>
-						<% when 2 %><%= number_to_currency((current_user.account.total_support/100.to_f), unit: "", separator: ",", delimiter: ".") unless current_user.account.total_support.nil? %>
+						<% if current_user.account.total_support.nil? %>
+							0
+						<% else %>
+							<% case @language when 1 %><%= number_to_currency((current_user.account.total_support/100.to_f), unit: "€") %>
+							<% when 2 %><%= number_to_currency((current_user.account.total_support/100.to_f), unit: "", separator: ",", delimiter: ".") %>
+							<% end %>
 						<% end %>
 					</strong>
 
