@@ -80,7 +80,9 @@
 
 					<strong>
 						<% if current_user.account.total_support.nil? %>
-							0
+							<% case @language when 1 %>€0.00
+							<% when 2 %>0,00
+							<% end %>
 						<% else %>
 							<% case @language when 1 %><%= number_to_currency((current_user.account.total_support/100.to_f), unit: "€") %>
 							<% when 2 %><%= number_to_currency((current_user.account.total_support/100.to_f), unit: "", separator: ",", delimiter: ".") %>
