@@ -31,6 +31,7 @@ class HomeController < ApplicationController
 	def es
 		set_language_frame(2, nil)
 		set_status(current_user) unless current_user.nil?
+		set_payment_method(current_user) unless current_user.nil?
 		
 		@article_id = "0"
 		@latestmain = Article.spanish.published.latestmain
