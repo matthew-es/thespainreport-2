@@ -181,12 +181,20 @@
 
 	
 	
-	<div class="margin-bottom-10 admin-border-split padding-top-10">
+	<div class="admin-border-split padding-top-10">
 		<strong>Problems?</strong> matthew@thespainreport.es / (0034) 647 81 81 43. We'll fix it together.
 	</div>
 </div>
 <% end %>
 
+
+<div class="patrons-background padding-20 margin-bottom-20">
+	<% if @unassigned_members %>
+		<% @unassigned_members.each do |m| %>
+			<%= m.email %>, 
+		<% end %>
+	<% else end %>
+</div>	
 
 
 <div class="patrons-background padding-20">
@@ -253,20 +261,77 @@
 						</table>
 						
 						<div class="margin-left-30">
+							<div class="margin-top-5">
+								Total used: <strong><%= number_to_currency((@subscription_spent.to_f/100.to_f), unit: "€") %></strong>
+							</div>
+							<hr />
 							<% @members.each do |m| %>
 								<div class="margin-top-5">
-									<%= m.email %> | <%= m.account_role %> | <%= link_to 'Unlink', unlink_account_member_user_url(m), data: { confirm: 'Are you sure?' } %>
+									<%= number_to_currency((m.level_amount.to_f/100.to_f), unit: "€") %> | <%= m.email %>
+									<% case m.account_role when 1 %>
+									<% when 2 %>
+										| 
+										<%= link_to unlink_subscription_member_user_url(m), data: { confirm: 'Are you sure?' } do %>
+											<% case @language when 1 %>Unlink
+											<% when 2 %>Quitar
+											<% end %>
+										<% end %>
+									<% end %>
 								</div>
 							<% end %>
-							
+							<hr />
 							<div class="margin-top-5">
-								<%= form_tag '/account_boss_adds_user',  :style => 'margin-bottom: 10px;', :id => 'account_boss_adds_user' do %>
-									<input type="email" name="email_for_server" id="email" placeholder="Enter new e-mail…">
-									<input type="hidden" name="account_id" id="account_id" value="<%= @user.account.id %>">
-									<input type="hidden" name="subscription_id" id="subscription_id" value="<%= @user.account.subscriptions.last.id %>">
-									<input type="hidden" name="frame_for_server" id="frame_for_server" value="<%= @user.frame.id %>">
-									<input type="hidden" name="article_for_server" id="article_for_server" value="Added by <%= @user.email %>">
-									<button type="submit" class="linkbutton">Add User</button>
+								Total remaining: <strong><%= number_to_currency((@subscription_remaining.to_f/100.to_f), unit: "€") %></strong>
+							</div>
+							<div class="margin-top-5">
+								<div class="margin-bottom-5 font-bold">
+									<% case @language when 1 %>Add more friends to this subscription:
+									<% when 2 %>Añada a más amigos a esta suscripción:
+									<% end %>
+								</div>
+								<% if @options_top || @options_middle || @options_bottom %>
+								
+									<%= form_tag '/account_boss_adds_user',  :style => 'margin-bottom: 10px;', :id => 'account_boss_adds_user' do %>
+										<input type="email" name="email_for_server" id="email" placeholder="Enter new e-mail…" class="padding-5">
+										<select id="level_amount" name="level_amount" class="padding-5">
+											<% if @options_bottom || @options_middle || @options_top %>
+												<option value="500">5</option>
+											<% else end %>
+											<% if @options_middle || @options_top %>
+												<option value="1000">10</option>
+											<% else end %>
+											<% if @options_top %>
+												<option value="2500">25</option>
+											<% else end %>
+										</select>
+										<input type="hidden" name="account_id" id="account_id" value="<%= @user.account.id %>">
+										<input type="hidden" name="subscription_id" id="subscription_id" value="<%= @user.account.subscriptions.last.id %>">
+										<input type="hidden" name="frame_for_server" id="frame_for_server" value="<%= @user.frame.id %>">
+										<input type="hidden" name="article_for_server" id="article_for_server" value="Added by <%= @user.email %>">
+										<button type="submit" class="linkbutton padding-5">Add User</button>
+									<% end %>
+								
+								
+								<% else %> 
+									<%= form_tag '/account_boss_adds_user',  :style => 'margin-bottom: 5px;', :id => 'account_boss_adds_user' do %>
+										<input type="email" name="email_for_server" id="email" placeholder="Enter new e-mail…" class="padding-5">
+										<select id="level_amount" name="level_amount" class="padding-5">
+												<option value="500">5</option>
+												<option value="1000">10</option>
+												<option value="2500">25</option>
+										</select>
+
+										<button type="submit" class="greyedout padding-5" disabled>
+											<% case @language when 1 %>Add Friend
+											<% when 2 %>Añadir Amigo
+											<% end %>
+										</button>
+									<% end %>
+									
+									<% case @language when 1 %>You have to increase your subscription amount first....
+									<% when 2 %>Tiene que aumentar la cantidad de su suscripción primero...
+									<% end %>
+									
 								<% end %>
 							</div>
 						</div>

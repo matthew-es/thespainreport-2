@@ -318,16 +318,56 @@ class UsersController < ApplicationController
 		redirect_to users_path
 	end
 	
+	def calculate_subscription_amounts
+		subscription = current_user.account.subscriptions.last
+		subscription_total = subscription.plan_amount
+		subscription_spent_per_user = []
+		subscription.users.each do |u|
+			subscription_spent_per_user << u.level_amount
+		end
+		subscription_spent = subscription_spent_per_user.compact.sum
+		subscription_remaining = subscription_total - subscription_spent
+		
+		if subscription_remaining >= 2500
+			@options_top = true
+		elsif subscription_remaining.between?(1000, 2499)
+			@options_middle = true
+		elsif subscription_remaining.between?(500, 999)
+			@options_bottom = true
+		else end
+		
+		@subscription_spent = subscription_spent
+		@subscription_remaining = subscription_remaining
+		
+		puts "Total: " + subscription_total.to_s
+		puts "Spent: " + subscription_spent.to_s
+		puts "Remaining: " + subscription_remaining.to_s
+	end
 	
 	def account_boss_adds_user
 		user = User.find_by(email: params[:email_for_server])
+		desired_level_amount = params[:level_amount].to_i
+		
+		how_much_left = Patrons::CalculateSubscriptionAmounts.process(current_user.account.subscriptions.last)
+		is_it_enough = how_much_left["remaining"] - desired_level_amount
+		
+		case
+			when is_it_enough < 0 
+				puts "Nope, not enough for that guy..."
+				level_amount = 0
+			when is_it_enough >= 0
+				puts "Ok, that's enough for that one..."
+				level_amount = desired_level_amount
+		end
 		
 		if user.nil?
-			puts "Getting ready to create account member..."
-			new_account_member = Patrons::CreateNewUser.process(params)
-			puts "New user created"
-			Patrons::AddAccountMember.process(new_account_member, current_user.account_id)
-			puts "Account member added..."
+			user = Patrons::CreateNewUser.process(params)
+			account = current_user.account_id
+			subscription = current_user.account.subscriptions.last.id
+			
+			Patrons::AddAccountMember.process(user, account)
+			Patrons::UpdateLevelAmount.process(user, level_amount)
+			Patrons::AddUserToSubscription.process(user, subscription)
 		else
 			puts "User already exists..."
 		end
@@ -345,8 +385,10 @@ class UsersController < ApplicationController
 		flash[:success] = "New group member added."
 	end
 	
-	def unlink_account_member(user)
-		Patrons::UnlinkAccountMember(user, current_user.account_id)
+	def unlink_subscription_member
+		user = User.find(params[:id])
+		
+		Patrons::UnlinkSubscriptionMember.process(user)
 		redirect_to edit_user_path(current_user)
 		flash[:success] = "Group member unlinked."
 	end
@@ -377,7 +419,9 @@ class UsersController < ApplicationController
 		elsif User.find(params[:id]) == current_user
 			set_language_frame(current_user.sitelanguage, current_user.frame.id)
 			set_status(current_user)
-			@members = @user.account.users.members
+			@members = current_user.subscription.users
+			@unassigned_members = current_user.account.users.where(subscription_id: "")
+			Patrons::CalculateSubscriptionAmounts.process(current_user.account.subscriptions.last)
 		else
 			puts "some other user edit problem"
 			redirect_to root_url
@@ -440,7 +484,7 @@ class UsersController < ApplicationController
 
 		# Never trust parameters from the scary internet, only allow the white list through.
 		def user_params
-			params.require(:user).permit(:account_id, :address, :frame_id, :account_role, :country_id, :email, :email_confirmed, :emails, :emaillanguage, :level_amount, :password, 
+			params.require(:user).permit(:account_id, :subscription_id, :address, :frame_id, :account_role, :country_id, :email, :email_confirmed, :emails, :emaillanguage, :level_amount, :password, 
 			:password_confirmation, :password_digest, :password_reset_token, :password_reset_sent_at, :status, :sitelanguage, :confirm_token, :can_read, :can_read_date, :article_from_server)
 		end
 end

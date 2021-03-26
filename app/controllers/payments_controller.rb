@@ -141,7 +141,7 @@ class PaymentsController < ApplicationController
 				render json: {message: "You need to log in first…"}, status: 499
 			end
 		else
-			@user = Patrons::CreateNewPatron.process(params)
+			@user = Patrons::CreateNewUser.process(params)
 			@account = Patrons::CreateNewAccount.process(@user)
 			tsr_update_account(@user.account)
 			new_stripe_customer

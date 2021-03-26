@@ -151,7 +151,7 @@
 	  get :introducir_clave_nueva
 	  get :update_email_amount
 	  get :update_email_language
-	  get :unlink_account_member
+	  get :unlink_subscription_member
 	end
 	end
 	resources :uploads

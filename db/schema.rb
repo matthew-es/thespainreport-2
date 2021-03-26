@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_24_185718) do
+ActiveRecord::Schema.define(version: 2021_03_26_123227) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -338,6 +338,7 @@ ActiveRecord::Schema.define(version: 2021_03_24_185718) do
     t.datetime "can_read_date"
     t.integer "country_id"
     t.string "article_from_server"
+    t.integer "subscription_id"
   end
 
   create_table "webhook_events", force: :cascade do |t|
