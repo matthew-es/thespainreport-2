@@ -140,7 +140,7 @@
 				<% end %>
 			</strong>
 			
-			<%= number_to_currency((@user.account.total_support/100.to_f), unit: "€") %><br />
+			<%= number_to_currency((@user.account.total_support/100.to_f), unit: "€") unless @user.account.total_support.nil? %><br />
 			<strong>Invoice name:</strong> <%= @user.account.invoice_account_name %><br />
 			<strong>Invoice tax ID:</strong> <%= @user.account.invoice_account_tax_id %><br />
 			<strong>Invoice address:</strong> <%= @user.account.invoice_account_address %><br />
