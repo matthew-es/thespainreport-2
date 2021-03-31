@@ -1,6 +1,11 @@
 	Rails.application.routes.draw do
 	
-	resources :subscriptions
+	resources :subscriptions do
+		member do
+			patch :activate
+			patch :pause
+		end
+	end
 	resources :invoices do
 		member do
 			post :apply_invoice_details

@@ -160,12 +160,14 @@ a.no-hover-bg:hover {background-color: #fff;}
 .margin-right-20 {margin-right: 20px;}
 .padding-0, input.padding-0 {padding: 0px;}
 .padding-2, input.padding-2 {padding: 2px;}
+.padding-3, input.padding-3 {padding: 3px;}
 .padding-5, input.padding-5 {padding: 5px;}
 .padding-7, input.padding-7 {padding: 7px;}
 .padding-10, input.padding-10 {padding: 10px;}
 .padding-20 {padding: 20px;}
 .padding-top-0 {padding-top: 0px;}
 .padding-top-2 {padding-top: 2px;}
+.padding-top-3 {padding-top: 3px;}
 .padding-top-5 {padding-top: 5px;}
 .padding-top-10 {padding-top: 10px;}
 .padding-top-20 {padding-top: 20px;}
@@ -178,6 +180,7 @@ a.no-hover-bg:hover {background-color: #fff;}
 .padding-left-20 {padding-left: 20px;}
 .padding-right-10 {padding-right: 10px;}
 .padding-right-20 {padding-right: 20px;}
+.vertical-middle {vertical-align: middle;}
 
 /* Other stuff */
 .content {width: 650px; margin: 0 auto; padding: 10px 30px; border-left: 2px solid #AA151B; border-right: 2px solid #AA151B;}
@@ -229,7 +232,7 @@ input.stripe_email::placeholder {color: #aab7c4;}
 @media only screen and (max-width: 730px) {
     .content {width: 95%; margin: 0 auto; padding-left: 2%; padding-right: 2%; border-left: 0; border-right: 0;}
     .mobile-100 {width: 95%; margin-bottom: 5px;}
-    .mobile-width {width: 95%;}
+    .mobile-width, input.mobile-width {width: 95%;}
     .buybutton {width: 100%;}
     p, li {width: 95%; font-size: 19px;}
     .mobile-bottom-10 {margin-bottom: 5px;}
