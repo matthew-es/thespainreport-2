@@ -1,9 +1,9 @@
 module Patrons
     class AddAccountMember
         def self.process(user, account)
-
+        
         user.update(
-            account_id: account,
+            account_id: account.id,
             account_role: 2
             )
             

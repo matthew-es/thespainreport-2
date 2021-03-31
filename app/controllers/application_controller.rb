@@ -40,6 +40,7 @@ class ApplicationController < ActionController::Base
 			
 			@admin = @status == 1
 			@account_owner = @role == 1
+			@member = @role == 2
 			
 			@super_patron = @status == 2 && (@level > 2500)
 			@patron_reader_25 = @status == 2 && (@level == 2500)

@@ -163,6 +163,7 @@
 	  get :update_email_language
 	  get :unlink_subscription_member
 	  patch :update_level_amount
+	  patch :account_boss_adds_user
 	end
 	end
 	resources :uploads

@@ -350,26 +350,24 @@ class UsersController < ApplicationController
 	end
 	
 	def account_boss_adds_user
+		@user = User.find(params[:id])
 		user = User.find_by(email: params[:email_for_server])
 		desired_level_amount = params[:level_amount].to_i
+		account = Account.find(params[:account_id])
+		subscription = Subscription.find(params[:subscription_id])
 		
-		how_much_left = Patrons::CalculateSubscriptionAmounts.process(current_user.account.subscriptions.last)
+		how_much_left = Patrons::CalculateSubscriptionAmounts.process(subscription)
 		is_it_enough = how_much_left["remaining"] - desired_level_amount
 		
 		case
 			when is_it_enough < 0 
-				puts "Nope, not enough for that guy..."
 				level_amount = 0
 			when is_it_enough >= 0
-				puts "Ok, that's enough for that one..."
 				level_amount = desired_level_amount
 		end
 		
 		if user.nil?
 			user = Patrons::CreateNewUser.process(params)
-			account = current_user.account_id
-			subscription = current_user.account.subscriptions.last.id
-			
 			Patrons::AddAccountMember.process(user, account)
 			Patrons::UpdateLevelAmount.process(user, level_amount)
 			Patrons::AddUserToSubscription.process(user, subscription)
@@ -377,16 +375,7 @@ class UsersController < ApplicationController
 			puts "User already exists..."
 		end
 		
-#		user = User.find_by_email(params[:email])
-#		s = Subscription.find_by_id(params[:subscription_id])
-#		
-#		user.update(
-#			account_subscription_id: s.id,
-#			role: new_role,
-#			access_date: s.stripe_subscription_current_period_end_date
-#		)
-		
-		redirect_to edit_user_path(current_user)
+		redirect_to edit_user_path(@user)
 		flash[:success] = "New group member added."
 	end
 	
@@ -414,7 +403,7 @@ class UsersController < ApplicationController
 		elsif @user.account.subscriptions.last
 			how_much_left = Patrons::CalculateSubscriptionAmounts.process(@user.account.subscriptions.last)
 			
-			@members = @user.subscription.users
+			@members = @user.subscription.users unless @user.subscription.nil?
 					
 			@subscription_spent = how_much_left["spent"]
 			@subscription_remaining = how_much_left["remaining"]

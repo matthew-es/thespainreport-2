@@ -29,8 +29,8 @@
 		
 		prints_title = "My Photo prints"
 		prints_teaser = "The address you would like me to send your physical prints to."
-		prints_level_bad = "Your level of support must be above €25 / month."
-		prints_level_good = "Your level of support is above €25 / month."
+		prints_level_bad = "Your access level must be above €25 / month."
+		prints_level_good = "Your access level is above €25 / month."
 		prints_name = "Your name..."
 		prints_street = "You address..."
 		prints_postcode = "Your postcode..."
@@ -53,14 +53,15 @@
 		account_invoice_name = "Name for invoices..."
 		account_invoice_id = "Tax ID for invoices..."
 		account_invoice_address = "Address for invoices..."
+		account_boss_is = "Your account boss is"
 		
 		subscriptions_title = "My subscriptions"
 		subscriptions_active = "Active"
 		subscriptions_paused = "Paused"
 		subscriptions_activate_button = "Activate"
 		subscriptions_pause_button = "Pause"
-		subscriptions_amount_title = ""
-		subscriptions_vat_title = ""
+		subscriptions_amount_title = "Base"
+		subscriptions_vat_title = "VAT"
 		subscriptions_total_title = ""
 		subscriptions_created_title = ""
 		subscriptions_next_title = ""
@@ -102,8 +103,8 @@
 		
 		prints_title = "Mis Fotos impresas"
 		prints_teaser = "La dirección a la que quiere que le envíe sus fotos impresas."
-		prints_level_bad = "Su nivel de apoyo debe ser superior a 25 euros al mes."
-		prints_level_good = "Su nivel de apoyo es superior a 25 euros al mes."
+		prints_level_bad = "Su nivel de acceso debe ser superior a 25 euros al mes."
+		prints_level_good = "Su nivel de acceso es superior a 25 euros al mes."
 		prints_name = "Su nombre..."
 		prints_street = "Su dirección..."
 		prints_postcode = "Su código postal..."
@@ -126,6 +127,7 @@
 		account_invoice_name = "Su nombre"
 		account_invoice_id = "Su NIF/CIF..."
 		account_invoice_address = "Su dirección..."
+		account_boss_is = "El jefe de su cuenta es"
 		
 		subscriptions_title = "Mis suscripciones"
 		subscriptions_active = "Activa"
@@ -168,9 +170,39 @@
 </div>
 
 
+<% if current_user.status == 1 %>
+<%= form_with(model: @user, local: true) do |form| %>
+	<div class="patrons-background padding-20 margin-bottom-20">
+		<div class="margin-bottom-10">
+			<div class="float-left">
+				<h3>Admin</h3>
+			</div>
+			
+			<div class="float-left margin-top-15 margin-left-5">
+				<%= form.submit save_button %>
+			</div>
+	
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-10 admin-border-split padding-top-10">
+			
+			Frame: <%= form.number_field :frame_id %><br />
+			Email conf? <%= form.check_box :email_confirmed %><br />
+			<hr />
+			Status: <%= form.select :status, options_for_select([["Author", "1"], ["Reader", "3"], ["Patron", "2"], ["Super Patron", "4"]], :selected => @user.status) %><br />
+			Level amount: <%= form.number_field :level_amount %><br />
+			Account role: <%= form.select :account_role, options_for_select([["Boss", "1"], ["Member", "2"]], :selected => @user.account_role) %>
+			
+		</div>
+	</div>
+<% end %>
+<% else end %>
+
+
 <%# LANGUAGE %>
 <div class="patrons-background padding-left-20 padding-right-20 padding-bottom-10 margin-bottom-20">
-	<%= form_with(model: user, local: true) do |form| %>
+	<%= form_with(model: @user, local: true) do |form| %>
 		
 		<div class="float-left">
 			<h3><%= site_language_title %></h3>
@@ -192,7 +224,7 @@
 
 <%# EMAILS, PASSWORD, READ DATE, LEVEL %>
 <div class="patrons-background padding-20 margin-bottom-20">
-	<%= form_with(model: user, local: true) do |form| %>
+	<%= form_with(model: @user, local: true) do |form| %>
 		
 		<div class="margin-bottom-10">
 			<div class="float-left">
@@ -257,7 +289,11 @@
 				<strong><%= can_read_title %>:</strong>	
 			</div>
 			<div class="float-left mobile-width">
-			 	<%= form.datetime_field :can_read_date, :size => '35', disabled: !@admin %>
+				<% if current_user.status == 1 %>
+			 		<%= form.datetime_field :can_read_date, :size => '35' %>
+			 	<% else %>
+			 		<%= form.datetime_field :can_read_date, :size => '35', disabled: true %>
+			 	<% end %>
 			</div>
 			<div class="clear"></div>
 		</div>
@@ -271,19 +307,6 @@
 			</div>
 			<div class="clear"></div
 		</div>
-		
-		<% if @status == 1 %>
-			<div class="margin-bottom-10 admin-border-split padding-top-10">
-				Frame: <%= form.number_field :frame_id %><br />
-				Email conf? <%= form.check_box :email_confirmed %><br />
-				<hr />
-				Status: <%= form.select :status, options_for_select([["Author", "1"], ["Reader", "3"], ["Patron", "2"], ["Super Patron", "4"]], :selected => @user.status) %><br />
-				Level amount: <%= form.number_field :level_amount %><br />
-				<hr />
-				Can read? <%= form.check_box :can_read %><br />
-				Can read date: <%= form.datetime_field :can_read_date, :size => '35' %>
-			</div>
-		<% else end %>
 	</div>
 	<% end %>
 </div>
@@ -317,19 +340,6 @@
 		<%= form.text_field :address_street, :class => "margin-bottom-5 width-90 padding-5 font-header font-header-tiny mobile-width", placeholder: prints_street, disabled: !@patron_prints %><br />
 		<%= form.text_field :address_postcode, :class => "margin-bottom-5 width-50 padding-5 font-header font-header-tiny mobile-width", placeholder: prints_postcode, disabled: !@patron_prints %><br />
 		<%= form.text_field :address_country, :class => "margin-bottom-5 width-50 padding-5 font-header font-header-tiny mobile-width", placeholder: prints_country, disabled: !@patron_prints %>
-		
-		<% if @status == 1 %>
-			<div class="margin-bottom-10 admin-border-split padding-top-10">
-				Frame: <%= form.number_field :frame_id %><br />
-				Email conf? <%= form.check_box :email_confirmed %><br />
-				<hr />
-				Status: <%= form.select :status, options_for_select([["Author", "1"], ["Reader", "3"], ["Patron", "2"], ["Super Patron", "4"]], :selected => @user.status) %><br />
-				Level amount: <%= form.number_field :level_amount %><br />
-				<hr />
-				Can read? <%= form.check_box :can_read %><br />
-				Can read date: <%= form.datetime_field :can_read_date, :size => '35' %>
-			</div>
-		<% else end %>
 	</div>
 	<% end %>
 
@@ -358,35 +368,38 @@
 		<% when 2 %> <%= account_role_member %>
 		<% end %>
 	</div>
-		<% if @role == 1 %>
-			<div class="margin-bottom-5">
-				<strong><%= account_total_title %>:</strong> <%= account_total_amount %>
-			</div>
-			<div class="margin-bottom-5">
-				<strong><%= account_subscriptions_title %>:</strong> <%= @account.subscriptions.count %>
-			</div>
-			<div class="margin-bottom-5">
-				<strong><%= account_status_title %>:</strong>
 	
-				<% case @account_status when 1 %><%= account_status_up %>
-				<% when 2 %><%= account_status_problem %>
-				<% when 3 %><%= account_status_paused %>
-				<% when 4 %><%= account_status_beginner %>
-				<% else end %>
-			</div>
-			<h3><%= account_invoice_title %></h3>
+	<% if @admin || @account_owner %>
+		<div class="margin-bottom-5">
+			<strong><%= account_total_title %>:</strong> <%= account_total_amount %>
+		</div>
+		<div class="margin-bottom-5">
+			<strong><%= account_subscriptions_title %>:</strong> <%= @account.subscriptions.count %>
+		</div>
+		<div class="margin-bottom-5">
+			<strong><%= account_status_title %>:</strong>
 
-			<%= form.text_field :invoice_account_name, :class => "margin-bottom-5 width-50 padding-5 font-header font-header-tiny mobile-width", placeholder: account_invoice_name %><br />
-			<%= form.text_field :invoice_account_tax_id, :class => "margin-bottom-5 width-30 padding-5 font-header font-header-tiny mobile-width", placeholder: account_invoice_id %><br />
-			<%= form.text_field :invoice_account_address, :class => "margin-bottom-5 width-90 padding-5 font-header font-header-tiny mobile-width", placeholder: account_invoice_address %>
-		<% else end %>
-		
-		<% if @status == 1 %>
-			<%= form.select :account_role, options_for_select([["Group Owner", "1"], ["Group Member", "2"]], :selected => @user.account_role) %> 
-		<% else %>
-		<% end %>
+			<% case @account_status when 1 %><%= account_status_up %>
+			<% when 2 %><%= account_status_problem %>
+			<% when 3 %><%= account_status_paused %>
+			<% when 4 %><%= account_status_beginner %>
+			<% else end %>
+		</div>
+		<h3><%= account_invoice_title %></h3>
+
+		<%= form.text_field :invoice_account_name, :class => "margin-bottom-5 width-50 padding-5 font-header font-header-tiny mobile-width", placeholder: account_invoice_name %><br />
+		<%= form.text_field :invoice_account_tax_id, :class => "margin-bottom-5 width-30 padding-5 font-header font-header-tiny mobile-width", placeholder: account_invoice_id %><br />
+		<%= form.text_field :invoice_account_address, :class => "margin-bottom-5 width-90 padding-5 font-header font-header-tiny mobile-width", placeholder: account_invoice_address %>
+	<% else end %>
 	<% end %>
 	
+	<% if @member %>
+		<% if @user.account.users.where(account_role: 1).any? %>
+			<%= account_boss_is %>: <strong><%= @user.account.users.where(account_role: 1).last.email %></strong>
+		<% else end %>
+	<% end %>
+	
+	<% if @admin || @account_owner %>
 	<div class="margin-top-10">
 		<% if @empty_invoices.any? %>
 			<div class="">
@@ -402,8 +415,10 @@
 			<span class="green-background-text padding-2"><%= invoices_all_filled %></span>
 		<% end %>
 	</div>
+	<% end %>
 </div>
 
+<% if @admin || @account_owner %>
 	<% if @unassigned_members.any? %>
 		<div class="patrons-background padding-20 margin-bottom-20">
 			<% @unassigned_members.each do |m| %>
@@ -413,7 +428,7 @@
 	<% else end %>
 	
 
-<% if @admin || @account_owner %>
+
 <div class="patrons-background margin-bottom-10 padding-20">
 	<div class="">
 		<% if @user.status == 2 && @user.account.subscriptions.empty? %>
@@ -507,7 +522,8 @@
 								</div>
 								<% if s.plan_amount >= 3000 && @subscription_remaining > 0 %>
 									
-									<%= form_tag '/account_boss_adds_user',  :style => 'margin-bottom: 10px;', :id => 'account_boss_adds_user' do %>
+									<%= form_with model: @user, url: account_boss_adds_user_user_path(@user), local: true do |f| %>
+									
 										
 										<div class="float-left width-50 mobile-width">
 											<input type="email" name="email_for_server" id="email" placeholder="Enter new e-mail…" class="padding-5 font-header font-header-tiny width-90 mobile-width">	
