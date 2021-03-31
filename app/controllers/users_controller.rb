@@ -422,9 +422,13 @@ class UsersController < ApplicationController
 			@members = @user.account.users.members
 			@unassigned_members = current_user.account.users.where(subscription_id: "")
 			
-			how_much_left = Patrons::CalculateSubscriptionAmounts.process(current_user.account.subscriptions.last)
-			@subscription_spent = how_much_left["spent"]
-			@subscription_remaining = how_much_left["remaining"]
+			if @user.account.subscriptions.last
+				how_much_left = Patrons::CalculateSubscriptionAmounts.process(current_user.account.subscriptions.last)
+			
+				@subscription_spent = how_much_left["spent"]
+				@subscription_remaining = how_much_left["remaining"]
+			else end
+				
 			@empty_invoices = current_user.account.invoices.where('invoice_customer_name=? OR invoice_customer_tax_id=? OR invoice_customer_address=?', "", "", "")
 		elsif User.find(params[:id]) != current_user
 			redirect_to edit_user_path(current_user)
