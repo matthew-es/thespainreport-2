@@ -1,0 +1,20 @@
+<% case @language when 1 %>
+    Hi,
+    <p>Please click on this link to confirm your new email address:</p>
+    <p><%= link_to "Confirm new email address", confirm_change_email_user_url(@confirmation_token, new_email: @email) %></p>
+    <p>If you did not request this e-mail, just ignore it.</p>
+    <p>Very best,</p>
+<% when 2 %>
+    Hola,
+    <p>Haga clic en este enlace para confirmar su nuevo correo electrónico:</p>
+    <p><%= link_to "Confirmar nuevo correo electrónico", confirm_change_email_user_url(@confirmation_token, new_email: @email) %></p>
+    <p>Si no ha solicitado este correo, puede ignorarlo.</p>
+    <p>Saludos,</p>
+<% end %>
+
+<p>
+    Matthew Bennett<br />
+    The Spain Report<br />
+    matthew@thespainreport.com<br />
+    (0034) 647 81 81 43
+</p>

@@ -1,7 +1,11 @@
 	Rails.application.routes.draw do
 	
 	resources :subscriptions
-	resources :invoices
+	resources :invoices do
+		member do
+			post :apply_invoice_details
+		end
+	end
 	resources :countries
 	resources :tweets
 	resources :visits
@@ -147,11 +151,13 @@
 	member do
 	  get :confirm_email
 	  get :confirmar_correo
+	  get :confirm_change_email
 	  get :enter_new_password
 	  get :introducir_clave_nueva
 	  get :update_email_amount
 	  get :update_email_language
 	  get :unlink_subscription_member
+	  patch :update_level_amount
 	end
 	end
 	resources :uploads

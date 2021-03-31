@@ -34,6 +34,21 @@ class UserMailer < ApplicationMailer
         mail(to: @user.email, subject: subject)
     end
     
+    def change_email_link(new_email, user)
+        @language = user.sitelanguage
+        @confirmation_token = user.confirm_token
+        @email = new_email
+        
+        case @language when 1
+            subject = "Click this link to confirm your change of email"
+        when 2
+            subject = "Haga clic en este enlace para confirmar su cambio de correo"
+        end
+        
+        headers 'X-SES-CONFIGURATION-SET' => "Emails"
+        mail(to: new_email, subject: subject)
+    end
+    
     def user_alert(user, user_subject, user_message)
         @user = user
         @subject = user_subject

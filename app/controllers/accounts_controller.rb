@@ -181,13 +181,32 @@ class AccountsController < ApplicationController
 		end
 	end
 	
+	def update_invoice_address
+		@accountowner = User.find_by(account_id: @account, account_role: 1)
+		
+		@account.update(
+			invoice_account_name: params[:invoice_account_name]
+			)
+		
+		respond_to do |format|
+			format.html {redirect_to edit_user_path(@accountowner) }
+				puts "Account updated with separate method..."
+			flash[:success] = "Account updated..."
+		end
+	end
+	
 	
 	# GET /accounts/1/edit
 	def edit
 		if current_user.nil? 
 			redirect_to root_url
-		elsif current_user.status == 1
+		elsif current_user.status == 1 || 2
 			@accountowner = User.find_by(account_id: @account, account_role: 1)
+			respond_to do |format|
+				format.html {redirect_to edit_user_path(@accountowner) }
+					puts "Account updated with edit method..."
+				flash[:success] = "Account updated..."
+			end
 		else
 			redirect_to root_url
 		end
@@ -241,6 +260,9 @@ class AccountsController < ApplicationController
 
 		# Never trust parameters from the scary internet, only allow the white list through.
 		def account_params
-			params.require(:account).permit(:user_id, :account_status, :account_status_date, :conversation_status, :residence_country, :stripe_customer_id, :stripe_payment_method, :stripe_payment_method_card_country, :vat_country, :total_support)
+			params.require(:account).permit(:user_id, :account_status, :account_status_date, 
+			:conversation_status, :residence_country, 
+			:invoice_account_name, :invoice_account_tax_id, :invoice_account_address,
+			:stripe_customer_id, :stripe_payment_method, :stripe_payment_method_card_country, :vat_country, :total_support)
 		end
 end

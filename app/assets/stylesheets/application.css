@@ -74,6 +74,8 @@ a.no-hover-bg:hover {background-color: #fff;}
 .border-top-quiet {border-top: 1px solid #cccccc;}
 .border-patrons {border: 2px solid #cc7a00;}
 .background-light-red {background-color: #ffe6e6;}
+.red-background-text {background-color: #ffe6e6; color: #ff0000;}
+.green-background-text {background-color: #ccffcc; color: green;}
 
 .line-100 {line-height: 100%;}
 .line-115 {line-height: 114%;}
@@ -81,7 +83,7 @@ a.no-hover-bg:hover {background-color: #fff;}
 .line-130 {line-height: 130%;}
 .alert {}
 .alert p {padding: 0; margin: 0;}
-.alert-success {border: 2px solid #009900; background-color: #f2ffe6; color: #009900;}
+.alert-success {border: 2px solid #009900; background-color: #ccffcc; color: green;}
 .alert-notice {background-color: #ccffcc; color: green;}
 .alert-warning, .alert-tryagain {border: 2px solid #cc7a00; background-color: #fff5cc; color: #cc7a00;}
 .alert-error {border: 2px solid #ff0000; background-color: #ffe6e6; color: #ff0000;}
@@ -110,6 +112,7 @@ a.no-hover-bg:hover {background-color: #fff;}
 .align-right {text-align: right;}
 .align-left {text-align: left;}
 .display-block {display: block;}
+.display-inline {display: inline;}
 .width-100, input.width-100 {width: 100%;}
 .width-98, input.width-98 {width: 98%;}
 .width-90, input.width-90 {width: 90%;}

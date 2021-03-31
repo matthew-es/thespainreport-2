@@ -1,85 +1,207 @@
-<%= form_with(model: user, local: true) do |form| %>
-	<% if user.errors.any? %>
-		<div id="error_explanation">
-			<h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+<% case @language when 1
+		save_button = "Save"
+		increase_level_link_text = "Increase it"
+		
+		problems_prompt = "Problems?"
+		problems_message = "matthew@thespainreport.es / (0034) 647 81 81 43. We'll fix it together."
+		
+		site_language_title = "Language"
+		site_language_options = [["English", "1"], ["Spanish", "2"]]
+		
+		user_title = "My details"
+		your_current_email = "Your current email"
+		your_new_email = "Your new email..."
+		your_new_email_explanation = "The system will send you a confirmation email"
+		your_password = "New password..."
+		your_password_confirm = "Confirm new password..."
+		
+		email_amount_title = "Email amount"
+		email_amount_options = [["I want all articles & latest news", "1"], ["I only want full articles", "2"], ["I only want announcements", "3"], ["I don't want any emails at all", "4"]]
+		
+		email_language_title = "Email language"
+		email_language_options = [["I only want emails in English", "1"], ["I only want emails in Spanish", "2"], ["I want emails in English & Spanish", "3"]]
+		
+		can_read_title = "You can read until"
+		can_read_date = @can_read_date.strftime("%b %d, %Y")
+		
+		access_level_title = "Your access level"
+		access_level = number_to_currency((@level.to_f/100.to_f), unit: "€") + " / month"
+		
+		prints_title = "My Photo prints"
+		prints_teaser = "The address you would like me to send your physical prints to."
+		prints_level_bad = "Your level of support must be above €25 / month."
+		prints_level_good = "Your level of support is above €25 / month."
+		prints_name = "Your name..."
+		prints_street = "You address..."
+		prints_postcode = "Your postcode..."
+		prints_country = "Your country..."
+		
+		account_title = "My Account"
+		account_number = "Account ID"
+		account_role_title = "Your role"
+		account_role_boss = "Boss"
+		account_role_member = "Member"
+		account_total_title = "Total contributions"
+		account_total_amount = (number_to_currency((@user.account.total_support/100.to_f), unit: "€") unless @user.account.total_support.nil?) + " / month"
+		account_subscriptions_title = "Number of subscriptions"
+		account_status_title = "Account status"
+		account_status_up = "Up-to-date"
+		account_status_problem = "Problem with a payment"
+		account_status_paused = "Paused"
+		account_status_beginner = "Free trial"
+		account_invoice_title = "My invoice details"
+		account_invoice_name = "Name for invoices..."
+		account_invoice_id = "Tax ID for invoices..."
+		account_invoice_address = "Address for invoices..."
+		
+		invoices_apply_question = "Apply invoice details to existing empty invoices?"
+		invoices_apply_button = "Apply now"
+		invoices_all_filled = "All your invoices contain your details."
+	when 2
+		save_button = "Guardar"
+		increase_level_link_text = "Auméntelo"
+		
+		problems_prompt = "¿Problemas?"
+		problems_message = "matthew@thespainreport.es / (0034) 647 81 81 43. Lo solucionaremos juntos."
+		
+		site_language_title = "Idioma"
+		site_language_options = [["Inglés", "1"], ["Español", "2"]]
+		
+		user_title = "Mis Datos"
+		
+		your_current_email = "Su correo electrónico actual"
+		your_new_email = "Su nuevo correo electrónico..."
+		your_new_email_explanation = "El sistema le enviará un correo de confirmación"
+		your_password = "Contraseña nueva..."
+		your_password_confirm = "Confirme la contraseña nueva..."
+		
+		email_amount_title = "Cantidad de correos"
+		email_amount_options = [["Quiero artículos y la última hora", "1"], ["Sólo quiero artículos completos", "2"], ["Sólo quiero avisos", "3"], ["No quiero ningún correo", "4"]]
+		
+		email_language_title = "Idioma de los correos"
+		email_language_options = [["Sólo quiero los correos en inglés", "1"], ["Sólo quiero los correos en español", "2"], ["Quiero los correos en inglés y en español", "3"]]
+		
+		can_read_title = "Puede leer hasta el"
+		can_read_date = @can_read_date.strftime("%d/%m/%Y")
+		
+		access_level_title = "Su nivel de acceso"
+		access_level = number_to_currency((@level.to_f/100.to_f), unit: "") + " euros al mes"
+		
+		prints_title = "Mis Fotos impresas"
+		prints_teaser = "La dirección a la que quiere que le envíe sus fotos impresas."
+		prints_level_bad = "Su nivel de apoyo debe ser superior a 25 euros al mes."
+		prints_level_good = "Su nivel de apoyo es superior a 25 euros al mes."
+		prints_name = "Su nombre..."
+		prints_street = "Su dirección..."
+		prints_postcode = "Su código postal..."
+		prints_country = "Su país..."
+		
+		account_title = "Mi Cuenta"
+		account_number = "Nº de cuenta"
+		account_role_title = "Su posición"
+		account_role_boss = "Jefe"
+		account_role_member = "Miembro"
+		account_total_title = "Contribuciones totales"
+		account_total_amount = (number_to_currency((@user.account.total_support/100.to_f), unit: "") unless @user.account.total_support.nil?) + " euros al mes"
+		account_subscriptions_title = "Cantidad de suscripciones"
+		account_status_title = "Estado de la cuenta"
+		account_status_up = "Al corriente"
+		account_status_problem = "Problema con un pago"
+		account_status_paused = "En pause"
+		account_status_beginner = "Prueba gratuita"
+		account_invoice_title = "Mis datos de facturación"
+		account_invoice_name = "Su nombre"
+		account_invoice_id = "Su NIF/CIF..."
+		account_invoice_address = "Su dirección..."
+		
+		invoices_apply_question = "¿Aplicar sus datos de facturación a las facturas vacías?"
+		invoices_apply_button = "Aplicar ahora"
+		invoices_all_filled = "Todas sus facturas contienen sus datos."
+	end
+%>
 
-			<ul>
-			<% user.errors.full_messages.each do |message| %>
-				<li><%= message %></li>
-			<% end %>
-			</ul>
-		</div>
-	<% end %>
 
 <div class="patrons-background padding-20 margin-bottom-20">
-	<div class="margin-bottom-10">
+	<strong><%= problems_prompt %></strong> <%= problems_message %>
+	
+	<% flash.each do |key, value| %>
+		<div class="margin-top-10">
+			<span class="alert alert-<%= key %> padding-2"><%= value.html_safe %></span>
+		</div>
+	<% end %>
+</div>
+
+<div class="patrons-background padding-left-20 padding-right-20 padding-bottom-10 margin-bottom-20">
+	<%= form_with(model: user, local: true) do |form| %>
+		
 		<div class="float-left">
-			<% case @language when 1 %><%= form.submit "Save" %>
-			<% when 2 %><%= form.submit "Guardar" %>
-			<% end %>
+			<h3><%= site_language_title %></h3>
 		</div>
 		
-		<div class="float-left margin-top-5 margin-left-5">
-			<% flash.each do |key, value| %>
-				<span class="alert alert-<%= key %> padding-5"><%= value.html_safe %></span>
-			<% end %>
+		<div class="float-left margin-top-15 margin-left-5">
+			<%= form.select :sitelanguage, options_for_select(site_language_options, :selected => @user.sitelanguage), {}, {class: "padding-5"} %>
 		</div>
+		
+		<div class="float-left margin-top-15 margin-left-5">
+			<%= form.submit save_button %>
+		</div>
+
+		<div class="clear"></div>
+
+	<% end %>
+</div>
+
+<div class="patrons-background padding-20 margin-bottom-20">
+<%= form_with(model: user, local: true) do |form| %>
+	<div class="margin-bottom-10">
+		
+		<div class="float-left">
+			<h3><%= user_title %></h3>
+		</div>
+		
+		<div class="float-left margin-top-15 margin-left-5">
+			<%= form.submit save_button %>
+		</div>
+
 		<div class="clear"></div>
 	</div>
 	
 	<div class="margin-bottom-10">
-		<%= form.text_field :email, :class => "width-70 padding-5 font-header font-header-tiny", placeholder: "Your email…" %>
-		<div class="margin-top-10">
-			<%= render "users/user_messages" %>
-		</div>	
+		<div class="margin-bottom-10">
+			<strong><%= your_current_email %>:</strong> <%= @user.email %>
+		</div>
+		<%= form.text_field :changing_email_to, :class => "width-70 padding-5 font-header font-header-tiny", placeholder: your_new_email %>
+		<div class="margin-top-5 font-italic font-main-small">
+			(<%= your_new_email_explanation %>)
+		</div>
 	</div>
 	
-	<div class="margin-bottom-10 admin-border-split padding-top-10">
-		<% case @language when 1 %><%= form.password_field :password, :class => "width-70 padding-5 font-header font-header-tiny", placeholder: "New password…" %>
-		<% when 2 %><%= form.password_field :password, :class => "width-70 padding-5 font-header font-header-tiny", placeholder: "Contraseña nueva…" %>
-		<% end %>
-		
-	</div>
-	
-	<div class="margin-bottom-10">
-		<% case @language when 1 %><%= form.password_field :password_confirmation, :class => "width-70 padding-5 font-header font-header-tiny", placeholder: "Confirm new password…" %>
-		<% when 2 %><%= form.password_field :password_confirmation, :class => "width-70 padding-5 font-header font-header-tiny", placeholder: "Confirme la contraseña nueva…" %>
-		<% end %>
-		
-		
-	</div>
-	
-	<div class="margin-bottom-10 admin-border-split padding-top-10">
-		<% if current_user.nil? %>
-		<% elsif current_user.sitelanguage == 1 %>Email amount:
-			<%= form.select :emails, options_for_select([["I want all articles & latest news", "1"], ["I only want full articles", "2"], ["I only want announcements", "3"], ["I don't want any emails at all", "4"]], :selected => @user.emails) %>
-		<% elsif current_user.sitelanguage == 2 %>Cantidad de correos:
-			<%= form.select :emails, options_for_select([["Quiero artículos y la última hora", "1"], ["Sólo quiero artículos completos", "2"], ["Sólo quiero avisos", "3"], ["No quiero ningún correo", "4"]], :selected => @user.emails) %>
-		<% else end %> 
+	<div class="margin-bottom-5 admin-border-split padding-top-10">
+		<%= form.password_field :password, :class => "width-70 padding-5 font-header font-header-tiny", placeholder: your_password %>
 	</div>
 	
 	<div class="margin-bottom-10">
-		<% if current_user.nil? %>
-		<% elsif current_user.sitelanguage == 1 %>Email language: 
-			<%= form.select :emaillanguage, options_for_select([["I only want emails in English", "1"], ["I only want emails in Spanish", "2"], ["I want emails in English & Spanish", "3"]], :selected => @user.emaillanguage) %>
-		<% elsif current_user.sitelanguage == 2 %>Idioma de los correos:
-			<%= form.select :emaillanguage, options_for_select([["Sólo quiero los correos en inglés", "1"], ["Sólo quiero los correos en español", "2"], ["Quiero los correos en inglés y en español", "3"]], :selected => @user.emaillanguage) %>
-		<% else end %> 
-	</div>
-	
-	<div class="margin-bottom-10">
-		<% if current_user.nil? %>
-		<% elsif current_user.sitelanguage == 1 %>Site language: 
-			<%= form.select :sitelanguage, options_for_select([["English", "1"], ["Spanish", "2"]], :selected => @user.sitelanguage) %>
-		<% elsif current_user.sitelanguage == 2 %>Idioma para la página web:
-			<%= form.select :sitelanguage, options_for_select([["Inglés", "1"], ["Español", "2"]], :selected => @user.sitelanguage) %>
-		<% else end %>  
+		<%= form.password_field :password_confirmation, :class => "width-70 padding-5 font-header font-header-tiny", placeholder: your_password_confirm %>
 	</div>
 	
 	<div class="margin-bottom-10 admin-border-split padding-top-10">
-		<% if current_user.nil? %>
-		
-		<% elsif current_user.status == 1 %>
+		<strong><%= email_amount_title %>:</strong> <%= form.select :emails, options_for_select(email_amount_options, :selected => @user.emails), {}, {class: "padding-5"} %>
+	</div>
+	
+	<div class="margin-bottom-10">
+		<strong><%= email_language_title %></strong> <%= form.select :emaillanguage, options_for_select(email_language_options, :selected => @user.emaillanguage), {}, {class: "padding-5"} %>
+	</div>
+	
+	<div class="padding-top-10 margin-bottom-10 admin-border-split">
+		<strong><%= can_read_title %>:</strong> <%= form.datetime_field :can_read_date, :size => '35', disabled: !@admin %>
+	</div>
+	
+	<div class="">
+		<strong><%= access_level_title %>:</strong> <%= access_level %> | <%= link_to increase_level_link_text, root_url + @stub_increase %></a></span>
+	</div>
+	
+	<% if @status == 1 %>
+		<div class="margin-bottom-10 admin-border-split padding-top-10">
 			Frame: <%= form.number_field :frame_id %><br />
 			Email conf? <%= form.check_box :email_confirmed %><br />
 			<hr />
@@ -88,117 +210,137 @@
 			<hr />
 			Can read? <%= form.check_box :can_read %><br />
 			Can read date: <%= form.datetime_field :can_read_date, :size => '35' %>
-			<hr />
-		<% else %>
-		<% end %>
-	</div>
-	
-	<%# ACCOUNT INFORMATION %>
-	<div class="margin-bottom-10">
-		<strong>
-			<% case @user.sitelanguage when 1 %> Account ID:
-			<% when 2 %> Nº de Cuenta:
-			<% end %>
-		</strong>
-		
-		<% if current_user.nil? %>
-		<% elsif current_user.status == 1 %>
-			<%= form.number_field :account_id %>
-		<% else %>
-			<%= current_user.account_id %> 
-		<% end %>
-		
-		<br />
-		
-		<strong>
-			<% case @user.sitelanguage when 1 %> Role:
-			<% when 2 %> Papel:
-			<% end %>
-		</strong>
-		
-		<% if current_user.nil? %>
-		<% elsif current_user.status == 1 %>
-			<%= form.select :account_role, options_for_select([["Group Owner", "1"], ["Group Member", "2"]], :selected => @user.account_role) %> 
-		<% else %>
-			<% unless current_user.account.nil?; case current_user.account_role when 1 %>
-				<% case @user.sitelanguage when 1 %> Group owner
-				<% when 2 %> Líder del grupo
-				<% end %>
-			<% when 2 %>
-				<% case @user.sitelanguage when 1 %> Group member
-				<% when 2 %> Miembro del grupo
-				<% end %>
-			<% else end end %>
-		<% end %>
-		
-		<% if current_user.account_role == 1 %>
-			<br />
-			
-			<strong>
-				<% case @user.sitelanguage when 1 %> Total support:
-				<% when 2 %> Apoyo total:
-				<% end %>
-			</strong>
-			
-			<%= number_to_currency((@user.account.total_support/100.to_f), unit: "€") unless @user.account.total_support.nil? %><br />
-			<strong>Invoice name:</strong> <%= @user.account.invoice_account_name %><br />
-			<strong>Invoice tax ID:</strong> <%= @user.account.invoice_account_tax_id %><br />
-			<strong>Invoice address:</strong> <%= @user.account.invoice_account_address %><br />
-		<% else end %>
-		
-		<hr />
-		
-		<strong>
-			<% case @user.sitelanguage when 1 %> Status:
-			<% when 2 %> Estado:
-			<% end %>
-		</strong>
-		
-		<% unless current_user.account.nil?; case current_user.account.account_status when 1 %>
-			Up-to-date
-		<% when 2 %>
-			Declined
-		<% when 3 %>
-			Cancelled
-		<% when 4 %>
-			<% case @user.sitelanguage when 1 %> Free Beginner
-			<% when 2 %> Principiante gratuito
-			<% end %>
-		<% else end end %>
-		
-		<br />
-		
-		<strong>
-			<% case @user.sitelanguage when 1 %> Can read until:
-			<% when 2 %> Puede leer hasta:
-			<% end %>
-		</strong>
-		<% case @user.sitelanguage when 1 %><%= @can_read_date.strftime("%b %d, %Y") %>
-		<% when 2 %><%= @can_read_date.strftime("%d/%m/%Y") %>
-		<% end %>
-	</div>
-
-
-	
-	
-	<div class="admin-border-split padding-top-10">
-		<strong>Problems?</strong> matthew@thespainreport.es / (0034) 647 81 81 43. We'll fix it together.
-	</div>
+		</div>
+	<% else end %>
 </div>
 <% end %>
 
+<div class="patrons-background padding-20 margin-bottom-20">
+	<%= form_with(model: user, local: true) do |form| %>
+		<div class="margin-bottom-10">
+			<div class="float-left">
+				<h3><%= prints_title %></h3>
+			</div>
+			
+			<div class="float-left margin-top-15 margin-left-5">
+				<%= form.submit save_button %>
+			</div>
+	
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-10 font-main-small">
+			<span class="padding-2"><%= prints_teaser %></span>
+			<div class="margin-top-5">
+				<% if @patron_prints %>
+					<span class="green-background-text padding-2"><%= prints_level_good %></span>
+				<% else %>	
+					<span class="red-background-text padding-2"><%= prints_level_bad %> | <%= link_to increase_level_link_text, root_url + @stub_increase %></a></span>
+				<% end %>
+			</div>
+		</div>
+		
+		<%= form.text_field :address_name, :class => "margin-bottom-5 width-50 padding-5 font-header font-header-tiny", placeholder: prints_name, disabled: !@patron_prints %><br />
+		<%= form.text_field :address_street, :class => "margin-bottom-5 width-90 padding-5 font-header font-header-tiny", placeholder: prints_street, disabled: !@patron_prints %><br />
+		<%= form.text_field :address_postcode, :class => "margin-bottom-5 width-50 padding-5 font-header font-header-tiny", placeholder: prints_postcode, disabled: !@patron_prints %><br />
+		<%= form.text_field :address_country, :class => "margin-bottom-5 width-50 padding-5 font-header font-header-tiny", placeholder: prints_country, disabled: !@patron_prints %>
+		
+		<% if @status == 1 %>
+			<div class="margin-bottom-10 admin-border-split padding-top-10">
+				Frame: <%= form.number_field :frame_id %><br />
+				Email conf? <%= form.check_box :email_confirmed %><br />
+				<hr />
+				Status: <%= form.select :status, options_for_select([["Author", "1"], ["Reader", "3"], ["Patron", "2"], ["Super Patron", "4"]], :selected => @user.status) %><br />
+				Level amount: <%= form.number_field :level_amount %><br />
+				<hr />
+				Can read? <%= form.check_box :can_read %><br />
+				Can read date: <%= form.datetime_field :can_read_date, :size => '35' %>
+			</div>
+		<% else end %>
+	</div>
+	<% end %>
+
 
 <div class="patrons-background padding-20 margin-bottom-20">
-	<% if @unassigned_members %>
-		<% @unassigned_members.each do |m| %>
-			<%= m.email %>, 
+	<%= form_with model: @account, local: true do |form| %>
+		<div class="margin-bottom-10">
+			<div class="float-left">
+				<h3><%= account_title %></h3>
+			</div>
+			
+			<div class="float-left margin-top-15 margin-left-5">
+				<%= form.submit save_button %>
+			</div>
+			
+			<div class="clear"></div>
+		</div>	
+	<strong><%= account_number %>:</strong> <%= current_user.account_id %>
+		
+	<br />
+	
+	<strong><%= account_role_title %>: </strong>
+		<% case @role when 1 %> <%= account_role_boss %>
+		<% when 2 %> <%= account_role_member %>
 		<% end %>
+
+		<% if @role == 1 %>
+			<br />
+			<strong><%= account_total_title %>:</strong> <%= account_total_amount %>
+			
+			<br />
+			<strong><%= account_subscriptions_title %>:</strong> <%= @account.subscriptions.count %>
+
+			<br />
+			<strong><%= account_status_title %>:</strong>
+			
+			<% case @account_status when 1 %><%= account_status_up %>
+			<% when 2 %><%= account_status_problem %>
+			<% when 3 %><%= account_status_paused %>
+			<% when 4 %><%= account_status_beginner %>
+			<% else end %>
+			
+			<h3><%= account_invoice_title %></h3>
+
+			<%= form.text_field :invoice_account_name, :class => "margin-bottom-5 width-50 padding-5 font-header font-header-tiny", placeholder: account_invoice_name %><br />
+			<%= form.text_field :invoice_account_tax_id, :class => "margin-bottom-5 width-30 padding-5 font-header font-header-tiny", placeholder: account_invoice_id %><br />
+			<%= form.text_field :invoice_account_address, :class => "margin-bottom-5 width-90 padding-5 font-header font-header-tiny", placeholder: account_invoice_address %>
+		<% else end %>
+		
+		<% if @status == 1 %>
+			<%= form.select :account_role, options_for_select([["Group Owner", "1"], ["Group Member", "2"]], :selected => @user.account_role) %> 
+		<% else %>
+		<% end %>
+	<% end %>
+	
+	<div class="margin-top-10">
+		<% if @empty_invoices.any? %>
+			<div class="">
+				<%= invoices_apply_question %>
+			</div>
+			<div class="padding-5">
+				<%= form_with model: @invoice, url: apply_invoice_details_invoice_path, local: true do |form| %>
+					<%= form.submit invoices_apply_button %>
+				<% end %>
+			</div>
+			<div class="clear"></div>
+		<% else %>
+			<span class="green-background-text padding-2"><%= invoices_all_filled %></span>
+		<% end %>
+	</div>
+</div>
+
+	<% if @unassigned_members.any? %>
+		<div class="patrons-background padding-20 margin-bottom-20">
+			<% @unassigned_members.each do |m| %>
+				<%= m.email %>, 
+			<% end %>
+		</div>
 	<% else end %>
-</div>	
+	
 
 
-<div class="patrons-background padding-20">
-	<div class="margin-bottom-10">
+<div class="patrons-background margin-bottom-10 padding-20">
+	<div class="">
 		<% if @user.status == 2 && @user.account.subscriptions.empty? %>
 			<% case @user.sitelanguage when 1 %> Subscription: Patreon.
 			<% when 2 %> Suscripción: Patreon.
@@ -211,8 +353,6 @@
 					<% when 2 %> Suscripciones
 					<% end %>
 				</h3>
-				
-				
 					
 					<% @user.account.subscriptions.each do |s| %>
 						
@@ -238,6 +378,9 @@
 							<% end %>
 						</td>
 						<td class="right">
+							Status
+						</td>
+						<td class="right">
 							<% case @user.sitelanguage when 1 %>Next payment
 							<% when 2 %>Siguiente pago
 							<% end %>
@@ -256,18 +399,33 @@
 							<td class="right"><%= number_to_currency((s.vat_amount.to_f/100.to_f), unit: "€") %></td>
 							<td class="right"><%= number_to_currency((s.total_amount.to_f/100.to_f), unit: "€") %></td>
 							<td class="right"><%= s.created_at.strftime("%d/%m/%Y") %></td>
+							<td class="right">
+								<% case s.is_active when true %><span class="green-background-text padding-2">Active</span>
+								<% when false %><span class="red-background-text padding-2">Paused</span>
+								<% else %>Nil
+								<% end %>
+							</td>
 							<td class="right"><%= s.next_payment_date.strftime("%d/%m/%Y") %></td>
 						</tr>
 						</table>
 						
 						<div class="margin-left-30">
 							<div class="margin-top-5">
-								Total used: <strong><%= number_to_currency((@subscription_spent.to_f/100.to_f), unit: "€") %></strong>
+								<% case @language when 1 %>Used: <strong><%= number_to_currency((@subscription_spent.to_f/100.to_f), unit: "€") %></strong> | Remaining: <strong><%= number_to_currency((@subscription_remaining.to_f/100.to_f), unit: "€") %></strong>
+								<% when 2 %>Empleado: <strong><%= number_to_currency((@subscription_spent.to_f/100.to_f), unit: "") %> euros</strong> | Restante: <strong><%= number_to_currency((@subscription_remaining.to_f/100.to_f), unit: "") %> euros</strong>
+								<% end %>
 							</div>
 							<hr />
 							<% @members.each do |m| %>
 								<div class="margin-top-5">
-									<%= number_to_currency((m.level_amount.to_f/100.to_f), unit: "€") %> | <%= m.email %>
+									<%= number_to_currency((m.level_amount.to_f/100.to_f), unit: "€") %> 
+									
+   									| <%= form_with model: m, url: update_level_amount_user_path(m), :class => "display-inline", local: true do |f| %>
+										<%= f.select :level_amount, [["5", 500], ["10", 1000], ["25", 2500]], {}, {selected: m.level_amount, onchange: "this.form.submit()", :class => "padding-2"} %>
+									<% end %>
+									
+									| <%= m.email %>
+									
 									<% case m.account_role when 1 %>
 									<% when 2 %>
 										| 
@@ -281,26 +439,23 @@
 							<% end %>
 							<hr />
 							<div class="margin-top-5">
-								Total remaining: <strong><%= number_to_currency((@subscription_remaining.to_f/100.to_f), unit: "€") %></strong>
-							</div>
-							<div class="margin-top-5">
 								<div class="margin-bottom-5 font-bold">
 									<% case @language when 1 %>Add more friends to this subscription:
 									<% when 2 %>Añada a más amigos a esta suscripción:
 									<% end %>
 								</div>
-								<% if @options_top || @options_middle || @options_bottom %>
+								<% if s.plan_amount >= 3000 && @subscription_remaining > 0 %>
 								
 									<%= form_tag '/account_boss_adds_user',  :style => 'margin-bottom: 10px;', :id => 'account_boss_adds_user' do %>
 										<input type="email" name="email_for_server" id="email" placeholder="Enter new e-mail…" class="padding-5">
 										<select id="level_amount" name="level_amount" class="padding-5">
-											<% if @options_bottom || @options_middle || @options_top %>
+											<% if @subscription_remaining >= 500 %>
 												<option value="500">5</option>
-											<% else end %>
-											<% if @options_middle || @options_top %>
+											<% end %>
+											<% if @subscription_remaining >= 1000 %>
 												<option value="1000">10</option>
-											<% else end %>
-											<% if @options_top %>
+											<% end %>
+											<% if @subscription_remaining >= 2500 %>
 												<option value="2500">25</option>
 											<% else end %>
 										</select>
@@ -310,15 +465,15 @@
 										<input type="hidden" name="article_for_server" id="article_for_server" value="Added by <%= @user.email %>">
 										<button type="submit" class="linkbutton padding-5">Add User</button>
 									<% end %>
-								
+				
 								
 								<% else %> 
 									<%= form_tag '/account_boss_adds_user',  :style => 'margin-bottom: 5px;', :id => 'account_boss_adds_user' do %>
 										<input type="email" name="email_for_server" id="email" placeholder="Enter new e-mail…" class="padding-5">
-										<select id="level_amount" name="level_amount" class="padding-5">
+										<select id="level_amount" name="level_amount" class="padding-5" disabled>
 												<option value="500">5</option>
 												<option value="1000">10</option>
-												<option value="2500">25</option>
+												<option value="2500" select_or_not>25</option>
 										</select>
 
 										<button type="submit" class="greyedout padding-5" disabled>
@@ -328,8 +483,8 @@
 										</button>
 									<% end %>
 									
-									<% case @language when 1 %>You have to increase your subscription amount first....
-									<% when 2 %>Tiene que aumentar la cantidad de su suscripción primero...
+									<% case @language when 1 %>Increase your subscription amount to add more friends....
+									<% when 2 %>Aumente la cantidad de su suscripción para añadir a más amigos...
 									<% end %>
 									
 								<% end %>
@@ -337,8 +492,12 @@
 						</div>
 						
 					<% end %>
-				
-				
+			<% end %>
+		<% end %>
+	</div>
+</div>
+
+<div class="patrons-background padding-20">	
 				<h3>
 					<% case @user.sitelanguage when 1 %> Invoices
 					<% when 2 %> Facturas
@@ -399,13 +558,20 @@
 							<td class="right"><%= number_to_currency((i.tax_amount.to_f/100.to_f), unit: "€") %></td>
 							<td class="right"><%= number_to_currency((i.total_amount.to_f/100.to_f), unit: "€") %></td>
 							
-							<td class="right"><%= i.invoice_status %></td>
-							<td class="right"><%= link_to "print", i %></td>
+							<td class="right">
+								<% case i.invoice_status when true %><span class="green-background-text padding-2">Paid</span>
+								<% when false %><span class="red-background-text padding-2">Unpaid</span>
+								<% else %>Nil
+								<% end %>
+							</td>
+							<td class="right">
+								<%= link_to i do %>
+									<% case @language when 1 %>Print
+									<% when 2 %>Imprimir
+									<% end %>
+								<% end %>
+							</td>
 						</tr>
 					<% end %>
 				</table>
-				
-			<% end %>
-		<% end %>
-	</div>
-</div>
+			</div>

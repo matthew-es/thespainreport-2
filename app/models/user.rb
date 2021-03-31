@@ -2,6 +2,8 @@ class User < ApplicationRecord
 	require 'bcrypt'
 	has_secure_password
 	belongs_to :account, optional: true
+	accepts_nested_attributes_for :account
+	
 	belongs_to :frame, optional: true
 	belongs_to :subscription, optional: true
 	

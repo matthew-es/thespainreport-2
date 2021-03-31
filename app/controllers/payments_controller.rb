@@ -341,6 +341,7 @@ class PaymentsController < ApplicationController
 				subscription_id: @subscription.id,
 				invoice_id: @invoice.id
 				)
+
 			
 			@stripe_payment = Stripe::PaymentIntent.confirm(@payment.external_payment_id)
 			case @stripe_payment.status
@@ -366,9 +367,16 @@ class PaymentsController < ApplicationController
 		    	total_support: @new_total_support
 		    )
 		    
+		    if @subscription.plan_amount < 2500
+		    	owner_level_amount = @subscription.plan_amount
+		    elsif @subscription.plan_amount >= 2500
+		    	owner_level_amount = 2500
+		    else end
+		    
 		    @user.update(
 		    	status: 2,
-		    	level_amount: @new_total_support
+		    	subscription_id: @subscription.id,
+		    	level_amount: owner_level_amount
 		    	)
 		    
 		    if @account.payments.count > 0

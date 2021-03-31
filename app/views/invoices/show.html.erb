@@ -18,8 +18,8 @@
 
 <div class="margin-bottom-5">
 	<div class="float-left font-bold">
-		<% case @language when 1 %>Invoice Nº:
-		<% when 2 %>Nº de Factura:
+		<% case @language when 1 %>Nº:
+		<% when 2 %>Nº:
 		<% end %>
 	</div>
 	<div class="float-left margin-left-5">
@@ -29,8 +29,8 @@
 </div>
 <div class="margin-bottom-10">
 	<div class="float-left font-bold">
-		<% case @language when 1 %>Invoice date:
-		<% when 2 %>Fecha de Factura:
+		<% case @language when 1 %>Date:
+		<% when 2 %>Fecha:
 		<% end %>
 	</div>
 	<div class="float-left margin-left-5"><%= (@invoice.created_at).strftime("%d/%m/%Y") %></div>
@@ -77,8 +77,8 @@
 </div>
 <div class="margin-bottom-5">
 	<div class="float-left font-bold">
-		<% case @language when 1 %>Custopmer Tax ID:
-		<% when 2 %>NIF del Cliente:
+		<% case @language when 1 %>Custopmer tax ID:
+		<% when 2 %>NIF del cliente:
 		<% end %>
 	</div>
 	<div class="float-left margin-left-5"><%= @invoice.invoice_customer_tax_id %></div>
@@ -87,7 +87,7 @@
 <div class="margin-bottom-5">
 	<div class="float-left font-bold">
 		<% case @language when 1 %>Account ID:
-		<% when 2 %>Nº de Cuenta:
+		<% when 2 %>Nº de cuenta:
 		<% end %>
 	</div>
 	<div class="float-left margin-left-5"><%= @invoice.account_id %></div>
@@ -100,7 +100,7 @@
 		<% end %>
 	</div>
 	<div class="float-left margin-left-5">
-		<% @invoice.account.users.account_owner.each do |u| %>
+		<% @invoice.account.users.bosses.each do |u| %>
             <%= u.email %>
           <% end %>
 		</div>
@@ -110,16 +110,21 @@
 <hr />
 
 <div class="margin-bottom-5">
-	<div class="float-left font-bold">
+	<strong>
 		<% case @language when 1 %>Concept:
 		<% when 2 %>Concepto:
 		<% end %>
-	</div>
-	<div class="float-left margin-left-5">
-		<%= @invoice.invoice_concept %><br />
-		Subscription ID: <%= @invoice.subscription_id %>
-	</div>
-	<div class="clear"></div>
+	</strong>
+	<%= @invoice.invoice_concept %>
+</div>
+
+<div class="margin-bottom-5">
+	<strong>
+		<% case @language when 1 %>Subscription ID:
+		<% when 2 %>Nº de suscripción:
+		<% end %>
+	</strong>
+		<%= @invoice.subscription_id %>
 </div>
 
 <div class="margin-bottom-5">

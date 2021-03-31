@@ -74,6 +74,37 @@ class UsersController < ApplicationController
 		@user.update(email_confirmed: true)
 	end
 	
+	def confirm_change_email
+		user = User.find_by(confirm_token: params[:id])
+		
+		if user.nil?
+			flash[:tryagain] = "No"
+		else
+			email_entered = user.changing_email_to
+			email_clicked = params[:new_email]
+
+			if email_entered.nil?
+				puts "Too late to change that one..."
+				flash[:tryagain] = "No"
+			elsif email_clicked == email_entered
+				user.update(
+					email: email_entered,
+					changing_email_to: nil,
+					confirm_token: SecureRandom.urlsafe_base64.to_s
+					)
+				
+				redirect_to edit_user_path(current_user)
+				case current_user.sitelanguage when 1
+					message = "Well done, you have changed your email correctly..!"
+				when 2
+					message = "¡Olé, ha cambiado correctamente su correo electrónico..!"
+				end
+				flash[:success] = message
+			else
+				flash[:tryagain] = "No"
+			end	
+		end
+	end
 	
 	# 3. Log in, password reminders
 	#---------------------------------------------------------------------------
@@ -318,32 +349,6 @@ class UsersController < ApplicationController
 		redirect_to users_path
 	end
 	
-	def calculate_subscription_amounts
-		subscription = current_user.account.subscriptions.last
-		subscription_total = subscription.plan_amount
-		subscription_spent_per_user = []
-		subscription.users.each do |u|
-			subscription_spent_per_user << u.level_amount
-		end
-		subscription_spent = subscription_spent_per_user.compact.sum
-		subscription_remaining = subscription_total - subscription_spent
-		
-		if subscription_remaining >= 2500
-			@options_top = true
-		elsif subscription_remaining.between?(1000, 2499)
-			@options_middle = true
-		elsif subscription_remaining.between?(500, 999)
-			@options_bottom = true
-		else end
-		
-		@subscription_spent = subscription_spent
-		@subscription_remaining = subscription_remaining
-		
-		puts "Total: " + subscription_total.to_s
-		puts "Spent: " + subscription_spent.to_s
-		puts "Remaining: " + subscription_remaining.to_s
-	end
-	
 	def account_boss_adds_user
 		user = User.find_by(email: params[:email_for_server])
 		desired_level_amount = params[:level_amount].to_i
@@ -421,7 +426,11 @@ class UsersController < ApplicationController
 			set_status(current_user)
 			@members = current_user.subscription.users
 			@unassigned_members = current_user.account.users.where(subscription_id: "")
-			Patrons::CalculateSubscriptionAmounts.process(current_user.account.subscriptions.last)
+			how_much_left = Patrons::CalculateSubscriptionAmounts.process(current_user.account.subscriptions.last)
+			@empty_invoices = current_user.account.invoices.where('invoice_customer_name=? OR invoice_customer_tax_id=? OR invoice_customer_address=?', "", "", "")
+			
+			@subscription_spent = how_much_left["spent"]
+			@subscription_remaining = how_much_left["remaining"]
 		else
 			puts "some other user edit problem"
 			redirect_to root_url
@@ -434,6 +443,28 @@ class UsersController < ApplicationController
 			else
 				redirect_to edit_user_path(current_user)
 			end
+	end
+	
+	def update_level_amount
+		u = User.find(params[:id])
+		la = params[:user][:level_amount].to_i
+		
+		how_much_left = Patrons::CalculateSubscriptionAmounts.process(current_user.account.subscriptions.last)
+		@subscription_remaining = how_much_left["remaining"]
+		
+		puts @subscription_remaining
+		puts la
+		puts la.to_i
+		
+		if @subscription_remaining >= la
+			u.update(
+				level_amount: la
+				)
+		else 
+			puts "Not possible..."	
+		end
+		
+		redirect_to edit_user_path(current_user)
 	end
 
 	# POST /users
@@ -455,9 +486,28 @@ class UsersController < ApplicationController
 	# PATCH/PUT /users/1
 	# PATCH/PUT /users/1.json
 	def update
+		
+		new_email = params[:user][:changing_email_to]
+		
+		if new_email.present?
+			user = User.find_by(email: new_email)
+			
+			if user.nil?
+				Patrons::ChangeEmailLink.process(new_email, current_user)
+				
+				case current_user.sitelanguage when 1
+					message = "Check your email inbox..."
+				when 2
+					message = "Mire su buzón de correo..."
+				end
+				flash[:success] = message
+			else
+			end
+		else end
+		
 		respond_to do |format|
 			if @user.update(user_params)
-		   	format.html { redirect_to edit_user_path(@user), notice: 'Reader was successfully updated.' }
+		   		format.html { redirect_to edit_user_path(@user), notice: 'Reader was successfully updated.' }
 				format.json { render :show, status: :ok, location: @user }
 			else
 				format.html { render :edit }
@@ -484,7 +534,10 @@ class UsersController < ApplicationController
 
 		# Never trust parameters from the scary internet, only allow the white list through.
 		def user_params
-			params.require(:user).permit(:account_id, :subscription_id, :address, :frame_id, :account_role, :country_id, :email, :email_confirmed, :emails, :emaillanguage, :level_amount, :password, 
-			:password_confirmation, :password_digest, :password_reset_token, :password_reset_sent_at, :status, :sitelanguage, :confirm_token, :can_read, :can_read_date, :article_from_server)
+			params.require(:user).permit(
+				:account_id, :subscription_id, :address_name, :address_street, :address_postcode, :address_country, 
+				:frame_id, :account_role, :country_id, :email, :changing_email_to, :email_confirmed, :emails, :emaillanguage, :level_amount, :password, 
+			:password_confirmation, :password_digest, :password_reset_token, :password_reset_sent_at, :status, :sitelanguage, :confirm_token, :can_read, :can_read_date, :article_from_server
+			)
 		end
 end

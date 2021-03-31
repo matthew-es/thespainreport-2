@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_26_123227) do
+ActiveRecord::Schema.define(version: 2021_03_31_081949) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -198,7 +198,7 @@ ActiveRecord::Schema.define(version: 2021_03_26_123227) do
     t.string "invoice_from_name"
     t.string "invoice_from_address"
     t.string "invoice_from_tax_id"
-    t.integer "invoice_status"
+    t.boolean "invoice_status"
     t.string "invoice_tax_country"
   end
 
@@ -280,6 +280,7 @@ ActiveRecord::Schema.define(version: 2021_03_26_123227) do
     t.string "frame_money_word_singular"
     t.text "motivation_general_environment"
     t.text "motivation_specific_brand"
+    t.boolean "is_active"
   end
 
   create_table "tweets", force: :cascade do |t|
@@ -331,7 +332,7 @@ ActiveRecord::Schema.define(version: 2021_03_26_123227) do
     t.datetime "password_reset_sent_at"
     t.integer "account_id"
     t.integer "account_role"
-    t.string "address"
+    t.string "address_street"
     t.integer "level_amount"
     t.integer "frame_id"
     t.boolean "can_read"
@@ -339,6 +340,10 @@ ActiveRecord::Schema.define(version: 2021_03_26_123227) do
     t.integer "country_id"
     t.string "article_from_server"
     t.integer "subscription_id"
+    t.string "address_name"
+    t.string "address_postcode"
+    t.string "address_country"
+    t.string "changing_email_to"
   end
 
   create_table "webhook_events", force: :cascade do |t|
