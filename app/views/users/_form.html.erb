@@ -303,7 +303,7 @@
 				<strong><%= access_level_title %>:</strong>	
 			</div>
 			<div class="float-left margin-left-5 padding-top-5 mobile-width">
-			 	<%= access_level %> | <%= link_to increase_level_link_text, root_url + @stub_increase %></a>
+			 	<%= access_level %> <%= link_to increase_level_link_text, root_url + @stub_increase if @account_owner %>
 			</div>
 			<div class="clear"></div
 		</div>
@@ -318,10 +318,12 @@
 				<h3><%= prints_title %></h3>
 			</div>
 			
-			<div class="float-left margin-top-15 margin-left-5">
-				<%= form.submit save_button %>
-			</div>
-	
+			<% if @patron_prints %>
+				<div class="float-left margin-top-15 margin-left-5">
+					<%= form.submit save_button %>
+				</div>
+			<% end %>
+			
 			<div class="clear"></div>
 		</div>
 		
@@ -331,7 +333,10 @@
 				<% if @patron_prints %>
 					<span class="green-background-text padding-2"><%= prints_level_good %></span>
 				<% else %>	
-					<span class="red-background-text padding-2"><%= prints_level_bad %> | <%= link_to increase_level_link_text, root_url + @stub_increase %></a></span>
+					<span class="red-background-text padding-2">
+						<%= prints_level_bad %> 
+						<%= link_to increase_level_link_text, root_url + @stub_increase if @account_owner %>
+					</span>
 				<% end %>
 			</div>
 		</div>
@@ -351,9 +356,11 @@
 				<h3><%= account_title %></h3>
 			</div>
 			
-			<div class="float-left margin-top-15 margin-left-5">
-				<%= form.submit save_button %>
-			</div>
+			<% if @account_owner %>
+				<div class="float-left margin-top-15 margin-left-5">
+					<%= form.submit save_button %>
+				</div>
+			<% end %>
 			
 			<div class="clear"></div>
 		</div>	
@@ -371,7 +378,7 @@
 	
 	<% if @admin || @account_owner %>
 		<div class="margin-bottom-5">
-			<strong><%= account_total_title %>:</strong> <%= account_total_amount %>
+			<strong><%= account_total_title %>:</strong> <%= account_total_amount %> <%= link_to increase_level_link_text, root_url + @stub_increase %>
 		</div>
 		<div class="margin-bottom-5">
 			<strong><%= account_subscriptions_title %>:</strong> <%= @account.subscriptions.count %>
@@ -444,7 +451,7 @@
 					<strong><%= subscriptions_number_title %>:</strong> <%= s.id %>
 				</div>
 				<div class="margin-bottom-5">
-					<strong><%= subscriptions_amount_title %>:</strong> <%= number_to_currency((s.plan_amount.to_f/100.to_f), unit: "€") %>
+					<strong><%= subscriptions_amount_title %>:</strong> <%= number_to_currency((s.plan_amount.to_f/100.to_f), unit: "€") %> <%= link_to increase_level_link_text, root_url + @stub_increase %>
 				</div>
 				<div class="margin-bottom-5">
 					<strong><%= subscriptions_vat_title %>:</strong> <%= number_to_currency((s.vat_amount.to_f/100.to_f), unit: "€") %>
