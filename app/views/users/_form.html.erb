@@ -413,7 +413,7 @@
 	<% else end %>
 	
 
-
+<% if @admin || @account_owner %>
 <div class="patrons-background margin-bottom-10 padding-20">
 	<div class="">
 		<% if @user.status == 2 && @user.account.subscriptions.empty? %>
@@ -564,62 +564,64 @@
 	</div>
 </div>
 
-<div class="patrons-background padding-20">	
-				<h3>
-					<% case @user.sitelanguage when 1 %> Invoices
-					<% when 2 %> Facturas
+
+	<div class="patrons-background padding-20">	
+		<h3>
+			<% case @user.sitelanguage when 1 %> Invoices
+			<% when 2 %> Facturas
+			<% end %>
+		</h3>
+		<table class="admin-table">
+			<tr style="font-weight: bold;" >
+				
+				<td class="right">
+					<% case @user.sitelanguage when 1 %>Date
+					<% when 2 %>Fecha
 					<% end %>
-				</h3>
-				<table class="admin-table">
-					<tr style="font-weight: bold;" >
-						
-						<td class="right">
-							<% case @user.sitelanguage when 1 %>Date
-							<% when 2 %>Fecha
-							<% end %>
-						</td>
-						<td>Nº</td>
-						<td class="right">
-							Total
-						</td>
-						
-						<td class="right">
-							<% case @user.sitelanguage when 1 %>Status
-							<% when 2 %>Estado
-							<% end %>
-						</td>
-						<td class="right">
-							<% case @user.sitelanguage when 1 %>Print
+				</td>
+				<td>Nº</td>
+				<td class="right">
+					Total
+				</td>
+				
+				<td class="right">
+					<% case @user.sitelanguage when 1 %>Status
+					<% when 2 %>Estado
+					<% end %>
+				</td>
+				<td class="right">
+					<% case @user.sitelanguage when 1 %>Print
+					<% when 2 %>Imprimir
+					<% end %>
+				</td>
+			</tr>
+			
+			<% if @user.account.invoices.empty? %>
+				<tr><td colspan="8">
+					--/--
+				</td></tr>
+			<% end %>
+			
+			<% @user.account.invoices.each do |i| %>
+				<tr class="<%= cycle("odd", "even") -%>">
+					<td class="right"><%= i.created_at.strftime("%d/%m/%Y") %></td>
+					<td class="left"><%= i.invoice_number %></td>
+					<td class="right"><%= number_to_currency((i.total_amount.to_f/100.to_f), unit: "€") %></td>
+					<td class="right">
+						<% case i.invoice_status when true %><span class="green-background-text padding-2">Paid</span>
+						<% when false %><span class="red-background-text padding-2">Unpaid</span>
+						<% else %>Nil
+						<% end %>
+					</td>
+					<td class="right">
+						<%= link_to i do %>
+							<% case @language when 1 %>Print
 							<% when 2 %>Imprimir
 							<% end %>
-						</td>
-					</tr>
-					
-					<% if @user.account.invoices.empty? %>
-						<tr><td colspan="8">
-							--/--
-						</td></tr>
-					<% end %>
-					
-					<% @user.account.invoices.each do |i| %>
-						<tr class="<%= cycle("odd", "even") -%>">
-							<td class="right"><%= i.created_at.strftime("%d/%m/%Y") %></td>
-							<td class="left"><%= i.invoice_number %></td>
-							<td class="right"><%= number_to_currency((i.total_amount.to_f/100.to_f), unit: "€") %></td>
-							<td class="right">
-								<% case i.invoice_status when true %><span class="green-background-text padding-2">Paid</span>
-								<% when false %><span class="red-background-text padding-2">Unpaid</span>
-								<% else %>Nil
-								<% end %>
-							</td>
-							<td class="right">
-								<%= link_to i do %>
-									<% case @language when 1 %>Print
-									<% when 2 %>Imprimir
-									<% end %>
-								<% end %>
-							</td>
-						</tr>
-					<% end %>
-				</table>
-			</div>
+						<% end %>
+					</td>
+				</tr>
+			<% end %>
+		</table>
+	</div>
+<% end %>

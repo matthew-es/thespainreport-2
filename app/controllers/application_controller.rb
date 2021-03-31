@@ -39,6 +39,8 @@ class ApplicationController < ActionController::Base
 			else end
 			
 			@admin = @status == 1
+			@account_owner = @role == 1
+			
 			@super_patron = @status == 2 && (@level > 2500)
 			@patron_reader_25 = @status == 2 && (@level == 2500)
 			@patron_reader_10 = @status == 2 && @level.between?(1000, 2499)

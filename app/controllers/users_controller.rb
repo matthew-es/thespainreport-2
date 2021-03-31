@@ -408,7 +408,22 @@ class UsersController < ApplicationController
 			redirect_to root_url
 		end
 	end
-
+	
+	def check_account_subscription(user)
+		if !@user.account.subscriptions.any?
+		elsif @user.account.subscriptions.last
+			how_much_left = Patrons::CalculateSubscriptionAmounts.process(@user.account.subscriptions.last)
+			
+			@members = @user.subscription.users
+					
+			@subscription_spent = how_much_left["spent"]
+			@subscription_remaining = how_much_left["remaining"]
+		else end
+			
+		@unassigned_members = @user.account.users.where(subscription_id: "")
+		@empty_invoices = @user.account.invoices.where('invoice_customer_name=? OR invoice_customer_tax_id=? OR invoice_customer_address=?', "", "", "")
+	end
+	
 	# GET /users/1/edit
 	def edit
 		if current_user.nil?
@@ -418,30 +433,13 @@ class UsersController < ApplicationController
 			@user = User.find(params[:id])
 			set_language_frame(current_user.sitelanguage, current_user.frame.id)
 			set_status(@user)
-			
-			@members = @user.account.users.members
-			@unassigned_members = current_user.account.users.where(subscription_id: "")
-			
-			if @user.account.subscriptions.last
-				how_much_left = Patrons::CalculateSubscriptionAmounts.process(current_user.account.subscriptions.last)
-			
-				@subscription_spent = how_much_left["spent"]
-				@subscription_remaining = how_much_left["remaining"]
-			else end
-				
-			@empty_invoices = current_user.account.invoices.where('invoice_customer_name=? OR invoice_customer_tax_id=? OR invoice_customer_address=?', "", "", "")
+			check_account_subscription(@user)
 		elsif User.find(params[:id]) != current_user
 			redirect_to edit_user_path(current_user)
 		elsif User.find(params[:id]) == current_user
 			set_language_frame(current_user.sitelanguage, current_user.frame.id)
 			set_status(current_user)
-			@members = current_user.subscription.users
-			@unassigned_members = current_user.account.users.where(subscription_id: "")
-			how_much_left = Patrons::CalculateSubscriptionAmounts.process(current_user.account.subscriptions.last)
-			@empty_invoices = current_user.account.invoices.where('invoice_customer_name=? OR invoice_customer_tax_id=? OR invoice_customer_address=?', "", "", "")
-			
-			@subscription_spent = how_much_left["spent"]
-			@subscription_remaining = how_much_left["remaining"]
+			check_account_subscription(current_user)
 		else
 			puts "some other user edit problem"
 			redirect_to root_url
