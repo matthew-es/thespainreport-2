@@ -418,7 +418,14 @@ class UsersController < ApplicationController
 			@user = User.find(params[:id])
 			set_language_frame(current_user.sitelanguage, current_user.frame.id)
 			set_status(@user)
+			
 			@members = @user.account.users.members
+			@unassigned_members = current_user.account.users.where(subscription_id: "")
+			
+			how_much_left = Patrons::CalculateSubscriptionAmounts.process(current_user.account.subscriptions.last)
+			@subscription_spent = how_much_left["spent"]
+			@subscription_remaining = how_much_left["remaining"]
+			@empty_invoices = current_user.account.invoices.where('invoice_customer_name=? OR invoice_customer_tax_id=? OR invoice_customer_address=?', "", "", "")
 		elsif User.find(params[:id]) != current_user
 			redirect_to edit_user_path(current_user)
 		elsif User.find(params[:id]) == current_user

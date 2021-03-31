@@ -42,7 +42,7 @@
 		account_role_boss = "Boss"
 		account_role_member = "Member"
 		account_total_title = "Total contributions"
-		account_total_amount = (number_to_currency((@user.account.total_support/100.to_f), unit: "€") unless @user.account.total_support.nil?) + " / month"
+		account_total_amount = (number_to_currency((@user.account.total_support/100.to_f), unit: "€") unless @user.account.total_support.nil?).to_s + " / month"
 		account_subscriptions_title = "Number of subscriptions"
 		account_status_title = "Account status"
 		account_status_up = "Up-to-date"
@@ -115,7 +115,7 @@
 		account_role_boss = "Jefe"
 		account_role_member = "Miembro"
 		account_total_title = "Contribuciones totales"
-		account_total_amount = (number_to_currency((@user.account.total_support/100.to_f), unit: "") unless @user.account.total_support.nil?) + " euros al mes"
+		account_total_amount = (number_to_currency((@user.account.total_support/100.to_f), unit: "") unless @user.account.total_support.nil?).to_s + " euros al mes"
 		account_subscriptions_title = "Cantidad de suscripciones"
 		account_status_title = "Estado de la cuenta"
 		account_status_up = "Al corriente"
@@ -146,15 +146,6 @@
 		invoices_all_filled = "Todas sus facturas contienen sus datos."
 	end
 %>
-
-
-	<div class="float-left padding-top-5 margin-right-5 mobile-width">
-				xxxxxx	
-			</div>
-			<div class="float-left mobile-width">
-			 	xxxxxxx
-			</div>
-			<div class="clear"></div>
 
 <%# PROBLEMS %>
 <div class="patrons-background padding-20 margin-bottom-20">
