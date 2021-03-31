@@ -442,14 +442,6 @@ class UsersController < ApplicationController
 			puts "some other user edit problem"
 			redirect_to root_url
 		end
-		
-		rescue
-			if current_user.nil?
-				puts "edit action failed, rescued, generic home page redirect"
-				redirect_to root_url
-			else
-				redirect_to edit_user_path(current_user)
-			end
 	end
 	
 	def update_level_amount
