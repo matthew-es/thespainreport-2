@@ -5,7 +5,7 @@
 		<%= @frame.email_reader_text %>
 	</p>
 	
-	<%= form_tag '/new_reader' do |f| %>
+	<%= form_with url: '/new_reader', local: true do |f| %>
 		<div class="width-100">
 			<div class="float-left margin-right-10 width-100 margin-top">
 				<input type="email_for_server" name="email_for_server" id="email_for_server" class="padding-10 width-90" placeholder="<%= @frame.email_reader_placeholder %>" />
@@ -15,6 +15,8 @@
 			</div>
 			<div class="clear"></div>
 		</div>
+		<input type="hidden" id="full_name" name="full_name" value="" />
+		
 		<input type="hidden" id="language_for_server" name="language_for_server" value="<%= @language %>" />
 		<input type="hidden" id="article_for_server" name="article_for_server" value="<%= yield(:title) %>" />
 		<input type="hidden" id="frame_for_server" name="frame_for_server" value="<%= @frame_id %>" />
