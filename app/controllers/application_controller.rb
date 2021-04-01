@@ -49,10 +49,10 @@ class ApplicationController < ActionController::Base
 			@patron_reader_1 = @status == 2 && @level.between?(100, 499)
 			@patron_reader_0 = @status == 2 && (@level == 0)
 			@patron = @patron_reader_0 || @patron_reader_1 || @patron_reader_5 || @patron_reader_10 || @patron_reader_25
-			@patron_prints = @super_patron || @patron_reader_25
 			@reader_trial = @status == 3 && @can_read_date > Time.now
 			@reader_trial_over = @status == 3 && @can_read_date < Time.now
 			@reader = @readertrial || @reader_trial_over
+			@get_prints = @admin || @super_patron || @patron_reader_25 || @reader_trial
 			
 			@can_read_level_1 = @admin || @reader_trial|| @super_patron || @patron_reader_25 || @patron_reader_10 || @patron_reader_5  || @patron_reader_1
 			@can_read_level_5 = @admin || @reader_trial|| @super_patron || @patron_reader_25 || @patron_reader_10 || @patron_reader_5

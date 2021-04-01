@@ -12,7 +12,8 @@ module Patrons
 		
 		user.update(
 			account_id: account.id,
-			account_role: 1
+			account_role: 1,
+			subscription_id: ""
 			)
 
 		account

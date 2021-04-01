@@ -7,7 +7,9 @@ class SubscriptionsController < ApplicationController
 			is_active: true
 			)
 		
-		redirect_to edit_user_path(current_user)
+		user = User.find_by(account_id: s.account_id, account_role: 1)
+		
+		redirect_to edit_user_path(user)
 	end
 	
 	def pause
@@ -16,7 +18,9 @@ class SubscriptionsController < ApplicationController
 			is_active: false
 			)
 		
-		redirect_to edit_user_path(current_user)
+		user = User.find_by(account_id: s.account_id, account_role: 1)
+		
+		redirect_to edit_user_path(user)
 	end
 	
 	# GET /subscriptions

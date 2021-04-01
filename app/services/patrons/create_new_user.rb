@@ -19,7 +19,7 @@ module Patrons
             status: 3,
             level_amount: 0,
             can_read: true,
-            can_read_date: Time.zone.now + 45.days,
+            can_read_date: Time.zone.now + 30.days,
             sitelanguage: language_from_server,
             emails: 1,
             emaillanguage: language_from_server,

@@ -34,6 +34,21 @@ class UserMailer < ApplicationMailer
         mail(to: @user.email, subject: subject)
     end
     
+    def added_to_account(user, owner)
+        @user = user
+        @owner = owner
+        emoji = ("\u2705").force_encoding('utf-8')
+        
+        case @user.sitelanguage when 1
+            subject = emoji + " " + @owner.email + " has added you to their account on The Spain Report"
+        when 2
+            subject = emoji + " " + @owner.email + " le ha añadido a su cuenta en The Spain Report"
+        end
+    
+        headers 'X-SES-CONFIGURATION-SET' => "Emails"
+        mail(to: @user.email, subject: subject)
+    end
+    
     def change_email_link(new_email, user)
         @language = user.sitelanguage
         @confirmation_token = user.confirm_token

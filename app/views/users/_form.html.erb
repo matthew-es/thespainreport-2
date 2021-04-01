@@ -10,6 +10,8 @@
 		
 		user_title = "My details"
 		your_current_email = "Your current email"
+		your_current_email_status_good = "Confirmed"
+		your_current_email_status_bad = "Not confirmed"
 		your_new_email = "Your new email..."
 		your_new_email_explanation = "The system will send you a confirmation email"
 		your_password = "New password..."
@@ -60,12 +62,13 @@
 		subscriptions_paused = "Paused"
 		subscriptions_activate_button = "Activate"
 		subscriptions_pause_button = "Pause"
+		subscriptions_number_title = "ID"
 		subscriptions_amount_title = "Base"
 		subscriptions_vat_title = "VAT"
-		subscriptions_total_title = ""
-		subscriptions_created_title = ""
-		subscriptions_next_title = ""
-		subscriptions_status_title = ""
+		subscriptions_total_title = "Total"
+		subscriptions_created_title = "Date created"
+		subscriptions_next_title = "Next payment"
+		subscriptions_status_title = "Status"
 		subscriptions_members_title = "Miembros"
 		
 		invoices_apply_question = "Apply invoice details to existing empty invoices?"
@@ -84,6 +87,8 @@
 		user_title = "Mis Datos"
 		
 		your_current_email = "Su correo electrónico actual"
+		your_current_email_status_good = "Comprobado"
+		your_current_email_status_bad = "No comprobado"
 		your_new_email = "Su nuevo correo electrónico..."
 		your_new_email_explanation = "El sistema le enviará un correo de confirmación"
 		your_password = "Contraseña nueva..."
@@ -243,9 +248,17 @@
 				<div class="float-left padding-top-5 margin-right-5 mobile-width">
 					<strong><%= your_current_email %>:</strong>
 				</div>
-				<div class="float-left padding-top-5 mobile-width">
+				<div class="float-left padding-top-5 margin-right-5 mobile-width">
 				 	<%= @user.email %>
 				</div>
+				<div class="float-left padding-top-5 mobile-width">
+					<% case @user.email_confirmed when true %><span class="green-background-text padding-2"><%= your_current_email_status_good %></span>
+					<% when false %><span class="red-background-text padding-2"><%= your_current_email_status_bad %></span>
+					<% end %>
+				</div>
+				
+				
+				
 				<div class="clear"></div>
 			</div>
 			
@@ -318,7 +331,7 @@
 				<h3><%= prints_title %></h3>
 			</div>
 			
-			<% if @patron_prints %>
+			<% if @get_prints %>
 				<div class="float-left margin-top-15 margin-left-5">
 					<%= form.submit save_button %>
 				</div>
@@ -330,7 +343,7 @@
 		<div class="margin-bottom-10 font-main-small">
 			<span class="padding-2"><%= prints_teaser %></span>
 			<div class="margin-top-5">
-				<% if @patron_prints %>
+				<% if @get_prints %>
 					<span class="green-background-text padding-2"><%= prints_level_good %></span>
 				<% else %>	
 					<span class="red-background-text padding-2">
@@ -341,10 +354,10 @@
 			</div>
 		</div>
 		
-		<%= form.text_field :address_name, :class => "margin-bottom-5 width-50 padding-5 font-header font-header-tiny mobile-width", placeholder: prints_name, disabled: !@patron_prints %><br />
-		<%= form.text_field :address_street, :class => "margin-bottom-5 width-90 padding-5 font-header font-header-tiny mobile-width", placeholder: prints_street, disabled: !@patron_prints %><br />
-		<%= form.text_field :address_postcode, :class => "margin-bottom-5 width-50 padding-5 font-header font-header-tiny mobile-width", placeholder: prints_postcode, disabled: !@patron_prints %><br />
-		<%= form.text_field :address_country, :class => "margin-bottom-5 width-50 padding-5 font-header font-header-tiny mobile-width", placeholder: prints_country, disabled: !@patron_prints %>
+		<%= form.text_field :address_name, :class => "margin-bottom-5 width-50 padding-5 font-header font-header-tiny mobile-width", placeholder: prints_name, disabled: !@get_prints %><br />
+		<%= form.text_field :address_street, :class => "margin-bottom-5 width-90 padding-5 font-header font-header-tiny mobile-width", placeholder: prints_street, disabled: !@get_prints %><br />
+		<%= form.text_field :address_postcode, :class => "margin-bottom-5 width-50 padding-5 font-header font-header-tiny mobile-width", placeholder: prints_postcode, disabled: !@get_prints %><br />
+		<%= form.text_field :address_country, :class => "margin-bottom-5 width-50 padding-5 font-header font-header-tiny mobile-width", placeholder: prints_country, disabled: !@get_prints %>
 	</div>
 	<% end %>
 
@@ -463,7 +476,7 @@
 					<strong><%= subscriptions_created_title %>:</strong> <%= s.created_at.strftime("%d/%m/%Y") %>
 				</div>
 				<div class="margin-bottom-5">
-					<strong><%= subscriptions_next_title %>:</strong> <%= s.next_payment_date.strftime("%d/%m/%Y") %>
+					<strong><%= subscriptions_next_title %>:</strong> <%= s.next_payment_date.strftime("%d/%m/%Y") unless s.next_payment_date.nil? %>
 				</div>
 				<div class="">
 					<strong><%= subscriptions_status_title %>:</strong>
@@ -504,7 +517,7 @@
 									<%= number_to_currency((m.level_amount.to_f/100.to_f), unit: "€") %> 
 									
    									| <%= form_with model: m, url: update_level_amount_user_path(m), :class => "display-inline", local: true do |f| %>
-										<%= f.select :level_amount, [["5", 500], ["10", 1000], ["25", 2500]], {}, {selected: m.level_amount, onchange: "this.form.submit()", :class => "padding-2"} %>
+										<%= f.select :level_amount, [["0", 0], ["5", 500], ["10", 1000], ["25", 2500]], {}, {selected: m.level_amount, onchange: "this.form.submit()", :class => "padding-2", disabled: (!@patron || s.is_active == false)} %>
 									<% end %>
 									
 									| <%= m.email %>
@@ -537,6 +550,7 @@
 										</div>
 										<div class="float-left padding-top-3 mobile-width">
 										 	<select id="level_amount" name="level_amount" class="padding-5">
+												<option value="0">0</option>
 												<% if @subscription_remaining >= 500 %>
 													<option value="500">5</option>
 												<% end %>
@@ -551,6 +565,7 @@
 											<input type="hidden" name="subscription_id" id="subscription_id" value="<%= @user.account.subscriptions.last.id %>">
 											<input type="hidden" name="frame_for_server" id="frame_for_server" value="<%= @user.frame.id %>">
 											<input type="hidden" name="article_for_server" id="article_for_server" value="Added by <%= @user.email %>">
+											<input type="hidden" name="language_for_server" id="language_for_server" value="<%= @user.sitelanguage %>">
 											<button type="submit" class="linkbutton padding-5">Add User</button>
 										</div>
 										<div class="clear"></div>
@@ -561,9 +576,10 @@
 									<%= form_tag '/account_boss_adds_user',  :style => 'margin-bottom: 5px;', :id => 'account_boss_adds_user' do %>
 										<input type="email" name="email_for_server" id="email" placeholder="Enter new e-mail…" class="padding-5">
 										<select id="level_amount" name="level_amount" class="padding-5" disabled>
+												<option value="0">0</option>
 												<option value="500">5</option>
 												<option value="1000">10</option>
-												<option value="2500" select_or_not>25</option>
+												<option value="2500">25</option>
 										</select>
 
 										<button type="submit" class="greyedout padding-5" disabled>

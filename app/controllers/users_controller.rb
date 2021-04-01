@@ -41,16 +41,21 @@ class UsersController < ApplicationController
 		user = User.find_by(email: params[:email_for_server])
 		
 		if user.nil?
-			newpatron = Patrons::CreateNewPatron.process(params)
+			newuser = Patrons::CreateNewUser.process(params)
+			newaccount = Patrons::CreateNewAccount.process(newuser)
+			frame = Frame.find(params[:frame_for_server])
+			newsubscription = Patrons::CreateNewSubscription.process(newuser, newaccount, frame)
 			
-			case newpatron.sitelanguage
+			Patrons::UpdateLevelAmount.process(newuser, 2500)
+			
+			case newuser.sitelanguage
 				when 1 then message = "Thanks for signing up..."
 				when 2 then message = "Gracias por apuntarse..."
 			end
 			
-			session[:user_id] = newpatron.id
+			session[:user_id] = newuser.id
 			flash[:success] = message
-			redirect_to edit_user_path(newpatron)
+			redirect_to edit_user_path(newuser)
 		else
 			case params[:language_for_server]
 				when "1" then message = "Try again…"
@@ -74,6 +79,15 @@ class UsersController < ApplicationController
 		@user.update(email_confirmed: true)
 	end
 	
+	def confirm_email_own_account
+		default_frame_eng
+		@user = User.find_by_confirm_token(params[:id])
+		@user.update(email_confirmed: true)
+		Patrons::CreateNewAccount.process(@user)
+		
+		puts "User confirmed and own account created..."
+	end
+
 	def confirm_change_email
 		user = User.find_by(confirm_token: params[:id])
 		
@@ -104,6 +118,20 @@ class UsersController < ApplicationController
 				flash[:tryagain] = "No"
 			end	
 		end
+	end
+	
+	def trial_over(user)
+		u = User.find(user)
+		
+		u.update!(
+			can_read_date: Time.zone.now,
+			level_amount: 0
+			)
+		
+		u.account.subscriptions.last.update(
+			is_active: false,
+			plan_amount: 0
+			)
 	end
 	
 	# 3. Log in, password reminders
@@ -351,6 +379,7 @@ class UsersController < ApplicationController
 	
 	def account_boss_adds_user
 		@user = User.find(params[:id])
+		owner = @user
 		user = User.find_by(email: params[:email_for_server])
 		desired_level_amount = params[:level_amount].to_i
 		account = Account.find(params[:account_id])
@@ -368,11 +397,16 @@ class UsersController < ApplicationController
 		
 		if user.nil?
 			user = Patrons::CreateNewUser.process(params)
-			Patrons::AddAccountMember.process(user, account)
+			Patrons::AddAccountMember.process(user, account, owner)
 			Patrons::UpdateLevelAmount.process(user, level_amount)
 			Patrons::AddUserToSubscription.process(user, subscription)
+			puts "New user added..."
+		elsif user.account_id == @user.account_id
+			Patrons::UpdateLevelAmount.process(user, level_amount)
+			Patrons::AddUserToSubscription.process(user, subscription)
+			puts "Existing account user added to subscription..."
 		else
-			puts "User already exists..."
+			puts "You can't add that user..."
 		end
 		
 		redirect_to edit_user_path(@user)
@@ -429,6 +463,8 @@ class UsersController < ApplicationController
 			set_language_frame(current_user.sitelanguage, current_user.frame.id)
 			set_status(current_user)
 			check_account_subscription(current_user)
+			
+		#	trial_over(15)
 		else
 			puts "some other user edit problem"
 			redirect_to root_url
@@ -438,23 +474,25 @@ class UsersController < ApplicationController
 	def update_level_amount
 		u = User.find(params[:id])
 		la = params[:user][:level_amount].to_i
+		account = u.account
+		owner = User.find_by(account_id: account.id, account_role: 1)
 		
-		how_much_left = Patrons::CalculateSubscriptionAmounts.process(current_user.account.subscriptions.last)
-		@subscription_remaining = how_much_left["remaining"]
+		puts owner
+		puts owner.email
 		
-		puts @subscription_remaining
-		puts la
-		puts la.to_i
+		how_much_left = Patrons::CalculateSubscriptionAmounts.process(account.subscriptions.last)
+		subscription_remaining = how_much_left["remaining"]
 		
-		if @subscription_remaining >= la
+		if (subscription_remaining + u.level_amount) >= la
 			u.update(
-				level_amount: la
+				level_amount: la, 
+				status: 2
 				)
 		else 
 			puts "Not possible..."	
 		end
 		
-		redirect_to edit_user_path(current_user)
+		redirect_to edit_user_path(owner)
 	end
 
 	# POST /users

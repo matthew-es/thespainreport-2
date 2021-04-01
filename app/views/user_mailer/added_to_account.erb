@@ -1,0 +1,26 @@
+<% case @user.sitelanguage when 1 %>
+    Hi,
+    <p>Thank you for joining The Spain Report. Please click on the right option for you:</p>
+    <ul>
+        <li><%= link_to "This is my email and I know " + @owner.email, confirm_email_user_url(@user.confirm_token) %></li>
+        <li><%= link_to "I want to read The Spain Report by myself", confirm_email_own_account_user_url(@user.confirm_token) %></li>
+        <li>I don't want to read The Spain Report</li>
+    </ul>
+
+    <p>If you did not request this e-mail, just ignore it.</p>
+    <p>Very best,</p>
+<% when 2 %>
+    Hola,
+    <p>Gracias por apuntarse a The Spain Report. Haga clic en este enlace para confirmar su correo electrónico y establecer una contraseña:</p>
+    <p><%= link_to "Confirmar correo electrónico", confirmar_correo_user_url(@user.confirm_token) %></p>
+
+    <p>Si no ha solicitado este correo, puede ignorarlo.</p>
+    <p>Saludos,</p>
+<% end %>
+
+<p>
+    Matthew Bennett<br />
+    The Spain Report<br />
+    matthew@thespainreport.com<br />
+    (0034) 647 81 81 43
+</p>

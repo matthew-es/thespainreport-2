@@ -156,6 +156,7 @@
 	member do
 	  get :confirm_email
 	  get :confirmar_correo
+	  get :confirm_email_own_account
 	  get :confirm_change_email
 	  get :enter_new_password
 	  get :introducir_clave_nueva
