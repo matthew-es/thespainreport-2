@@ -543,7 +543,7 @@
 									<% when 2 %>Añada a más amigos a esta suscripción:
 									<% end %>
 								</div>
-								<% if s.plan_amount >= 3000 && @subscription_remaining > 0 %>
+								<% if @subscription_remaining > 0 %>
 									
 									<%= form_with model: @user, url: account_boss_adds_user_user_path(@user), local: true do |f| %>
 									
