@@ -512,26 +512,29 @@
 								<% end %>
 							</div>
 							<hr />
-							<% @members.each do |m| %>
-								<div class="margin-top-5">
-									<%= number_to_currency((m.level_amount.to_f/100.to_f), unit: "€") %> 
-									
-   									| <%= form_with model: m, url: update_level_amount_user_path(m), :class => "display-inline", local: true do |f| %>
-										<%= f.select :level_amount, [["0", 0], ["5", 500], ["10", 1000], ["25", 2500]], {}, {selected: m.level_amount, onchange: "this.form.submit()", :class => "padding-2", disabled: (!@patron || s.is_active == false)} %>
-									<% end %>
-									
-									| <%= m.email %>
-									
-									<% case m.account_role when 1 %>
-									<% when 2 %>
-										| 
-										<%= link_to unlink_subscription_member_user_url(m), data: { confirm: 'Are you sure?' } do %>
-											<% case @language when 1 %>Unlink
-											<% when 2 %>Quitar
+							
+							<% if @members.any? %>
+								<% @members.each do |m| %>
+									<div class="margin-top-5">
+										<%= number_to_currency((m.level_amount.to_f/100.to_f), unit: "€") %> 
+										
+	   									| <%= form_with model: m, url: update_level_amount_user_path(m), :class => "display-inline", local: true do |f| %>
+											<%= f.select :level_amount, [["0", 0], ["5", 500], ["10", 1000], ["25", 2500]], {}, {selected: m.level_amount, onchange: "this.form.submit()", :class => "padding-2", disabled: (!@patron || s.is_active == false)} %>
+										<% end %>
+										
+										| <%= m.email %>
+										
+										<% case m.account_role when 1 %>
+										<% when 2 %>
+											| 
+											<%= link_to unlink_subscription_member_user_url(m), data: { confirm: 'Are you sure?' } do %>
+												<% case @language when 1 %>Unlink
+												<% when 2 %>Quitar
+												<% end %>
 											<% end %>
 										<% end %>
-									<% end %>
-								</div>
+									</div>
+								<% end %>
 							<% end %>
 							<hr />
 							<div class="margin-top-5">

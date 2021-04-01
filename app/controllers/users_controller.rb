@@ -414,10 +414,12 @@ class UsersController < ApplicationController
 	end
 	
 	def unlink_subscription_member
-		user = User.find(params[:id])
+		u = User.find(params[:id])
+		account = u.account
+		owner = User.find_by(account_id: account.id, account_role: 1)
 		
-		Patrons::UnlinkSubscriptionMember.process(user)
-		redirect_to edit_user_path(current_user)
+		Patrons::UnlinkSubscriptionMember.process(u)
+		redirect_to edit_user_path(owner)
 		flash[:success] = "Group member unlinked."
 	end
 	
@@ -433,12 +435,12 @@ class UsersController < ApplicationController
 	end
 	
 	def check_account_subscription(user)
-		if !@user.account.subscriptions.any?
-		elsif @user.account.subscriptions.last
-			how_much_left = Patrons::CalculateSubscriptionAmounts.process(@user.account.subscriptions.last)
-			
-			@members = @user.subscription.users unless @user.subscription.nil?
-					
+		puts "Have arrived at method..."
+		
+		if !user.account.subscriptions.any?
+		elsif user.account.subscriptions.last
+			how_much_left = Patrons::CalculateSubscriptionAmounts.process(user.account.subscriptions.last)
+			@members = user.account.subscriptions.last.users
 			@subscription_spent = how_much_left["spent"]
 			@subscription_remaining = how_much_left["remaining"]
 		else end
