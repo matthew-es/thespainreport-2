@@ -4,12 +4,6 @@
 
 <%= render "layouts/logo_account" %>
 
-<% if current_user.status == 1 %>
-	<%= render "articles/admintop" %>
-<% else end %>
-
-
-
 <h1 class="font-header font-header-normal line-120 font-upper">
 	<% case @language when 1 %>Invoice
 	<% when 2 %>Factura
