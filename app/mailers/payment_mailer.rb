@@ -14,6 +14,16 @@ class PaymentMailer < ApplicationMailer
         mail(to: @user, subject: @subject)
     end
     
+     def fix_problem(payment, user, language)
+        @language = language
+        @payment = payment
+        
+        subject = "Problem with your payment fix now…!"
+        
+        headers 'X-SES-CONFIGURATION-SET' => "Emails"
+        mail(to: user.email, subject: subject)
+    end
+    
     def payment_admin_message(admin_subject, admin_message)
         @subject = admin_subject
         @message = admin_message

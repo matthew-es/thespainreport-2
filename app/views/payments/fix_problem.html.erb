@@ -1,0 +1,54 @@
+<%= render "layouts/logo_account" %>
+
+<h1 class="font-header font-header-normal line-120 font-upper">
+	Confirm this <%= @frame.money_word_singular %>
+</h1>
+
+<% if current_user.nil? %>
+    <p>
+        There has a been a problem with your payment. Please log in now to fix it. The process only takes a few seconds.
+    </p>
+    
+    <%= form_tag '/login' do %>
+			<% if @language == 1 %>
+				<div class="float-left margin-right-10 width-100 margin-top-5">
+					<%= text_field_tag 'email', nil, class: 'padding-10 width-90', placeholder: 'Your e-mail…' %>
+				</div>
+				<div class="float-left margin-right-10 width-100 margin-top-5">
+					<%= password_field_tag 'password', nil, class: 'padding-10 width-90', placeholder: 'Your password…' %>
+				</div>
+				<div class="float-left margin-top-5 margin-right-5">
+					<button type="submit" class="padding-7 font-main-small">Log in</button>
+				</div>
+				<div class="float-left margin-top-10 margin-right-5">
+					| <a href="/password">New password?</a>
+				</div>
+				<div class="float-left margin-top-10">
+					| <a href="/value">Become a patron now</a>
+				</div>
+			<% else %>
+				<div class="float-left margin-right-10 width-100 margin-top-5">
+					<%= text_field_tag 'email', nil, class: 'padding-10 width-90', placeholder: 'Su correo…' %>
+				</div>
+				<div class="float-left margin-right-10 width-100 margin-top-5">
+					<%= password_field_tag 'password', nil, class: 'padding-10 width-90', placeholder: 'Su contraseña…' %>
+				</div>
+				<div class="float-left margin-top-5 margin-right-5">
+					<button type="submit" class="padding-7 font-main-small">Entrar</button>
+				</div>
+				<div class="float-left margin-top-10 margin-right-5">
+					| <a href="/clave">¿Contraseña nueva?</a>
+				</div>
+				<div class="float-left margin-top-10">
+					| <a href="/valor">Apúntese como mecenas ahora</a>
+				</div>
+			<% end %>
+			<div class="clear"></div>
+		<% end %>
+<% elsif current_user.email != @user.email %>
+    Not your payment...
+<% else %>
+    <div class="">
+        <%= render "payments/pay_fix" %>
+    </div>
+<% end %>

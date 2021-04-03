@@ -21,7 +21,8 @@
 	<body>
 		<%= yield %>
 		
-		<% if controller_name == "home" || controller_name == "payments" || controller_name == "articles" && action_name == "show" %>
+		
+		<% if controller_name == "home" || controller_name == "payments" && action_name == "pay" || controller_name == "articles" && action_name == "show" %>
 			<%= javascript_include_tag 's/s_amounts' %>
 			<%= javascript_include_tag 's/s_country' %>
 			<%= javascript_include_tag 's/s_email' %>
@@ -47,8 +48,12 @@
 				to_check.addEventListener("input", checkAmount);
 				
 			</script>
+		<% elsif controller_name == "payments" && action_name == "fix_problem" %>
+			<script src="https://js.stripe.com/v3"></script>
+			
+			<%= javascript_include_tag 's/s_stripe_erb_bits' %>
+			<%= javascript_include_tag 's/s_fix_payment' %>
 		<% else end %>
-		
 		
 		<% if Rails.env.production? %>
 			<!-- Global site tag (gtag.js) - Google Analytics -->

@@ -45,7 +45,11 @@
 	post 'get_new_password_link' => 'users#get_new_password_link'
 	post 'change_password' => 'users#change_password'
 	
-	resources :payments
+	resources :payments do
+		member do
+			get :fix_problem
+		end
+	end
 	
 	get 'pay', to: redirect('value/pay')
 	get 'pay/:slug', to: redirect { |path, req| "value/#{path[:slug]}" }

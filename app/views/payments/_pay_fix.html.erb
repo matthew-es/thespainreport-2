@@ -1,0 +1,126 @@
+<div id="payments" class="">
+	
+	<%# DISPLAY PAYMENT FORM... %>
+	<div class="margin-top-10 margin-bottom-10 padding-20 buy-background buy-border font-payment">
+		<div id="ajax_form_one">
+			
+			<%# If user already exists and is logged in, say hello... %>
+			<% if current_user.nil? %>
+			<% else %>
+				<div id ="customer_email" name="customer_email" type="text" data-email="<%= current_user.email %>">
+					<% case @language when 1 %>Hi, 
+					<% when 2 %>Hola,  
+					<% end %>
+					<strong><%= current_user.email %></strong>
+				</div>
+				<div id ="customer_support" name="customer_support" class="margin-top-10">
+					<ul class="font-main-small">
+						<li>
+						<% case @language when 1 %>There was a problem processing your <%= @frame.money_word_singular %> on <%= @payment.created_at.strftime("%b %d, %Y") %>
+						<% when 2 %>Su <%= @frame.money_word_singular %> actual es 
+						<% end %>
+						</li>
+						<li>
+						<% case @language when 1 %>Amount: <%= number_to_currency((current_user.account.total_support/100.to_f), unit: "€") %>
+						<% when 2 %>Cantidad: <%= number_to_currency((current_user.account.total_support/100.to_f), unit: "", separator: ",", delimiter: ".") %>
+						<% end %>
+						</li>
+						<li>
+							<% case @language when 1 %>Please confirm that <%= @frame.money_word_singular %> now:
+							<% when 2 %><%= number_to_currency((current_user.account.total_support/100.to_f), unit: "", separator: ",", delimiter: ".") %>
+							<% end %>
+						</li>
+					</p>
+				</div>
+				
+			<% end %>
+
+			
+			<%# If Stripe payment method, display that; otherwise, display Stripe new credit card form... %>
+			<div class="margin-top-30">
+				<div class="font-bold">
+					Please enter your credit card details here:
+				</div>
+			</div>
+			
+			<div id="stripe_container" class="margin-top-10">
+					<div id="card-element" onmouseover="getSetup()">
+					<!-- A Stripe Element will be inserted here. -->
+					</div>
+					<div id="card-errors" role="alert"></div>
+			</div>
+			
+			<%# PAYMENT BUTTON %>
+			<div class="font-payment margin-top-10 align-centre">
+				<button id="card-button" class="buybutton font-main-normal" data-secret="<%= @client_secret %>">Confirm <%= @frame.money_word_singular %> 1</button>
+				<button id="confirm_first_payment" class="margin-top-10 padding-5 buybutton font-main-normal" onclick="confirmPayment()">Confirm <%= @frame.money_word_singular %> 2</button>
+			</div>
+			
+			<%# UI messages from Rails... %>
+			<% flash.each do |key, value| %>
+		    	<div class="alert alert-<%= key %>"><p><%= value.html_safe unless value.nil? %></p></div>
+		  	<% end %>
+			
+			<%# UI messages from Ajax responses... %>
+			<div id="ajax_form_message" class="margin-top-10 padding-10 buy-border" style="display:none;">
+			</div>
+			
+		</div>
+	</div>
+	
+	
+	<%# SALES STUFF AND INSTRUCTIONS... %>
+	
+	<div class="margin-top-20">
+		<p class="font-bold margin-bottom-0 font-main-small">
+			<% case @language when 1 %>How does it work?
+			<% when 2 %>¿Cómo funciona?
+			<% end %>
+		</p>
+		<ol class="instructions margin-top-5">
+			<% case @language when 1 %>
+				<li>Click on <%= @frame.money_word_with_article %> you wish to <%= @frame.money_word_verb %></li>
+				<li>Make sure your tax country is correct</li>
+				<li>Enter your email address and credit card details</li>
+				<li>The server will check your card and do some sums…</li>
+				<li>Click "<%= @frame.button_cta %>"</li>
+				<li>That's it, done, welcome aboard, you will get a confirmation email</li>
+			<% when 2 %>
+				<li>Haga clic en <%= @frame.money_word_with_article %> que quiere <%= @frame.money_word_verb %></li>
+				<li>Elija el país donde paga impuestos</li>
+				<li>Introduzca su correo electrónico y los detalles de su tarjeta de crédito</li>
+				<li>El servidor comprobará su tarjeta y hará algunas sumas…</li>
+				<li>Haga clic en "<%= @frame.button_cta %>"</li>
+				<li>Ya está, hecho, bienvenido a bordo, recibirá un correo de confirmación</li>
+			<% end %>
+		</ol>
+	</div>
+		
+	<div style="margin-top-10">
+		<p class="font-bold margin-bottom-0 font-main-small">
+			<% case @language when 1 %>Notes:
+			<% when 2 %>Apuntes:
+			<% end %>
+		</p>
+		<ol class="instructions margin-top-5">
+			<% case @language when 1 %>
+				<li>You can print receipts or invoices for all your <%= @frame.money_word_plural %> in "My Account"</li>
+				<li>Any problems or questions, email: matthew@thespainreport.es</li>
+			<% when 2 %>
+				<li>Puede imprimir facturas para sus <%= @frame.money_word_plural %> en "Yo soy mecenas"</li>
+				<li>Cualquier problema o pregunta: matthew@thespainreport.es</li>
+			<% end %>
+		</ol>
+	</div>
+	
+	<% if false %>
+		<div class="margin-top-20">
+			<p class="font-main-small">* <%= @frame.social_proof %></p>
+			<p class="font-main-small">** <%= @frame.risk_reversal %></p>
+		</div>
+	<% end %>
+	
+	<%# STORE VALUES FOR SERVER IN FORM FIELDS... %>	
+	<%= render "payments/server_stuff" %>
+
+</div>

@@ -51,6 +51,47 @@ class PaymentsController < ApplicationController
 		end
 	end
 	
+	def simulate_webhook
+		payment = Payment.find(1475)
+		account = Account.find(payment.account.id)
+		user = User.find_by(account_id: account.id, account_role: 1)
+		PaymentMailer.fix_problem(payment, user, user.sitelanguage).deliver_now
+	end
+	
+	# Fix payment problems page, SCA, etc.
+	def fix_problem
+		# So this is the webhook response to get email to user.... 
+		
+		
+		# And now you need the actual page bit...
+		@payment = Payment.find_by(external_payment_id: params[:id])
+		
+		if current_user.nil?
+			
+		elsif @payment.nil?
+			redirect_to edit_user_path(current_user)	
+		else
+			puts @payment
+			puts @payment.id
+			payment_intent = Stripe::PaymentIntent.retrieve(@payment.external_payment_id)
+			
+			account = Account.find(@payment.account_id)
+			puts account
+			puts account.id
+			
+			@user = User.find_by(account_id: account.id, account_role: 1)
+			puts @user
+			set_language_frame(current_user.sitelanguage, current_user.frame.id)
+			payment_method = Stripe::PaymentMethod.retrieve(account.stripe_payment_method)
+			
+			@client_secret = payment_intent["client_secret"]
+			@pm_brand = payment_method["card"]["brand"]
+			@pm_month = payment_method["card"]["exp_month"]
+			@pm_year = payment_method["card"]["exp_year"]
+			@pm_last4 = payment_method["card"]["last4"]
+			
+		end
+	end
 	
 	# Setup, check customer, create new customer with card, calculate amount, first payment
 	def stripe_get_payment_intent
@@ -429,6 +470,7 @@ class PaymentsController < ApplicationController
 						payment_error_source: "server-action-stripe-confirm-payment-intent"
 						)
 					render json: {message: "Your bank wants you to re-confirm this specific payment. Please click \"re-confirm\" ", secret: @stripe_payment.client_secret}, status: 499
+				when "requires_payment_method"
 				when "succeeded"
 			end
 			
