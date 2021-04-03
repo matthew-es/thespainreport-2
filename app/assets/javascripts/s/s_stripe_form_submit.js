@@ -46,6 +46,7 @@
  			var fr = document.getElementById("frame_for_server").value;
  			var art = document.getElementById("article_for_server").value;
  			
+			var sub = document.getElementById("subscription_for_server").value;
 			var pa = document.getElementById("plan_amount_for_server").value;
 			var rc = document.getElementById("residence_country_code_for_server").value;
 			var pi = document.getElementById("stripe_payment_intent_for_server").value;
@@ -70,6 +71,7 @@
  				+ '&frame_for_server=' + fr
  				+ '&authenticity_token=' + at 
  				+ '&article_for_server=' + art
+ 				+ '&subscription_for_server=' + sub 
  				+ '&plan_amount_for_server=' + pa 
  				+ '&residence_country_code_for_server=' + rc 
  				+ '&stripe_payment_intent_for_server=' + pi 

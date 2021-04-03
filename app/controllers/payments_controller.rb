@@ -21,6 +21,9 @@ class PaymentsController < ApplicationController
 		set_language_frame(1, @frame.id)
 		set_status(current_user) unless current_user.nil?
 		set_payment_method(current_user) unless current_user.nil?
+		
+		puts "This is user: " + current_user.to_s
+		
 		placeholders
 		how_much
 		@article_id = "0"
@@ -66,9 +69,6 @@ class PaymentsController < ApplicationController
 			usage: "off_session"
 			})
 		
-		puts @setup_intent.client_secret
-		puts @payment_intent.id
-		puts @setup_intent.id
 		render json: { secret: @setup_intent.client_secret, payment_intent: @payment_intent.id, setup_intent: @setup_intent.id }, status: 200
 	end
 	
@@ -104,10 +104,54 @@ class PaymentsController < ApplicationController
 					if @account.stripe_customer_id.present?
 						@customer = @account.stripe_customer_id
 						if @account.stripe_payment_method.present?
+							puts "Here we are..."
+							puts @account
+							
 							@payment_method = @account.stripe_payment_method
 							@card_country = @account.stripe_payment_method_card_country
 							@residence_country = @account.residence_country
-							stripe_calculate_total_amount_existing
+							
+							entered_pm_from_stripe = Stripe::PaymentMethod.retrieve(params[:stripe_pm_for_server])
+							puts entered_pm_from_stripe["id"]
+							puts entered_pm_from_stripe["card"]["brand"]
+							puts entered_pm_from_stripe["card"]["exp_month"]
+							puts entered_pm_from_stripe["card"]["exp_year"]
+							puts entered_pm_from_stripe["card"]["last4"]
+							puts entered_pm_from_stripe["card"]["country"]
+							
+							entered_brand = entered_pm_from_stripe["card"]["brand"]
+							entered_month = entered_pm_from_stripe["card"]["exp_month"]
+							entered_year = entered_pm_from_stripe["card"]["exp_year"]
+							entered_last4 = entered_pm_from_stripe["card"]["last4"]
+							entered_country = entered_pm_from_stripe["card"]["country"]
+							
+							existing_pm_from_stripe = Stripe::PaymentMethod.retrieve(@account.stripe_payment_method)
+							puts existing_pm_from_stripe["id"]
+							puts existing_pm_from_stripe["card"]["brand"]
+							puts existing_pm_from_stripe["card"]["exp_month"]
+							puts existing_pm_from_stripe["card"]["exp_year"]
+							puts existing_pm_from_stripe["card"]["last4"]
+							puts existing_pm_from_stripe["card"]["country"]
+							
+							existing_brand = existing_pm_from_stripe["card"]["brand"]
+							existing_month = existing_pm_from_stripe["card"]["exp_month"]
+							existing_year = existing_pm_from_stripe["card"]["exp_year"]
+							existing_last4 = existing_pm_from_stripe["card"]["last4"]
+							existing_country = existing_pm_from_stripe["card"]["country"]
+							
+							if (existing_brand == entered_brand) && (entered_month == existing_month) &&  (entered_year == existing_year) && (entered_last4 == existing_last4) && (entered_country == existing_country)
+								puts "Card is the same"
+							else
+								add_stripe_payment_method
+								
+								puts "New payment method is now..." + @account.stripe_payment_method
+							end
+
+							puts "Are we moving to calculate the amount existing...?"
+							stripe_calculate_total_amount
+							
+							
+							
 						else
 							add_stripe_payment_method
 							stripe_calculate_total_amount
@@ -149,30 +193,6 @@ class PaymentsController < ApplicationController
 		end
 	end
 	
-	def stripe_calculate_total_amount_existing
-		@plan_amount = params[:plan_amount_for_server] 
-		@ip_country = params[:ip_country_code_for_server]
-		
-		eu_vat_logic
-		
-		@payment_intent = Stripe::PaymentIntent.create(
-			amount: @total_amount,
-			currency: "eur",
-			customer: @customer,
-			payment_method: @payment_method
-			)
-		
-		@payment = Payment.create(
-			total_amount: @total_amount,
-			account_id: @account.id,
-			external_payment_id: @payment_intent.id,
-			payment_method: @payment_method,
-			card_country: @card_country
-			)
-		
-		render json: {email: @user.email, plan_amount: @plan_amount.to_f, vat_country: @vat_country, vat_rate: @vat_rate.to_f, vat_amount: @vat_amount, total_amount: @total_amount}, status: 200
-	end
-	
 	def stripe_calculate_total_amount
 		check_user
 		set_country
@@ -209,8 +229,6 @@ class PaymentsController < ApplicationController
 		else
 			@vat_country = @card_country
 		end
-		
-		puts @vat_country
 		
 		country = Country.find_by(country_code: @vat_country)
 		
@@ -255,12 +273,32 @@ class PaymentsController < ApplicationController
 	end
 	
 	def add_stripe_payment_method
-		@payment_method = params[:stripe_pm_for_server]
-		@customer = Stripe::Customer.update(@account.stripe_customer_id, {
-			email: params[:email_for_server],
-			payment_method: @payment_method,
-			invoice_settings: {default_payment_method: @payment_method}
+		puts "Are we in the method...?"
+		new_payment_method = params[:stripe_pm_for_server]
+		puts "Have we got the new payment method...?"
+		puts "New payment method is..." + new_payment_method
+		
+		check_customer = Stripe::Customer.retrieve(@account.stripe_customer_id)
+		puts check_customer
+		
+		Stripe::PaymentMethod.attach(new_payment_method, {
+			customer: @account.stripe_customer_id
+			
 		})
+		
+		@customer = Stripe::Customer.update(@account.stripe_customer_id, {
+			invoice_settings: {default_payment_method: new_payment_method},
+			expand: ['invoice_settings.default_payment_method']
+		})
+		
+		@account = Account.find_by(id: @user.account.id)
+		@account.update(
+			stripe_payment_method: @customer.invoice_settings.default_payment_method.id,
+			stripe_payment_method_card_country: @customer.invoice_settings.default_payment_method.card.country,
+			stripe_payment_method_expiry_reminder: Time.gm(@customer.invoice_settings.default_payment_method.card.exp_year, @customer.invoice_settings.default_payment_method.card.exp_month-1)
+			)
+			
+		puts @account.stripe_payment_method
 	end
 	
 	def stripe_first_payment
@@ -291,6 +329,10 @@ class PaymentsController < ApplicationController
 		end
 		
 		begin
+			
+		if params[:subscription_for_server].empty?
+			puts "Creating new subscription now..."
+			
 			@subscription = Subscription.create(
 				account_id: @account_id,
 				residence_country: @residence_country,
@@ -309,8 +351,40 @@ class PaymentsController < ApplicationController
 				frame_money_word_singular: params[:frame_money_word_singular_for_server],
 				frame_button_cta: params[:frame_button_cta_for_server],
 				last_payment_date: @time,
-				next_payment_date: @time_next
+				next_payment_date: @time_next,
+				is_active: true
 				)
+		elsif params[:subscription_for_server]
+			puts "Updating subscription now..." + params[:subscription_for_server]
+
+			@subscription = Subscription.find_by(id: params[:subscription_for_server])
+			puts @subscription
+			puts @subscription.id
+			puts @subscription.plan_amount
+			puts @plan_amount
+			
+			@subscription.update(
+				residence_country: @residence_country,
+				ip_address: @ip_address,
+				ip_country: @ip_country,
+				card_country: @card_country,
+				plan_amount: @plan_amount,
+				vat_country: @vat_country,
+				vat_rate: @vat_rate,
+				vat_amount: @vat_amount,
+				total_amount: @total_amount,
+				article_from_server: params[:article_for_server],
+				frame_id: params[:frame_for_server],
+				frame_link_slug: params[:frame_link_slug_for_server],
+				frame_emotional_quest_action: params[:frame_emotional_quest_action_for_server],
+				frame_money_word_singular: params[:frame_money_word_singular_for_server],
+				frame_button_cta: params[:frame_button_cta_for_server],
+				last_payment_date: @time,
+				next_payment_date: @time_next,
+				is_active: true
+				)
+		else
+		end
 			
 			how_many_invoices = Invoice.all.where(invoice_year: Time.current.year).count
 			invoice_number = "SPAIN-" + Time.current.year.to_s + '-' + (how_many_invoices + 1).to_s.rjust(8, '0')

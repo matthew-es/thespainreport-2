@@ -2,8 +2,12 @@ module Webhooks
     class StripeHandler
         def self.process(event)
             case event.data["type"]
-                when 'payment_intent.canceled'
-                when 'payment_intent.created'
+                when 'setup_intent.setup_failed'
+                    puts "Card set up failed"
+                when 'payment_intent.requires_action'    
+                    puts "Payment requires SCA action"
+                when 'payment_intent.requires_payment_method'
+                    puts "Something wrong with the card..."
                 when 'payment_intent.payment_failed'
                     w_payment_id = event["data"]["data"]["object"]["id"] ? event["data"]["data"]["object"]["id"] : "No id"
                     w_payment_obj = event["data"]["data"]["object"]["object"] ? event["data"]["data"]["object"]["object"] : "No object"

@@ -19,6 +19,7 @@ class ApplicationController < ActionController::Base
 			@account = @user.account
 			@account_status = @account.account_status unless @user.account.nil?
 			@role = @user.account_role
+			@subscription = @user.subscription_id
 			
 			if @status == 3 && @can_read_date > Time.now
 				@cta = @frame.button_cta
@@ -90,8 +91,6 @@ class ApplicationController < ActionController::Base
 		@ip_lookup_country = data["country_code"]
 		@ip_address = data["ip"]
 		
-		puts @ip_country
-		
 		@country = Country.find_by_country_code(@ip_country)
 		if @country.nil?
 			@country_code = "ROW"
@@ -110,9 +109,6 @@ class ApplicationController < ActionController::Base
 		if threats.any?
 			render file: "#{Rails.root}/public/404", layout: true, status: 404
 		end
-		
-		puts data
-		puts threats
 	end
 	
 	
