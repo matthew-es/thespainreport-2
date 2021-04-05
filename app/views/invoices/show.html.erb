@@ -170,9 +170,8 @@
 		<% end %>
 	</div>
 	<div class="float-left margin-left-5">
-		<% case @invoice.invoice_status when 1 %>Paid
-		<% when 2 %>Problem with payment
-		<% when 3 %>Cancelled
+		<% case @invoice.invoice_status when true %>Paid
+		<% when false %>Problem with payment
 		<% end %>
 	</div>
 	<div class="clear"></div>

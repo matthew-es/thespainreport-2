@@ -51,6 +51,11 @@ class PaymentsController < ApplicationController
 		end
 	end
 	
+	def repeat_payment
+		Patrons::StripeRepeatPayment.process(@user.account.subscriptions.last)
+	end
+	
+	
 	def simulate_webhook
 		payment = Payment.find(1475)
 		account = Account.find(payment.account.id)
@@ -58,11 +63,9 @@ class PaymentsController < ApplicationController
 		PaymentMailer.fix_problem(payment, user, user.sitelanguage).deliver_now
 	end
 	
+	
 	# Fix payment problems page, SCA, etc.
 	def fix_problem
-		# So this is the webhook response to get email to user.... 
-		
-		
 		# And now you need the actual page bit...
 		@payment = Payment.find_by(external_payment_id: params[:id])
 		
@@ -84,6 +87,9 @@ class PaymentsController < ApplicationController
 			set_language_frame(current_user.sitelanguage, current_user.frame.id)
 			payment_method = Stripe::PaymentMethod.retrieve(account.stripe_payment_method)
 			
+			# Generate a test repeat payment.... 
+			repeat_payment
+			
 			@client_secret = payment_intent["client_secret"]
 			@pm_brand = payment_method["card"]["brand"]
 			@pm_month = payment_method["card"]["exp_month"]
@@ -93,24 +99,37 @@ class PaymentsController < ApplicationController
 		end
 	end
 	
-	# Setup, check customer, create new customer with card, calculate amount, first payment
-	def stripe_get_payment_intent
-		@payment_intent = Stripe::PaymentIntent.create({
-			amount: 1000,
-			currency: "eur"
+	def fix_problem_confirm_with_card
+		puts "Ok. that works..."
+		puts params[:stripe_payment_intent_for_server]
+		puts params[:stripe_pm_for_server]
+		
+		payment_intent = params[:stripe_payment_intent_for_server]
+		payment_method = params[:stripe_pm_for_server]
+		
+		payment = Payment.find_by(external_payment_id: payment_intent)
+		
+		Stripe::PaymentMethod.attach(payment_method, {
+			customer: payment.account.stripe_customer_id
+			
 		})
 		
-		Payment.create!(
-			total_amount: @payment_intent.amount,
-			external_payment_id: @payment_intent.id,
-			external_payment_status: @payment_intent.status
-			)
+		confirm_payment = Stripe::PaymentIntent.confirm(payment_intent, {
+			payment_method: payment_method
+		})
 		
-		@setup_intent = Stripe::SetupIntent.create({
-			usage: "off_session"
-			})
+		puts "Little payment confirm method completed..."
+	end
+	
+	# Basic empty Stripe setup and payment intent
+	def stripe_get_payment_intent
+		payment_intent = Patrons::StripePaymentIntentCreate.process()
+		setup_intent = Patrons::StripeSetupIntentCreate.process()
 		
-		render json: { secret: @setup_intent.client_secret, payment_intent: @payment_intent.id, setup_intent: @setup_intent.id }, status: 200
+		puts payment_intent
+		puts setup_intent
+		
+		render json: { secret: setup_intent.client_secret, payment_intent: payment_intent.id, setup_intent: setup_intent.id }, status: 200
 	end
 	
 	
@@ -426,37 +445,10 @@ class PaymentsController < ApplicationController
 				)
 		else
 		end
-			
-			how_many_invoices = Invoice.all.where(invoice_year: Time.current.year).count
-			invoice_number = "SPAIN-" + Time.current.year.to_s + '-' + (how_many_invoices + 1).to_s.rjust(8, '0')
-			
-			@invoice = Invoice.create(
-				account_id: @account_id,
-				subscription_id: @subscription.id,
-				plan_amount: @subscription.plan_amount,
-				tax_percent: @subscription.vat_rate,
-				invoice_tax_country: "",
-				tax_amount: @subscription.vat_amount,
-			    total_amount: @subscription.total_amount,
-			    invoice_number: invoice_number,
-			    invoice_year: Time.now.year,
-			    invoice_month: Time.now.month,
-			    invoice_day: Time.now.day,
-			    invoice_customer_name: @account.invoice_account_name,
-			    invoice_customer_tax_id: @account.invoice_account_tax_id,
-			    invoice_customer_address: @account.invoice_account_address,
-			    invoice_concept: "Independent journalism. Periodismo independiente.",
-			    invoice_from_name: "Matthew Bennett",
-			    invoice_from_tax_id: "X3630511F",
-			    invoice_from_address: "Avenida Príncipe de Asturias 42, 3C, 30007 Murcia"
-				)
-				
-			
-			@payment.update(
-				subscription_id: @subscription.id,
-				invoice_id: @invoice.id
-				)
-
+		
+		@payment.update(
+			subscription_id: @subscription.id
+			)
 			
 			@stripe_payment = Stripe::PaymentIntent.confirm(@payment.external_payment_id)
 			case @stripe_payment.status
@@ -471,7 +463,10 @@ class PaymentsController < ApplicationController
 						)
 					render json: {message: "Your bank wants you to re-confirm this specific payment. Please click \"re-confirm\" ", secret: @stripe_payment.client_secret}, status: 499
 				when "requires_payment_method"
+					puts "Needs a credit card..."
 				when "succeeded"
+					puts "Payment succeeded..."
+					Patrons::CreateInvoice.process(@payment)
 			end
 			
 			if @account.total_support.nil?
@@ -653,7 +648,9 @@ class PaymentsController < ApplicationController
 		if current_user.nil? 
 			redirect_to root_url
 		elsif current_user.status == 1
-			
+		
+		elsif @payment.account.user_id == current_user.id
+		
 		else
 			redirect_to root_url
 		end
@@ -675,7 +672,7 @@ class PaymentsController < ApplicationController
 		if current_user.nil? 
 			redirect_to root_url
 		elsif current_user.status == 1
-			
+		
 		else
 			redirect_to root_url
 		end

@@ -6,7 +6,14 @@
 			
 			<%# If user already exists and is logged in, say hello... %>
 			<% if current_user.nil? %>
+			
 			<% else %>
+				<% if @payment.external_payment_status == "succeeded" %>
+					<p>Payment has succeeded, well done, thank you.</p>
+					<p><%= @payment.created_at %></p>
+					<p><%= @payment.total_amount %></p>
+				<% else %>
+				
 				<div id ="customer_email" name="customer_email" type="text" data-email="<%= current_user.email %>">
 					<% case @language when 1 %>Hi, 
 					<% when 2 %>Hola,  
@@ -21,7 +28,7 @@
 						<% end %>
 						</li>
 						<li>
-						<% case @language when 1 %>Amount: <%= number_to_currency((current_user.account.total_support/100.to_f), unit: "€") %>
+						<% case @language when 1 %>Amount: <%= number_to_currency((@payment.total_amount/100.to_f), unit: "€") %>
 						<% when 2 %>Cantidad: <%= number_to_currency((current_user.account.total_support/100.to_f), unit: "", separator: ",", delimiter: ".") %>
 						<% end %>
 						</li>
@@ -30,31 +37,43 @@
 							<% when 2 %><%= number_to_currency((current_user.account.total_support/100.to_f), unit: "", separator: ",", delimiter: ".") %>
 							<% end %>
 						</li>
+						<li><%= @client_secret %></li>
+						<li><%= @payment.external_payment_status %></li>
 					</p>
 				</div>
+				<% end %>
 				
 			<% end %>
 
-			
-			<%# If Stripe payment method, display that; otherwise, display Stripe new credit card form... %>
-			<div class="margin-top-30">
-				<div class="font-bold">
-					Please enter your credit card details here:
+			<% if  @payment.external_payment_status == "requires_action" %>
+				<%# PAYMENT CONFIRMATION BUTTON IF REQUIRES ACTION... %>
+				<div class="font-payment margin-top-10 align-centre">
+					<button id="confirm-button" class="buybutton font-main-normal" data-secret="<%= @client_secret %>">Confirm <%= @frame.money_word_singular %> 1</button>
 				</div>
-			</div>
+			<% end %>
 			
-			<div id="stripe_container" class="margin-top-10">
-					<div id="card-element" onmouseover="getSetup()">
-					<!-- A Stripe Element will be inserted here. -->
+			<% if @payment.external_payment_status == "requires_payment_method" %>
+				<%# If Stripe payment method, display that; otherwise, display Stripe new credit card form... %>
+				<div class="margin-top-30">
+					<div class="font-bold">
+						Please enter your credit card details here:
 					</div>
-					<div id="card-errors" role="alert"></div>
-			</div>
-			
-			<%# PAYMENT BUTTON %>
-			<div class="font-payment margin-top-10 align-centre">
-				<button id="card-button" class="buybutton font-main-normal" data-secret="<%= @client_secret %>">Confirm <%= @frame.money_word_singular %> 1</button>
-				<button id="confirm_first_payment" class="margin-top-10 padding-5 buybutton font-main-normal" onclick="confirmPayment()">Confirm <%= @frame.money_word_singular %> 2</button>
-			</div>
+				</div>
+				
+				<div id="stripe_container" class="margin-top-10">
+						<div id="card-element" onmouseover="getSetup()">
+						<!-- A Stripe Element will be inserted here. -->
+						</div>
+						<div id="card-errors" role="alert"></div>
+				</div>
+				
+				<%# PAYMENT BUTTON %>
+				<div id="payment_to_fix" class="font-payment margin-top-10 align-centre" data-payment="<%= @payment.external_payment_id %>" data-country="<%= @payment.account.residence_country %>">
+					<button id="card-button" class="buybutton font-main-normal" data-secret="<%= @client_secret %>">Confirm <%= @frame.money_word_singular %></button>
+				</div>
+				
+		
+			<% end %>
 			
 			<%# UI messages from Rails... %>
 			<% flash.each do |key, value| %>

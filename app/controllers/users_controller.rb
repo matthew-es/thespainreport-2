@@ -447,6 +447,7 @@ class UsersController < ApplicationController
 			
 		@unassigned_members = @user.account.users.where(subscription_id: "")
 		@empty_invoices = @user.account.invoices.where('invoice_customer_name=? OR invoice_customer_tax_id=? OR invoice_customer_address=?', "", "", "")
+		@payments = @user.account.payments
 	end
 	
 	# GET /users/1/edit
@@ -465,7 +466,6 @@ class UsersController < ApplicationController
 			set_language_frame(current_user.sitelanguage, current_user.frame.id)
 			set_status(current_user)
 			check_account_subscription(current_user)
-			
 		#	trial_over(15)
 		else
 			puts "some other user edit problem"

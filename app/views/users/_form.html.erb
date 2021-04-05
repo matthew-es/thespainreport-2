@@ -449,7 +449,7 @@
 	
 
 
-<div class="patrons-background margin-bottom-10 padding-20">
+<div class="patrons-background margin-bottom-20 padding-20">
 	<div class="">
 		<% if @user.status == 2 && @user.account.subscriptions.empty? %>
 			<% case @user.sitelanguage when 1 %> Subscription: Patreon.
@@ -607,7 +607,7 @@
 </div>
 
 
-	<div class="patrons-background padding-20">	
+	<div class="patrons-background padding-20 margin-bottom-20">	
 		<h3>
 			<% case @user.sitelanguage when 1 %> Invoices
 			<% when 2 %> Facturas
@@ -665,5 +665,21 @@
 				</tr>
 			<% end %>
 		</table>
+	</div>
+	
+	
+	<div class="patrons-background padding-20">	
+		<h3>
+			<% case @user.sitelanguage when 1 %>Payments & receipts
+			<% when 2 %>Pagos y recibos
+			<% end %>
+		</h3>
+		
+		<% @payments.each do |p| %>
+			<%= link_to p.id, fix_problem_payment_path(p.external_payment_id) %>
+			<%= p.total_amount %><br />
+			<%= p.external_payment_id %><br />
+			<%= p.external_payment_status %><br /><br />
+		<% end %>
 	</div>
 <% end %>

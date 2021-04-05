@@ -2,11 +2,16 @@ module Patrons
     class CalculateSubscriptionAmounts
         def self.process(subscription)
             
+            puts subscription
+            
     		subscription_total = subscription.plan_amount
     		subscription_spent_per_user = []
     		subscription.users.each do |u|
     			subscription_spent_per_user << u.level_amount
     		end
+    		
+    		puts subscription_total
+    		
     		subscription_spent = subscription_spent_per_user.compact.sum
     		subscription_remaining = subscription_total - subscription_spent
     		

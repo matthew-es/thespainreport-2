@@ -91,6 +91,7 @@
 	post 'new_payment_error' => 'payment_errors#create_payment_error'
 	post 'stripe_credit_card' => 'payments#stripe_credit_card'
 	post 'stripe_first_payment' => 'payments#stripe_first_payment'
+	post 'fix_problem_confirm_with_card' => 'payments#fix_problem_confirm_with_card'
 	
 	get 'users/reset_tokens' => 'users#reset_tokens'
 	get 'users/thanks' => 'users#thanks'
