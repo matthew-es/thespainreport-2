@@ -37,33 +37,49 @@ class UsersController < ApplicationController
 		default_frame_es
 	end
 	
+	def check_is_human
+		check = SecureRandom.base64(10)
+		session[:check] = check
+		render json: {message: check}
+	end
+	
 	def new_reader
-		user = User.find_by(email: params[:email_for_server])
+		session_value = session[:check]
+		form_value = params[:check_is_human]
 		
-		if user.nil?
-			newuser = Patrons::CreateNewUser.process(params)
-			newaccount = Patrons::CreateNewAccount.process(newuser)
-			frame = Frame.find(params[:frame_for_server])
-			newsubscription = Patrons::CreateNewSubscription.process(newuser, newaccount, frame)
+		if session_value.blank? || form_value.blank?
+			puts "This is bot spam, dude, not going to happen..."
+		elsif session_value != form_value
+			puts "More bot spam, session and form values are not the same..."
+		elsif session_value == form_value
+			user = User.find_by(email: params[:email_for_server])
 			
-			Patrons::UpdateLevelAmount.process(newuser, 2500)
-			
-			case newuser.sitelanguage
-				when 1 then message = "Thanks for signing up..."
-				when 2 then message = "Gracias por apuntarse..."
+			if user.nil?
+				newuser = Patrons::CreateNewUser.process(params)
+				newaccount = Patrons::CreateNewAccount.process(newuser)
+				frame = Frame.find(params[:frame_for_server])
+				newsubscription = Patrons::CreateNewSubscription.process(newuser, newaccount, frame)
+				
+				Patrons::UpdateLevelAmount.process(newuser, 2500)
+				
+				case newuser.sitelanguage
+					when 1 then message = "Thanks for signing up..."
+					when 2 then message = "Gracias por apuntarse..."
+				end
+				
+				session[:user_id] = newuser.id
+				flash[:success] = message
+				redirect_to edit_user_path(newuser)
+			else
+				case params[:language_for_server]
+					when "1" then message = "Try again…"
+					when "2" then message = "Inténtelo de nuevo…"
+				end
+				
+				flash[:tryagain] = message
+				redirect_back(fallback_location: root_path)
 			end
-			
-			session[:user_id] = newuser.id
-			flash[:success] = message
-			redirect_to edit_user_path(newuser)
 		else
-			case params[:language_for_server]
-				when "1" then message = "Try again…"
-				when "2" then message = "Inténtelo de nuevo…"
-			end
-			
-			flash[:tryagain] = message
-			redirect_back(fallback_location: root_path)
 		end
 	end
 	

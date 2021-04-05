@@ -92,6 +92,7 @@
 	post 'stripe_credit_card' => 'payments#stripe_credit_card'
 	post 'stripe_first_payment' => 'payments#stripe_first_payment'
 	post 'fix_problem_confirm_with_card' => 'payments#fix_problem_confirm_with_card'
+	post 'check_is_human' => 'users#check_is_human'
 	
 	get 'users/reset_tokens' => 'users#reset_tokens'
 	get 'users/thanks' => 'users#thanks'

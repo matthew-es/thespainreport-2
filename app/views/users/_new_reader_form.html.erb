@@ -6,9 +6,9 @@
 	</p>
 	
 	<%= form_with url: '/new_reader', local: true do |f| %>
-		<div class="width-100">
+		<div class="width-100" >
 			<div class="float-left margin-right-10 width-100 margin-top">
-				<input type="email_for_server" name="email_for_server" id="email_for_server" class="padding-10 width-90" placeholder="<%= @frame.email_reader_placeholder %>" />
+				<input type="email_for_server" name="email_for_server" id="email_for_server" class="padding-10 width-90" placeholder="<%= @frame.email_reader_placeholder %>" onclick="checkHuman()" />
 			</div>
 			<div class="float-left align-centre margin-top-5 width-100">
 				<button type="submit" class="width-50 padding-7 font-main-small"><%= @frame.email_reader_button %></button>
@@ -20,6 +20,8 @@
 		<input type="hidden" id="language_for_server" name="language_for_server" value="<%= @language %>" />
 		<input type="hidden" id="article_for_server" name="article_for_server" value="<%= yield(:title) %>" />
 		<input type="hidden" id="frame_for_server" name="frame_for_server" value="<%= @frame_id %>" />
+		<%= hidden_field_tag 'authenticity_token', form_authenticity_token %>
+		<input type="hidden" id="check_is_human" name="check_is_human" value="" />
 	<% end %>
 	
 	<% flash.each do |key, value| %>

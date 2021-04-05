@@ -43,3 +43,26 @@ function checkEmail(email) {
 	}
 	
 }
+
+function checkHuman() {
+	var at = document.getElementById("authenticity_token").value;
+	var string_for_server =
+	'authenticity_token=' + at;
+	
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		
+		
+		if (this.readyState == 1 || 2 || 3) {
+		}
+		if (this.readyState == 4 && this.status == 200) {
+			var details = JSON.parse(this.responseText)
+			document.getElementById("check_is_human").value = details["message"];
+		}
+		};
+		xhttp.open("POST", "/check_is_human", true);
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.setRequestHeader('X-CSRF-TOKEN', at);
+		xhttp.send(string_for_server);
+	
+	}
