@@ -1,32 +1,40 @@
-<% case @language when 1 %><% title "Invoice Nº:" + @invoice.invoice_number + ", Matthew Bennett" %>
-<% when 2 %><% title "Factura Nº" + @invoice.invoice_number + ", Matthew Bennett" %>
-<% end %>
+<% case @language when 1
+	page_title = "Invoice: "
+	h1_title = "Invoice"
+	
+	date_title = "Invoice date"
+	number_title = "Invoice number"
+	
+	from_title = "From"
+	from_id_title = "Tax ID"
+	
+	
+when 2 
+	page_title = "Factura: "
+	h1_title = "Factura"
+	
+	date_title = "Fecha de factura"
+	number_title = "Nº de factura"
+	
+	from_title = "De"
+	from_id_title = "NIF"
+end %>
+
+
+<% title page_title + @invoice.invoice_number + ", Matthew Bennett" %>
 
 <%= render "layouts/logo_account" %>
 
-<h1 class="font-header font-header-normal line-120 font-upper">
-	<% case @language when 1 %>Invoice
-	<% when 2 %>Factura
-	<% end %>
-</h1>
+<h1 class="font-header font-header-normal line-120 font-upper"><%= h1_title %></h1>
 
 <div class="margin-bottom-5">
-	<div class="float-left font-bold">
-		<% case @language when 1 %>Nº:
-		<% when 2 %>Nº:
-		<% end %>
-	</div>
-	<div class="float-left margin-left-5">
-		<%= @invoice.invoice_number %>
-	</div>
+	<div class="float-left font-bold"><%= number_title %>: </div>
+	<div class="float-left margin-left-5"><%= @invoice.invoice_number %></div>
 	<div class="clear"></div>
 </div>
+
 <div class="margin-bottom-10">
-	<div class="float-left font-bold">
-		<% case @language when 1 %>Date:
-		<% when 2 %>Fecha:
-		<% end %>
-	</div>
+	<div class="float-left font-bold"><%= date_title %>: </div>
 	<div class="float-left margin-left-5"><%= (@invoice.created_at).strftime("%d/%m/%Y") %></div>
 	<div class="clear"></div>
 </div>
@@ -34,23 +42,16 @@
 <hr />
 
 <div class="margin-bottom-5">
-	<div class="float-left font-bold">
-		<% case @language when 1 %>From:
-		<% when 2 %>De:
-		<% end %>
-	</div>
+	<div class="float-left font-bold"><%= from_title %>: </div>
 	<div class="float-left margin-left-5">
-			<%= @invoice.invoice_from_name %><br />
+			<%= @invoice.invoice_from_name %>
+			<br />
 			<%= @invoice.invoice_from_address %>
 	</div>
 	<div class="clear"></div>
 </div>
 <div class="margin-bottom-10">
-	<div class="float-left font-bold">
-		<% case @language when 1 %>Tax ID:
-		<% when 2 %>NIF:
-		<% end %>
-	</div>
+	<div class="float-left font-bold"><%= from_id_title %>: </div>
 	<div class="float-left margin-left-5"><%= @invoice.invoice_from_tax_id %></div>
 	<div class="clear"></div>
 </div>
