@@ -254,6 +254,7 @@ class PaymentsController < ApplicationController
 		payment_intent = params[:stripe_payment_intent_for_server]
 		
 		ip_country = @ip_lookup_country
+		puts "IP country is: " + ip_country
 		residence_country = params[:residence_country_code_for_server]
 		card_country = @account.stripe_payment_method_card_country
 		
@@ -263,12 +264,22 @@ class PaymentsController < ApplicationController
 			vat_country = card_country
 		end
 		
+		@account.update(
+			vat_country: vat_country,
+			residence_country: residence_country,
+			ip_country: ip_country,
+			invoice_account_name: params[:invoice_name_for_server],
+			invoice_account_tax_id: params[:invoice_tax_id_for_server],
+			invoice_account_address: params[:invoice_address_for_server]
+			)
+
 		country = Country.find_by(country_code: vat_country)
 		
 		if country.nil?
 			vat_rate = 0
 		else
-			vat_rate = country.tax_percent
+			applicable_vat_country = Country.find_by(country_code: "ES")
+			vat_rate = applicable_vat_country.tax_percent
 		end
 		
 		vat_calc = plan_amount.to_f * vat_rate
@@ -276,14 +287,6 @@ class PaymentsController < ApplicationController
 		
 		vat_amount = vat_calc.round
 		total_amount = total_calc.round
-		
-		@account.update(
-			vat_country: vat_country,
-			residence_country: residence_country,
-			invoice_account_name: params[:invoice_name_for_server],
-			invoice_account_tax_id: params[:invoice_tax_id_for_server],
-			invoice_account_address: params[:invoice_address_for_server]
-			)
 		
 		Stripe::PaymentIntent.update(payment_intent, {
 			amount: total_amount,
@@ -299,7 +302,7 @@ class PaymentsController < ApplicationController
 			card_country: card_country
 			)
 
-		render json: {email: @user.email, plan_amount: plan_amount.to_f, vat_country: vat_country, vat_rate: vat_rate.to_f, vat_amount: vat_amount, total_amount: total_amount}, status: 200
+		render json: {email: @user.email, plan_amount: plan_amount.to_f, vat_country: applicable_vat_country, vat_rate: vat_rate.to_f, vat_amount: vat_amount, total_amount: total_amount}, status: 200
 	end
 	
 	
