@@ -1,9 +1,20 @@
 module Patrons
     class CreateInvoice
         def self.process(payment)
-
-		how_many_invoices = Invoice.all.where(invoice_year: Time.current.year).count
-		invoice_number = "SPAIN-" + Time.current.year.to_s + '-' + (how_many_invoices + 1).to_s.rjust(8, '0')
+        
+        type = "simple"
+        operation = "payment"
+        
+        case type when "simple"
+			how_many_invoices = Invoice.all.where(invoice_year: Time.current.year, invoice_type: "simple").count
+			invoice_number = "SI-" + Time.current.year.to_s + '-' + (how_many_invoices + 1).to_s.rjust(8, '0')
+        when "full"
+			how_many_invoices = Invoice.all.where(invoice_year: Time.current.year, invoice_type: "full").count
+			invoice_number = "CO-" + Time.current.year.to_s + '-' + (how_many_invoices + 1).to_s.rjust(8, '0')
+		when "correction"
+			how_many_invoices = Invoice.all.where(invoice_year: Time.current.year, invoice_type: "correction").count
+			invoice_number = "RE-" + Time.current.year.to_s + '-' + (how_many_invoices + 1).to_s.rjust(8, '0')
+		else end
 		
 		invoice = Invoice.create(
 			account_id: payment.account.id,
@@ -17,6 +28,8 @@ module Patrons
 		    invoice_year: Time.now.year,
 		    invoice_month: Time.now.month,
 		    invoice_day: Time.now.day,
+		    invoice_type: type,
+		    invoice_operation: operation,
 		    invoice_customer_name: payment.account.invoice_account_name,
 		    invoice_customer_tax_id: payment.account.invoice_account_tax_id,
 		    invoice_customer_address: payment.account.invoice_account_address,

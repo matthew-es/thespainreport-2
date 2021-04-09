@@ -622,6 +622,8 @@
 					<% end %>
 				</td>
 				<td>Nº</td>
+				<td>Type</td>
+				<td>Operation</td>
 				<td class="right">
 					Total
 				</td>
@@ -646,11 +648,58 @@
 			
 			<% @user.account.invoices.each do |i| %>
 				<tr class="<%= cycle("odd", "even") -%>">
-					<td class="right"><%= i.created_at.strftime("%d/%m/%Y") %></td>
-					<td class="left"><%= i.invoice_number %></td>
+					<td class="left">
+						<% if current_user.status == 1 %>
+							<%= link_to i.created_at.strftime("%d/%m/%Y"), edit_invoice_path(i) %>
+						<% else %>
+							<%= i.created_at.strftime("%d/%m/%Y") %>
+						<% end %>
+					</td>
+					<td class="left">
+						<%= i.invoice_number %>
+					</td>
+					<td class="left">
+						<span class="label font-main-tiny invoice-<%= i.invoice_type %>">
+							<% case i.invoice_type when "full" %>
+								<% case @language when 1 %>Full
+								<% when 2 %>Completa
+								<% end %>
+							<% when "simple" %>
+								<% case @language when 1 %>Simple
+								<% when 2 %>Simplificada
+								<% end %>
+							<% when "correction" %>
+								<% case @language when 1 %>Correction
+								<% when 2 %>Rectificación
+								<% end %>
+							<% end %>
+						</span>
+					</td>
+					<td class="left">
+						<span class="label font-main-tiny invoice-<%= i.invoice_operation %>">
+							<% case i.invoice_operation when "payment" %>
+								<% case @language when 1 %>Payment
+								<% when 2 %>Pago
+								<% end %>
+							<% when "refund" %>
+								<% case @language when 1 %>Refund
+								<% when 2 %>Abono
+								<% end %>
+							<% when "exchange" %>
+								<% case @language when 1 %>Exchange
+								<% when 2 %>Canje
+								<% end %>
+							<% when "error" %>
+								<% case @language when 1 %>Error
+								<% when 2 %>Error
+								<% end %>
+							<% end %>
+						</span>
+					</td>
+					
 					<td class="right"><%= number_to_currency((i.total_amount.to_f/100.to_f), unit: "€") %></td>
 					<td class="right">
-						<% case i.invoice_status when true %><span class="green-background-text padding-2">Paid</span>
+						<% case i.invoice_status when true %><span class="invoice-payment label font-main-tiny">Paid</span>
 						<% when false %><span class="red-background-text padding-2">Unpaid</span>
 						<% else %>Nil
 						<% end %>

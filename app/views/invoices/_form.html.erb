@@ -26,6 +26,15 @@
 		<%= form.number_field :invoice_day %> <%= form.number_field :invoice_month %> <%= form.number_field :invoice_year %>
 	</div>
 	
+	<div class="field">
+	Invoice type:
+	<%= form.collection_select(:invoice_type, Invoice::TYPES, :to_s, lambda{|i| i.to_s.titleize}, :class => "PADDING-5") %>
+	</div>
+	
+	<div class="field">
+	Invoice operation:
+	<%= form.collection_select(:invoice_operation, Invoice::OPERATIONS, :to_s, lambda{|i| i.to_s.titleize}, :class => "PADDING-5") %>
+	</div>
 	<hr />
 	
 	<div class="field">
