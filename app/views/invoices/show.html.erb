@@ -4,6 +4,15 @@
 	
 	date_title = "Invoice date"
 	number_title = "Invoice number"
+	type_title = "Invoice type"
+	type_full = "Full"
+	type_simple = "Simple/receipt"
+	type_correction = "Correction"
+	operation_title = "Invoice operation"
+	operation_payment = "Payment"
+	operation_exchange = "Exchange"
+	operation_refund = "Refund"
+	operation_error = "Error correction"
 	
 	from_title = "From"
 	from_id_title = "Tax ID"
@@ -15,6 +24,15 @@ when 2
 	
 	date_title = "Fecha de factura"
 	number_title = "Nº de factura"
+	type_title = "Tipo de factura"
+	type_full = "Completa"
+	type_simple = "Simplificada/recibo"
+	type_correction = "Rectificativa"
+	operation_title = "Operación de factura"
+	operation_payment = "Pago"
+	operation_exchange = "Canje"
+	operation_refund = "Abono"
+	operation_error = "Subsanar error"
 	
 	from_title = "De"
 	from_id_title = "NIF"
@@ -33,9 +51,32 @@ end %>
 	<div class="clear"></div>
 </div>
 
-<div class="margin-bottom-10">
+<div class="margin-bottom-5">
 	<div class="float-left font-bold"><%= date_title %>: </div>
 	<div class="float-left margin-left-5"><%= (@invoice.created_at).strftime("%d/%m/%Y") %></div>
+	<div class="clear"></div>
+</div>
+
+<div class="margin-bottom-5">
+	<div class="float-left font-bold"><%= type_title %>: </div>
+	<div class="float-left margin-left-5">
+		<% case @invoice.invoice_type when "full" %><%= type_full %>
+		<% when "simple" %><%= type_simple %>
+		<% when "correction" %><%= type_correction %>
+		<% end %>
+	</div>
+	<div class="clear"></div>
+</div>
+
+<div class="margin-bottom-10">
+	<div class="float-left font-bold"><%= operation_title %>: </div>
+	<div class="float-left margin-left-5">
+		<% case @invoice.invoice_operation when "payment" %><%= operation_payment %>
+		<% when "exchange" %><%= operation_exchange %>
+		<% when "refund" %><%= operation_refund %>
+		<% when "error" %><%= operation_error %>
+		<% end %>
+	</div>
 	<div class="clear"></div>
 </div>
 

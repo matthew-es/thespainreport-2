@@ -78,10 +78,9 @@ a.no-hover-bg:hover {background-color: #fff;}
 .green-background-text {background-color: #ccffcc; color: green;}
 
 .invoice-full {background-color: #006600; color: white;}
-.invoice-simple {background-color: #009900; color: white;}
+.invoice-simple {background-color: #00cc00; color: white;}
 .invoice-correction {background-color: #ff9900; color: white;}
-
-.invoice-payment {background-color: #00e600; color: white;}
+.invoice-payment {background-color: #00cc00; color: white;}
 .invoice-refund {background-color: #ff0000; color: white;}
 .invoice-exchange {background-color: #663300; color: white;}
 .invoice-error {background-color: #663300; color: white;}

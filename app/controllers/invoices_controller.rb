@@ -44,20 +44,13 @@ class InvoicesController < ApplicationController
 		set_language_frame(current_user.sitelanguage, current_user.frame.id)
 		set_status(current_user) unless current_user.nil?
 		
-		
 		if current_user.nil?
 			redirect_to root_url
 		
 		elsif current_user.status == 1
-			@howmanyinvoices = Invoice.where(:invoice_year => Time.current.year).count
-			@new_invoice_number = "TSR-" + Time.current.year.to_s + "-" + (@howmanyinvoices + 1).to_s.rjust(8, '0')
 		
 		elsif @invoice.account.user_id != current_user.id
 			redirect_to edit_user_path(current_user)
-		  puts "here is the problem"
-		  puts @invoice.account.user_id
-		  puts current_user
-		  puts current_user.id
 		elsif @invoice.account.user_id == current_user.id
 			puts @invoice.account.user_id
 		else
