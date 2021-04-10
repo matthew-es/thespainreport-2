@@ -87,7 +87,7 @@ class PaymentsController < ApplicationController
 			payment_method = Stripe::PaymentMethod.retrieve(account.stripe_payment_method)
 			
 			# Generate a test repeat payment.... 
-			repeat_payment
+			
 			
 			@client_secret = payment_intent["client_secret"]
 			@pm_brand = payment_method["card"]["brand"]
