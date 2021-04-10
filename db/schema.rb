@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_08_113520) do
+ActiveRecord::Schema.define(version: 2021_04_10_151312) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -235,6 +235,7 @@ ActiveRecord::Schema.define(version: 2021_04_08_113520) do
     t.string "external_payment_id"
     t.string "external_payment_status"
     t.string "external_payment_error"
+    t.string "status"
   end
 
   create_table "plans", force: :cascade do |t|

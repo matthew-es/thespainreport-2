@@ -5,4 +5,6 @@ class Payment < ApplicationRecord
 	belongs_to :invoice, optional: true
 	belongs_to :subscription, optional: true
 	has_many :payment_errors
+	
+	STATUSES = %i[paid refund problem]
 end

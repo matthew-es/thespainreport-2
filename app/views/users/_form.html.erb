@@ -74,6 +74,10 @@
 		invoices_apply_question = "Apply invoice details to existing empty invoices?"
 		invoices_apply_button = "Apply now"
 		invoices_all_filled = "All your invoices contain your details."
+		
+		payment_status_paid = "Paid"
+		payment_status_problem = "Problem"
+		payment_status_refund = "Refund"
 	when 2
 		save_button = "Guardar"
 		increase_level_link_text = "Auméntelo"
@@ -151,6 +155,10 @@
 		invoices_apply_question = "¿Aplicar sus datos de facturación a las facturas vacías?"
 		invoices_apply_button = "Aplicar ahora"
 		invoices_all_filled = "Todas sus facturas contienen sus datos."
+		
+		payment_status_paid = "Pagado"
+		payment_status_problem = "Problema"
+		payment_status_refund = "Abono"
 	end
 %>
 
@@ -614,7 +622,7 @@
 			<% end %>
 		</h3>
 		<table class="admin-table">
-			<tr style="font-weight: bold;" >
+			<tr style="font-weight: bold;">
 				
 				<td class="right">
 					<% case @user.sitelanguage when 1 %>Date
@@ -720,15 +728,33 @@
 	<div class="patrons-background padding-20">	
 		<h3>
 			<% case @user.sitelanguage when 1 %>Payments & receipts
-			<% when 2 %>Pagos y recibos
+			<% when 2 %>Pagos
 			<% end %>
 		</h3>
 		
+		<table class="admin-table">
+		
+		<tr class="font-bold">
+			<td>Nº</td>
+			<td>Date</td>
+			<td>Amount</td>
+			<td>Status</td>
+		</tr>
+		
 		<% @payments.each do |p| %>
-			<%= link_to p.id, fix_problem_payment_path(p.external_payment_id) %>
-			<%= p.total_amount %><br />
-			<%= p.external_payment_id %><br />
-			<%= p.external_payment_status %><br /><br />
+			<tr>
+				<td class="left"><%= link_to p.id, fix_problem_payment_path(p.external_payment_id) %></td>
+				<td class="left"><%= p.created_at.strftime("%d/%m/%Y") %></td>
+				<td class="right"><%= number_to_currency((p.total_amount.to_f/100.to_f), unit: "€") %></td>
+				<td class="left">
+					<% case p.status when "paid" %><span class="label font-main-tiny invoice-payment"><%= payment_status_paid %></span>
+					<% when "problem" %><span class="label font-main-tiny invoice-refund"><%= payment_status_problem %></span>
+					<% when "refund" %><span class="label font-main-tiny invoice-refund"><%= payment_status_refund %></span>
+					<% end %>
+				</td>
+			</tr>
 		<% end %>
+		
+		</table>
 	</div>
 <% end %>
