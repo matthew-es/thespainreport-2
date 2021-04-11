@@ -17,12 +17,7 @@
 	</div>
 	
 	<div class="field">
-		<%= form.label :created_at %>
-		<%= form.text_field :created_at %>
-	</div>
-	
-	<div class="field">
-		Date parts:
+		Invoice Date:
 		<%= form.number_field :invoice_day %> <%= form.number_field :invoice_month %> <%= form.number_field :invoice_year %>
 	</div>
 	
@@ -35,6 +30,11 @@
 	Invoice operation:
 	<%= form.collection_select(:invoice_operation, Invoice::OPERATIONS, :to_s, lambda{|i| i.to_s.titleize}, :class => "PADDING-5") %>
 	</div>
+	
+	<div class="field">
+		Invoice status: <%= form.select :invoice_status, options_for_select([["Paid", 1], ["Problem with payment", 2], ["Cancelled", 3]]) %>
+	</div>
+	
 	<hr />
 	
 	<div class="field">
@@ -68,18 +68,6 @@
 		<%= form.label :invoice_customer_tax_id %>
 		<%= form.text_field :invoice_customer_tax_id %>
 	</div>
-	
-	<div class="field">
-		Group ID:
-		<%= form.number_field :account_id %>
-	</div>
-	
-	<hr />
-	
-	<div class="field">
-		<%= form.label :subscription_id %>
-		<%= form.number_field :subscription_id %>
-	</div>
 
 	<hr />
 	
@@ -111,14 +99,24 @@
 	<hr />
 	
 	<div class="field">
-		Invoice status: <%= form.select :invoice_status, options_for_select([["Paid", 1], ["Problem with payment", 2], ["Cancelled", 3]]) %>
+		Account ID:
+		<%= form.number_field :account_id %>
 	</div>
 	
 	<div class="field">
-		Payment ID:
-		<% @invoice.payments.each do |p| %>
-			<%= link_to p.id, p %>, <%= p.external_payment_status %><br />
-		<% end %>
+		Subscription ID:
+		<%= form.number_field :subscription_id %>
+	</div>
+	
+	<div class="field">
+		Payment ID: <%= form.number_field :payment_id %>
+	</div>
+	
+	<hr />
+	
+	<div class="field">
+		<%= form.label :created_at %>
+		<%= form.text_field :created_at %>
 	</div>
 	
 	<hr />

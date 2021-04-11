@@ -1,7 +1,7 @@
 class Invoice < ApplicationRecord
     belongs_to :subscription
     belongs_to :account
-    has_many :payments
+    belongs_to :payment, optional: true
     
     TYPES = %i[full simple correction]
     OPERATIONS = %i[payment exchange refund error]

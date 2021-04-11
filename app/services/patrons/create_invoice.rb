@@ -15,10 +15,13 @@ module Patrons
 			invoice_number = "SI-" + Time.current.year.to_s + '-' + (how_many_invoices + 1).to_s.rjust(8, '0')
 			
 			invoice = Invoice.create(
+				payment_id: payment.id,
 				account_id: payment.account.id,
 				subscription_id: payment.subscription.id,
+				plan_amount: payment.subscription.plan_amount,
 				tax_percent: payment.subscription.vat_rate,
 				invoice_tax_country: payment.subscription.vat_country,
+				tax_amount: payment.subscription.vat_amount,
 			    total_amount: payment.subscription.total_amount,
 			    invoice_number: invoice_number,
 			    invoice_year: Time.now.year,
@@ -37,6 +40,7 @@ module Patrons
 			invoice_number = "CO-" + Time.current.year.to_s + '-' + (how_many_invoices + 1).to_s.rjust(8, '0')
 			
 			invoice = Invoice.create(
+				payment_id: payment.id,
 				account_id: payment.account.id,
 				subscription_id: payment.subscription.id,
 				plan_amount: payment.subscription.plan_amount,
@@ -63,8 +67,6 @@ module Patrons
 			how_many_invoices = Invoice.all.where(invoice_year: Time.current.year, invoice_type: "correction").count
 			invoice_number = "RE-" + Time.current.year.to_s + '-' + (how_many_invoices + 1).to_s.rjust(8, '0')
 		else end
-		
-		
 		
 		
 		payment.update(

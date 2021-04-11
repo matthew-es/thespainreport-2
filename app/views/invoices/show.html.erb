@@ -45,6 +45,8 @@ end %>
 
 <h1 class="font-header font-header-normal line-120 font-upper"><%= h1_title %></h1>
 
+
+<%# INVOICE DETAILS, TYPE... %>
 <div class="margin-bottom-5">
 	<div class="float-left font-bold"><%= number_title %>: </div>
 	<div class="float-left margin-left-5"><%= @invoice.invoice_number %></div>
@@ -60,10 +62,12 @@ end %>
 <div class="margin-bottom-5">
 	<div class="float-left font-bold"><%= type_title %>: </div>
 	<div class="float-left margin-left-5">
-		<% case @invoice.invoice_type when "full" %><%= type_full %>
-		<% when "simple" %><%= type_simple %>
-		<% when "correction" %><%= type_correction %>
-		<% end %>
+		<span class="label font-main-small invoice-<%= @invoice.invoice_type %>">
+			<% case @invoice.invoice_type when "full" %><%= type_full %>
+			<% when "simple" %><%= type_simple %>
+			<% when "correction" %><%= type_correction %>
+			<% end %>
+		</span>
 	</div>
 	<div class="clear"></div>
 </div>
@@ -71,17 +75,20 @@ end %>
 <div class="margin-bottom-10">
 	<div class="float-left font-bold"><%= operation_title %>: </div>
 	<div class="float-left margin-left-5">
+		<span class="label font-main-small invoice-<%= @invoice.invoice_operation %>">
 		<% case @invoice.invoice_operation when "payment" %><%= operation_payment %>
 		<% when "exchange" %><%= operation_exchange %>
 		<% when "refund" %><%= operation_refund %>
 		<% when "error" %><%= operation_error %>
 		<% end %>
+		</span>
 	</div>
 	<div class="clear"></div>
 </div>
 
 <hr />
 
+<%# FROM... %>
 <div class="margin-bottom-5">
 	<div class="float-left font-bold"><%= from_title %>: </div>
 	<div class="float-left margin-left-5">
@@ -99,6 +106,10 @@ end %>
 
 <hr />
 
+
+<%# FOR... %>
+
+<% if @invoice.invoice_type == "full" %>
 <div class="margin-bottom-5">
 	<div class="float-left font-bold">
 		<% case @language when 1 %>To:
@@ -120,16 +131,9 @@ end %>
 	<div class="float-left margin-left-5"><%= @invoice.invoice_customer_tax_id %></div>
 	<div class="clear"></div>
 </div>
+<% else end %>
+
 <div class="margin-bottom-5">
-	<div class="float-left font-bold">
-		<% case @language when 1 %>Account ID:
-		<% when 2 %>Nº de cuenta:
-		<% end %>
-	</div>
-	<div class="float-left margin-left-5"><%= @invoice.account_id %></div>
-	<div class="clear"></div>
-</div>
-<div class="margin-bottom-10">
 	<div class="float-left font-bold">
 		<% case @language when 1 %>Email:
 		<% when 2 %>Correo electrónico:
@@ -140,6 +144,15 @@ end %>
             <%= u.email %>
           <% end %>
 		</div>
+	<div class="clear"></div>
+</div>
+<div class="margin-bottom-5">
+	<div class="float-left font-bold">
+		<% case @language when 1 %>Account ID:
+		<% when 2 %>Nº de cuenta:
+		<% end %>
+	</div>
+	<div class="float-left margin-left-5"><%= @invoice.account_id %></div>
 	<div class="clear"></div>
 </div>
 
@@ -163,15 +176,17 @@ end %>
 		<%= @invoice.subscription_id %>
 </div>
 
-<div class="margin-bottom-5">
-	<div class="float-left font-bold">
-		<% case @language when 1 %>Base:
-		<% when 2 %>Base:
-		<% end %>
+<% if @invoice.invoice_type == "full" %>
+	<div class="margin-bottom-5">
+		<div class="float-left font-bold">
+			<% case @language when 1 %>Base:
+			<% when 2 %>Base:
+			<% end %>
+		</div>
+		<div class="float-left margin-left-5"><%= number_to_currency((@invoice.plan_amount.to_f/100.to_f), unit: "€") %></div>
+		<div class="clear"></div>
 	</div>
-	<div class="float-left margin-left-5"><%= number_to_currency((@invoice.plan_amount.to_f/100.to_f), unit: "€") %></div>
-	<div class="clear"></div>
-</div>
+<% else end %>
 
 <div class="margin-bottom-5">
 	<div class="float-left font-bold">
@@ -183,15 +198,17 @@ end %>
 	<div class="clear"></div>
 </div>
 
-<div class="margin-bottom-5">
-	<div class="float-left font-bold">
-		<% case @language when 1 %>VAT:
-		<% when 2 %>IVA:
-		<% end %>
+<% if @invoice.invoice_type == "full" %>
+	<div class="margin-bottom-5">
+		<div class="float-left font-bold">
+			<% case @language when 1 %>VAT:
+			<% when 2 %>IVA:
+			<% end %>
+		</div>
+		<div class="float-left margin-left-5"><%= number_to_currency((@invoice.tax_amount.to_f/100.to_f), unit: "€") %></div>
+		<div class="clear"></div>
 	</div>
-	<div class="float-left margin-left-5"><%= number_to_currency((@invoice.tax_amount.to_f/100.to_f), unit: "€") %></div>
-	<div class="clear"></div>
-</div>
+<% else end %>
 
 <div class="margin-bottom-5">
 	<div class="float-left font-bold">
@@ -207,28 +224,34 @@ end %>
 
 <div class="margin-bottom-5">
 	<div class="float-left font-bold">
-		<% case @language when 1 %>Invoice status:
-		<% when 2 %>Estado de la factura:
+		<% case @language when 1 %>Payment Nº:
+		<% when 2 %>Nº del pago:
 		<% end %>
 	</div>
 	<div class="float-left margin-left-5">
-		<% case @invoice.invoice_status when true %>Paid
-		<% when false %>Problem with payment
-		<% end %>
+		<%= @invoice.payment.id unless @invoice.payment.nil? %>
 	</div>
 	<div class="clear"></div>
 </div>
-<div class="margin-bottom-10">
+<div class="margin-bottom-5">
 	<div class="float-left font-bold">
-		<% case @language when 1 %>Payment Nº:
-		<% when 2 %>Nº de pago:
+		<% case @language when 1 %>Payment reference:
+		<% when 2 %>Referencia del pago:
 		<% end %>
 	</div>
 	<div class="float-left margin-left-5">
-		<% @invoice.payments.each do |p| %>
-			<%= p.id %><br />
+		<%= @invoice.payment.external_payment_id unless @invoice.payment.nil? %>
+	</div>
+	<div class="clear"></div>
+</div>
+<div class="margin-bottom-5">
+	<div class="float-left font-bold">
+		<% case @language when 1 %>Payment status:
+		<% when 2 %>Estado del pago:
 		<% end %>
-			
+	</div>
+	<div class="float-left margin-left-5">
+		<%= @invoice.payment.status unless @invoice.payment.nil? %>
 	</div>
 	<div class="clear"></div>
 </div>
