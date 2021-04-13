@@ -71,13 +71,15 @@
 		subscriptions_status_title = "Status"
 		subscriptions_members_title = "Miembros"
 		
+		invoices_title = "My invoices"
 		invoices_apply_question = "Apply invoice details to existing empty invoices?"
 		invoices_apply_button = "Apply now"
 		invoices_all_filled = "All your invoices contain your details."
 		
-		payment_status_paid = "Paid"
-		payment_status_problem = "Problem"
-		payment_status_refund = "Refund"
+		payments_title = "My payments"
+		payments_status_paid = "Paid"
+		payments_status_problem = "Problem"
+		payments_status_refund = "Refund"
 	when 2
 		save_button = "Guardar"
 		increase_level_link_text = "Auméntelo"
@@ -91,8 +93,8 @@
 		user_title = "Mis Datos"
 		
 		your_current_email = "Su correo electrónico actual"
-		your_current_email_status_good = "Comprobado"
-		your_current_email_status_bad = "No comprobado"
+		your_current_email_status_good = "Confirmado"
+		your_current_email_status_bad = "No confirmado"
 		your_new_email = "Su nuevo correo electrónico..."
 		your_new_email_explanation = "El sistema le enviará un correo de confirmación"
 		your_password = "Contraseña nueva..."
@@ -152,13 +154,15 @@
 		subscriptions_status_title = "Estado"
 		subscriptions_members_title = "Miembros"
 		
+		invoices_title = "Mis facturas"
 		invoices_apply_question = "¿Aplicar sus datos de facturación a las facturas vacías?"
 		invoices_apply_button = "Aplicar ahora"
 		invoices_all_filled = "Todas sus facturas contienen sus datos."
 		
-		payment_status_paid = "Pagado"
-		payment_status_problem = "Problema"
-		payment_status_refund = "Abono"
+		payments_title = "Mis Pagos"
+		payments_status_paid = "Pagado"
+		payments_status_problem = "Problema"
+		payments_status_refund = "Abono"
 	end
 %>
 
@@ -415,9 +419,9 @@
 		</div>
 		<h3><%= account_invoice_title %></h3>
 
-		<%= form.text_field :invoice_account_name, :class => "margin-bottom-5 width-50 padding-5 font-header font-header-tiny mobile-width", placeholder: account_invoice_name %><br />
-		<%= form.text_field :invoice_account_tax_id, :class => "margin-bottom-5 width-30 padding-5 font-header font-header-tiny mobile-width", placeholder: account_invoice_id %><br />
-		<%= form.text_field :invoice_account_address, :class => "margin-bottom-5 width-90 padding-5 font-header font-header-tiny mobile-width", placeholder: account_invoice_address %>
+		<%= form.text_field :invoice_account_name, :class => "margin-bottom-5 width-50 padding-5 font-header font-header-tiny mobile-width", placeholder: account_invoice_name, disabled: !@accountpaying %><br />
+		<%= form.text_field :invoice_account_tax_id, :class => "margin-bottom-5 width-30 padding-5 font-header font-header-tiny mobile-width", placeholder: account_invoice_id, disabled: !@accountpaying %><br />
+		<%= form.text_field :invoice_account_address, :class => "margin-bottom-5 width-90 padding-5 font-header font-header-tiny mobile-width", placeholder: account_invoice_address, disabled: !@accountpaying %>
 	<% else end %>
 	<% end %>
 	
@@ -429,7 +433,9 @@
 	
 	<% if @admin || @account_owner %>
 	<div class="margin-top-10">
-		<% if @empty_invoices.any? %>
+		<% if !@user.account.invoices.any? %>
+		
+		<% elsif @empty_invoices.any? %>
 			<div class="">
 				<%= invoices_apply_question %>
 			</div>
@@ -439,7 +445,7 @@
 				<% end %>
 			</div>
 			<div class="clear"></div>
-		<% else %>
+		<% else !@empty_invoices.any? %>
 			<span class="green-background-text padding-2"><%= invoices_all_filled %></span>
 		<% end %>
 	</div>
@@ -447,7 +453,7 @@
 </div>
 
 <% if @admin || @account_owner %>
-	<% if @unassigned_members.any? %>
+	<% if @accountpaying && @unassigned_members.any? %>
 		<div class="patrons-background padding-20 margin-bottom-20">
 			<% @unassigned_members.each do |m| %>
 				<%= m.email %>, 
@@ -616,11 +622,8 @@
 
 
 	<div class="patrons-background padding-20 margin-bottom-20">	
-		<h3>
-			<% case @user.sitelanguage when 1 %> Invoices
-			<% when 2 %> Facturas
-			<% end %>
-		</h3>
+		<h3><%= invoices_title %></h3>
+		
 		<table class="admin-table">
 			<tr style="font-weight: bold;">
 				
@@ -727,9 +730,7 @@
 	
 	<div class="patrons-background padding-20">	
 		<h3>
-			<% case @user.sitelanguage when 1 %>Payments & receipts
-			<% when 2 %>Pagos
-			<% end %>
+			<h3><%= payments_title %></h3>
 		</h3>
 		
 		<table class="admin-table">
@@ -747,9 +748,9 @@
 				<td class="left"><%= p.created_at.strftime("%d/%m/%Y") %></td>
 				<td class="right"><%= number_to_currency((p.total_amount.to_f/100.to_f), unit: "€") %></td>
 				<td class="left">
-					<% case p.status when "paid" %><span class="label font-main-tiny invoice-payment"><%= payment_status_paid %></span>
-					<% when "problem" %><span class="label font-main-tiny invoice-refund"><%= payment_status_problem %></span>
-					<% when "refund" %><span class="label font-main-tiny invoice-refund"><%= payment_status_refund %></span>
+					<% case p.status when "paid" %><span class="label font-main-tiny invoice-payment"><%= payments_status_paid %></span>
+					<% when "problem" %><span class="label font-main-tiny invoice-refund"><%= payments_status_problem %></span>
+					<% when "refund" %><span class="label font-main-tiny invoice-refund"><%= payments_status_refund %></span>
 					<% end %>
 				</td>
 			</tr>

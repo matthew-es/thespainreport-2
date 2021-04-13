@@ -50,8 +50,23 @@ class PaymentsController < ApplicationController
 		end
 	end
 	
-	def repeat_payment
-		Patrons::StripeRepeatPayment.process(@user.account.subscriptions.last)
+	def cron_test
+		puts "This has been hit by AWS EventBridge Lambda at: " + DateTime.now.to_s
+		
+		render json: { message: "Everything ok on this end..." }, status: 200
+	end
+	
+	
+	def repeat_payments
+		puts "STARTS PROCESSING ACTIVE SUBSCRIPTIONS. Repeat payments hit at: " + DateTime.now.to_s
+		
+		active_subscriptions = Subscription.active.amount_active.payment_now
+		active_subscriptions.each do |as|
+			Patrons::StripeRepeatPayment.process(as)
+		end
+		
+		puts "ENDS PROCESSING ACTIVE SUBSCRIPTIONS at: " + DateTime.now.to_s
+		render json: { message: "All good..." }, status: 200
 	end
 	
 	
@@ -85,9 +100,6 @@ class PaymentsController < ApplicationController
 			puts @user
 			set_language_frame(current_user.sitelanguage, current_user.frame.id)
 			payment_method = Stripe::PaymentMethod.retrieve(account.stripe_payment_method)
-			
-			# Generate a test repeat payment.... 
-			
 			
 			@client_secret = payment_intent["client_secret"]
 			@pm_brand = payment_method["card"]["brand"]
@@ -253,10 +265,15 @@ class PaymentsController < ApplicationController
 		plan_amount = params[:plan_amount_for_server]
 		payment_intent = params[:stripe_payment_intent_for_server]
 		
+		ip_address = @ip_address
 		ip_country = @ip_lookup_country
-		puts "IP country is: " + ip_country
 		residence_country = params[:residence_country_code_for_server]
 		card_country = @account.stripe_payment_method_card_country
+		
+		puts "IP ADDRESS IS: " + ip_address
+		puts "IP COUNTRY IS: " + ip_country
+		puts "RESIDENCE COUNTRY IS: " + residence_country
+		puts "CARD COUNTRY IS: " + card_country
 		
 		if (card_country != residence_country) && (card_country != ip_country) && (residence_country == ip_country)
 			vat_country = residence_country
@@ -264,10 +281,14 @@ class PaymentsController < ApplicationController
 			vat_country = card_country
 		end
 		
+		puts "VAT COUNTRY IS: " + vat_country
+		
 		@account.update(
-			vat_country: vat_country,
-			residence_country: residence_country,
+			ip_address: ip_address,
 			ip_country: ip_country,
+			residence_country: residence_country,
+			stripe_payment_method_card_country: card_country,
+			vat_country: vat_country,
 			invoice_account_name: params[:invoice_name_for_server],
 			invoice_account_tax_id: params[:invoice_tax_id_for_server],
 			invoice_account_address: params[:invoice_address_for_server]
@@ -314,14 +335,8 @@ class PaymentsController < ApplicationController
 		@account = @user.account
 		@account_id = @account.id
 
-		@residence_country = @account.residence_country
-		@card_country = @account.stripe_payment_method_card_country
-		@vat_country = @account.vat_country
-		
-		@ip_address = params[:ip_address_for_server]
-		@ip_country = params[:ip_country_code_for_server]
 		@plan_amount = params[:plan_amount_for_server]
-		@vat_rate = Country.find_by(country_code: @vat_country).tax_percent
+		@vat_rate = Country.find_by(country_code: @account.vat_country).tax_percent
 		@vat_amount = params[:vat_amount_for_server]
 		@total_amount = params[:total_amount_for_server]
 		@payment = Payment.where(account_id: @account_id).last
@@ -340,12 +355,12 @@ class PaymentsController < ApplicationController
 			
 			@subscription = Subscription.create(
 				account_id: @account_id,
-				residence_country: @residence_country,
-				ip_address: @ip_address,
-				ip_country: @ip_country,
-				card_country: @card_country,
+				ip_address: @account.ip_address,
+				ip_country: @account.ip_country,
+				residence_country: @account.residence_country,
+				card_country: @account.stripe_payment_method_card_country,
+				vat_country: @account.vat_country,
 				plan_amount: @plan_amount,
-				vat_country: @vat_country,
 				vat_rate: @vat_rate,
 				vat_amount: @vat_amount,
 				total_amount: @total_amount,

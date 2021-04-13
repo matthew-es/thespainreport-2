@@ -1,36 +1,45 @@
 <%= render "articles/admintop" %>
 
 <table class="font-main-vsmall">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Date</th>
-      <th>Time</th>
-      <th>Total</th>
-      <th>Frame</th>
-      <th>Tax %</th>
-      <th>Tax</th>
-      <th colspan="2"></th>
-    </tr>
-  </thead>
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Account</th>
+			<th>Created</th>
+			<th>Last</th>
+			<th>Next</th>
+			<th>Plan</th>
+			<th>Total</th>
+			<th>Tax %</th>
+			<th>Tax</th>
+			<th>Frame</th>
+			<th colspan="2"></th>
+		</tr>
+	</thead>
 
-  <tbody>
-    <% @subscriptions.each do |subscription| %>
-      <tr class="<%= cycle("odd", "even") -%>">
-        <td><%= link_to subscription.id, edit_subscription_path(subscription) %></td>
-        <td><%= subscription.created_at.strftime("%d/%m/%Y") %></td>
-        <td><%= subscription.created_at.strftime("%H:%M") %></td>
-        <td class="align-right"><%= number_to_currency((subscription.total_amount.to_f/100.to_f), unit: "€") %></td>
-        <td><%= link_to subscription.frame_emotional_quest_action, subscription.frame %></td>
-        <td><%= subscription.residence_country %> | <%= subscription.card_country %> | <%= subscription.ip_country %> | <%= subscription.vat_country %></td>
-        <td class="align-right"><%= number_to_percentage((subscription.vat_rate.to_f*100), precision: 1) %></td>
-        <td class="align-right"><%= number_to_currency((subscription.vat_amount.to_f/100.to_f), unit: "€") %></td>
-        <td><%= subscription.account_id %></td>
-        <td><%= subscription.last_payment_date.strftime("%d/%m/%Y %H:%M") %></td>
-        <td><%= link_to 'D?', subscription, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
+	<tbody>
+		<% @subscriptions.each do |subscription| %>
+			<tr class="<%= cycle("odd", "even") -%>">
+				<td><%= link_to subscription.id, edit_subscription_path(subscription) %></td>
+				<td><%= subscription.account.user.email unless subscription.account.user.nil? %></td>
+				
+				<td><%= subscription.created_at.strftime("%d/%m/%Y") %></td>
+				<td><%= subscription.last_payment_date.strftime("%d/%m/%Y") unless subscription.last_payment_date.nil? %></td>
+				<td><%= subscription.next_payment_date.strftime("%d/%m/%Y") unless subscription.next_payment_date.nil? %></td>
+								
+				<td class="align-right"><%= number_to_currency((subscription.plan_amount.to_f/100.to_f), unit: "€") %></td>
+				<td class="align-right"><%= number_to_percentage((subscription.vat_rate.to_f*100), precision: 1) %></td>
+				<td class="align-right"><%= number_to_currency((subscription.vat_amount.to_f/100.to_f), unit: "€") %></td>
+				<td class="align-right"><%= number_to_currency((subscription.total_amount.to_f/100.to_f), unit: "€") %></td>
+				
+				<td><%= subscription.residence_country %> | <%= subscription.card_country %> | <%= subscription.ip_country %> | <%= subscription.vat_country %></td>
+				
+				<td><%= link_to subscription.frame_emotional_quest_action, subscription.frame %></td>
+
+				<td><%= link_to 'D?', subscription, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+			</tr>
+		<% end %>
+	</tbody>
 </table>
 
 </div>

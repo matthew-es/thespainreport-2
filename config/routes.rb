@@ -25,6 +25,7 @@
 	end
 	
 	root 'home#index'
+	get 'repeat_payments' => 'payments#repeat_payments'
 	
 	get 'signup' => redirect('newsletter')
 	get 'newsletter' => 'users#signup'

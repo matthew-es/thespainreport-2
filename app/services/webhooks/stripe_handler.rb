@@ -78,8 +78,22 @@ module Webhooks
                     stripe_object_id = event.data["data"]["object"]["id"]
                     stripe_object_status = event.data["data"]["object"]["status"]
                     stripe_customer_id = event.data["data"]["object"]["customer"]
-                    
                     amount = event["data"]["data"]["object"]["amount"] ? event["data"]["data"]["object"]["amount"]/100.to_f : "0"
+                    
+                    puts stripe_event_id
+                    puts stripe_event_type
+                    puts stripe_object_id
+                    puts stripe_object_status
+                    puts stripe_customer_id
+                    puts amount
+                    
+                    payment = Payment.find_by(external_payment_id: stripe_object_id)
+                    puts "TSR PAYMENT ID IS: " + payment.id.to_s
+                    
+                    payment.update(
+                        external_payment_status: stripe_object_status
+                        )
+                    puts "TSR NEW PAYMENT STATUS IS: " + payment.external_payment_status
                     
                     account = Account.find_by(stripe_customer_id: stripe_customer_id)
                     account_id = account.id
@@ -98,8 +112,7 @@ module Webhooks
                          "Amount: € #{amount}"
                         ).html_safe
 
-                    @payment = Payment.find_by(external_payment_id: stripe_object_id)
-                    @payment.update(external_payment_status: stripe_object_status)
+                    
                     PaymentMailer.payment_success(account_id, account_email, language, amount).deliver_now
                     PaymentMailer.payment_admin_message(admin_subject, admin_message).deliver_now
             end

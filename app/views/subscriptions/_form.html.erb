@@ -1,52 +1,100 @@
 <%= form_with(model: subscription, local: true) do |form| %>
-  <% if subscription.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(subscription.errors.count, "error") %> prohibited this subscription from being saved:</h2>
+	<% if subscription.errors.any? %>
+		<div id="error_explanation">
+			<h2><%= pluralize(subscription.errors.count, "error") %> prohibited this subscription from being saved:</h2>
 
-      <ul>
-      <% subscription.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+			<ul>
+			<% subscription.errors.full_messages.each do |message| %>
+				<li><%= message %></li>
+			<% end %>
+			</ul>
+		</div>
+	<% end %>
+	
+	<div class="field margin-bottom-20">
+		<div class="float-left width-15">Subscription</div>
+		<div class="float-left"><%= @subscription.id %></div>
+		<div class="clear"></div>
+	</div>
+	
+	<div class="field margin-bottom-20">
+		<div class="float-left width-15">Account:</div>
+		<div class="float-left"><%= form.number_field :account_id %></div>
+		<div class="clear"></div>
+		
+		<div class="float-left width-15">Account owner:</div>
+		<div class="float-left"><%= @subscription.account.user.email %></div>
+		<div class="clear"></div>
+	</div>
+	
+	<div class="field margin-bottom-20">
+		<div class="float-left width-15">Created:</div>
+		<div class="float-left"><%= form.datetime_select :created_at %></div>
+		<div class="clear"></div>
+		
+		<div class="float-left width-15">Last Payment:</div>
+		<div class="float-left"><%= form.datetime_select :last_payment_date %></div>
+		<div class="clear"></div>
+		
+		<div class="float-left width-15">Next Payment:</div>
+		<div class="float-left"><%= form.datetime_select :next_payment_date %></div>
+		<div class="clear"></div>
+	</div>
+	
+	<div class="field margin-bottom-20">
+		<div class="float-left width-15">Plan amount</div>
+		<div class="float-left"><%= form.number_field :plan_amount %></div>
+		<div class="clear"></div>
+		
+		<div class="float-left width-15">VAT</div>
+		<div class="float-left"><%= form.number_field :vat_rate %></div>
+		<div class="clear"></div>
+		
+		<div class="float-left width-15">VAT amount</div>
+		<div class="float-left"><%= form.number_field :vat_amount %></div>
+		<div class="clear"></div>
+		
+		<div class="float-left width-15">Total amount</div>
+		<div class="float-left"><%= form.number_field :total_amount %></div>
+		<div class="clear"></div>
+	</div>
 
-  <div class="field">
-    <%= form.label :account_id %>
-    <%= form.number_field :account_id %>
-  </div>
 
-  <div class="field">
-    <%= form.label :amount %>
-    <%= form.number_field :amount %>
-  </div>
-
-  <div class="field">
-    <%= form.label :card_country %>
-    <%= form.text_field :card_country %>
-  </div>
-
-  <div class="field">
-    <%= form.label :latest_paid_date %>
-    <%= form.datetime_select :latest_paid_date %>
-  </div>
-
-  <div class="field">
-    <%= form.label :ip_country %>
-    <%= form.text_field :ip_country %>
-  </div>
-
-  <div class="field">
-    <%= form.label :ip_address %>
-    <%= form.text_field :ip_address %>
-  </div>
-
-  <div class="field">
-    <%= form.label :residence_country %>
-    <%= form.text_field :residence_country %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+	
+	<div class="field margin-bottom-20">
+		<div class="float-left width-15">Card country</div>
+		<div class="float-left"><%= form.text_field :card_country %></div>
+		<div class="clear"></div>
+		
+		<div class="float-left width-15">IP address</div>
+		<div class="float-left"><%= form.text_field :ip_address %></div>
+		<div class="clear"></div>
+		
+		<div class="float-left width-15">IP country</div>
+		<div class="float-left"><%= form.text_field :ip_country %></div>
+		<div class="clear"></div>
+		
+		<div class="float-left width-15">Residence country</div>
+		<div class="float-left"><%= form.text_field :residence_country %></div>
+		<div class="clear"></div>
+		
+		<div class="float-left width-15">VAT country</div>
+		<div class="float-left"><%= form.text_field :vat_country %></div>
+		<div class="clear"></div>
+	</div>
+	
+	<div class="field margin-bottom-20">
+		<div class="float-left width-15">Active?</div>
+		<div class="float-left"><%= form.check_box :is_active %></div>
+		<div class="clear"></div>
+		
+		<div class="float-left width-15">&nbsp;</div>
+		<div class="float-left">&nbsp;</div>
+		<div class="clear"></div>
+		
+		<div class="float-left width-15">&nbsp;</div>
+		<div class="float-left"><%= form.submit %></div>
+		<div class="clear"></div>
+	</div>
+	
 <% end %>

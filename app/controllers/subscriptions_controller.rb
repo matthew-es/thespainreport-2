@@ -90,7 +90,7 @@ class SubscriptionsController < ApplicationController
 	def update
 		respond_to do |format|
 			if @subscription.update(subscription_params)
-				format.html { redirect_to @subscription, notice: 'Subscription was successfully updated.' }
+				format.html { redirect_to edit_subscription_path(@subscription), notice: 'Subscription was successfully updated.' }
 				format.json { render :show, status: :ok, location: @subscription }
 			else
 				format.html { render :edit }
@@ -119,7 +119,7 @@ class SubscriptionsController < ApplicationController
 		def subscription_params
 			params.require(:subscription).permit(
 				:account_id, :article_id, :plan_amount, :vat_country, :vat_rate, :vat_amount, :total_amount, :frame_id, :frame_name, :frame_buttontext, 
-				:frame_slug, :card_country, :latest_paid_date, :ip_country, :ip_address, :residence_country, :next_payment_date, :last_payment_date, :is_active,
+				:frame_slug, :card_country, :ip_country, :ip_address, :residence_country, :next_payment_date, :last_payment_date, :is_active,
 				:motivation_general_environment, :motivation_specific_brand, :article_from_server
 				)
 		end

@@ -53,12 +53,16 @@ class UsersController < ApplicationController
 			puts "More bot spam, session and form values are not the same..."
 		elsif session_value == form_value
 			user = User.find_by(email: params[:email_for_server])
+			puts "Well, at least we can create a new user..."
 			
 			if user.nil?
 				newuser = Patrons::CreateNewUser.process(params)
+				puts newuser
+				
 				newaccount = Patrons::CreateNewAccount.process(newuser)
+				puts newaccount
+				
 				frame = Frame.find(params[:frame_for_server])
-				newsubscription = Patrons::CreateNewSubscription.process(newuser, newaccount, frame)
 				
 				Patrons::UpdateLevelAmount.process(newuser, 2500)
 				
@@ -468,8 +472,12 @@ class UsersController < ApplicationController
 	
 	# GET /users/1/edit
 	def edit
+		u = User.find(params[:id])
+		
 		if current_user.nil?
 			puts "current_user nil cannot edit user"
+			redirect_to root_url
+		elsif u.nil?
 			redirect_to root_url
 		elsif current_user.status == 1
 			@user = User.find(params[:id])
@@ -486,6 +494,14 @@ class UsersController < ApplicationController
 			puts "some other user edit problem"
 			redirect_to root_url
 		end
+		
+		rescue ActiveRecord::RecordNotFound
+			if current_user.nil?
+				redirect_to root_url
+			else
+				redirect_to edit_user_path(current_user)
+			end
+		
 	end
 	
 	def update_level_amount

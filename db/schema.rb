@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_11_093918) do
+ActiveRecord::Schema.define(version: 2021_04_13_115116) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 2021_04_11_093918) do
     t.string "invoice_account_address"
     t.string "invoice_account_tax_id"
     t.string "ip_country"
+    t.string "ip_address"
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|

@@ -1,40 +1,32 @@
 <tr class="<%= cycle("odd", "even") -%>">
 	<td align="left"><%= link_to account.id, edit_account_path(account) %></td>
-	<td align="right">
-          <% account.users.account_owner.each do |u| %>
-            <%= link_to u.email, edit_user_path(u) %>
-          <% end %>
-        </td>
+	<td align="right"><%= account.user.email %></td>
 	<td class="right">
 		<% if account.account_status == 1 %>
-            Up-to-date
-          <% elsif account.account_status == 2 %>
-            Declined
-          <% elsif account.account_status == 3 %>
-            Cancelled
-          <% elsif account.account_status == 4 %>
-            Free Reader
-          <% else end %>
-		</td>
+			Up-to-date
+		<% elsif account.account_status == 2 %>
+			Declined
+		<% elsif account.account_status == 3 %>
+			Cancelled
+		<% elsif account.account_status == 4 %>
+			Free Reader
+		<% else end %>
+	</td>
 	<td align="right">
-          <% if account.conversation_status == 1 %>
-            All good
-          <% elsif account.conversation_status == 2 %>
-            Decline email sent
-          <% elsif account.conversation_status == 3 %>
-            Cancel email sent
-          <% elsif account.conversation_status == 4 %>
-            In conversation
-          <% elsif account.conversation_status == 5 %>
-            Stop not interested
-          <% else end %>
-        </td>
-        <td align="right">
-          <%= truncate(account.stripe_customer_id, lentgh: 20) %>
-        </td>
-        <td align="right">
-          <%= truncate(account.stripe_payment_method, length: 20) %>
-        </td>
+		<% if account.conversation_status == 1 %>
+			All good
+		<% elsif account.conversation_status == 2 %>
+			Decline email sent
+		<% elsif account.conversation_status == 3 %>
+			Cancel email sent
+		<% elsif account.conversation_status == 4 %>
+			In conversation
+		<% elsif account.conversation_status == 5 %>
+			Stop not interested
+		<% else end %>
+	</td>
+	<td align="right"><%= truncate(account.stripe_customer_id, lentgh: 20) %></td>
+	<td align="right"><%= truncate(account.stripe_payment_method, length: 20) %></td>
 	<td class="right"><%= account.updated_at.strftime("%d/%m/%Y, %H:%M") %></td>
 	<td class="right"><%= account.created_at.strftime("%d/%m/%Y") %></td>
 	<td class="right"><%= link_to 'Destroy', account, method: :delete, data: { confirm: 'Are you sure?' } %></td>

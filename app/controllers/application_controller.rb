@@ -40,9 +40,6 @@ class ApplicationController < ActionController::Base
 			else end
 			
 			@admin = @status == 1
-			@account_owner = @role == 1
-			@member = @role == 2
-			
 			@super_patron = @status == 2 && (@level > 2500)
 			@patron_reader_25 = @status == 2 && (@level == 2500)
 			@patron_reader_10 = @status == 2 && @level.between?(1000, 2499)
@@ -50,10 +47,14 @@ class ApplicationController < ActionController::Base
 			@patron_reader_1 = @status == 2 && @level.between?(100, 499)
 			@patron_reader_0 = @status == 2 && (@level == 0)
 			@patron = @patron_reader_0 || @patron_reader_1 || @patron_reader_5 || @patron_reader_10 || @patron_reader_25
-			@reader_trial = @status == 3 && @can_read_date > Time.now
+			@reader_trial = (@status == 3 && @can_read_date > Time.now)
 			@reader_trial_over = @status == 3 && @can_read_date < Time.now
 			@reader = @readertrial || @reader_trial_over
 			@get_prints = @admin || @super_patron || @patron_reader_25 || @reader_trial
+			
+			@account_owner = @role == 1
+			@member = @role == 2
+			@accountpaying = (@account.total_support > 0)
 			
 			@can_read_level_1 = @admin || @reader_trial|| @super_patron || @patron_reader_25 || @patron_reader_10 || @patron_reader_5  || @patron_reader_1
 			@can_read_level_5 = @admin || @reader_trial|| @super_patron || @patron_reader_25 || @patron_reader_10 || @patron_reader_5
