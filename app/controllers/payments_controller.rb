@@ -59,9 +59,18 @@ class PaymentsController < ApplicationController
 	
 	def repeat_payments
 		active_subscriptions = Subscription.active.amount_active.payment_now
+		i = 0
+		a = 0
+		
 		active_subscriptions.each do |as|
 			Patrons::StripeRepeatPayment.process(as)
+			i += 1
+			a += as.total_amount
 		end
+		
+		admin_subject = DateTime.now.strftime("%d/%m %H:%M: ") + i.to_s + " REPEAT PAYMENTS processed for " + ActiveSupport::NumberHelper.number_to_currency((a/100.to_f), unit: "€")
+		admin_message = ""
+		PaymentMailer.payment_admin_message(admin_subject, admin_message).deliver_now
 
 		render json: { message: "All finished, all good." }, status: 200
 	end
