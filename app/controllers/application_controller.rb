@@ -54,7 +54,14 @@ class ApplicationController < ActionController::Base
 			
 			@account_owner = @role == 1
 			@member = @role == 2
-			@accountpaying = (@account.total_support > 0)
+			
+			if @account.total_support.nil?
+				@accountpaying = false
+			elsif @account.total_support > 0
+				@accountpaying = true
+			else
+				@accountpaying = false
+			end
 			
 			@can_read_level_1 = @admin || @reader_trial|| @super_patron || @patron_reader_25 || @patron_reader_10 || @patron_reader_5  || @patron_reader_1
 			@can_read_level_5 = @admin || @reader_trial|| @super_patron || @patron_reader_25 || @patron_reader_10 || @patron_reader_5
