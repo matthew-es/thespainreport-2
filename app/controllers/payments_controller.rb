@@ -58,15 +58,12 @@ class PaymentsController < ApplicationController
 	
 	
 	def repeat_payments
-		puts "STARTS PROCESSING ACTIVE SUBSCRIPTIONS. Repeat payments hit at: " + DateTime.now.to_s
-		
 		active_subscriptions = Subscription.active.amount_active.payment_now
 		active_subscriptions.each do |as|
 			Patrons::StripeRepeatPayment.process(as)
 		end
-		
-		puts "ENDS PROCESSING ACTIVE SUBSCRIPTIONS at: " + DateTime.now.to_s
-		render json: { message: "All good..." }, status: 200
+
+		render json: { message: "All finished, all good." }, status: 200
 	end
 	
 	
@@ -88,16 +85,12 @@ class PaymentsController < ApplicationController
 		elsif @payment.nil?
 			redirect_to edit_user_path(current_user)	
 		else
-			puts @payment
-			puts @payment.id
 			payment_intent = Stripe::PaymentIntent.retrieve(@payment.external_payment_id)
 			
 			account = Account.find(@payment.account_id)
-			puts account
-			puts account.id
-			
+				
 			@user = User.find_by(account_id: account.id, account_role: 1)
-			puts @user
+			
 			set_language_frame(current_user.sitelanguage, current_user.frame.id)
 			payment_method = Stripe::PaymentMethod.retrieve(account.stripe_payment_method)
 			
@@ -106,15 +99,10 @@ class PaymentsController < ApplicationController
 			@pm_month = payment_method["card"]["exp_month"]
 			@pm_year = payment_method["card"]["exp_year"]
 			@pm_last4 = payment_method["card"]["last4"]
-			
 		end
 	end
 	
 	def fix_problem_confirm_with_card
-		puts "Ok. that works..."
-		puts params[:stripe_payment_intent_for_server]
-		puts params[:stripe_pm_for_server]
-		
 		payment_intent = params[:stripe_payment_intent_for_server]
 		payment_method = params[:stripe_pm_for_server]
 		
@@ -128,17 +116,12 @@ class PaymentsController < ApplicationController
 		confirm_payment = Stripe::PaymentIntent.confirm(payment_intent, {
 			payment_method: payment_method
 		})
-		
-		puts "Little payment confirm method completed..."
 	end
 	
 	# Basic empty Stripe setup and payment intent
 	def stripe_get_payment_intent
 		payment_intent = Patrons::StripePaymentIntentCreate.process()
 		setup_intent = Patrons::StripeSetupIntentCreate.process()
-		
-		puts payment_intent
-		puts setup_intent
 		
 		render json: { secret: setup_intent.client_secret, payment_intent: payment_intent.id, setup_intent: setup_intent.id }, status: 200
 	end
@@ -270,18 +253,11 @@ class PaymentsController < ApplicationController
 		residence_country = params[:residence_country_code_for_server]
 		card_country = @account.stripe_payment_method_card_country
 		
-		puts "IP ADDRESS IS: " + ip_address
-		puts "IP COUNTRY IS: " + ip_country
-		puts "RESIDENCE COUNTRY IS: " + residence_country
-		puts "CARD COUNTRY IS: " + card_country
-		
 		if (card_country != residence_country) && (card_country != ip_country) && (residence_country == ip_country)
 			vat_country = residence_country
 		else
 			vat_country = card_country
 		end
-		
-		puts "VAT COUNTRY IS: " + vat_country
 		
 		@account.update(
 			ip_address: ip_address,
