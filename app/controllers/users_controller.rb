@@ -477,8 +477,6 @@ class UsersController < ApplicationController
 		if current_user.nil?
 			puts "current_user nil cannot edit user"
 			redirect_to root_url
-		elsif u.nil?
-			redirect_to root_url
 		elsif current_user.status == 1
 			@user = User.find(params[:id])
 			set_language_frame(current_user.sitelanguage, current_user.frame.id)

@@ -60,7 +60,7 @@ class SubscriptionsController < ApplicationController
 
 	# GET /subscriptions/1/edit
 	def edit
-		 if current_user.nil? 
+		if current_user.nil? 
 			redirect_to root_url
 		elsif current_user.status == 1
 			

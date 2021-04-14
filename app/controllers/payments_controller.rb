@@ -321,7 +321,14 @@ class PaymentsController < ApplicationController
 		@account_id = @account.id
 
 		@plan_amount = params[:plan_amount_for_server]
-		@vat_rate = Country.find_by(country_code: @account.vat_country).tax_percent
+		
+		country = Country.find_by(country_code: @account.vat_country)
+		if country.nil?
+			@vat_rate = 0
+		else
+			@vat_rate = Country.find_by(country_code: @account.vat_country).tax_percent
+		end
+		
 		@vat_amount = params[:vat_amount_for_server]
 		@total_amount = params[:total_amount_for_server]
 		@payment = Payment.where(account_id: @account_id).last
@@ -395,7 +402,7 @@ class PaymentsController < ApplicationController
 			subscription_id: @subscription.id
 			)
 			
-			@stripe_payment = Stripe::PaymentIntent.confirm(@payment.external_payment_id)
+			@stripe_payment = Stripe::PaymentIntent.confirm(@payment.external_payment_id, {off_session: true})
 			case @stripe_payment.status
 				when "requires_action"
 					PaymentError.create!(
@@ -458,7 +465,13 @@ class PaymentsController < ApplicationController
 				payment_error_message: e.error.message,
 				payment_error_source: "server-action-stripe-card-error"
 				)
-			render json: {message: "Problem with your payment. Your card has not been charged. Check your email now to fix it."}, status: 400
+			
+			respond_to do |format|
+				session[:user_id] = @user.id
+				format.json { render json: {message: "Problem with your payment. Your card has not been charged. Check your email now to fix it.", url: fix_problem_payment_path(@payment.external_payment_id)}, status: 200 and return }
+			end
+
+			# render json: {message: "Problem with your payment. Your card has not been charged. Check your email now to fix it.", url: edit_user_path(@user)}, status: 400
 		rescue
 			@payment = @account.payments.last
 			PaymentError.create(
