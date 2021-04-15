@@ -61,24 +61,25 @@ end %>
 <%= render "layouts/logo_account" %>
 
 <h1 class="font-header font-header-normal line-120 font-upper">
-	<% if @payment_intent_status == "" %><%= fix_payment_title_success %>
+	<% if @payment_intent_status == "succeeded" %><%= fix_payment_title_success %>
 	<% else %><%= fix_payment_title_problem %>
 	<% end %>
 </h1>
 
 <% if current_user.nil? %>
-    <p class="font-main-small">
-    	<% if @payment_intent_status == "succeeded" %><%= log_in_not_logged_in_succeeded %>
-		<% else %><%= log_in_not_logged_in_problem %>
-		<% end %>
-    </p>
+    <div class="margin-top-10 margin-bottom-20 padding-20 success-box font-main-small">
+	    	<% if @payment_intent_status == "succeeded" %><%= log_in_not_logged_in_succeeded %>
+			<% else %><%= log_in_not_logged_in_problem %>
+			<% end %>
+
+    </div>
     
     <%= form_tag '/login' do %>
-		<div class="float-left margin-right-10 width-100 margin-top-5">
-			<%= text_field_tag 'email', nil, class: 'padding-10 width-90', placeholder: log_in_email %>
+		<div class="float-left width-100 margin-top-5">
+			<%= text_field_tag 'email', nil, class: 'padding-10 width-98', placeholder: log_in_email %>
 		</div>
-		<div class="float-left margin-right-10 width-100 margin-top-5">
-			<%= password_field_tag 'password', nil, class: 'padding-10 width-90', placeholder: log_in_password %>
+		<div class="float-left width-100 margin-top-5">
+			<%= password_field_tag 'password', nil, class: 'padding-10 width-98', placeholder: log_in_password %>
 		</div>
 		<div class="float-left margin-top-5 margin-right-5">
 			<button type="submit" class="padding-7 font-main-small"><%= log_in_button %></button>
@@ -89,7 +90,7 @@ end %>
 		<div class="clear"></div>
 	<% end %>
 <% else %>
-	<% if @payment_intent_status == "" %>
+	<% if @payment_intent_status == "succeeded" %>
 		<div class="margin-top-10 margin-bottom-10 padding-20 success-box font-main-small">
 			<p class="font-main-small">&#9989; This payment succeeded. Thank you for supporting independent journalism.</p>
 			

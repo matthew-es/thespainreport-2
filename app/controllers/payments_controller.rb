@@ -98,9 +98,7 @@ class PaymentsController < ApplicationController
 			
 		elsif @payment.nil?
 			redirect_to edit_user_path(current_user)	
-		elsif current_user.email != @user.email
-			redirect_to edit_user_path(current_user)
-		else
+		elsif current_user.email == @user.email || current_user.status == 1
 			payment_intent = Stripe::PaymentIntent.retrieve(@payment.external_payment_id)
 			payment_method = Stripe::PaymentMethod.retrieve(@payment.payment_method)
 			
@@ -114,7 +112,9 @@ class PaymentsController < ApplicationController
 			@pm_month = payment_method["card"]["exp_month"]
 			@pm_year = payment_method["card"]["exp_year"]
 			@pm_last4 = payment_method["card"]["last4"]
-		end
+		elsif current_user.email != @user.email
+			redirect_to edit_user_path(current_user)
+		else end
 	end
 	
 	def fix_problem_confirm_with_card
