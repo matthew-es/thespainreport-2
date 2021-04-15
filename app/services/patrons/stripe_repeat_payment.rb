@@ -16,6 +16,7 @@ module Patrons
 			account_id: subscription.account_id,
 			subscription_id: subscription.id,
 			total_amount: payment_intent.amount,
+			payment_method: payment_intent.payment_method,
 			external_payment_id: payment_intent.id,
 			external_payment_status: payment_intent.status
 			)
@@ -29,7 +30,7 @@ module Patrons
             Patrons::CreateInvoice.process(payment)
             
             payment.update(status: "paid")
-            
+            subscription.update(is_active: true)
 			subscription.users.each do |u|
 				u.update(
 					status: 2,
@@ -37,6 +38,9 @@ module Patrons
 					)
 			end
         else
+        	payment.update(status: "problem")
+        	subscription.update(is_active: false)
+        	PaymentMailer.fix_problem(payment, payment.account.user, payment.account.user.sitelanguage).deliver_now
         end
 
         end

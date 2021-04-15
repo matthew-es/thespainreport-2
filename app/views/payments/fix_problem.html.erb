@@ -129,6 +129,10 @@ end %>
 					<div class="align-centre mobile-width">
 						<button id="fix-with-click-button" name="fix-with-click-button" class="buybutton font-main-small width-fixed-cards mobile-width" onclick="fixWithClick()"><%= confirm_payment %></button>
 					</div>
+					
+					<%# UI messages from Ajax responses... %>
+					<div id="ajax_form_message_click" class="margin-top-10 padding-10 buy-border" style="display:none;">
+					</div>
 			</div>
 
 			<%# FIX WITH NEW CARD... %>
@@ -155,7 +159,7 @@ end %>
 			  	<% end %>
 				
 				<%# UI messages from Ajax responses... %>
-				<div id="ajax_form_message" class="margin-top-10 padding-10 buy-border" style="display:none;">
+				<div id="ajax_form_message_card" class="margin-top-10 padding-10 buy-border" style="display:none;">
 				</div>
 			</div>
 

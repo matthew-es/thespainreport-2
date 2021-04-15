@@ -91,6 +91,23 @@ class PaymentsController < ApplicationController
 		payment_intent = Stripe::PaymentIntent.retrieve(@payment.external_payment_id)
 		@payment_intent_status = payment_intent["status"]
 		
+		if @payment_intent_status == "succeeded"
+			@payment.update(
+				status: "paid",
+				payment_method: payment_intent.payment_method
+				)
+				
+			if @payment.id == @payment.account.payments.last.id
+				@payment.account.update(
+					stripe_payment_method: payment_intent.payment_method
+					)
+			end
+		else
+			@payment.update(
+				status: "problem"		
+				)
+		end
+		
 		@user = User.find_by(account_id: @payment.account.id, account_role: 1)
 		set_language_frame(@user.sitelanguage, @user.frame.id)
 		
@@ -99,8 +116,7 @@ class PaymentsController < ApplicationController
 		elsif @payment.nil?
 			redirect_to edit_user_path(current_user)	
 		elsif current_user.email == @user.email || current_user.status == 1
-			payment_intent = Stripe::PaymentIntent.retrieve(@payment.external_payment_id)
-			payment_method = Stripe::PaymentMethod.retrieve(@payment.payment_method)
+			payment_method = Stripe::PaymentMethod.retrieve(payment_intent.payment_method)
 			
 			puts payment_method
 			puts payment_method["id"]
@@ -424,6 +440,7 @@ class PaymentsController < ApplicationController
 					puts "Needs a credit card..."
 				when "succeeded"
 					puts "Payment succeeded..."
+					@payment.update(status: "paid")
 					Patrons::CreateInvoice.process(@payment)
 			end
 			
