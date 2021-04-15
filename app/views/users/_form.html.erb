@@ -749,8 +749,8 @@
 				<td class="right"><%= number_to_currency((p.total_amount.to_f/100.to_f), unit: "€") %></td>
 				<td class="left">
 					<% case p.status when "paid" %><span class="label font-main-tiny invoice-payment"><%= payments_status_paid %></span>
-					<% when "problem" %><span class="label font-main-tiny invoice-refund"><%= payments_status_problem %></span>
 					<% when "refund" %><span class="label font-main-tiny invoice-refund"><%= payments_status_refund %></span>
+					<% when "problem" %><span class="label font-main-tiny invoice-refund"><%= payments_status_problem %></span>
 					<% end %>
 				</td>
 			</tr>

@@ -17,7 +17,26 @@
 	from_title = "From"
 	from_id_title = "Tax ID"
 	
+	for_title = "For"
+	for_id_title = "Customer Tax ID"
 	
+	email = "Email"
+	account = "Account"
+	concept = "Concept"
+	subscription = "Subscription"
+	
+	vat_rate = "VAT"
+	vat_amount = "VAT"
+	total_amount = "Total"
+	
+	payment_number = "Payment"
+	payment_reference = "Reference"
+	payment_status = "Status"
+	payment_status_paid = "Paid"
+	payment_status_refund = "Refunded"
+	payment_status_problem = "Problem"
+	
+	thanks_support = "Thanks! Your support really does make this independent journalism possible."
 when 2 
 	page_title = "Factura: "
 	h1_title = "Factura"
@@ -36,6 +55,28 @@ when 2
 	
 	from_title = "De"
 	from_id_title = "NIF"
+	
+	for_title = "Para"
+	for_id_title = "NIF cliente"
+	
+	email = "Correo"
+	account = "Cuenta"
+	concept = "Concepto"
+	subscription = "Suscripción"
+	
+	vat_rate = "IVA"
+	vat_amount = "IVA"
+	total_amount = "Total"
+	
+	payment_number = "Pago"
+	payment_reference = "Referencia"
+	payment_status = "Estado"
+	payment_status_paid = "Pagado"
+	payment_status_refund = "Abonado"
+	payment_status_problem = "Problema"
+	
+	thanks_support = "¡Gracias! Su apoyo hace que este periodismo independiente sea posible."
+
 end %>
 
 
@@ -106,52 +147,31 @@ end %>
 
 <hr />
 
-
 <%# FOR... %>
-
 <% if @invoice.invoice_type == "full" %>
-<div class="margin-bottom-5">
-	<div class="float-left font-bold">
-		<% case @language when 1 %>To:
-		<% when 2 %>Para:
-		<% end %>
+	<div class="margin-bottom-5">
+		<div class="float-left font-bold"><%= for_title %>: </div>
+		<div class="float-left margin-left-5">
+				<%= @invoice.invoice_customer_name %><br />
+				<%= @invoice.invoice_customer_address %>
+		</div>
+		<div class="clear"></div>
 	</div>
-	<div class="float-left margin-left-5">
-			<%= @invoice.invoice_customer_name %><br />
-			<%= @invoice.invoice_customer_address %>
+	<div class="margin-bottom-5">
+		<div class="float-left font-bold"><%= for_id_title %>: </div>
+		<div class="float-left margin-left-5"><%= @invoice.invoice_customer_tax_id %></div>
+		<div class="clear"></div>
 	</div>
-	<div class="clear"></div>
-</div>
-<div class="margin-bottom-5">
-	<div class="float-left font-bold">
-		<% case @language when 1 %>Custopmer tax ID:
-		<% when 2 %>NIF del cliente:
-		<% end %>
-	</div>
-	<div class="float-left margin-left-5"><%= @invoice.invoice_customer_tax_id %></div>
-	<div class="clear"></div>
-</div>
 <% else end %>
 
 <div class="margin-bottom-5">
-	<div class="float-left font-bold">
-		<% case @language when 1 %>Email:
-		<% when 2 %>Correo electrónico:
-		<% end %>
-	</div>
-	<div class="float-left margin-left-5">
-		<% @invoice.account.users.bosses.each do |u| %>
-            <%= u.email %>
-          <% end %>
-		</div>
+	<div class="float-left font-bold"><%= email %>:</div>
+	<div class="float-left margin-left-5"><%= @invoice.account.user.email %></div>
 	<div class="clear"></div>
 </div>
+
 <div class="margin-bottom-5">
-	<div class="float-left font-bold">
-		<% case @language when 1 %>Account ID:
-		<% when 2 %>Nº de cuenta:
-		<% end %>
-	</div>
+	<div class="float-left font-bold"><%= account %>:</div>
 	<div class="float-left margin-left-5"><%= @invoice.account_id %></div>
 	<div class="clear"></div>
 </div>
@@ -159,63 +179,41 @@ end %>
 <hr />
 
 <div class="margin-bottom-5">
-	<strong>
-		<% case @language when 1 %>Concept:
-		<% when 2 %>Concepto:
-		<% end %>
-	</strong>
-	<%= @invoice.invoice_concept %>
+	<div class="float-left font-bold"><%= concept %>:</div>
+	<div class="float-left margin-left-5"><%= @invoice.invoice_concept %></div>
+	<div class="clear"></div>
 </div>
 
 <div class="margin-bottom-5">
-	<strong>
-		<% case @language when 1 %>Subscription ID:
-		<% when 2 %>Nº de suscripción:
-		<% end %>
-	</strong>
-		<%= @invoice.subscription_id %>
+	<div class="float-left font-bold"><%= subscription %>:</div>
+	<div class="float-left margin-left-5"><%= @invoice.subscription_id %></div>
+	<div class="clear"></div>
 </div>
 
 <% if @invoice.invoice_type == "full" %>
 	<div class="margin-bottom-5">
-		<div class="float-left font-bold">
-			<% case @language when 1 %>Base:
-			<% when 2 %>Base:
-			<% end %>
-		</div>
+		<div class="float-left font-bold">Base:</div>
 		<div class="float-left margin-left-5"><%= number_to_currency((@invoice.plan_amount.to_f/100.to_f), unit: "€") %></div>
 		<div class="clear"></div>
 	</div>
 <% else end %>
 
 <div class="margin-bottom-5">
-	<div class="float-left font-bold">
-		<% case @language when 1 %>VAT:
-		<% when 2 %>IVA:
-		<% end %>
-	</div>
+	<div class="float-left font-bold"><%= vat_rate %>:</div>
 	<div class="float-left margin-left-5"><%= number_to_percentage((@invoice.tax_percent.to_f*100), precision: 1) %></div>
 	<div class="clear"></div>
 </div>
 
 <% if @invoice.invoice_type == "full" %>
 	<div class="margin-bottom-5">
-		<div class="float-left font-bold">
-			<% case @language when 1 %>VAT:
-			<% when 2 %>IVA:
-			<% end %>
-		</div>
+		<div class="float-left font-bold"><%= vat_amount %>:</div>
 		<div class="float-left margin-left-5"><%= number_to_currency((@invoice.tax_amount.to_f/100.to_f), unit: "€") %></div>
 		<div class="clear"></div>
 	</div>
 <% else end %>
 
 <div class="margin-bottom-5">
-	<div class="float-left font-bold">
-		<% case @language when 1 %>Total:
-		<% when 2 %>Total:
-		<% end %>
-	</div>
+	<div class="float-left font-bold"><%= total_amount %>:</div>
 	<div class="float-left margin-left-5"><%= number_to_currency((@invoice.total_amount.to_f/100.to_f), unit: "€") %></div>
 	<div class="clear"></div>
 </div>
@@ -223,53 +221,34 @@ end %>
 <hr />
 
 <div class="margin-bottom-5">
-	<div class="float-left font-bold">
-		<% case @language when 1 %>Payment Nº:
-		<% when 2 %>Nº del pago:
-		<% end %>
-	</div>
+	<div class="float-left font-bold"><%= payment_number %>:</div>
 	<div class="float-left margin-left-5">
-		<%= @invoice.payment.id unless @invoice.payment.nil? %>
+		<%= link_to @invoice.payment.id, fix_problem_payment_url(@invoice.payment.external_payment_id) unless @invoice.payment.nil? %>
 	</div>
 	<div class="clear"></div>
 </div>
 <div class="margin-bottom-5">
-	<div class="float-left font-bold">
-		<% case @language when 1 %>Payment reference:
-		<% when 2 %>Referencia del pago:
-		<% end %>
-	</div>
+	<div class="float-left font-bold"><%= payment_reference %>:</div>
 	<div class="float-left margin-left-5">
 		<%= @invoice.payment.external_payment_id unless @invoice.payment.nil? %>
 	</div>
 	<div class="clear"></div>
 </div>
 <div class="margin-bottom-5">
-	<div class="float-left font-bold">
-		<% case @language when 1 %>Payment status:
-		<% when 2 %>Estado del pago:
-		<% end %>
-	</div>
+	<div class="float-left font-bold"><%= payment_status %>:</div>
 	<div class="float-left margin-left-5">
-		<%= @invoice.payment.status unless @invoice.payment.nil? %>
+		<% unless @invoice.payment.nil? %>
+			<% case @invoice.payment.status when "paid" %><span class="label font-main-tiny invoice-payment"><%= payment_status_paid %></span>
+			<% when "refund" %><span class="label font-main-tiny invoice-refund"><%= payment_status_refund %></span>
+			<% when "problem" %><span class="label font-main-tiny invoice-refund"><%= payment_status_problem %></span>
+			<% end %>
+		<% end %>
 	</div>
 	<div class="clear"></div>
 </div>
 
 <hr />
 
-<div class="margin-bottom-10">
-	<div class="float-left font-bold">
-		<% case @language when 1 %>Thanks!
-		<% when 2 %>¡Gracias!
-		<% end %>
-	</div>
-	<div class="float-left margin-left-5">
-		<% case @language when 1 %>Your support really does make independent journalism possible.
-		<% when 2 %>Su apoyo hace que este periodismo independiente sea posible.
-		<% end %>
-	</div>
-	<div class="clear"></div>
-</div>
+<div class="margin-bottom-10"><%= thanks_support %></div>
 
 </div>

@@ -88,24 +88,27 @@ class PaymentsController < ApplicationController
 	def fix_problem
 		# And now you need the actual page bit...
 		@payment = Payment.find_by(external_payment_id: params[:id])
+		payment_intent = Stripe::PaymentIntent.retrieve(@payment.external_payment_id)
+		@payment_intent_status = payment_intent["status"]
+		
+		@user = User.find_by(account_id: @payment.account.id, account_role: 1)
+		set_language_frame(@user.sitelanguage, @user.frame.id)
 		
 		if current_user.nil?
-			redirect_to root_url
+			
 		elsif @payment.nil?
 			redirect_to edit_user_path(current_user)	
+		elsif current_user.email != @user.email
+			redirect_to edit_user_path(current_user)
 		else
 			payment_intent = Stripe::PaymentIntent.retrieve(@payment.external_payment_id)
+			payment_method = Stripe::PaymentMethod.retrieve(@payment.payment_method)
 			
-			account = Account.find(@payment.account_id)
-				
-			@user = User.find_by(account_id: account.id, account_role: 1)
-			
-			set_language_frame(current_user.sitelanguage, current_user.frame.id)
-			payment_method = Stripe::PaymentMethod.retrieve(account.stripe_payment_method)
+			puts payment_method
+			puts payment_method["id"]
 			
 			@client_secret = payment_intent["client_secret"]
-			@payment_method = account.stripe_payment_method
-			@payment_intent_status = payment_intent["status"]
+			@payment_method = payment_method["id"]
 			
 			@pm_brand = payment_method["card"]["brand"]
 			@pm_month = payment_method["card"]["exp_month"]

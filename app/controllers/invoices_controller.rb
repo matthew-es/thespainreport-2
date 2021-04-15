@@ -49,9 +49,9 @@ class InvoicesController < ApplicationController
 		
 		elsif current_user.status == 1
 		
-		elsif @invoice.account.user_id != current_user.id
+		elsif @invoice.account.id != current_user.account.id
 			redirect_to edit_user_path(current_user)
-		elsif @invoice.account.user_id == current_user.id
+		elsif @invoice.account.id == current_user.account.id
 			puts @invoice.account.user_id
 		else
 			redirect_to root_url
