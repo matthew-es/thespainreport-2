@@ -90,7 +90,7 @@ class PaymentsController < ApplicationController
 		@payment = Payment.find_by(external_payment_id: params[:id])
 		
 		if current_user.nil?
-			
+			redirect_to root_url
 		elsif @payment.nil?
 			redirect_to edit_user_path(current_user)	
 		else
@@ -104,6 +104,9 @@ class PaymentsController < ApplicationController
 			payment_method = Stripe::PaymentMethod.retrieve(account.stripe_payment_method)
 			
 			@client_secret = payment_intent["client_secret"]
+			@payment_method = account.stripe_payment_method
+			@payment_intent_status = payment_intent["status"]
+			
 			@pm_brand = payment_method["card"]["brand"]
 			@pm_month = payment_method["card"]["exp_month"]
 			@pm_year = payment_method["card"]["exp_year"]

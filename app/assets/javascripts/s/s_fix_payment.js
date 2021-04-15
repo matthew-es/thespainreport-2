@@ -1,27 +1,61 @@
-// Get setup intent for card...
+var style = {
+	base: {
+		color: '#32325d',
+		fontFamily: 'Georgia',
+		fontSize: '16px',
+		'::placeholder': {
+			color: '#aab7c4'
+		}
+	},
+	invalid: {
+		color: '#fa755a',
+		iconColor: '#fa755a'
+	}
+};
 
-function getSetup() {
-    document.getElementById("customer_email").onfocus = null;
-    document.getElementById("customer_email").onmouseover = null;
-    document.getElementById("card-element").onmouseover = null;
-    
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-         var details = JSON.parse(this.responseText);
-         document.getElementById("card-button").setAttribute("data-secret", details["secret"]);
-         document.getElementById("stripe_setup_intent_for_server").value = details["setup_intent"];
-         document.getElementById("stripe_payment_intent_for_server").value = document.getElementById("payment_to_fix").getAttribute("data-payment");
-         document.getElementById("residence_country_code_for_server").value = document.getElementById("payment_to_fix").getAttribute("data-country");
+// Create an instance of the card Element.
+var card = elements.create('card', {
+	hidePostalCode: true,
+	style: style
+});
+
+// Add an instance of the card Element into the `card-element` <div>.
+card.mount('#card-element');
+
+// Handle real-time validation errors from the card Element.
+card.addEventListener('change', function(event) {
+	var displayError = document.getElementById('card-errors');
+	if (event.error) {
+		displayError.textContent = event.error.message;
+	} else {
+		displayError.textContent = '';
+	}
+});
+
+
+var payment_intent_secret = document.getElementById("payment_intent_secret").dataset.secret;
+var payment_method = document.getElementById("payment_method").dataset.secret;
+console.log(payment_intent_secret);
+console.log(payment_method);
+
+
+function fixWithClick(ev) {
+      console.log("Inside fixWithClick...")
+      stripe.confirmCardPayment(payment_intent_secret, {payment_method: payment_method})
+      .then(function(result) {
+        // Handle result.error or result.paymentIntent
+        console.log(result)
+      });
+};
+
+function fixWithCard(ev) {
+      stripe.confirmCardPayment(payment_intent_secret, {
+        payment_method: {
+          card: card
         }
-  };
-  xhttp.open("GET", "/stripe_get_payment_intent", true);
-  xhttp.send();
-}
-
-// Handle form submission.
-var confirmButton = document.getElementById('confirm-button');
-stripe.handleCardAction(confirmButton.dataset.secret).then(function(result) {
-    // Handle result.error or result.paymentIntent
-    console.log(result)
-  });
+      })
+      .then(function(result) {
+        // Handle result.error or result.paymentIntent
+        console.log(result)
+      });
+};

@@ -8,11 +8,15 @@
 			<% if current_user.nil? %>
 			
 			<% else %>
-				<% if @payment.external_payment_status == "succeeded" %>
+				<% if @payment_intent_status == "succeeded" %>
+				
 					<p>Payment has succeeded, well done, thank you.</p>
 					<p><%= @payment.created_at %></p>
 					<p><%= @payment.total_amount %></p>
+				
 				<% else %>
+				
+				
 				
 				<div id ="customer_email" name="customer_email" type="text" data-email="<%= current_user.email %>">
 					<% case @language when 1 %>Hi, 
@@ -39,21 +43,23 @@
 						</li>
 						<li><%= @client_secret %></li>
 						<li><%= @payment.external_payment_status %></li>
+						<li><%= @payment_intent_status %></li>
 					</p>
 				</div>
-				<% end %>
 				
-			<% end %>
 
-			<% if  @payment.external_payment_status == "requires_action" %>
-				<%# PAYMENT CONFIRMATION BUTTON IF REQUIRES ACTION... %>
+			<div class="" id="payment_intent_secret" name="payment_intent_secret" data-secret="<%= @client_secret %>"><%= @client_secret %></div>
+			<div class="" id="payment_method" name="payment_method" data-secret="<%= @payment_method %>"><%= @payment_method %></div>
+
+				<%# FIX WITH EXISTING CARD... %>
+				FIX WITH EXISTING CARD ENDING IN **** <%= @pm_last4 %>
 				<div class="font-payment margin-top-10 align-centre">
-					<button id="confirm-button" class="buybutton font-main-normal" data-secret="<%= @client_secret %>">Confirm <%= @frame.money_word_singular %> 1</button>
+
+					<button id="fix-with-click-button" name="fix-with-click-button" class="buybutton font-main-normal" onclick="fixWithClick()">Confirm <%= @frame.money_word_singular %> RA</button>
 				</div>
-			<% end %>
-			
-			<% if @payment.external_payment_status == "requires_payment_method" %>
-				<%# If Stripe payment method, display that; otherwise, display Stripe new credit card form... %>
+
+
+				<%# FIX WITH NEW CARD... %>
 				<div class="margin-top-30">
 					<div class="font-bold">
 						Please enter your credit card details here:
@@ -61,7 +67,7 @@
 				</div>
 				
 				<div id="stripe_container" class="margin-top-10">
-						<div id="card-element" onmouseover="getSetup()">
+						<div id="card-element">
 						<!-- A Stripe Element will be inserted here. -->
 						</div>
 						<div id="card-errors" role="alert"></div>
@@ -69,11 +75,9 @@
 				
 				<%# PAYMENT BUTTON %>
 				<div id="payment_to_fix" class="font-payment margin-top-10 align-centre" data-payment="<%= @payment.external_payment_id %>" data-country="<%= @payment.account.residence_country %>">
-					<button id="card-button" class="buybutton font-main-normal" data-secret="<%= @client_secret %>">Confirm <%= @frame.money_word_singular %></button>
+					<button id="fix-with-card-button" name="fix-with-card-button" class="buybutton font-main-normal" onclick="fixWithCard()">Confirm <%= @frame.money_word_singular %> RPM</button>
 				</div>
-				
-		
-			<% end %>
+
 			
 			<%# UI messages from Rails... %>
 			<% flash.each do |key, value| %>
@@ -83,6 +87,11 @@
 			<%# UI messages from Ajax responses... %>
 			<div id="ajax_form_message" class="margin-top-10 padding-10 buy-border" style="display:none;">
 			</div>
+			
+			
+			<% end %>
+				
+			<% end %>
 			
 		</div>
 	</div>
