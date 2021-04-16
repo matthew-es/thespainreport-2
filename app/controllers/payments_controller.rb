@@ -91,35 +91,28 @@ class PaymentsController < ApplicationController
 		payment_intent = Stripe::PaymentIntent.retrieve(@payment.external_payment_id)
 		@payment_intent_status = payment_intent["status"]
 		
+		@user = User.find_by(account_id: @payment.account.id, account_role: 1)
+		set_language_frame(@user.sitelanguage, @user.frame.id)
+		
 		if @payment_intent_status == "succeeded"
 			@payment.update(
 				status: "paid",
 				payment_method: payment_intent.payment_method
 				)
-				
-			if @payment.id == @payment.account.payments.last.id
-				@payment.account.update(
-					stripe_payment_method: payment_intent.payment_method
-					)
-			end
 		else
-			@payment.update(
-				status: "problem"		
-				)
+			@payment.update(status: "problem")
 		end
-		
-		@user = User.find_by(account_id: @payment.account.id, account_role: 1)
-		set_language_frame(@user.sitelanguage, @user.frame.id)
 		
 		if current_user.nil?
 			
 		elsif @payment.nil?
 			redirect_to edit_user_path(current_user)	
 		elsif current_user.email == @user.email || current_user.status == 1
-			payment_method = Stripe::PaymentMethod.retrieve(payment_intent.payment_method)
-			
-			puts payment_method
-			puts payment_method["id"]
+			if ["succeeded", "requires_action"].include?(payment_intent.status)
+				payment_method = Stripe::PaymentMethod.retrieve(payment_intent.payment_method)
+			else
+				payment_method = Stripe::PaymentMethod.retrieve(payment_intent.charges.data[0].payment_method)
+			end
 			
 			@client_secret = payment_intent["client_secret"]
 			@payment_method = payment_method["id"]
@@ -128,10 +121,23 @@ class PaymentsController < ApplicationController
 			@pm_month = payment_method["card"]["exp_month"]
 			@pm_year = payment_method["card"]["exp_year"]
 			@pm_last4 = payment_method["card"]["last4"]
+			
+			if @payment_intent_status == "succeeded"
+				if @payment.id == @payment.account.payments.last.id
+					@payment.account.update(stripe_payment_method: @payment_method)
+					Patrons::SuccessfulPayment.process(@payment)
+				end
+			else
+				@payment.update(
+					status: "problem"		
+					)
+			end
 		elsif current_user.email != @user.email
 			redirect_to edit_user_path(current_user)
-		else end
+		else
+		end
 	end
+	
 	
 	def fix_problem_confirm_with_card
 		payment_intent = params[:stripe_payment_intent_for_server]
@@ -363,86 +369,56 @@ class PaymentsController < ApplicationController
 		end
 		
 		begin
-			
-		if params[:subscription_for_server].empty?
-			puts "Creating new subscription now..."
-			
-			@subscription = Subscription.create(
-				account_id: @account_id,
-				ip_address: @account.ip_address,
-				ip_country: @account.ip_country,
-				residence_country: @account.residence_country,
-				card_country: @account.stripe_payment_method_card_country,
-				vat_country: @account.vat_country,
-				plan_amount: @plan_amount,
-				vat_rate: @vat_rate,
-				vat_amount: @vat_amount,
-				total_amount: @total_amount,
-				article_from_server: params[:article_for_server],
-				frame_id: params[:frame_for_server],
-				frame_link_slug: params[:frame_link_slug_for_server],
-				frame_emotional_quest_action: params[:frame_emotional_quest_action_for_server],
-				frame_money_word_singular: params[:frame_money_word_singular_for_server],
-				frame_button_cta: params[:frame_button_cta_for_server],
-				last_payment_date: @time,
-				next_payment_date: @time_next,
-				is_active: true
-				)
-		elsif params[:subscription_for_server]
-			puts "Updating subscription now..." + params[:subscription_for_server]
-
-			@subscription = Subscription.find_by(id: params[:subscription_for_server])
-			puts @subscription
-			puts @subscription.id
-			puts @subscription.plan_amount
-			puts @plan_amount
-			
-			@subscription.update(
-				residence_country: @residence_country,
-				ip_address: @ip_address,
-				ip_country: @ip_country,
-				card_country: @card_country,
-				plan_amount: @plan_amount,
-				vat_country: @vat_country,
-				vat_rate: @vat_rate,
-				vat_amount: @vat_amount,
-				total_amount: @total_amount,
-				article_from_server: params[:article_for_server],
-				frame_id: params[:frame_for_server],
-				frame_link_slug: params[:frame_link_slug_for_server],
-				frame_emotional_quest_action: params[:frame_emotional_quest_action_for_server],
-				frame_money_word_singular: params[:frame_money_word_singular_for_server],
-				frame_button_cta: params[:frame_button_cta_for_server],
-				last_payment_date: @time,
-				next_payment_date: @time_next,
-				is_active: true
-				)
-		else
-		end
-		
-		@payment.update(
-			subscription_id: @subscription.id
-			)
-			
-			@stripe_payment = Stripe::PaymentIntent.confirm(@payment.external_payment_id, {off_session: true})
-			case @stripe_payment.status
-				when "requires_action"
-					PaymentError.create!(
-						payment_id: @payment.id,
-						payment_error_object: @stripe_payment.object,
-						payment_error_status: @stripe_payment.status,
-						payment_error_code: @stripe_payment.last_payment_error.decline_code,
-						payment_error_message: "SCA confirmation required for this payment",
-						payment_error_source: "server-action-stripe-confirm-payment-intent"
-						)
-					render json: {message: "Your bank wants you to re-confirm this specific payment. Please click \"re-confirm\" ", secret: @stripe_payment.client_secret}, status: 499
-				when "requires_payment_method"
-					puts "Needs a credit card..."
-				when "succeeded"
-					puts "Payment succeeded..."
-					@payment.update(status: "paid")
-					Patrons::CreateInvoice.process(@payment)
+			if params[:subscription_for_server].empty?
+				@subscription = Subscription.create(
+					account_id: @account_id,
+					ip_address: @account.ip_address,
+					ip_country: @account.ip_country,
+					residence_country: @account.residence_country,
+					card_country: @account.stripe_payment_method_card_country,
+					vat_country: @account.vat_country,
+					plan_amount: @plan_amount,
+					vat_rate: @vat_rate,
+					vat_amount: @vat_amount,
+					total_amount: @total_amount,
+					article_from_server: params[:article_for_server],
+					frame_id: params[:frame_for_server],
+					frame_link_slug: params[:frame_link_slug_for_server],
+					frame_emotional_quest_action: params[:frame_emotional_quest_action_for_server],
+					frame_money_word_singular: params[:frame_money_word_singular_for_server],
+					frame_button_cta: params[:frame_button_cta_for_server],
+					last_payment_date: @time,
+					next_payment_date: @time_next,
+					is_active: true
+					)
+			elsif params[:subscription_for_server]
+				@subscription = Subscription.find_by(id: params[:subscription_for_server])
+				@subscription.update(
+					residence_country: @residence_country,
+					ip_address: @ip_address,
+					ip_country: @ip_country,
+					card_country: @card_country,
+					plan_amount: @plan_amount,
+					vat_country: @vat_country,
+					vat_rate: @vat_rate,
+					vat_amount: @vat_amount,
+					total_amount: @total_amount,
+					article_from_server: params[:article_for_server],
+					frame_id: params[:frame_for_server],
+					frame_link_slug: params[:frame_link_slug_for_server],
+					frame_emotional_quest_action: params[:frame_emotional_quest_action_for_server],
+					frame_money_word_singular: params[:frame_money_word_singular_for_server],
+					frame_button_cta: params[:frame_button_cta_for_server],
+					last_payment_date: @time,
+					next_payment_date: @time_next,
+					is_active: true
+					)
+			else
 			end
+			
+			@payment.update(
+				subscription_id: @subscription.id
+				)
 			
 			if @account.total_support.nil?
 				@account.total_support = 0
@@ -464,7 +440,15 @@ class PaymentsController < ApplicationController
 				subscription_id: @subscription.id,
 				level_amount: owner_level_amount
 				)
-			
+
+			@stripe_payment = Stripe::PaymentIntent.confirm(@payment.external_payment_id, {off_session: true})
+			case @stripe_payment.status
+				when "requires_action"
+				when "requires_payment_method"
+				when "succeeded"
+					Patrons::SuccessfulPayment.process(@payment)
+			end
+				
 			if @account.payments.count > 0
 				respond_to do |format|
 					session[:user_id] = @user.id
@@ -489,14 +473,15 @@ class PaymentsController < ApplicationController
 				payment_error_source: "server-action-stripe-card-error"
 				)
 			
+			Patrons::FailedPayment.process(@payment)
+			
 			respond_to do |format|
 				session[:user_id] = @user.id
-				format.json { render json: {message: "Problem with your payment. Your card has not been charged. Check your email now to fix it.", url: fix_problem_payment_path(@payment.external_payment_id)}, status: 200 and return }
+				format.json { render json: {message: "Problem with your payment. Check your email now to fix it.", url: fix_problem_payment_path(@payment.external_payment_id)}, status: 200 and return }
 			end
-
-			# render json: {message: "Problem with your payment. Your card has not been charged. Check your email now to fix it.", url: edit_user_path(@user)}, status: 400
 		rescue
 			@payment = @account.payments.last
+			
 			PaymentError.create(
 				payment_id: @payment.id,
 				payment_error_object: "None",
@@ -505,7 +490,13 @@ class PaymentsController < ApplicationController
 				payment_error_message: "Generic server error.",
 				payment_error_source: "server-action"
 				)
-			render json: {message: "A problem has ocurred. Your card has not been charged. Please reload the page and try again."}, status: 400
+			
+			Patrons::FailedPayment.process(@payment)
+			
+			respond_to do |format|
+				session[:user_id] = @user.id
+				format.json { render json: {message: "Problem with your payment. Check your email now to fix it.", url: fix_problem_payment_path(@payment.external_payment_id)}, status: 200 and return }
+			end
 		end
 	end
 	
@@ -618,6 +609,10 @@ class PaymentsController < ApplicationController
 			redirect_to root_url
 		elsif current_user.status == 1
 			@payments = Payment.all.order('created_at DESC')
+			@paid = @payments.where(status: "paid").count
+			@problem = @payments.where(status: "problem").count
+			@refund = @payments.where(status: "refund").count
+			@nostatus = @payments.where(status: [nil, ""]).count
 		else
 			redirect_to root_url
 		end

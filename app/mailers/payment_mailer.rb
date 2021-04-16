@@ -2,27 +2,45 @@ class PaymentMailer < ApplicationMailer
     helper ApplicationHelper
 	default	:from => "Matthew Bennett <matthew@thespainreport.es>"
     
-    def payment_success(account_id, account_email, language, amount)
-        @account = account_id
-        @user = account_email
-        @language = language
-        @amount = amount
+    
+    def payment_success(payment)
+        email = payment.account.user.email
+        @language = payment.account.user.sitelanguage
         
-        @subject = "Funds received 2. Thank you for your support…!"
+        @amount = payment.total_amount
+        @date = payment.created_at
+        @reference = payment.external_payment_id
+        
+        emoji = ("\u2705").force_encoding('utf-8')
+        case @language when 1
+            subject = emoji + "Monthly contribution received. You have guaranteed independent journalism"
+        when 2
+            subject = emoji + "Contribución mensual recibida. Ha garantizado el periodismo independiente"
+        end
         
         headers 'X-SES-CONFIGURATION-SET' => "Emails"
-        mail(to: @user, subject: @subject)
+        mail(to: email, subject: subject)
     end
     
-     def fix_problem(payment, user, language)
-        @language = language
-        @payment = payment
+    
+    def payment_problem(payment)
+        email = payment.account.user.email
+        @language = payment.account.user.sitelanguage
         
-        subject = "Problem with your payment fix now…!"
+        @amount = payment.total_amount
+        @date = payment.created_at
+        @reference = payment.external_payment_id
+        
+        case @language when 1 
+            subject = "⚠️ " + "Problem with your payment: click this link to fix it"
+        when 2
+            subject = "⚠️ " + "Problema con su pago: haga clic en este enlace para solucionarlo"
+        end
         
         headers 'X-SES-CONFIGURATION-SET' => "Emails"
-        mail(to: user.email, subject: subject)
+        mail(to: email, subject: subject)
     end
+    
     
     def payment_admin_message(admin_subject, admin_message)
         @subject = admin_subject

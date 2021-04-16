@@ -92,7 +92,7 @@ end %>
 <% else %>
 	<% if @payment_intent_status == "succeeded" %>
 		<div class="margin-top-10 margin-bottom-10 padding-20 success-box font-main-small">
-			<p class="font-main-small">&#9989; This payment succeeded. Thank you for supporting independent journalism.</p>
+			<p class="font-main-small"><%= log_in_not_logged_in_succeeded %></p>
 			
 			<ul>
 				<li><%= payment_date_title %>: <%= payment_date %></li>

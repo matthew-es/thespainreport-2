@@ -27,20 +27,10 @@ module Patrons
             )
 
         if payment.external_payment_status == "succeeded"
-            Patrons::CreateInvoice.process(payment)
-            
-            payment.update(status: "paid")
-            subscription.update(is_active: true)
-			subscription.users.each do |u|
-				u.update(
-					status: 2,
-					can_read_date: DateTime.now + 1.month
-					)
-			end
+        	Patrons::SuccessfulPayment.process(payment)
         else
-        	payment.update(status: "problem")
-        	subscription.update(is_active: false)
-        	PaymentMailer.fix_problem(payment, payment.account.user, payment.account.user.sitelanguage).deliver_now
+        	sleep 1
+        	Patrons::FailedPayment.process(payment)
         end
 
         end

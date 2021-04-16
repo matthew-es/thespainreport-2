@@ -54,7 +54,7 @@ module Webhooks
                         "More facts, reality, truth and context about how Spain is really changing." + "<br /><br />" + 
                         "<a href=\"https://www.thespainreport.com/#{account_id}\">Click this link to confirm this #{payment_money_word_singular}</a>"
                         ).html_safe
-                    UserMailer.user_alert(user, user_subject, user_message).deliver_now
+                    # UserMailer.user_alert(user, user_subject, user_message).deliver_now
                     
                     admin_subject = "Problem with payment of €#{w_payment_amount} from #{account_email}"
                     admin_message = (
@@ -70,7 +70,7 @@ module Webhooks
                          "Code: #{w_payment_decline_code}" + "<br />" +
                          "Problem: #{w_payment_error_message}"
                         ).html_safe
-                    UserMailer.admin_alert(admin_subject, admin_message).deliver_now
+                    # UserMailer.admin_alert(admin_subject, admin_message).deliver_now
                     
                 when 'payment_intent.succeeded'
                     stripe_event_id = event.data["id"]
@@ -80,20 +80,10 @@ module Webhooks
                     stripe_customer_id = event.data["data"]["object"]["customer"]
                     amount = event["data"]["data"]["object"]["amount"] ? event["data"]["data"]["object"]["amount"]/100.to_f : "0"
                     
-                    puts stripe_event_id
-                    puts stripe_event_type
-                    puts stripe_object_id
-                    puts stripe_object_status
-                    puts stripe_customer_id
-                    puts amount
-                    
                     payment = Payment.find_by(external_payment_id: stripe_object_id)
-                    puts "TSR PAYMENT ID IS: " + payment.id.to_s
-                    
                     payment.update(
                         external_payment_status: stripe_object_status
                         )
-                    puts "TSR NEW PAYMENT STATUS IS: " + payment.external_payment_status
                     
                     account = Account.find_by(stripe_customer_id: stripe_customer_id)
                     account_id = account.id
@@ -113,7 +103,7 @@ module Webhooks
                         ).html_safe
 
                     
-                    PaymentMailer.payment_success(account_id, account_email, language, amount).deliver_now
+                    PaymentMailer.payment_success(payment).deliver_now
                     PaymentMailer.payment_admin_message(admin_subject, admin_message).deliver_now
             end
         end

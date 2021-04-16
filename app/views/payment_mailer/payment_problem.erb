@@ -1,9 +1,9 @@
 <% case @language when 1
     hello = "Hi"
     
-    payment_one = "Your monthly payment succeeded..! Thank you very much."
-    payment_two = "You really do make this independent journalism possible."
-    payment_three = "You are a hero of truth and democracy."
+    payment_one = "Your bank wants you to confirm this payment:"
+    payment_fix_problem_now = "Click on this link now to confirm the payment"
+    payment_three = "It just takes a few seconds and your bank does it to give your more security with online payments."
     
     payment_amount_label = "Amount"
     payment_amount = (number_to_currency((@amount/100.to_f), unit: "€")).to_s
@@ -11,15 +11,15 @@
     payment_date = @date.strftime("%d/%m/%Y, at %I:%M %P")
     payment_reference_label = "Reference"
     payment_status_label = "Status"
-    payment_status = "Paid"
+    payment_status = "⚠️ " + "Problem"
     
     bye = "Kindest regards"
 when 2
     hello = "Hola"
     
-    payment_one = "¡Su pago mensual se ha realizado con éxito..! Muchas gracias."
-    payment_two = "Así, hace que este periodismo independiente sea posible."
-    payment_three = "Es Ud. un héroe de la verdad y de la democracia."
+    payment_one = "Su banco quiere que confirme el siguiente pago:"
+    payment_fix_problem_now = "Haga clic en este enlace para confirmar este pago"
+    payment_three = "Sólo se tarda unos segundos y su banco lo hace para ofrecerle más seguridad con los pagos online."
     
     payment_amount_label = "Cantidad"
     payment_amount = number_to_currency((@amount/100.to_f), unit: "", separator: ",", delimiter: ".") + " euros"
@@ -27,7 +27,7 @@ when 2
     payment_date = @date.strftime("%d/%m/%Y, a las %H:%M horas")
     payment_reference_label = "Referencia"
     payment_status_label = "Estado"
-    payment_status = "Pagado"
+    payment_status = "⚠️ " + "Problema"
     
     bye = "Saludos"
 end %>
@@ -35,7 +35,7 @@ end %>
 <%= hello %>,
 
 <p><%= payment_one %></p>
-<p><%= payment_two %></p>
+<p><%= link_to payment_fix_problem_now, fix_problem_payment_url(@reference) %></p>
 <p><%= payment_three %></p>
 <ul>
     <li><strong><%= payment_amount_label %>:</strong> <%= payment_amount %></li>

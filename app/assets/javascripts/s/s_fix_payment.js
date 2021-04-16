@@ -50,11 +50,6 @@ function fixWithClick(ev) {
 	  stripe.confirmCardPayment(payment_intent_secret, {payment_method: payment_method})
 	  .then(function(result) {
 		// Handle result.error or result.paymentIntent
-		console.log(result)
-		console.log(result["paymentIntent"])
-		console.log(result["paymentIntent"]["amount"])
-		console.log(result["paymentIntent"]["status"])
-	   
 		location.reload();
 		
 	  });
@@ -73,11 +68,6 @@ function fixWithCard(ev) {
 	  })
 	  .then(function(result) {
 		// Handle result.error or result.paymentIntent
-		console.log(result)
-		console.log(result["paymentIntent"])
-		console.log(result["paymentIntent"]["amount"])
-		console.log(result["paymentIntent"]["status"])
-	   
 		location.reload();
 	  });
 };
