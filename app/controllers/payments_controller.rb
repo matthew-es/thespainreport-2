@@ -109,6 +109,8 @@ class PaymentsController < ApplicationController
 		elsif current_user.email == @user.email || current_user.status == 1
 			if ["succeeded", "requires_action"].include?(payment_intent.status)
 				payment_method = Stripe::PaymentMethod.retrieve(payment_intent.payment_method)
+			elsif payment_intent.status == "requires_payment_method"
+				payment_method = Stripe::PaymentMethod.retrieve(@payment.account.stripe_payment_method)
 			else
 				payment_method = Stripe::PaymentMethod.retrieve(payment_intent.charges.data[0].payment_method)
 			end
