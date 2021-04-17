@@ -61,28 +61,27 @@ class PaymentsController < ApplicationController
 		active_subscriptions = Subscription.active.amount_active.payment_now
 		i = 0
 		a = 0
+		s = 0
+		p = 0
 		
 		active_subscriptions.each do |as|
 			Patrons::StripeRepeatPayment.process(as)
 			i += 1
 			a += as.total_amount
+			
+			if as.payments.last.status == "paid"
+				s += 1
+			else
+				p += 1
+			end
 		end
 		
-		admin_subject = DateTime.now.strftime("%d/%m %H:%M: ") + i.to_s + " REPEAT PAYMENTS processed for " + ActiveSupport::NumberHelper.number_to_currency((a/100.to_f), unit: "€")
+		admin_subject = DateTime.now.strftime("%d/%m %H:%M: ") + i.to_s + " REPEAT PAYMENTS processed for " + ActiveSupport::NumberHelper.number_to_currency((a/100.to_f), unit: "€") + " // " + s.to_s + " SUCCEEDED, " + p.to_s + " PROBLEMS"
 		admin_message = ""
 		PaymentMailer.payment_admin_message(admin_subject, admin_message).deliver_now
 
 		render json: { message: "All finished, all good." }, status: 200
 	end
-	
-	
-	def simulate_webhook
-		payment = Payment.find(1475)
-		account = Account.find(payment.account.id)
-		user = User.find_by(account_id: account.id, account_role: 1)
-		PaymentMailer.fix_problem(payment, user, user.sitelanguage).deliver_now
-	end
-	
 	
 	# Fix payment problems page, SCA, etc.
 	def fix_problem

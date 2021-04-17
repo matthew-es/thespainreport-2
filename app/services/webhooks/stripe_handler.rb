@@ -103,8 +103,8 @@ module Webhooks
                         ).html_safe
 
                     
-                    PaymentMailer.payment_success(payment).deliver_now
-                    PaymentMailer.payment_admin_message(admin_subject, admin_message).deliver_now
+                    # PaymentMailer.payment_success(payment).deliver_now
+                    # PaymentMailer.payment_admin_message(admin_subject, admin_message).deliver_now
             end
         end
     end

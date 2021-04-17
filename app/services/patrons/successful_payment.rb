@@ -14,7 +14,7 @@ module Patrons
 			
 		    Patrons::CreateInvoice.process(payment) unless Invoice.where(payment_id: payment.id, invoice_operation: "payment").count > 0
 			
-			PaymentMailer.payment_success(payment).deliver_now
+			PaymentMailer.payment_success(payment).deliver_now unless payment.updated_at < 2.seconds.ago(Time.now)
         end
     end
 end
