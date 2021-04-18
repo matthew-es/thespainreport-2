@@ -41,6 +41,20 @@ class PaymentMailer < ApplicationMailer
         mail(to: email, subject: subject)
     end
     
+    def subscription_reactivated(subscription)
+        email = subscription.account.user.email
+        @language = subscription.account.user.sitelanguage
+        
+        emoji = ("\u2705").force_encoding('utf-8')
+        case @language when 1 
+            subject = emoji + "Well done, you have reactivated your subscription to The Spain Report"
+        when 2
+            subject = emoji + "Enhorabuena, ha reactivado su suscripción a The Spain Report"
+        end
+        
+        headers 'X-SES-CONFIGURATION-SET' => "Emails"
+        mail(to: email, subject: subject)
+    end
     
     def payment_admin_message(admin_subject, admin_message)
         @subject = admin_subject

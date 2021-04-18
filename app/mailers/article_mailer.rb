@@ -30,17 +30,27 @@ class ArticleMailer < ApplicationMailer
 		@account_status = @user.account.account_status unless @user.account.nil?		
 		
 		@admin = @status == 1
-		@super_patron = @status == 2 && (@level > 25)
-		@patron_reader_25 = @status == 2 && (@level == 25)
-		@patron_reader_10 = @status == 2 && @level.between?(10, 24)
-		@patron_reader_5 = @status == 2 && @level.between?(5, 9)
-		@patron_reader_1 = @status == 2 && @level.between?(1, 4)
-		@patron_reader_0 = @status == 2 && (@level == 0)
-		@patron = @patron_reader_0 || @patron_reader_1 || @patron_reader_5 || @patron_reader_10 || @patron_reader_25
-		@reader_trial = @status == 3 && @can_read_date > Time.now
-		@reader_trial_over = @status == 3 && @can_read_date < Time.now
+		@super_patron = @status == 2 && (@level > 2500)
+		@patron_25 = @status == 2 && (@level == 2500)
+		@patron_10 = @status == 2 && @level.between?(1000, 2499)
+		@patron_5 = @status == 2 && @level.between?(500, 999)
+		@patron_1 = @status == 2 && @level.between?(100, 499)
+		@patron_paused = (@user.account.subscriptions.last.is_active == false) unless @user.account.subscriptions.blank?
 		
-		@can_read_level_1 = @admin || @reader_trial|| @super_patron || @patron_reader_25 || @patron_reader_10 || @patron_reader_5  || @patron_reader_1
+		@patron = @patron_1 || @patron_5 || @patron_10 || @patron_25 || @patron_paused
+		@reader_trial = (@status == 3 && @can_read_date > Time.now)
+		@reader_trial_over = @status == 3 && @can_read_date < Time.now
+		@reader = @readertrial || @reader_trial_over
+		@get_prints = @admin || @super_patron || @patron_25 || @reader_trial
+		
+		@can_read_level_1 = @admin || @reader_trial|| @super_patron || @patron_25 || @patron_10 || @patron_5  || @patron_1
+		@can_read_level_5 = @admin || @reader_trial|| @super_patron || @patron_25 || @patron_10 || @patron_5
+		@can_read_level_10 = @admin || @reader_trial|| @super_patron || @patron_25 || @patron_10
+		@can_read_level_25 = @admin || @reader_trial|| @super_patron || @patron_25
+		@cannot_read_1 = @reader_trial_over || @patron_paused || @patron_1
+		@cannot_read_2 = @reader_trial_over || @patron_paused || @patron_1 || @patron_5
+		
+		@reactivate = reactivate_subscription_url(@user.account.subscriptions.last.reactivate_token) unless @user.account.subscriptions.blank? || @user.account.subscriptions.last.reactivate_token.nil?
 		
 		headers 'X-SES-CONFIGURATION-SET' => "Emails"
 		mail(:to => "<#{@user.email}>", :subject => email_subject)

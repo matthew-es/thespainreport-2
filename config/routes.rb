@@ -2,6 +2,7 @@
 	
 	resources :subscriptions do
 		member do
+			get :reactivate
 			patch :activate
 			patch :pause
 		end

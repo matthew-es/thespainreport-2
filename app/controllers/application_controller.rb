@@ -19,7 +19,6 @@ class ApplicationController < ActionController::Base
 			@account = @user.account
 			@account_status = @account.account_status unless @user.account.nil?
 			@role = @user.account_role
-			@subscription = @user.subscription_id
 			
 			if @status == 3 && @can_read_date > Time.now
 				@cta = @frame.button_cta
@@ -41,16 +40,17 @@ class ApplicationController < ActionController::Base
 			
 			@admin = @status == 1
 			@super_patron = @status == 2 && (@level > 2500)
-			@patron_reader_25 = @status == 2 && (@level == 2500)
-			@patron_reader_10 = @status == 2 && @level.between?(1000, 2499)
-			@patron_reader_5 = @status == 2 && @level.between?(500, 999)
-			@patron_reader_1 = @status == 2 && @level.between?(100, 499)
-			@patron_reader_0 = @status == 2 && (@level == 0)
-			@patron = @patron_reader_0 || @patron_reader_1 || @patron_reader_5 || @patron_reader_10 || @patron_reader_25
+			@patron_25 = @status == 2 && (@level == 2500)
+			@patron_10 = @status == 2 && @level.between?(1000, 2499)
+			@patron_5 = @status == 2 && @level.between?(500, 999)
+			@patron_1 = @status == 2 && @level.between?(100, 499)
+			@patron_paused = (@user.account.subscriptions.last.is_active == false) unless @user.account.subscriptions.blank?
+			
+			@patron = @patron_1 || @patron_5 || @patron_10 || @patron_25 || @patron_paused
 			@reader_trial = (@status == 3 && @can_read_date > Time.now)
 			@reader_trial_over = @status == 3 && @can_read_date < Time.now
 			@reader = @readertrial || @reader_trial_over
-			@get_prints = @admin || @super_patron || @patron_reader_25 || @reader_trial
+			@get_prints = @admin || @super_patron || @patron_25 || @reader_trial
 			
 			@account_owner = @role == 1
 			@member = @role == 2
@@ -63,25 +63,17 @@ class ApplicationController < ActionController::Base
 				@accountpaying = false
 			end
 			
-			@can_read_level_1 = @admin || @reader_trial|| @super_patron || @patron_reader_25 || @patron_reader_10 || @patron_reader_5  || @patron_reader_1
-			@can_read_level_5 = @admin || @reader_trial|| @super_patron || @patron_reader_25 || @patron_reader_10 || @patron_reader_5
-			@can_read_level_10 = @admin || @reader_trial|| @super_patron || @patron_reader_25 || @patron_reader_10
-			@can_read_level_25 = @admin || @reader_trial|| @super_patron || @patron_reader_25
-			@cannot_read_1 = @reader_trial_over || @patron_reader_0|| @patron_reader_1
-			@cannot_read_2 = @reader_trial_over || @patron_reader_0|| @patron_reader_1 || @patron_reader_5
+			@can_read_level_1 = @admin || @reader_trial|| @super_patron || @patron_25 || @patron_10 || @patron_5  || @patron_1
+			@can_read_level_5 = @admin || @reader_trial|| @super_patron || @patron_25 || @patron_10 || @patron_5
+			@can_read_level_10 = @admin || @reader_trial|| @super_patron || @patron_25 || @patron_10
+			@can_read_level_25 = @admin || @reader_trial|| @super_patron || @patron_25
+			@cannot_read_1 = @reader_trial_over || @patron_paused || @patron_1
+			@cannot_read_2 = @reader_trial_over || @patron_paused || @patron_1 || @patron_5
+			
+			@reactivate = reactivate_subscription_url(@user.account.subscriptions.last.reactivate_token) unless @user.account.subscriptions.blank? || @user.account.subscriptions.last.reactivate_token.nil?
 		end
 	end
 	
-	def set_payment_method(user)
-		if	current_user.account.stripe_payment_method.present?
-			@existing_pm = Stripe::PaymentMethod.retrieve(current_user.account.stripe_payment_method)
-			@existing_pm_brand = @existing_pm.card.brand
-			@existing_pm_last4 = @existing_pm.card.last4
-			@existing_pm_month = @existing_pm.card.exp_month
-			@existing_pm_year = @existing_pm.card.exp_year
-		else 
-		end
-	end
 	
 	def set_country
 		require 'uri'
@@ -154,6 +146,8 @@ class ApplicationController < ActionController::Base
 			@frame = Frame.find(frame)
 			@frame_id = @frame.id
 		end
+		
+		puts "USER IS: " + @user.to_s
 		
 		@subscribe = root_url + @stub_value + @frame.link_slug
 		@increase = root_url + @stub_increase + @frame.link_slug

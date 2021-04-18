@@ -90,13 +90,13 @@ class FramesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def frame_params
       params.require(:frame).permit(
-        :button_cta, :button_cta_trial_over, :button_cta_increase,
+        :button_cta, :button_cta_trial_over, :button_cta_increase, :button_cta_reactivate,
         :image, :emotional_quest_action, :emotional_quest_role, :short_story, :money_word_singular, 
         :money_word_plural, :money_word_verb, :money_word_verb_phrase, :money_word_with_article, :link_slug, :social_proof,:risk_reversal, :language_id, :original_id,
         :access_patrons_only, :access_more_for_patrons,
         :email_reader_header, :email_reader_text, :email_reader_placeholder, :email_reader_button,
         :reader_45_trial_message, :reader_no_45_trial_message, 
-        :patron_0_message, :patron_1_4_message, :patron_5_9_message, :patron_10_24_message, :patron_25_message, :patron_super_message,
+        :patron_paused_message, :patron_1_4_message, :patron_5_9_message, :patron_10_24_message, :patron_25_message, :patron_super_message,
         :patron_payment_paused_message, :patron_payment_problem_message,
         :admin_message,
         :patrons_extra_videos, :patrons_extra_audios, :patrons_extra_photos, :patrons_extra_column, :patrons_extra_home

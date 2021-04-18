@@ -91,6 +91,9 @@ class PaymentsController < ApplicationController
 		@payment_intent_status = payment_intent["status"]
 		
 		@user = User.find_by(account_id: @payment.account.id, account_role: 1)
+		
+		puts @user
+		
 		set_language_frame(@user.sitelanguage, @user.frame.id)
 		
 		if @payment_intent_status == "succeeded"

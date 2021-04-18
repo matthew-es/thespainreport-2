@@ -23,6 +23,21 @@ class SubscriptionsController < ApplicationController
 		redirect_to edit_user_path(user)
 	end
 	
+	def reactivate
+		s = Subscription.find_by(reactivate_token: params[:id])
+		
+		if s.nil?
+			
+		elsif s.payments.last.status == "paid"
+			s.update(is_active: true)
+			redirect_to edit_user_path(s.account.user)
+			
+			PaymentMailer.subscription_reactivated(s).deliver_now
+		else
+			redirect_to fix_problem_payment_path(s.payments.last.external_payment_id)
+		end
+	end
+	
 	# GET /subscriptions
 	# GET /subscriptions.json
 	def index
@@ -120,7 +135,8 @@ class SubscriptionsController < ApplicationController
 			params.require(:subscription).permit(
 				:account_id, :article_id, :plan_amount, :vat_country, :vat_rate, :vat_amount, :total_amount, :frame_id, :frame_name, :frame_buttontext, 
 				:frame_slug, :card_country, :ip_country, :ip_address, :residence_country, :next_payment_date, :last_payment_date, :is_active,
-				:motivation_general_environment, :motivation_specific_brand, :article_from_server
+				:motivation_general_environment, :motivation_specific_brand, :article_from_server,
+				:reactivate_token
 				)
 		end
 end

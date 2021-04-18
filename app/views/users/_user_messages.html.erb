@@ -1,3 +1,31 @@
+<% if !@user.account.subscriptions.blank? %>
+<% 
+s = @user.account.subscriptions.last
+
+case @language when 1
+	subscriptions_amount_title = "Your subscription"
+	subscriptions_status_title = "Status"
+	subscription_amount = (number_to_currency((s.total_amount/100.to_f), unit: "€")).to_s + " / month"
+	subscriptions_active = "Active"
+	subscriptions_paused = "Paused"
+when 2
+	subscriptions_amount_title = "Su suscripción"
+	subscriptions_status_title = "Estado"
+	subscription_amount = number_to_currency((s.total_amount/100.to_f), unit: "", separator: ",", delimiter: ".") + " euros al mes"
+	subscriptions_active = "Activa"
+	subscriptions_paused = "En pause"
+end
+%>
+
+		<strong><%= subscriptions_amount_title %>:</strong> <%= subscription_amount %>
+		<br />
+		<strong><%= subscriptions_status_title %>:</strong>
+			<% if s.is_active == true %><span style="background-color: #ccffcc; color: green;"><%= subscriptions_active %></span>
+			<% elsif s.is_active == false %><span style="background-color: #ffe6e6; color: #ff0000;"><%= subscriptions_paused %></span>
+			<% else end %>
+		<br />
+<% else end %>
+
 <% case @language when 1 %>
   You are
   	<% if @admin %>the boss.
@@ -14,13 +42,16 @@
 	<% else end %>
 <% end %>
 
-<% if @admin %><%= @frame.admin_message %>. <%= link_to @frame.button_cta_increase, @subscribe %>
+<% if @admin %><%= @frame.admin_message %>. <%= link_to @frame.button_cta_increase, @subscribe %><% else end %>
+
+<% if @patron_paused %><%= @frame.patron_paused_message %>: <%= link_to @frame.button_cta_reactivate, @reactivate %>
 <% elsif @super_patron %><%= @frame.patron_super_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
-<% elsif @patron_reader_25 %><%= @frame.patron_25_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
-<% elsif @patron_reader_10 %><%= @frame.patron_10_24_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
-<% elsif @patron_reader_5 %><%= @frame.patron_5_9_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
-<% elsif @patron_reader_1 %><%= @frame.patron_1_4_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
-<% elsif @patron_reader_0 %><%= @frame.patron_0_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
-<% elsif @reader_trial %><%= @frame.reader_45_trial_message %>: <%= link_to @frame.button_cta, @subscribe %>
+<% elsif @patron_25 %><%= @frame.patron_25_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
+<% elsif @patron_10 %><%= @frame.patron_10_24_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
+<% elsif @patron_5 %><%= @frame.patron_5_9_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
+<% elsif @patron_1 %><%= @frame.patron_1_4_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
+<% else end %>
+
+<% if @reader_trial %><%= @frame.reader_45_trial_message %>: <%= link_to @frame.button_cta, @subscribe %>
 <% elsif @reader_trial_over %><%= @frame.reader_no_45_trial_message %>: <%= link_to @frame.button_cta_trial_over, @subscribe %>
 <% else end %>

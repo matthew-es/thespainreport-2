@@ -1,0 +1,25 @@
+<% case @language when 1
+    hello = "Hi"
+    
+    subscription_one = "Well done, you have reactivated your subscription to The Spain Report. Thank you for guranteeing independent journalism."
+    
+    bye = "Kindest regards"
+when 2
+    hello = "Hola"
+    
+    subscription_one = "Enhorabuena, ha reactivado su suscripción a The Spain Report. Muchas gracias por garantizar el periodismo independiente."
+    
+    bye = "Saludos"
+end %>
+
+<%= hello %>,
+
+<p><%= subscription_one %></p>
+
+<p><%= bye %>,</p>
+<p>
+    Matthew Bennett<br />
+    The Spain Report<br />
+    matthew@thespainreport.es<br />
+    (0034) 647 81 81 43
+</p>

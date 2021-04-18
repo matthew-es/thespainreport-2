@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_13_115116) do
+ActiveRecord::Schema.define(version: 2021_04_18_173223) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -169,13 +169,14 @@ ActiveRecord::Schema.define(version: 2021_04_13_115116) do
     t.string "patrons_extra_column"
     t.string "patrons_extra_home"
     t.string "admin_message"
-    t.string "patron_0_message"
+    t.string "patron_paused_message"
     t.string "reader_45_trial_message"
     t.string "reader_no_45_trial_message"
     t.string "button_cta_trial_over"
     t.string "patron_25_message"
     t.string "money_word_verb_phrase"
     t.string "money_word_with_article"
+    t.string "button_cta_reactivate"
     t.index ["language_id"], name: "index_frames_on_language_id"
     t.index ["original_id"], name: "index_frames_on_original_id"
   end
@@ -287,6 +288,7 @@ ActiveRecord::Schema.define(version: 2021_04_13_115116) do
     t.text "motivation_general_environment"
     t.text "motivation_specific_brand"
     t.boolean "is_active"
+    t.string "reactivate_token"
   end
 
   create_table "tweets", force: :cascade do |t|
