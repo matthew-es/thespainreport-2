@@ -70,6 +70,8 @@
 		subscriptions_next_title = "Next payment"
 		subscriptions_status_title = "Status"
 		subscriptions_members_title = "Miembros"
+		subscriptions_activate_fix_first = "To reactivate your subscription, please fix the problem"
+		subscriptions_activate_fix_first_link = "with your last payment"
 		
 		invoices_title = "My invoices"
 		invoices_apply_question = "Apply invoice details to existing empty invoices?"
@@ -153,6 +155,8 @@
 		subscriptions_next_title = "Siguiente pago"
 		subscriptions_status_title = "Estado"
 		subscriptions_members_title = "Miembros"
+		subscriptions_activate_fix_first = "Para reactiavar su suscripción, arregle primero el problema"
+		subscriptions_activate_fix_first_link = "con su último pago"
 		
 		invoices_title = "Mis facturas"
 		invoices_apply_question = "¿Aplicar sus datos de facturación a las facturas vacías?"
@@ -499,6 +503,14 @@
 						<%= form_with model: s, url: pause_subscription_path(s), local: true, :class => "display-inline" do |form| %>
 							<%= form.submit subscriptions_pause_button, :class => "padding-5" %>
 						<% end %>
+					<% elsif s.is_active == false && s.payments.last.status == "problem" %>
+						<span class="red-background-text padding-3"><%= subscriptions_paused %></span>
+						<%= form_with model: s, url: activate_subscription_path(s), local: true, :class => "display-inline" do |form| %>
+							<%= form.submit subscriptions_activate_button, :class => "greyedout", :disabled => true %>
+						<% end %>
+						<div class="margin-top-5">
+							<span class="red-background-text padding-3"><%= subscriptions_activate_fix_first %> <%= link_to subscriptions_activate_fix_first_link, fix_problem_payment_path(s.payments.last.external_payment_id) %></span>
+						</div>
 					<% else %>
 						<span class="red-background-text padding-3"><%= subscriptions_paused %></span>
 						<%= form_with model: s, url: activate_subscription_path(s), local: true, :class => "display-inline" do |form| %>
