@@ -20,7 +20,6 @@ class PaymentsController < ApplicationController
 		end
 		set_language_frame(1, @frame.id)
 		set_status(current_user) unless current_user.nil?
-		set_payment_method(current_user) unless current_user.nil?
 		
 		placeholders
 		how_much
@@ -34,7 +33,6 @@ class PaymentsController < ApplicationController
 		end
 		set_language_frame(2, @frame.id)
 		set_status(current_user) unless current_user.nil?
-		set_payment_method(current_user) unless current_user.nil?
 
 		placeholders
 		how_much
