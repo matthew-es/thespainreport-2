@@ -43,7 +43,7 @@
 	
 	<div class="field margin-bottom-20">
 		<div class="float-left width-15">Plan amount</div>
-		<div class="float-left"><%= form.number_field :plan_amount %></div>
+		<div class="float-left"><%= form.number_field :plan_amount, :class => "width-fixed-amounts" %></div>
 		<div class="clear"></div>
 		
 		<div class="float-left width-15">VAT</div>
@@ -51,11 +51,11 @@
 		<div class="clear"></div>
 		
 		<div class="float-left width-15">VAT amount</div>
-		<div class="float-left"><%= form.number_field :vat_amount %></div>
+		<div class="float-left"><%= form.number_field :vat_amount, :class => "width-fixed-amounts" %></div>
 		<div class="clear"></div>
 		
 		<div class="float-left width-15">Total amount</div>
-		<div class="float-left"><%= form.number_field :total_amount %></div>
+		<div class="float-left"><%= form.number_field :total_amount, :class => "width-fixed-amounts" %></div>
 		<div class="clear"></div>
 	</div>
 

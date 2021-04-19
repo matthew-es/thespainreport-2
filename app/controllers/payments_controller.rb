@@ -408,7 +408,8 @@ class PaymentsController < ApplicationController
 					frame_button_cta: params[:frame_button_cta_for_server],
 					last_payment_date: @time,
 					next_payment_date: @time,
-					is_active: true
+					is_active: true,
+					reactivate_token: SecureRandom.urlsafe_base64.to_s
 					)
 			elsif params[:subscription_for_server]
 				@subscription = Subscription.find_by(id: params[:subscription_for_server])
@@ -430,7 +431,8 @@ class PaymentsController < ApplicationController
 					frame_button_cta: params[:frame_button_cta_for_server],
 					last_payment_date: @time,
 					next_payment_date: @time,
-					is_active: true
+					is_active: true,
+					reactivate_token: SecureRandom.urlsafe_base64.to_s
 					)
 			else
 			end

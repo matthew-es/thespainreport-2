@@ -141,6 +141,7 @@ a.no-hover-bg:hover {background-color: #fff;}
 .width-5 {width: 5%;}
 .width-fixed-logo {width: 212px;}
 .width-fixed-cards {width: 310px;}
+.wdith-fixed-amounts, input.width-fixed-amounts {width: 70px;}
 .height-15 {height: 15px;}
 .margin-centre {margin: 0 auto;}
 .margin-0 {margin: 0px;}
