@@ -505,15 +505,15 @@
 						<% end %>
 					<% elsif s.is_active == false && s.payments.last.status == "problem" %>
 						<span class="red-background-text padding-3"><%= subscriptions_paused %></span>
-						<%= form_with model: s, url: activate_subscription_path(s), local: true, :class => "display-inline" do |form| %>
+						<%= form_with model: s, url: reactivate_subscription_payment_path(s.reactivate_token), local: true, :class => "display-inline" do |form| %>
 							<%= form.submit subscriptions_activate_button, :class => "greyedout", :disabled => true %>
 						<% end %>
 						<div class="margin-top-5">
-							<span class="red-background-text padding-3"><%= subscriptions_activate_fix_first %> <%= link_to subscriptions_activate_fix_first_link, fix_problem_payment_path(s.payments.last.external_payment_id) %></span>
+							<span class="red-background-text padding-3"><%= subscriptions_activate_fix_first %> <%= link_to subscriptions_activate_fix_first_link, reactivate_subscription_payment_path(s.reactivate_token) %></span>
 						</div>
 					<% else %>
 						<span class="red-background-text padding-3"><%= subscriptions_paused %></span>
-						<%= form_with model: s, url: activate_subscription_path(s), local: true, :class => "display-inline" do |form| %>
+						<%= form_with model: s, url: reactivate_subscription_payment_path(s.reactivate_token), local: true, :class => "display-inline" do |form| %>
 							<%= form.submit subscriptions_activate_button, :class => "padding-5" %>
 						<% end %>
 					<% end %>

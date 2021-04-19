@@ -1,0 +1,186 @@
+<% case @language when 1
+		fix_payment_title_success = "Payment succeeded, thank you"
+		fix_payment_title_problem = "Problem: please confirm this payment"
+		
+		log_in_not_logged_in_succeeded = ("\u2705").force_encoding('utf-8') + " This payment succeeded. You have guaranteed this independent journalism. Please log in if you wish to view the details."
+		log_in_not_logged_in_problem = "⚠️ Your bank wants you to confirm this payment. Please log in now to fix it. The process only takes a few seconds."
+		log_in_email = "Your e-mail..."
+		log_in_password = "Your password..."  
+		log_in_button = "Log in"
+		log_in_new_password_link = "/password"
+		log_in_new_password_text = "New password?"
+		
+		payment_date_title = "Date"
+		payment_date = @payment.created_at.strftime("%d/%m/%Y, at %I:%M %P")
+		payment_amount_title = "Amount"
+		payment_amount = (number_to_currency((@payment.total_amount/100.to_f), unit: "€")).to_s
+		payment_method_title = "With"
+		payment_method_ending = "ending in ****"
+		payment_method_expiring = "that expires on"
+		payment_invoice_title = "Invoice"
+		
+		hello = "Hi"
+		situation_bank = "⚠️ Your bank wants you to confirm a payment"
+		situation_please_confirm = "Please confirm that payment now"
+		
+		card_existing = "Use existing card"
+		card_existing_expires = "that expires on"
+		card_new = "Or enter new card details"
+		confirm_payment = "Confirm Payment"
+	when 2
+		fix_payment_title_success = "El pago se ha realizado con éxito, ¡gracias!"
+		fix_payment_title_problem = "Problema: confirme este pago"
+		
+		log_in_not_logged_in_succeeded = ("\u2705").force_encoding('utf-8') + " El pago se ha realizado con éxito. Ha garantizado este periodismo independiente. Acceda con su clave si quiere ver los detalles."
+		log_in_not_logged_in_problem = "⚠️ Su banco quiere que confirme este pago. Acceda ahora con su clave para solucionarlo. Sólo se tarda unos segundos"
+		log_in_email = "Su correo..."
+		log_in_password = "Su clave..."  
+		log_in_button = "Entrar"
+		log_in_new_password_link = "/clave"
+		log_in_new_password_text = "¿Clave nueva?"
+		
+		payment_date_title = "Fecha"
+		payment_date = @payment.created_at.strftime("%d/%m/%Y, a las %H:%M")
+		payment_amount_title = "Cantidad"
+		payment_amount = number_to_currency((@payment.total_amount/100.to_f), unit: "", separator: ",", delimiter: ".") + " euros"
+		payment_method_title = "Con"
+		payment_method_ending = "que termina en ****"
+		payment_method_expiring = "y que caduca en"
+		payment_invoice_title = "Factura"
+		
+		hello = "Hola"
+		situation_bank = "⚠️ Su banco quiere que confirme un pago"
+		situation_please_confirm = "Confirme ese pago ahora"
+		
+		card_existing = "Use la tarjeta actual"
+		card_existing_expires = "que caduca el"
+		card_new = "O use una tarjeta nueva"
+		confirm_payment = "Confirmar Pago"
+end %>
+
+<%= render "layouts/logo_account" %>
+
+<h1 class="font-header font-header-normal line-120 font-upper">
+	<% if @payment_intent_status == "succeeded" %><%= fix_payment_title_success %>
+	<% else %><%= fix_payment_title_problem %>
+	<% end %>
+</h1>
+
+<% if current_user.nil? %>
+    <div class="margin-top-10 margin-bottom-20 padding-20 success-box font-main-small">
+	    	<% if @payment_intent_status == "succeeded" %><%= log_in_not_logged_in_succeeded %>
+			<% else %><%= log_in_not_logged_in_problem %>
+			<% end %>
+
+    </div>
+    
+    <%= form_tag '/login' do %>
+		<div class="float-left width-100 margin-top-5">
+			<%= text_field_tag 'email', nil, class: 'padding-10 width-98', placeholder: log_in_email %>
+		</div>
+		<div class="float-left width-100 margin-top-5">
+			<%= password_field_tag 'password', nil, class: 'padding-10 width-98', placeholder: log_in_password %>
+		</div>
+		<div class="float-left margin-top-5 margin-right-5">
+			<button type="submit" class="padding-7 font-main-small"><%= log_in_button %></button>
+		</div>
+		<div class="float-left margin-top-10 margin-right-5">
+			| <a href="<%= log_in_new_password_link %>"><%= log_in_new_password_text %></a>
+		</div>
+		<div class="clear"></div>
+	<% end %>
+<% else %>
+	<% if @payment_intent_status == "succeeded" %>
+		<div class="margin-top-10 margin-bottom-10 padding-20 success-box font-main-small">
+			<p class="font-main-small"><%= log_in_not_logged_in_succeeded %></p>
+			
+			<ul>
+				<li><%= payment_date_title %>: <%= payment_date %></li>
+				<li><%= payment_amount_title %>: <%= payment_amount %></li>
+				<li><%= payment_method_title %>: <%= @pm_brand.capitalize %> <%= payment_method_ending %> <%= @pm_last4 %> <%= payment_method_expiring %> <%= @pm_month %>/<%= @pm_year %></li>
+				
+				<% @payment.invoices.each do |i| %>
+					<li><%= payment_invoice_title %>: <%= link_to i.invoice_number, i %></li>
+				<% end %>
+				
+			</ul>
+		</div>
+	<% else %>
+		<div class="margin-top-10 padding-20 buy-background buy-border font-payment">
+			<div id ="customer_email" name="customer_email" type="text" data-email="<%= current_user.email %>">
+				<%= hello %>, <strong><%= current_user.email %></strong>
+			</div>
+			
+			<div id ="customer_support" name="customer_support" class="margin-top-10">
+				<ul class="font-main-small">
+					<li><%= situation_bank %></li>
+					<li><%= payment_date_title %>: <%= payment_date %></li>
+					<li><%= payment_amount_title %>: <%= payment_amount %></li>
+					<li><%= situation_please_confirm %></li>
+				</p>
+			</div>
+	
+			<%# FIX WITH EXISTING CARD... %>
+			<div class="margin-bottom-10 padding-bottom-10 mobile-width" >
+					<div class="margin-bottom-10">
+						<strong><%= card_existing %>:</strong> <%= @pm_brand.capitalize %> **** <%= @pm_last4 %> <%= card_existing_expires %> <%= @pm_month %>/<%= @pm_year %>
+					</div>
+					
+					<div class="align-centre mobile-width">
+						<button id="fix-with-click-button" name="fix-with-click-button" class="buybutton font-main-small width-fixed-cards mobile-width" onclick="fixWithClick()"><%= confirm_payment %></button>
+					</div>
+					
+					<%# UI messages from Ajax responses... %>
+					<div id="ajax_form_message_click" class="margin-top-10 padding-10 buy-border" style="display:none;">
+					</div>
+			</div>
+
+			<%# FIX WITH NEW CARD... %>
+			<div class="padding-bottom-10">
+				<div class="font-bold">
+					<%= card_new %>:
+				</div>
+			
+				<div id="stripe_container" class="margin-top-10">
+					<div id="card-element">
+					<!-- A Stripe Element will be inserted here. -->
+					</div>
+					<div id="card-errors" role="alert"></div>
+				</div>
+				
+				<%# PAYMENT BUTTON %>
+				<div id="payment_to_fix" class="font-payment margin-top-10 align-centre" data-payment="<%= @payment.external_payment_id %>" data-country="<%= @payment.account.residence_country %>">
+					<button id="fix-with-card-button" name="fix-with-card-button" class="buybutton font-main-small width-fixed-cards mobile-width" onclick="fixWithCard()"><%= confirm_payment %></button>
+				</div>
+			
+				<%# UI messages from Rails... %>
+				<% flash.each do |key, value| %>
+			    	<div class="alert alert-<%= key %>"><p><%= value.html_safe unless value.nil? %></p></div>
+			  	<% end %>
+				
+				<%# UI messages from Ajax responses... %>
+				<div id="ajax_form_message_card" class="margin-top-10 padding-10 buy-border" style="display:none;">
+				</div>
+			</div>
+
+			<%# CARD AND STRIPE LOGOS %>
+			<div class="width-100 align-centre margin-top-5" style="border-top: 1px dashed #666666;"">
+			<div class="width-fixed-cards margin-centre">
+				<div class="float-right margin-left-7">
+					<img src="<%= asset_path('stripe-logo.png') %>" style="max-width: 150px;" />
+				</div>
+				<div class="float-right padding-top-2">
+					<img src="<%= asset_path('credit-cards.jpg') %>" style="max-width: 150px;" />
+				</div>
+				<div class="clear"></div>
+			</div>
+			</div>
+			
+			<%# HIDDEN FIELDS FOR PAYMENT STUFF FOR STRIPE %>
+			<div class="hide" id="payment_intent_secret" name="payment_intent_secret" data-secret="<%= @client_secret %>"><%= @client_secret %></div>
+			<div class="hide" id="payment_method" name="payment_method" data-secret="<%= @payment_method %>"><%= @payment_method %></div>
+		</div>
+	<% end %>
+<% end %>
+
+<%= render "layouts/footer" %>

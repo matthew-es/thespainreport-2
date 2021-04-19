@@ -23,21 +23,6 @@ class SubscriptionsController < ApplicationController
 		redirect_to edit_user_path(user)
 	end
 	
-	def reactivate
-		s = Subscription.find_by(reactivate_token: params[:id])
-		
-		if s.nil?
-			
-		elsif s.payments.last.status == "paid"
-			s.update(is_active: true)
-			redirect_to edit_user_path(s.account.user)
-			
-			PaymentMailer.subscription_reactivated(s).deliver_now
-		else
-			redirect_to fix_problem_payment_path(s.payments.last.external_payment_id)
-		end
-	end
-	
 	# GET /subscriptions
 	# GET /subscriptions.json
 	def index

@@ -8,7 +8,8 @@ module Patrons
 			customer: subscription.account.stripe_customer_id,
 			amount: subscription.total_amount,
 			currency: "eur",
-			confirm: true
+			confirm: true,
+			off_session: true
 		})
 		
 		# create the payment on TSR, with whatever the response is from Stripe

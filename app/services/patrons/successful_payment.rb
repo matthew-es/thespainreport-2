@@ -3,7 +3,7 @@ module Patrons
         def self.process(payment)
             payment.update(status: "paid")
             
-            payment.subscription.update(is_active: true)
+            payment.subscription.update(is_active: true, next_payment_date: DateTime.now + 1.month)
 			
 			payment.subscription.users.each do |u|
 				u.update(

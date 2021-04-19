@@ -70,7 +70,7 @@ class ApplicationController < ActionController::Base
 			@cannot_read_1 = @reader_trial_over || @patron_paused || @patron_1
 			@cannot_read_2 = @reader_trial_over || @patron_paused || @patron_1 || @patron_5
 			
-			@reactivate = reactivate_subscription_url(@user.account.subscriptions.last.reactivate_token) unless @user.account.subscriptions.blank? || @user.account.subscriptions.last.reactivate_token.nil?
+			@reactivate = reactivate_subscription_payment_url(@user.account.subscriptions.last.reactivate_token) unless @user.account.subscriptions.blank? || @user.account.subscriptions.last.reactivate_token.nil?
 		end
 	end
 	

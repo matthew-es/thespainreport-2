@@ -85,17 +85,14 @@ class PaymentsController < ApplicationController
 	
 	# Fix payment problems page, SCA, etc.
 	def fix_problem
-		# And now you need the actual page bit...
 		@payment = Payment.find_by(external_payment_id: params[:id])
 		payment_intent = Stripe::PaymentIntent.retrieve(@payment.external_payment_id)
 		@payment_intent_status = payment_intent["status"]
 		
 		@user = User.find_by(account_id: @payment.account.id, account_role: 1)
-		
-		puts @user
-		
 		set_language_frame(@user.sitelanguage, @user.frame.id)
 		
+		# First, check the actual status of the payment on Stripe...
 		if @payment_intent_status == "succeeded"
 			@payment.update(
 				status: "paid",
@@ -105,11 +102,13 @@ class PaymentsController < ApplicationController
 			@payment.update(status: "problem")
 		end
 		
+		# Now decide what to do to fix that payment...
 		if current_user.nil?
-			
+
 		elsif @payment.nil?
 			redirect_to edit_user_path(current_user)	
 		elsif current_user.email == @user.email || current_user.status == 1
+			#Get the actual payment method relatd to this payment, which is in differnt places in the Stripe API...
 			if ["succeeded", "requires_action"].include?(payment_intent.status)
 				payment_method = Stripe::PaymentMethod.retrieve(payment_intent.payment_method)
 			elsif payment_intent.status == "requires_payment_method"
@@ -118,14 +117,15 @@ class PaymentsController < ApplicationController
 				payment_method = Stripe::PaymentMethod.retrieve(payment_intent.charges.data[0].payment_method)
 			end
 			
+			# Set up the payment details on the form for this reader...
 			@client_secret = payment_intent["client_secret"]
 			@payment_method = payment_method["id"]
-			
 			@pm_brand = payment_method["card"]["brand"]
 			@pm_month = payment_method["card"]["exp_month"]
 			@pm_year = payment_method["card"]["exp_year"]
 			@pm_last4 = payment_method["card"]["last4"]
 			
+			# Result, update account with latest working payment method, update subscription next_payment_date...
 			if @payment_intent_status == "succeeded"
 				if @payment.id == @payment.account.payments.last.id
 					@payment.account.update(stripe_payment_method: @payment_method)
@@ -143,21 +143,49 @@ class PaymentsController < ApplicationController
 	end
 	
 	
-	def fix_problem_confirm_with_card
-		payment_intent = params[:stripe_payment_intent_for_server]
-		payment_method = params[:stripe_pm_for_server]
+	# Reactivate a subscription...
+	def reactivate_subscription
+		s = Subscription.find_by(reactivate_token: params[:id])
 		
-		payment = Payment.find_by(external_payment_id: payment_intent)
+		if s.nil?
 		
-		Stripe::PaymentMethod.attach(payment_method, {
-			customer: payment.account.stripe_customer_id
+		elsif s.payments.last.status == "problem"
+			puts "ALREADY A PROBLEM PAYMENT HERE, FIX THIS FIRST..."
 			
-		})
-		
-		confirm_payment = Stripe::PaymentIntent.confirm(payment_intent, {
-			payment_method: payment_method
-		})
+			redirect_to fix_problem_payment_path(s.payments.last.external_payment_id)
+		elsif s.payments.last.status == "paid"
+			if s.next_payment_date < DateTime.now
+				puts "LAST PAYMENT WAS LONG AGO, NEED A NEW PAYMENT FIRST..."
+				
+				payment_intent = Stripe::PaymentIntent.create({
+					payment_method: s.account.stripe_payment_method,
+					customer: s.account.stripe_customer_id,
+					amount: s.total_amount,
+					currency: "eur",
+					confirm: true
+						})
+				
+				reactivate_payment = Payment.create!(
+					account_id: s.account.id,
+					subscription_id: s.id,
+					total_amount: payment_intent.amount,
+					external_payment_id: payment_intent.id,
+					external_payment_status: payment_intent.status
+					)
+				
+				redirect_to fix_problem_payment_path(reactivate_payment.external_payment_id)
+			elsif s.next_payment_date > DateTime.now
+				puts "LAST PAYMENT WAS LESS THAN A MONTH AGO, JUST REACTIVATE..."
+				s.update(is_active: true)
+				PaymentMailer.subscription_reactivated(s).deliver_now
+				redirect_to edit_user_path(s.account.user)
+				flash[:success] = "Well done, you have reactivated your subscription! Thank you."
+			else
+			end
+		else
+		end
 	end
+
 	
 	# Basic empty Stripe setup and payment intent
 	def stripe_get_payment_intent
@@ -366,11 +394,6 @@ class PaymentsController < ApplicationController
 		@payment = Payment.where(account_id: @account_id).last
 		
 		@time = Time.zone.now
-		@frequency = "month"
-		@time_next = case @frequency
-			when "month" then @time.to_datetime >> 1
-			when "week" then @time.to_datetime + 7.days
-		end
 		
 		begin
 			if params[:subscription_for_server].empty?
@@ -392,7 +415,7 @@ class PaymentsController < ApplicationController
 					frame_money_word_singular: params[:frame_money_word_singular_for_server],
 					frame_button_cta: params[:frame_button_cta_for_server],
 					last_payment_date: @time,
-					next_payment_date: @time_next,
+					next_payment_date: @time,
 					is_active: true
 					)
 			elsif params[:subscription_for_server]
@@ -414,7 +437,7 @@ class PaymentsController < ApplicationController
 					frame_money_word_singular: params[:frame_money_word_singular_for_server],
 					frame_button_cta: params[:frame_button_cta_for_server],
 					last_payment_date: @time,
-					next_payment_date: @time_next,
+					next_payment_date: @time,
 					is_active: true
 					)
 			else

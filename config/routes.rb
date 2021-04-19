@@ -2,7 +2,6 @@
 	
 	resources :subscriptions do
 		member do
-			get :reactivate
 			patch :activate
 			patch :pause
 		end
@@ -50,6 +49,8 @@
 	resources :payments do
 		member do
 			get :fix_problem
+			get :reactivate_subscription
+			patch :reactivate_subscription
 		end
 	end
 	
