@@ -109,7 +109,7 @@ class PaymentsController < ApplicationController
 			redirect_to edit_user_path(current_user)	
 		elsif current_user.email == @user.email || current_user.status == 1
 			#Get the actual payment method relatd to this payment, which is in differnt places in the Stripe API...
-			if ["succeeded", "requires_action"].include?(payment_intent.status)
+			if ["succeeded", "requires_action", "requires_confirmation"].include?(payment_intent.status)
 				payment_method = Stripe::PaymentMethod.retrieve(payment_intent.payment_method)
 			elsif payment_intent.status == "requires_payment_method"
 				payment_method = Stripe::PaymentMethod.retrieve(@payment.account.stripe_payment_method)
@@ -150,19 +150,14 @@ class PaymentsController < ApplicationController
 		if s.nil?
 		
 		elsif s.payments.last.status == "problem"
-			puts "ALREADY A PROBLEM PAYMENT HERE, FIX THIS FIRST..."
-			
 			redirect_to fix_problem_payment_path(s.payments.last.external_payment_id)
 		elsif s.payments.last.status == "paid"
 			if s.next_payment_date < DateTime.now
-				puts "LAST PAYMENT WAS LONG AGO, NEED A NEW PAYMENT FIRST..."
-				
 				payment_intent = Stripe::PaymentIntent.create({
 					payment_method: s.account.stripe_payment_method,
 					customer: s.account.stripe_customer_id,
 					amount: s.total_amount,
-					currency: "eur",
-					confirm: true
+					currency: "eur"
 						})
 				
 				reactivate_payment = Payment.create!(
@@ -175,7 +170,6 @@ class PaymentsController < ApplicationController
 				
 				redirect_to fix_problem_payment_path(reactivate_payment.external_payment_id)
 			elsif s.next_payment_date > DateTime.now
-				puts "LAST PAYMENT WAS LESS THAN A MONTH AGO, JUST REACTIVATE..."
 				s.update(is_active: true)
 				PaymentMailer.subscription_reactivated(s).deliver_now
 				redirect_to edit_user_path(s.account.user)
