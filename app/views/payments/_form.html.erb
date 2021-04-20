@@ -62,7 +62,19 @@
 		
 		<div class="margin-bottom-5">
 			<div class="float-left width-15">Type</div>
-			<div class="float-left"><%= form.collection_select(:status, Payment::STATUSES, :to_s, lambda{|i| i.to_s.titleize}, :class => "PADDING-5") %></div>
+			<div class="float-left"><%= form.collection_select(:status, Payment::STATUSES, :to_s, lambda{|i| i.to_s.titleize}, :class => "PADDING-5", include_blank: true) %></div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">&nbsp;</div>
+			<div class="float-left">&nbsp;</div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">&nbsp;</div>
+			<div class="float-left"><%= form.submit %></div>
 			<div class="clear"></div>
 		</div>
 		

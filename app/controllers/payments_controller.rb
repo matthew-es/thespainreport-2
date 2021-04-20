@@ -699,7 +699,7 @@ class PaymentsController < ApplicationController
 	def update
 		respond_to do |format|
 			if @payment.update(payment_params)
-				format.html { redirect_to @payment, notice: 'Payment was successfully updated.' }
+				format.html { redirect_to edit_payment_path(@payment), notice: 'Payment was successfully updated.' }
 				format.json { render :show, status: :ok, location: @payment }
 			else
 				format.html { render :edit }
