@@ -10,118 +10,165 @@
 			</ul>
 		</div>
 	<% end %>
+	
+	<div class="field margin-bottom-20">
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">Number:</div>
+			<div class="float-left"><%= form.text_field :invoice_number %></div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">Date</div>
+			<div class="float-left"><%= form.number_field :invoice_day %> <%= form.number_field :invoice_month %> <%= form.number_field :invoice_year %></div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">Type</div>
+			<div class="float-left"><%= form.collection_select(:invoice_type, Invoice::TYPES, :to_s, lambda{|i| i.to_s.titleize}, :class => "PADDING-5") %></div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">Operation</div>
+			<div class="float-left"><%= form.collection_select(:invoice_operation, Invoice::OPERATIONS, :to_s, lambda{|i| i.to_s.titleize}, :class => "PADDING-5") %></div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">Status</div>
+			<div class="float-left"><%= form.select :invoice_status, options_for_select([["Paid", 1], ["Problem with payment", 2], ["Cancelled", 3]]) %></div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">xxxx</div>
+			<div class="float-left">xxxx</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	
+	<hr />
+	
+	<div class="field margin-bottom-20">
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">From name:</div>
+			<div class="float-left"><%= form.text_field :invoice_from_name %></div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">From address:</div>
+			<div class="float-left"><%= form.text_field :invoice_from_address %></div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">From tax ID:</div>
+			<div class="float-left"><%= form.text_field :invoice_from_tax_id %></div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	
+	<hr />
+	
+	<div class="field margin-bottom-20">
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">Customer name:</div>
+			<div class="float-left"><%= form.text_field :invoice_customer_name %></div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">Customer address:</div>
+			<div class="float-left"><%= form.text_field :invoice_customer_address %></div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">Customer tax ID:</div>
+			<div class="float-left"><%= form.text_field :invoice_customer_tax_id %></div>
+			<div class="clear"></div>
+		</div>
+	</div>
 
-	<div class="field">
-		<%= form.label :invoice_number %>
-		<%= form.text_field :invoice_number %>
-	</div>
+	<hr />
 	
-	<div class="field">
-		Invoice Date:
-		<%= form.number_field :invoice_day %> <%= form.number_field :invoice_month %> <%= form.number_field :invoice_year %>
-	</div>
-	
-	<div class="field">
-	Invoice type:
-	<%= form.collection_select(:invoice_type, Invoice::TYPES, :to_s, lambda{|i| i.to_s.titleize}, :class => "PADDING-5") %>
-	</div>
-	
-	<div class="field">
-	Invoice operation:
-	<%= form.collection_select(:invoice_operation, Invoice::OPERATIONS, :to_s, lambda{|i| i.to_s.titleize}, :class => "PADDING-5") %>
-	</div>
-	
-	<div class="field">
-		Invoice status: <%= form.select :invoice_status, options_for_select([["Paid", 1], ["Problem with payment", 2], ["Cancelled", 3]]) %>
+	<div class="field margin-bottom-20">
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">Invoice concept:</div>
+			<div class="float-left"><%= form.text_field :invoice_concept %></div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">Base amount:</div>
+			<div class="float-left"><%= form.number_field :plan_amount %></div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">Tax percent:</div>
+			<div class="float-left"><%= form.text_field :tax_percent %></div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">Tax amount:</div>
+			<div class="float-left"><%= form.number_field :tax_amount %></div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">Total amount:</div>
+			<div class="float-left"><%= form.number_field :total_amount %></div>
+			<div class="clear"></div>
+		</div>
 	</div>
 	
 	<hr />
 	
-	<div class="field">
-		<%= form.label :invoice_from_name %>
-		<%= form.text_field :invoice_from_name %>
-	</div>
-	
-	<div class="field">
-		<%= form.label :invoice_from_address %>
-		<%= form.text_field :invoice_from_address %>
-	</div>
-	
-	<div class="field">
-		<%= form.label :invoice_from_tax_id %>
-		<%= form.text_field :invoice_from_tax_id %>
+	<div class="field margin-bottom-20">
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">Account ID:</div>
+			<div class="float-left"><%= form.number_field :account_id %></div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">Subscription ID:</div>
+			<div class="float-left"><%= form.number_field :subscription_id %></div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">Payment ID:</div>
+			<div class="float-left"><%= form.number_field :payment_id %></div>
+			<div class="clear"></div>
+		</div>
 	</div>
 	
 	<hr />
 	
-	<div class="field">
-		<%= form.label :invoice_customer_name %>
-		<%= form.text_field :invoice_customer_name %>
-	</div>
-	
-	<div class="field">
-		<%= form.label :invoice_customer_address %>
-		<%= form.text_field :invoice_customer_address %>
-	</div>
-	
-	<div class="field">
-		<%= form.label :invoice_customer_tax_id %>
-		<%= form.text_field :invoice_customer_tax_id %>
+	<div class="field margin-bottom-20">
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">Created at:</div>
+			<div class="float-left"><%= form.text_field :created_at %></div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">&nbsp;</div>
+			<div class="float-left">&nbsp;</div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-5">
+			<div class="float-left width-15">&nbsp;</div>
+			<div class="float-left"><%= form.submit %></div>
+			<div class="clear"></div>
+		</div>
 	</div>
 
-	<hr />
-	
-	<div class="field">
-		<%= form.label :invoice_concept %>
-		<%= form.text_field :invoice_concept %>
-	</div>
-	
-	<div class="field">
-		<%= form.label :tax_percent %>
-		<%= form.text_field :tax_percent %>
-	</div>
-
-	<div class="field">
-		<%= form.label :plan_amount %>
-		<%= form.number_field :plan_amount %>
-	</div>
-
-	<div class="field">
-		<%= form.label :tax_amount %>
-		<%= form.number_field :tax_amount %>
-	</div>
-
-	<div class="field">
-		<%= form.label :total_amount %>
-		<%= form.number_field :total_amount %>
-	</div>
-	
-	<hr />
-	
-	<div class="field">
-		Account ID:
-		<%= form.number_field :account_id %>
-	</div>
-	
-	<div class="field">
-		Subscription ID:
-		<%= form.number_field :subscription_id %>
-	</div>
-	
-	<div class="field">
-		Payment ID: <%= form.number_field :payment_id %>
-	</div>
-	
-	<hr />
-	
-	<div class="field">
-		<%= form.label :created_at %>
-		<%= form.text_field :created_at %>
-	</div>
-	
-	<hr />
-	
-	<div class="actions">
-		<%= form.submit %>
-	</div>
 <% end %>
