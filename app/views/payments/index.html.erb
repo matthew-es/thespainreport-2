@@ -2,6 +2,10 @@
 
 <div class="padding-20 font-main-small">
 	<ul>
+		<li>Total: <%= Payment.all.count %></li>
+		<li>Assigned: <%= Payment.where.not(account_id: nil).count %></li>
+		<li>Useless: <%= Payment.where(account_id: nil, subscription_id: nil, invoice_id: nil).count %></li>
+		<li>Total assigned + useless = <%= Payment.where.not(account_id: nil).count + Payment.where(account_id: nil, subscription_id: nil, invoice_id: nil).count %></li>
 		<li>Paid: <%= @paid %></li>
 		<li>Problem: <%= @problem %></li>
 		<li>Refund: <%= @refund %></li>
