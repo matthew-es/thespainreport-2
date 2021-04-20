@@ -631,6 +631,9 @@ class PaymentsController < ApplicationController
 		elsif current_user.status == 1
 			@payments = Payment.all.order('created_at DESC')
 			@assigned = Payment.where.not(account_id: nil).order('created_at DESC')
+			@useless = Payment.where(account_id: nil, subscription_id: nil, invoice_id: nil)
+			@useless.delete_all
+			
 			@paid = @payments.where(status: "paid").count
 			@problem = @payments.where(status: "problem").count
 			@refund = @payments.where(status: "refund").count
