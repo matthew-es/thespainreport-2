@@ -1,20 +1,20 @@
 <%= render "articles/admintop" %>
 
-<table class="font-main-vsmall">
+<table class="font-main-small">
 	<thead>
 		<tr>
 			<th>ID</th>
 			<th></th>
-			<th colspan="2">Account</th>
-			<th>Created</th>
-			<th>Last</th>
-			<th>Next</th>
-			<th>Plan</th>
-			<th>Total</th>
-			<th>Tax %</th>
-			<th>Tax</th>
-			<th>Frame</th>
-			<th colspan="2"></th>
+			<th class="align-left" colspan="2">Account</th>
+			<th class="align-right">Created</th>
+			<th class="align-right">Last</th>
+			<th class="align-right">Next</th>
+			<th class="align-right">Plan</th>
+			<th class="align-right">Tax</th>
+			<th class="align-right">Tax</th>
+			<th class="align-right">Total</th>
+			<th class="align-right">Frame</th>
+			<th class="align-right">Reactivate</th>
 		</tr>
 	</thead>
 
@@ -22,7 +22,7 @@
 		<% @subscriptions.each do |subscription| %>
 			<tr class="<%= cycle("odd", "even") -%>">
 				<td><%= link_to subscription.id, edit_subscription_path(subscription) %></td>
-				<td class="right">
+				<td class="align-left">
 					<% case subscription.is_active when true %>
 						🟢
 					<% when false %>
@@ -30,7 +30,7 @@
 					<% else end %>
 				</td>
 				<td><%= link_to subscription.account.id, edit_account_path(subscription.account.id) %></td>
-				<td><%= subscription.account.user.email unless subscription.account.user.nil? %></td>
+				<td class="align-left"><%= subscription.account.user.email unless subscription.account.user.nil? %></td>
 				
 				<td><%= subscription.created_at.strftime("%d/%m/%Y") %></td>
 				<td><%= subscription.last_payment_date.strftime("%d/%m/%Y") unless subscription.last_payment_date.nil? %></td>
@@ -40,12 +40,8 @@
 				<td class="align-right"><%= number_to_percentage((subscription.vat_rate.to_f*100), precision: 1) %></td>
 				<td class="align-right"><%= number_to_currency((subscription.vat_amount.to_f/100.to_f), unit: "€") %></td>
 				<td class="align-right"><%= number_to_currency((subscription.total_amount.to_f/100.to_f), unit: "€") %></td>
-				
-				<td><%= subscription.residence_country %> | <%= subscription.card_country %> | <%= subscription.ip_country %> | <%= subscription.vat_country %></td>
-				
-				<td><%= link_to subscription.frame_emotional_quest_action, subscription.frame %></td>
-
-				<td><%= link_to 'D?', subscription, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+				<td><%= link_to subscription.frame.link_slug, subscription.frame %></td>
+				<td><%= subscription.reactivate_token %></td>
 			</tr>
 		<% end %>
 	</tbody>

@@ -214,12 +214,11 @@ a.no-hover-bg:hover {background-color: #fff;}
 
 /* Admin tables */
 table {border-collapse: collapse;}
-th {font-weight:bold;}
-.right {text-align:right;}
 tr.odd {background-color: #fff;}
 tr.even {background-color: #ffe680;}
 tr.odd > td, tr.even > td {padding-top: 3px; padding-bottom: 3px;}
-td {font-family: Arial; font-size: 14px; vertical-align: top;}
+th {font-family: Arial; font-size: 13px; vertical-align: top; padding: 5px; font-weight:bold;}
+td {font-family: Arial; font-size: 13px; vertical-align: top; padding: 5px;}
 
 .admin-table {margin-top: 10px;}
 .admin-table th {padding: 0px 12px 0px 0px;}
