@@ -630,6 +630,7 @@ class PaymentsController < ApplicationController
 			redirect_to root_url
 		elsif current_user.status == 1
 			@payments = Payment.all.order('created_at DESC')
+			@assigned = Payment.where.not(account_id: nil).order('created_at DESC')
 			@paid = @payments.where(status: "paid").count
 			@problem = @payments.where(status: "problem").count
 			@refund = @payments.where(status: "refund").count
