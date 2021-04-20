@@ -88,6 +88,8 @@ class SubscriptionsController < ApplicationController
 	# PATCH/PUT /subscriptions/1
 	# PATCH/PUT /subscriptions/1.json
 	def update
+		@subscription.update(reactivate_token: SecureRandom.urlsafe_base64.to_s)
+		
 		respond_to do |format|
 			if @subscription.update(subscription_params)
 				format.html { redirect_to edit_subscription_path(@subscription), notice: 'Subscription was successfully updated.' }
