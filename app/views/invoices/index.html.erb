@@ -3,7 +3,6 @@
 <table class="font-main-vsmall">
 	<thead>
 		<tr style="border-bottom: 1px solid #990000;">
-			<th class="align-left">Ref</th>
 			<th class="align-left">Date</th>
 			<th class="align-left">Number</th>
 			<th class="align-left">Type</th>
@@ -15,16 +14,14 @@
 			<th class="align-right">Account</th>
 			<th class="align-right">Subs</th>
 			<th class="align-right">Payment</th>
-			<th class="align-right">Created</th>
 		</tr>
 	</thead>
 
 	<tbody>
 		<% @invoices.each do |invoice| %>
 			<tr class="<%= cycle("odd", "even") -%>">
-				<td class="align-left"><%= link_to invoice.id, edit_invoice_path(invoice) %></td>
 				<td class="align-left"><%= invoice.invoice_day %>/<%= invoice.invoice_month %>/<%= invoice.invoice_year %></td>
-				<td class="align-left"><%= invoice.invoice_number %></td>
+				<td class="align-left"><%= link_to invoice.invoice_number, edit_invoice_path(invoice) %></td>
 				<td class="align-left"><%= invoice.invoice_type.capitalize unless invoice.invoice_type.nil? %></td>
 				<td class="align-left"><%= invoice.invoice_operation.capitalize unless invoice.invoice_operation.nil? %></td>
 				<td class="align-right"><%= number_to_currency((invoice.plan_amount/100.to_f), unit: "€") %></td>
@@ -34,7 +31,6 @@
 				<td class="align-right"><%= link_to invoice.account_id, invoice.account %></td>
 				<td class="align-right"><%= link_to invoice.subscription_id, invoice.subscription %></td>
 				<td class="align-right"><%= link_to invoice.payment_id, invoice.payment %></td>
-				<td class="align-right"><%= invoice.created_at.strftime("%d/%m/%Y") %></td>
 			</tr>
 		<% end %>
 	</tbody>
