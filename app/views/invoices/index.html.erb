@@ -25,8 +25,8 @@
 				<td class="align-left"><%= link_to invoice.id, edit_invoice_path(invoice) %></td>
 				<td class="align-left"><%= invoice.invoice_day %>/<%= invoice.invoice_month %>/<%= invoice.invoice_year %></td>
 				<td class="align-left"><%= invoice.invoice_number %></td>
-				<td class="align-left"><%= invoice.invoice_type.capitalize %></td>
-				<td class="align-left"><%= invoice.invoice_operation.capitalize %></td>
+				<td class="align-left"><%= invoice.invoice_type.capitalize unless invoice.invoice_type.nil? %></td>
+				<td class="align-left"><%= invoice.invoice_operation.capitalize unless invoice.invoice_operation.nil? %></td>
 				<td class="align-right"><%= number_to_currency((invoice.plan_amount/100.to_f), unit: "€") %></td>
 				<td class="align-right"><%= number_to_currency((invoice.tax_amount/100.to_f), unit: "€") %></td>
 				<td class="align-right"><%= number_to_percentage((invoice.tax_percent.to_f*100), precision: 1) %></td>
