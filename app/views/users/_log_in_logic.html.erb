@@ -1,4 +1,4 @@
-<div class="padding-bottom-20 margin-bottom-10 log-in-border">
+<div class="padding-bottom-10 margin-bottom-0 log-in-border">
 	<% if current_user.nil? %>
 		<p class="font-main-small"><em>
 			<% if controller_name == "home" %>
@@ -58,12 +58,11 @@
 			
 			<div class="font-main-small margin-top-10 padding-top-10">
 				<em>
-					<%= render "users/user_messages" %>
+					<%= render "users/user_messages_web" %>
 				</em>
 			</div>
-		
 			
-			<div class="admin-border-split margin-top-10 padding-top-10">
+			<div class="admin-border-split padding-top-10">
 				
 				<%= render "users/user_labels" %>
 				
@@ -89,6 +88,7 @@
 				Problems? matthew@thespainreport.com / (0034) 647 81 81 43 / @matthewbennett
 			</div>
 		</div>
+
 	<% else end %>
 </div>
 <div class="clear"></div>

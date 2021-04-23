@@ -48,6 +48,8 @@
 	
 	resources :payments do
 		member do
+			post :increase
+			post :confirm_increase
 			get :fix_problem
 			get :reactivate_subscription
 			patch :reactivate_subscription

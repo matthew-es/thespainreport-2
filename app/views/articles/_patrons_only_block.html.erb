@@ -35,8 +35,6 @@
 					<% end end %>
 				</ul>
 			</div>
-			<%= render 'users/log_in_logic' %>
-			<%= render "home/patrons_only_home" %>
 		<% elsif controller_name == "articles" && action_name == "show" %>
 			<h3>
 			<% if @article.extras_video_title.present? %>
@@ -72,15 +70,18 @@
 			
 			<% else end %>
 			
-			<%= render 'users/log_in_logic' %>
+			
+		<% else %>
+		<% end %>
+		
+		<%= render 'users/log_in_logic' %>
+		
+		<% if controller_name == "articles" && action_name == "show" %>
 			<%= render "articles/patrons_only_video", article: @article %>
 			<%= render "articles/patrons_only_audio", article: @article %>
 			<%= render "articles/patrons_only_photos", article: @article %>
 			<%= render "articles/patrons_only_column", article: @article %>
-			
 			<div class="clear"></div>
-			
-			
 		<% else %>
 		<% end %>
 	</div>

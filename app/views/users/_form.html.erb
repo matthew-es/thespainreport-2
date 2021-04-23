@@ -669,7 +669,7 @@
 				</td></tr>
 			<% end %>
 			
-			<% @user.account.invoices.each do |i| %>
+			<% @user.account.invoices.order('created_at DESC').each do |i| %>
 				<tr class="<%= cycle("odd", "even") -%>">
 					<td class="left">
 						<% if current_user.status == 1 %>

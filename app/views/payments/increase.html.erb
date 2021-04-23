@@ -1,0 +1,149 @@
+<% case @language when 1
+		increase_payment_title = "Increase your contribution"
+		
+		log_in_not_logged_in_succeeded = ("\u2705").force_encoding('utf-8') + " This payment succeeded. You have guaranteed this independent journalism. Please log in if you wish to view the details."
+		log_in_not_logged_in_problem = "⚠️ Your bank wants you to confirm this payment. Please log in now to fix it. The process only takes a few seconds."
+		log_in_email = "Your e-mail..."
+		log_in_password = "Your password..."  
+		log_in_button = "Log in"
+		log_in_new_password_link = "/password"
+		log_in_new_password_text = "New password?"
+		
+		payment_date_title = "Date"
+		payment_date = @payment.created_at.strftime("%d/%m/%Y, at %I:%M %P")
+		payment_amount_title = "Amount"
+		payment_amount = (number_to_currency((@payment.total_amount/100.to_f), unit: "€")).to_s
+		payment_method_title = "With"
+		payment_method_ending = "ending in ****"
+		payment_method_expiring = "that expires on"
+		payment_invoice_title = "Invoice"
+		
+		hello = "Hi"
+		situation_bank = "⚠️ Your bank wants you to confirm a payment"
+		situation_please_confirm = "Please confirm that payment now"
+		
+		card_existing = "Use existing card"
+		card_existing_expires = "that expires on"
+		card_new = "Or enter new card details"
+		confirm_payment = "Confirm Payment"
+	when 2
+		increase_payment_title = "Aumente su contribución"
+		
+		log_in_not_logged_in_succeeded = ("\u2705").force_encoding('utf-8') + " El pago se ha realizado con éxito. Ha garantizado este periodismo independiente. Acceda con su clave si quiere ver los detalles."
+		log_in_not_logged_in_problem = "⚠️ Su banco quiere que confirme este pago. Acceda ahora con su clave para solucionarlo. Sólo se tarda unos segundos"
+		log_in_email = "Su correo..."
+		log_in_password = "Su clave..."  
+		log_in_button = "Entrar"
+		log_in_new_password_link = "/clave"
+		log_in_new_password_text = "¿Clave nueva?"
+		
+		payment_date_title = "Fecha"
+		payment_date = @payment.created_at.strftime("%d/%m/%Y, a las %H:%M")
+		payment_amount_title = "Cantidad"
+		payment_amount = number_to_currency((@payment.total_amount/100.to_f), unit: "", separator: ",", delimiter: ".") + " euros"
+		payment_method_title = "Con"
+		payment_method_ending = "que termina en ****"
+		payment_method_expiring = "y que caduca en"
+		payment_invoice_title = "Factura"
+		
+		hello = "Hola"
+		situation_bank = "⚠️ Su banco quiere que confirme un pago"
+		situation_please_confirm = "Confirme ese pago ahora"
+		
+		card_existing = "Use la tarjeta actual"
+		card_existing_expires = "que caduca el"
+		card_new = "O use una tarjeta nueva"
+		confirm_payment = "Confirmar Pago"
+end %>
+
+<%= render "layouts/logo_account" %>
+
+<h1 class="font-header font-header-normal line-120 font-upper"><%= increase_payment_title %></h1>
+
+<% if current_user.nil? %>
+	<div class="margin-top-10 margin-bottom-20 padding-20 success-box font-main-small">
+			<% if @payment_intent_status == "succeeded" %><%= log_in_not_logged_in_succeeded %>
+			<% else %><%= log_in_not_logged_in_problem %>
+			<% end %>
+
+	</div>
+	
+	<%= form_tag '/login' do %>
+		<div class="float-left width-100 margin-top-5">
+			<%= text_field_tag 'email', nil, class: 'padding-10 width-98', placeholder: log_in_email %>
+		</div>
+		<div class="float-left width-100 margin-top-5">
+			<%= password_field_tag 'password', nil, class: 'padding-10 width-98', placeholder: log_in_password %>
+		</div>
+		<div class="float-left margin-top-5 margin-right-5">
+			<button type="submit" class="padding-7 font-main-small"><%= log_in_button %></button>
+		</div>
+		<div class="float-left margin-top-10 margin-right-5">
+			| <a href="<%= log_in_new_password_link %>"><%= log_in_new_password_text %></a>
+		</div>
+		<div class="clear"></div>
+	<% end %>
+<% else %>
+	<h3>CURRENT LEVEL</h3>
+	
+	<div class="margin-bottom-20">
+		Current Base: <%= number_to_currency((@current_base_amount/100.to_f), unit: "€") %><br />
+		Current VAT: <%= number_to_percentage((@current_tax_rate.to_f*100), precision: 1) %><br />
+		Current VAT: <%= number_to_currency((@current_tax_amount.to_f/100.to_f), unit: "€") %><br />
+		Current Total: <%= number_to_currency((@current_total_amount.to_f/100.to_f), unit: "€") %> / month<br />
+		Last payment: <%= @payment_last.strftime("%d/%m/%Y, at %I:%M %P") %>
+	</div>
+	
+	<h3>NEW LEVEL</h3>
+	
+	<div class="margin-bottom-20">
+		NeW Base: <%= number_to_currency((@new_base_amount.to_f/100.to_f), unit: "€") %><br />
+		New VAT: <%= number_to_percentage((@new_tax_rate.to_f*100), precision: 1) %><br />
+		New VAT: <%= number_to_currency((@new_tax_amount.to_f/100.to_f), unit: "€") %><br />
+		New Total: <%= number_to_currency((@new_total_amount.to_f/100.to_f), unit: "€") %> / month<br />
+		Next new regular payment: <%= @next_payment_date.strftime("%d/%m/%Y, at %I:%M %P") %>
+	</div>
+	
+	<h3>CURRENT LEVEL > NEW LEVEL</h3>
+	
+	<div class="margin-top-10 padding-20 buy-background buy-border font-payment">
+		<ul>
+			<% if @upgrade_base_amount %>
+				<li>Pay <strong><%= number_to_currency((@upgrade_total_amount.to_f/100.to_f), unit: "€") %></strong> now (<%= number_to_currency((@upgrade_base_amount.to_f/100.to_f), unit: "€") %> + <%= number_to_currency((@upgrade_tax_amount.to_f/100.to_f), unit: "€") %> VAT)</li>
+				<li>The difference between your current month and your new level</li>
+			<% else %>
+				<li>You do not need to make another payment now</li>
+				<li>Your level will be <%= number_to_currency((@new_base_amount.to_f/100.to_f), unit: "€") %>/month until <%= @next_payment_date.strftime("%d/%m/%Y") %></li>
+			<% end %>
+		</ul>
+	
+		<div class="margin-bottom-20">
+			<%= form_with url: confirm_increase_payment_url(@subscription.reactivate_token), local: true do |f| %>
+				<div id="payment_to_fix" class="font-payment margin-top-10 align-centre">
+					<%= f.submit "Confirm", :class => "buybutton font-main-small width-fixed-cards mobile-width" %>
+				</div>
+				<input type="hidden" name="new_base_amount" id="new_base_amount" value="<%= @new_base_amount %>" >
+				<input type="hidden" name="new_tax_amount" id="new_tax_amount" value="<%= @new_tax_amount %>" >
+				<input type="hidden" name="new_total_amount" id="new_total_amount" value="<%= @new_total_amount %>" >
+				<input type="hidden" name="upgrade_base_amount" id="upgrade_base_amount" value="<%= @upgrade_base_amount %>" >
+				<input type="hidden" name="upgrade_tax_amount" id="upgrade_tax_amount" value="<%= @upgrade_tax_amount %>" >
+				<input type="hidden" name="upgrade_total_amount" id="upgrade_total_amount" value="<%= @upgrade_total_amount %>" >
+			<% end %>
+		</div>
+		
+		<%# CARD AND STRIPE LOGOS %>
+			<div class="width-100 align-centre margin-top-5" style="border-top: 1px dashed #666666;"">
+			<div class="width-fixed-cards margin-centre">
+				<div class="float-right margin-left-7">
+					<img src="<%= asset_path('stripe-logo.png') %>" style="max-width: 150px;" />
+				</div>
+				<div class="float-right padding-top-2">
+					<img src="<%= asset_path('credit-cards.jpg') %>" style="max-width: 150px;" />
+				</div>
+				<div class="clear"></div>
+			</div>
+			</div>
+	</div>
+<% end %>
+
+<%= render "layouts/footer" %>

@@ -28,10 +28,10 @@ a.label, a.label:visited, a.label:hover {color: #fffae6; font-family: Georgia; t
 a.label, a.label:visited {background-color: #2952a3;}
 a.label:hover {background-color: #F1BF00; color: #ffffff;}
 
-button.buybutton {padding: 7px;}
-button.buybutton, button.buybutton:visited, button.buybutton:hover {border: 1px solid #997a00; border-radius: 3px; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset; cursor: pointer; text-align: center; display: inline-block;}
-button.buybutton, button.buybutton:visited {background-color: #f1bf00; color: #fffae6; font-family: Georgia; text-decoration: none;}
-button.buybutton:hover {background-color: #997a00; color: #fff;}
+button.buybutton, input[type=submit].buybutton {padding: 7px;}
+button.buybutton, button.buybutton:visited, button.buybutton:hover, input[type=submit].buybutton {border: 1px solid #997a00; border-radius: 3px; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset; cursor: pointer; text-align: center; display: inline-block;}
+button.buybutton, button.buybutton:visited, input[type=submit].buybutton {background-color: #f1bf00; color: #fffae6; font-family: Georgia; text-decoration: none;}
+button.buybutton:hover, input[type=submit].buybutton:hover {background-color: #997a00; color: #fff;}
 button.greyedout, button.greyedout:hover, input.greyedout, input.greyedout:hover {background-color: grey;}
 
 a.buybutton {padding: 7px;}

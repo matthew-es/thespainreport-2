@@ -34,10 +34,15 @@
 			<%= javascript_include_tag 's/s_stripe_confirm_payment' %>
 			
 			<script type="text/javascript">
+				<% if current_user.nil? %>
+					var amount = 25;
+				<% elsif !current_user.account.subscriptions.last.nil? %>
+					
+				<% end %>
 				// Set up things on page load...
 				window.addEventListener('load', function () {    
 				   	startCountry();
-					setSuperAmount(25);
+					setSuperAmount(amount);
 			  	 	checkAmount();
 				   	setEmail();
 				   	setExistingEmail();

@@ -81,7 +81,7 @@ class PaymentsController < ApplicationController
 		render json: { message: "All finished, all good." }, status: 200
 	end
 	
-	# Fix payment problems page, SCA, etc.
+	# Fix payment problems page, SCA, etc
 	def fix_problem
 		@payment = Payment.find_by(external_payment_id: params[:id])
 		payment_intent = Stripe::PaymentIntent.retrieve(@payment.external_payment_id)
@@ -136,6 +136,71 @@ class PaymentsController < ApplicationController
 			end
 		elsif current_user.email != @user.email
 			redirect_to edit_user_path(current_user)
+		else
+		end
+	end
+	
+	
+	# Begin increase/decrease subscription amount...
+	def increase
+		@subscription = Subscription.find_by(reactivate_token: params[:id])
+		account = @subscription.account
+		@user = User.find_by(account_id: @subscription.account.id, account_role: 1)
+		set_language_frame(@user.sitelanguage, @user.frame.id)
+		
+		@current_base_amount = @subscription.plan_amount
+		@current_tax_rate = @subscription.vat_rate
+		@current_tax_amount = @subscription.vat_amount
+		@current_total_amount = @subscription.total_amount
+		
+		@payment = @subscription.payments.last
+		@payment_last = @subscription.last_payment_date
+		applicable_vat_country = Country.find_by(country_code: "ES")
+		
+		current_amount_per_day = @current_base_amount/30
+		current_days_used = (DateTime.now - @payment_last.to_datetime).to_i
+		current_amount_used = current_amount_per_day * current_days_used
+		current_amount_left = @current_base_amount - current_amount_used
+
+		@new_base_amount = (params[:plan_amount].to_i * 100)
+		n = Patrons::CalculateTax.process(account, @new_base_amount)
+		@new_tax_rate = n["tax_rate"]
+		@new_tax_amount = n["tax_amount"]
+		@new_total_amount = n["total_amount"]
+		
+		difference_current_new = @new_base_amount.to_i - current_amount_left.to_i
+		
+		if difference_current_new > 0
+			@upgrade_base_amount = difference_current_new
+			u = Patrons::CalculateTax.process(account, @upgrade_base_amount)
+			@upgrade_tax_rate = u["tax_rate"]
+			@upgrade_tax_amount = u["tax_amount"]
+			@upgrade_total_amount = u["total_amount"]
+			@next_payment_date = @subscription.next_payment_date
+		elsif difference_current_new <= 0
+			new_base_amount_per_day = @new_base_amount.to_i/30
+			days_to_add_to_subscription = (difference_current_new.abs / new_base_amount_per_day)
+			@next_payment_date = DateTime.now + days_to_add_to_subscription.days
+		end
+		
+	end
+	
+	
+	# Confirm increase/decrease subscription amount...
+	def confirm_increase
+		s = Subscription.find_by(reactivate_token: params[:id])
+		
+		new_base_amount = params[:new_base_amount]
+		new_tax_amount = params[:new_tax_amount]
+		new_total_amount = params[:new_total_amount]
+		upgrade_base_amount = params[:upgrade_base_amount]
+		upgrade_tax_amount = params[:upgrade_tax_amount]
+		upgrade_total_amount = params[:upgrade_total_amount]
+		
+		Patrons::StripeUpgradePayment.process(s, new_base_amount, new_tax_amount, new_total_amount, upgrade_base_amount, upgrade_tax_amount, upgrade_total_amount)
+		
+		if s.payments.last.status == "paid"
+			puts "UPGRADE PAYMENT MADE FOR: " + s.payments.last.total_amount.to_s + " AT " + s.payments.last.created_at.to_s
 		else
 		end
 	end
@@ -677,7 +742,7 @@ class PaymentsController < ApplicationController
 			redirect_to root_url
 		end
 	end
-
+	
 	# POST /payments
 	# POST /payments.json
 	def create
@@ -726,6 +791,7 @@ class PaymentsController < ApplicationController
 
 		# Never trust parameters from the scary internet, only allow the white list through.
 		def payment_params
-			params.require(:payment).permit(:card_country, :external_payment_error, :external_payment_id, :external_payment_status, :status, :total_amount, :payment_method, :account_id, :invoice_id, :subscription_id)
+			params.require(:payment).permit(:card_country, :external_payment_error, :external_payment_id, :external_payment_status, :status, 
+			:base_amount, :vat_amount, :total_amount, :payment_method, :account_id, :invoice_id, :subscription_id)
 		end
 end

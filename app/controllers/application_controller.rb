@@ -20,23 +20,8 @@ class ApplicationController < ActionController::Base
 			@account_status = @account.account_status unless @user.account.nil?
 			@role = @user.account_role
 			
-			if @status == 3 && @can_read_date > Time.now
-				@cta = @frame.button_cta
-			elsif @status == 3 && @can_read_date < Time.now
-				@cta = @frame.button_cta_trial_over
-			elsif @status == 2 && @level == 0
-				@cta = @frame.button_cta_increase
-			elsif @status == 2 && @level.between?(1, 4)
-				@cta = @frame.button_cta_increase
-			elsif @status == 2 && @level.between?(5, 9)
-				@cta = @frame.button_cta_increase
-			elsif @status == 2 && @level.between?(10, 24)
-				@cta = @frame.button_cta_increase
-			elsif @status == 2 && (@level >= 25)
-				@cta = @frame.button_cta_increase
-			elsif @status == 1
-				@cta = @frame.button_cta_increase
-			else end
+			@reactivate = reactivate_subscription_payment_url(@user.account.subscriptions.last.reactivate_token) unless @user.account.subscriptions.blank? || @user.account.subscriptions.last.reactivate_token.nil?
+			@increase = increase_payment_url(@user.account.subscriptions.last.reactivate_token) unless @user.account.subscriptions.blank? || @user.account.subscriptions.last.reactivate_token.nil?
 			
 			@admin = @status == 1
 			@super_patron = @status == 2 && (@level > 2500)
@@ -44,16 +29,31 @@ class ApplicationController < ActionController::Base
 			@patron_10 = @status == 2 && @level.between?(1000, 2499)
 			@patron_5 = @status == 2 && @level.between?(500, 999)
 			@patron_1 = @status == 2 && @level.between?(100, 499)
-			@patron_paused = (@user.account.subscriptions.last.is_active == false) unless @user.account.subscriptions.blank?
-			
-			@patron = @patron_1 || @patron_5 || @patron_10 || @patron_25 || @patron_paused
 			@reader_trial = (@status == 3 && @can_read_date > Time.now)
 			@reader_trial_over = @status == 3 && @can_read_date < Time.now
+						
+			@patron_active = (@user.account.subscriptions.last.is_active == true) unless @user.account.subscriptions.blank?
+			@patron_paused = (@user.account.subscriptions.last.is_active == false) unless @user.account.subscriptions.blank?
+			@patron = @patron_1 || @patron_5 || @patron_10 || @patron_25 || @patron_paused
 			@reader = @readertrial || @reader_trial_over
 			@get_prints = @admin || @super_patron || @patron_25 || @reader_trial
 			
 			@account_owner = @role == 1
 			@member = @role == 2
+			
+			if @reader_trial
+				@cta = @frame.button_cta
+			elsif @reader_trial_over
+				@cta = @frame.button_cta_trial_over
+			elsif @patron_active
+				@cta = @frame.button_cta_increase
+				@cta_link = @increase
+			elsif @patron_paused
+				@cta = @frame.button_cta_reactivate
+				@cta_link = @reactivate
+			elsif @admin
+				@cta = "You're the boss"
+			else end
 			
 			if @account.total_support.nil?
 				@accountpaying = false
@@ -69,8 +69,6 @@ class ApplicationController < ActionController::Base
 			@can_read_level_25 = @admin || @reader_trial|| @super_patron || @patron_25
 			@cannot_read_1 = @reader_trial_over || @patron_paused || @patron_1
 			@cannot_read_2 = @reader_trial_over || @patron_paused || @patron_1 || @patron_5
-			
-			@reactivate = reactivate_subscription_payment_url(@user.account.subscriptions.last.reactivate_token) unless @user.account.subscriptions.blank? || @user.account.subscriptions.last.reactivate_token.nil?
 		end
 	end
 	
@@ -147,10 +145,7 @@ class ApplicationController < ActionController::Base
 			@frame_id = @frame.id
 		end
 		
-		puts "USER IS: " + @user.to_s
-		
 		@subscribe = root_url + @stub_value + @frame.link_slug
-		@increase = root_url + @stub_increase + @frame.link_slug
 		@restart = root_url + @stub_restart + @frame.link_slug
 	end
 	
