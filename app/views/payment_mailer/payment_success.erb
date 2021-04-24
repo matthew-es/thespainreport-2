@@ -1,7 +1,7 @@
 <% case @language when 1
     hello = "Hi"
     
-    payment_one = "Your monthly payment succeeded..! Thank you very much."
+    payment_thanks = "Thank you very much."
     payment_two = "You really do make this independent journalism possible."
     payment_three = "You are a hero of truth and democracy."
     
@@ -12,12 +12,13 @@
     payment_reference_label = "Reference"
     payment_status_label = "Status"
     payment_status = "Paid"
+    payment_type_label = "Type"
     
     bye = "Kindest regards"
 when 2
     hello = "Hola"
     
-    payment_one = "¡Su pago mensual se ha realizado con éxito..! Muchas gracias."
+    payment_thanks = "Muchas gracias."
     payment_two = "Así, hace que este periodismo independiente sea posible."
     payment_three = "Es Ud. un héroe de la verdad y de la democracia."
     
@@ -28,13 +29,14 @@ when 2
     payment_reference_label = "Referencia"
     payment_status_label = "Estado"
     payment_status = "Pagado"
+    payment_type_label = "Tipo"
     
     bye = "Saludos"
 end %>
 
 <%= hello %>,
 
-<p><%= payment_one %></p>
+<p><%= @message %> <%= payment_thanks %></p>
 <p><%= payment_two %></p>
 <p><%= payment_three %></p>
 <ul>
@@ -42,6 +44,7 @@ end %>
     <li><strong><%= payment_date_label %>:</strong> <%= payment_date %></li>
     <li><strong><%= payment_reference_label %>:</strong> <%= @reference %></li>
     <li><strong><%= payment_status_label %>:</strong> <%= payment_status %></li>
+    <li><strong><%= payment_type_label %>:</strong> <%= @type %></li>
 </ul>
 <p><%= bye %>,</p>
 <p>

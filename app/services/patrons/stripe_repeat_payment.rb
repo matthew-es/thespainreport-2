@@ -16,6 +16,7 @@ module Patrons
 		payment = Payment.create!(
 			account_id: subscription.account_id,
 			subscription_id: subscription.id,
+			payment_type: "repeat",
 			total_amount: payment_intent.amount,
 			payment_method: payment_intent.payment_method,
 			external_payment_id: payment_intent.id,
@@ -28,9 +29,8 @@ module Patrons
             )
 
         if payment.external_payment_status == "succeeded"
-        	Patrons::SuccessfulPayment.process(payment)
+        	Patrons::SuccessfulPayment.process(payment, payment_intent.payment_method)
         else
-        	sleep 1
         	Patrons::FailedPayment.process(payment)
         end
 

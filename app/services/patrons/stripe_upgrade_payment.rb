@@ -16,6 +16,7 @@ module Patrons
 		payment = Payment.create!(
 			account_id: subscription.account_id,
 			subscription_id: subscription.id,
+			payment_type: "increase",
 			base_amount: upgrade_base_amount,
 			vat_amount: upgrade_tax_amount,
 			total_amount: upgrade_total_amount,
@@ -33,9 +34,8 @@ module Patrons
             )
 
         if payment.external_payment_status == "succeeded"
-        	Patrons::SuccessfulPayment.process(payment)
+        	Patrons::SuccessfulPayment.process(payment, payment.payment_method)
         else
-        	sleep 1
         	Patrons::FailedPayment.process(payment)
         end
 

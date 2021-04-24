@@ -83,38 +83,36 @@ class PaymentsController < ApplicationController
 	
 	# Fix payment problems page, SCA, etc
 	def fix_problem
+		# Which payment is it? Who does it belong to?
 		@payment = Payment.find_by(external_payment_id: params[:id])
-		payment_intent = Stripe::PaymentIntent.retrieve(@payment.external_payment_id)
-		@payment_intent_status = payment_intent["status"]
-		
 		@user = User.find_by(account_id: @payment.account.id, account_role: 1)
 		set_language_frame(@user.sitelanguage, @user.frame.id)
 		
-		# First, check the actual status of the payment on Stripe...
-		if @payment_intent_status == "succeeded"
-			@payment.update(
-				status: "paid",
-				payment_method: payment_intent.payment_method
-				)
+		# Check the actual status of that payment on Stripe...
+		payment_intent = Stripe::PaymentIntent.retrieve(@payment.external_payment_id)
+		if ["succeeded", "requires_action", "requires_confirmation"].include?(payment_intent["status"])
+			location = payment_intent.payment_method
+		elsif payment_intent["status"] == "requires_payment_method"
+			location = @payment.account.stripe_payment_method
+		else
+			location = payment_intent.charges.data[0].payment_method
+		end
+		payment_method = Stripe::PaymentMethod.retrieve(location)
+		@payment_status = payment_intent["status"]
+		
+		# Either it worked or it didn't...
+		if payment_intent["status"] == "succeeded"
+			Patrons::SuccessfulPayment.process(@payment, payment_method["id"])
 		else
 			@payment.update(status: "problem")
 		end
 		
-		# Now decide what to do to fix that payment...
+		# If a payment needs fixing, do this...
 		if current_user.nil?
 
 		elsif @payment.nil?
 			redirect_to edit_user_path(current_user)	
 		elsif current_user.email == @user.email || current_user.status == 1
-			#Get the actual payment method relatd to this payment, which is in differnt places in the Stripe API...
-			if ["succeeded", "requires_action", "requires_confirmation"].include?(payment_intent.status)
-				payment_method = Stripe::PaymentMethod.retrieve(payment_intent.payment_method)
-			elsif payment_intent.status == "requires_payment_method"
-				payment_method = Stripe::PaymentMethod.retrieve(@payment.account.stripe_payment_method)
-			else
-				payment_method = Stripe::PaymentMethod.retrieve(payment_intent.charges.data[0].payment_method)
-			end
-			
 			# Set up the payment details on the form for this reader...
 			@client_secret = payment_intent["client_secret"]
 			@payment_method = payment_method["id"]
@@ -122,18 +120,6 @@ class PaymentsController < ApplicationController
 			@pm_month = payment_method["card"]["exp_month"]
 			@pm_year = payment_method["card"]["exp_year"]
 			@pm_last4 = payment_method["card"]["last4"]
-			
-			# Result, update account with latest working payment method, update subscription next_payment_date...
-			if @payment_intent_status == "succeeded"
-				if @payment.id == @payment.account.payments.last.id
-					@payment.account.update(stripe_payment_method: @payment_method)
-					Patrons::SuccessfulPayment.process(@payment)
-				end
-			else
-				@payment.update(
-					status: "problem"		
-					)
-			end
 		elsif current_user.email != @user.email
 			redirect_to edit_user_path(current_user)
 		else
@@ -181,6 +167,7 @@ class PaymentsController < ApplicationController
 			new_base_amount_per_day = @new_base_amount.to_i/30
 			days_to_add_to_subscription = (difference_current_new.abs / new_base_amount_per_day)
 			@next_payment_date = DateTime.now + days_to_add_to_subscription.days
+			@extra_days = days_to_add_to_subscription
 		end
 		
 	end
@@ -196,12 +183,28 @@ class PaymentsController < ApplicationController
 		upgrade_base_amount = params[:upgrade_base_amount]
 		upgrade_tax_amount = params[:upgrade_tax_amount]
 		upgrade_total_amount = params[:upgrade_total_amount]
+		extra_days = params[:extra_days]
 		
-		Patrons::StripeUpgradePayment.process(s, new_base_amount, new_tax_amount, new_total_amount, upgrade_base_amount, upgrade_tax_amount, upgrade_total_amount)
-		
-		if s.payments.last.status == "paid"
-			puts "UPGRADE PAYMENT MADE FOR: " + s.payments.last.total_amount.to_s + " AT " + s.payments.last.created_at.to_s
+		if upgrade_base_amount.to_i > 0
+			Patrons::StripeUpgradePayment.process(s, new_base_amount, new_tax_amount, new_total_amount, upgrade_base_amount, upgrade_tax_amount, upgrade_total_amount)
+			
+			p = s.payments.last
+			if p.status == "paid"
+				redirect_to fix_problem_payment_path(p.external_payment_id)
+			else
+			end
 		else
+			puts "LETS JUST EXTEND THE READ DATE..."
+			
+			next_payment_date = DateTime.now + extra_days.to_i.days
+			s.update(
+				plan_amount: new_base_amount,
+				vat_amount: new_tax_amount,
+				total_amount: new_total_amount,
+				next_payment_date: next_payment_date
+			)
+			
+			redirect_to edit_user_path(s.account.user)
 		end
 	end
 	
@@ -503,7 +506,8 @@ class PaymentsController < ApplicationController
 			end
 			
 			@payment.update(
-				subscription_id: @subscription.id
+				subscription_id: @subscription.id,
+				payment_type: "first"
 				)
 			
 			if @account.total_support.nil?
@@ -791,7 +795,7 @@ class PaymentsController < ApplicationController
 
 		# Never trust parameters from the scary internet, only allow the white list through.
 		def payment_params
-			params.require(:payment).permit(:card_country, :external_payment_error, :external_payment_id, :external_payment_status, :status, 
+			params.require(:payment).permit(:card_country, :external_payment_error, :external_payment_id, :external_payment_status, :status, :type,
 			:base_amount, :vat_amount, :total_amount, :payment_method, :account_id, :invoice_id, :subscription_id)
 		end
 end

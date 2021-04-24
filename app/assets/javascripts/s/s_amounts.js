@@ -22,8 +22,7 @@ function setAmount(amount) {
 	
 	document.getElementById("plan_amount").value = amount;
 	document.getElementById("plan_amount_for_server").value = amount;
-	document.getElementById("plan_amount").style.cssText = "color: black; background-color: #ffe4b3;";
-	
+
 	document.getElementById("plan_amount").style.borderColor = "red";
 }
 

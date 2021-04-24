@@ -97,7 +97,7 @@ end %>
 	<h3>NEW LEVEL</h3>
 	
 	<div class="margin-bottom-20">
-		NeW Base: <%= number_to_currency((@new_base_amount.to_f/100.to_f), unit: "€") %><br />
+		New Base: <%= number_to_currency((@new_base_amount.to_f/100.to_f), unit: "€") %><br />
 		New VAT: <%= number_to_percentage((@new_tax_rate.to_f*100), precision: 1) %><br />
 		New VAT: <%= number_to_currency((@new_tax_amount.to_f/100.to_f), unit: "€") %><br />
 		New Total: <%= number_to_currency((@new_total_amount.to_f/100.to_f), unit: "€") %> / month<br />
@@ -128,6 +128,7 @@ end %>
 				<input type="hidden" name="upgrade_base_amount" id="upgrade_base_amount" value="<%= @upgrade_base_amount %>" >
 				<input type="hidden" name="upgrade_tax_amount" id="upgrade_tax_amount" value="<%= @upgrade_tax_amount %>" >
 				<input type="hidden" name="upgrade_total_amount" id="upgrade_total_amount" value="<%= @upgrade_total_amount %>" >
+				<input type="hidden" name="extra_days" id="extra_days" value="<%= @extra_days %>" >
 			<% end %>
 		</div>
 		
