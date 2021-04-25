@@ -63,14 +63,18 @@ class PaymentsController < ApplicationController
 		p = 0
 		
 		active_subscriptions.each do |as|
-			Patrons::StripeRepeatPayment.process(as)
-			i += 1
-			a += as.total_amount
-			
-			if as.payments.last.status == "paid"
-				s += 1
+			if as.payments.last.created_at.today?
+				
 			else
-				p += 1
+				Patrons::StripeRepeatPayment.process(as)
+				i += 1
+				a += as.total_amount
+			
+				if as.payments.last.status == "paid"
+					s += 1
+				else
+					p += 1
+				end
 			end
 		end
 		

@@ -756,7 +756,13 @@
 		
 		<% @payments.each do |p| %>
 			<tr>
-				<td class="left"><%= link_to p.id, fix_problem_payment_path(p.external_payment_id) %></td>
+				<td class="left">
+					<% if p.external_payment_id.nil? %>
+						<%= p.id %>
+					<% else %>
+						<%= link_to p.id, fix_problem_payment_path(p.external_payment_id) %>
+					<% end %>
+				</td>
 				<td class="left"><%= p.created_at.strftime("%d/%m/%Y") %></td>
 				<td class="right"><%= number_to_currency((p.total_amount.to_f/100.to_f), unit: "€") %></td>
 				<td class="left">
