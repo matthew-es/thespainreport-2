@@ -191,23 +191,9 @@ class PaymentsController < ApplicationController
 		
 		if upgrade_base_amount.to_i > 0
 			Patrons::StripeUpgradePayment.process(s, new_base_amount, new_tax_amount, new_total_amount, upgrade_base_amount, upgrade_tax_amount, upgrade_total_amount)
-			
-			p = s.payments.last
-			if p.status == "paid"
-				redirect_to fix_problem_payment_path(p.external_payment_id)
-			else
-			end
+			redirect_to fix_problem_payment_path(s.payments.last.external_payment_id)
 		else
-			puts "LETS JUST EXTEND THE READ DATE..."
-			
-			next_payment_date = DateTime.now + extra_days.to_i.days
-			s.update(
-				plan_amount: new_base_amount,
-				vat_amount: new_tax_amount,
-				total_amount: new_total_amount,
-				next_payment_date: next_payment_date
-			)
-			
+			Patrons::SubscriptionDowngrade.process(s, new_base_amount, new_tax_amount, new_total_amount, extra_days)
 			redirect_to edit_user_path(s.account.user)
 		end
 	end
@@ -511,7 +497,10 @@ class PaymentsController < ApplicationController
 			
 			@payment.update(
 				subscription_id: @subscription.id,
-				payment_type: "first"
+				payment_type: "first",
+				base_amount: @subscription.plan_amount,
+				vat_amount: @subscription.vat_amount,
+				total_amount: @subscription.total_amount
 				)
 			
 			if @account.total_support.nil?
@@ -535,12 +524,14 @@ class PaymentsController < ApplicationController
 				level_amount: owner_level_amount
 				)
 
-			@stripe_payment = Stripe::PaymentIntent.confirm(@payment.external_payment_id, {off_session: true})
-			case @stripe_payment.status
+			stripe_pay = Stripe::PaymentIntent.confirm(@payment.external_payment_id, {off_session: true})
+			# stripe_check = Stripe::PaymentIntent.retrieve(@payment.external_payment_id)
+			
+			case stripe_pay.status
 				when "requires_action"
 				when "requires_payment_method"
 				when "succeeded"
-					Patrons::SuccessfulPayment.process(@payment)
+					Patrons::SuccessfulPayment.process(@payment, @payment.payment_method)
 			end
 				
 			if @account.payments.count > 0

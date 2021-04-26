@@ -2,7 +2,7 @@
 
 <% 
 s = @user.account.subscriptions.last
-new_level = ((((s.plan_amount + (s.plan_amount*0.2))/100))/5).round * 5
+new_level = ((((s.plan_amount + (s.plan_amount*0.3))/100))/5).round * 5
 
 case @language when 1
 	subscription_amount_title = "Your current level"

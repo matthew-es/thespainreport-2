@@ -41,21 +41,23 @@ class InvoicesController < ApplicationController
   # GET /invoices/1.json
   def show
 	@invoice = Invoice.find(params[:id])
-		set_language_frame(current_user.sitelanguage, current_user.frame.id)
-		set_status(current_user) unless current_user.nil?
 		
-		if current_user.nil?
-			redirect_to root_url
-		
-		elsif current_user.status == 1
-		
-		elsif @invoice.account.id != current_user.account.id
-			redirect_to edit_user_path(current_user)
-		elsif @invoice.account.id == current_user.account.id
-			puts @invoice.account.user_id
-		else
-			redirect_to root_url
-		end
+	set_language_frame(current_user.sitelanguage, current_user.frame.id)
+	set_status(current_user) unless current_user.nil?
+
+	if current_user.nil?
+		redirect_to root_url
+	elsif current_user.status == 1
+	
+	elsif @invoice.account.id != current_user.account.id
+		redirect_to edit_user_path(current_user)
+	elsif @invoice.account.id == current_user.account.id
+		puts @invoice.account.user_id
+	else
+		redirect_to root_url
+	end
+	
+	
   end
 
   # GET /invoices/new
@@ -124,6 +126,9 @@ class InvoicesController < ApplicationController
 	# Use callbacks to share common setup or constraints between actions.
 	def set_invoice
 	  @invoice = Invoice.find(params[:id])
+	  
+	  rescue ActiveRecord::RecordNotFound
+		redirect_to root_url
 	end
 
 	# Never trust parameters from the scary internet, only allow the white list through.
