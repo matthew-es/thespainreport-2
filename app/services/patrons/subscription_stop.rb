@@ -3,8 +3,7 @@ module Patrons
         def self.process(subscription)
 
         subscription.update(
-            is_active: false,
-            next_payment_date: DateTime.now
+            is_active: false
             )
         
         Patrons::SubscriptionUpdateUsers.process(subscription, subscription.plan_amount)

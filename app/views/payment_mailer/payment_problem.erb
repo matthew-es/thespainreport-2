@@ -6,7 +6,7 @@
     payment_three = "It just takes a few seconds and your bank does it to give your more security with online payments."
     
     payment_amount_label = "Amount"
-    payment_amount = (number_to_currency((@amount/100.to_f), unit: "€")).to_s
+    payment_amount = (number_to_currency((@amount/100.to_f), unit: "€")).to_s unless @amount.nil?
     payment_date_label = "Date"
     payment_date = @date.strftime("%d/%m/%Y, at %I:%M %P")
     payment_reference_label = "Reference"
@@ -22,7 +22,7 @@ when 2
     payment_three = "Sólo se tarda unos segundos y su banco lo hace para ofrecerle más seguridad con los pagos online."
     
     payment_amount_label = "Cantidad"
-    payment_amount = number_to_currency((@amount/100.to_f), unit: "", separator: ",", delimiter: ".") + " euros"
+    payment_amount = (number_to_currency((@amount/100.to_f), unit: "", separator: ",", delimiter: ".")) + " euros" unless @amount.nil?
     payment_date_label = "Fecha"
     payment_date = @date.strftime("%d/%m/%Y, a las %H:%M horas")
     payment_reference_label = "Referencia"

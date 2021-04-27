@@ -3,10 +3,7 @@ module Patrons
         def self.process(subscription, amount)
             
             uc = subscription.users.count
-            puts "UC is: " + uc.to_s
-            
             a = amount.to_i
-            puts "AMOUNT IS: " + a.to_s
             
             if subscription.plan_amount == amount
                 subscription.users.each do |u|

@@ -106,9 +106,16 @@ class PaymentsController < ApplicationController
 		
 		# Either it worked or it didn't...
 		if payment_intent["status"] == "succeeded"
+			
+			puts "NOW GOING TO PROCESS SUCCEEDED PAYMENT..."
+		
+			@payment.update(external_payment_status: payment_intent["status"])
 			Patrons::SuccessfulPayment.process(@payment, payment_method["id"])
+			Patrons::SubscriptionRollover.process(@payment.subscription)
 		else
-			@payment.update(status: "problem")
+			puts "NOT PAID YET..."
+			
+			@payment.update(status: "problem", external_payment_status: payment_intent["status"])
 		end
 		
 		# If a payment needs fixing, do this...
@@ -209,22 +216,8 @@ class PaymentsController < ApplicationController
 			redirect_to fix_problem_payment_path(s.payments.last.external_payment_id)
 		elsif s.payments.last.status == "paid"
 			if s.next_payment_date < DateTime.now
-				payment_intent = Stripe::PaymentIntent.create({
-					payment_method: s.account.stripe_payment_method,
-					customer: s.account.stripe_customer_id,
-					amount: s.total_amount,
-					currency: "eur"
-						})
-				
-				reactivate_payment = Payment.create!(
-					account_id: s.account.id,
-					subscription_id: s.id,
-					total_amount: payment_intent.amount,
-					external_payment_id: payment_intent.id,
-					external_payment_status: payment_intent.status
-					)
-				
-				redirect_to fix_problem_payment_path(reactivate_payment.external_payment_id)
+				reactivate_payment = Patrons::StripeReactivatePayment.process(s)
+				redirect_to fix_problem_payment_path(reactivate_payment["external_payment_id"])
 			elsif s.next_payment_date > DateTime.now
 				s.update(is_active: true)
 				PaymentMailer.subscription_reactivated(s).deliver_now

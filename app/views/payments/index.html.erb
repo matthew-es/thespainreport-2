@@ -18,6 +18,8 @@
 		<tr>
 			<th>ID</th>
 			<th>Date</th>
+			<th>Time</th>
+			<th>Type</th>
 			<th class="align-right">Amount</th>
 			<th class="align-left">Status</th>
 			<th class="align-left">Ext status</th>
@@ -33,7 +35,9 @@
 			<tr class="<%= cycle("odd", "even") -%>">
 				<td><%= link_to payment.id, edit_payment_path(payment) %></td>
 				<td class="align-right"><%= payment.created_at.strftime("%d/%m/%Y") %></td>
+				<td class="align-right"><%= payment.created_at.strftime("%H:%M") %></td>
 				<td class="align-right"><%= number_to_currency((payment.total_amount/100.to_f), unit: "€") unless payment.total_amount.nil? %></td>
+				<td class="align-left"><%= payment.payment_type %></td>
 				<td class="align-left">
 				
 				<% case payment.status when "paid" %><span class="label font-main-tiny invoice-payment"><%= payment.status %></span>
@@ -47,7 +51,6 @@
 				<td><%= payment.subscription_id %></td>
 				<td><%= payment.invoice_id %></td>
 				<td><%= payment.external_payment_id %></td>
-				<td><%= payment.payment_method %></td>
 				<td><%= link_to 'Show', payment %></td>
 			</tr>
 		<% end %>
