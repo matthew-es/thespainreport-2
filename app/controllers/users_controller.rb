@@ -467,7 +467,7 @@ class UsersController < ApplicationController
 			
 		@unassigned_members = @user.account.users.where(subscription_id: "")
 		@empty_invoices = @user.account.invoices.where('invoice_customer_name=? OR invoice_customer_tax_id=? OR invoice_customer_address=?', "", "", "")
-		@payments = @user.account.payments.order("created_at DESC")
+		@payments = @user.account.payments.order("created_at DESC, id DESC")
 	end
 	
 	# GET /users/1/edit

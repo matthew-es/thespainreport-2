@@ -160,6 +160,15 @@ class PaymentsController < ApplicationController
 		current_amount_left = @current_base_amount - current_amount_used
 
 		@new_base_amount = (params[:plan_amount].to_i * 100)
+		
+		if @new_base_amount > 3300
+			account.update(
+				invoice_account_name: params[:invoice_name],
+				invoice_account_tax_id: params[:invoice_tax_id],
+				invoice_account_address: params[:invoice_address]
+			)
+		end
+		
 		n = Patrons::CalculateTax.process(account, @new_base_amount)
 		@new_tax_rate = n["tax_rate"]
 		@new_tax_amount = n["tax_amount"]
@@ -436,8 +445,6 @@ class PaymentsController < ApplicationController
 		@total_amount = params[:total_amount_for_server]
 		@payment = Payment.where(account_id: @account_id).last
 		
-		@time = Time.zone.now
-		
 		begin
 			if params[:subscription_for_server].empty?
 				@subscription = Subscription.create(
@@ -457,8 +464,8 @@ class PaymentsController < ApplicationController
 					frame_emotional_quest_action: params[:frame_emotional_quest_action_for_server],
 					frame_money_word_singular: params[:frame_money_word_singular_for_server],
 					frame_button_cta: params[:frame_button_cta_for_server],
-					last_payment_date: @time,
-					next_payment_date: @time,
+					last_payment_date: Time.zone.now,
+					next_payment_date: Time.zone.now + 1.month,
 					is_active: true,
 					reactivate_token: SecureRandom.urlsafe_base64.to_s
 					)
@@ -480,8 +487,8 @@ class PaymentsController < ApplicationController
 					frame_emotional_quest_action: params[:frame_emotional_quest_action_for_server],
 					frame_money_word_singular: params[:frame_money_word_singular_for_server],
 					frame_button_cta: params[:frame_button_cta_for_server],
-					last_payment_date: @time,
-					next_payment_date: @time,
+					last_payment_date: Time.zone.now,
+					next_payment_date: Time.zone.now + 1.month,
 					is_active: true,
 					reactivate_token: SecureRandom.urlsafe_base64.to_s
 					)

@@ -407,9 +407,6 @@
 	
 	<% if @admin || @account_owner %>
 		<div class="margin-bottom-5">
-			<strong><%= account_total_title %>:</strong> <%= account_total_amount %> <%= link_to increase_level_link_text, root_url + @stub_increase %>
-		</div>
-		<div class="margin-bottom-5">
 			<strong><%= account_subscriptions_title %>:</strong> <%= @account.subscriptions.count %>
 		</div>
 		<div class="margin-bottom-5">
@@ -751,6 +748,7 @@
 			<td>Nº</td>
 			<td>Date</td>
 			<td>Amount</td>
+			<td>Type</td>
 			<td>Status</td>
 		</tr>
 		
@@ -765,6 +763,7 @@
 				</td>
 				<td class="left"><%= p.created_at.strftime("%d/%m/%Y") %></td>
 				<td class="right"><%= number_to_currency((p.total_amount.to_f/100.to_f), unit: "€") %></td>
+				<td class="align-left"><%= p.payment_type %></td>
 				<td class="left">
 					<% case p.status when "paid" %><span class="label font-main-tiny invoice-payment"><%= payments_status_paid %></span>
 					<% when "refund" %><span class="label font-main-tiny invoice-refund"><%= payments_status_refund %></span>
