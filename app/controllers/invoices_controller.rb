@@ -137,7 +137,7 @@ class InvoicesController < ApplicationController
 		:invoice_year, :invoice_month, :invoice_day, :invoice_number, :invoice_status,
 		:invoice_customer_address, :invoice_customer_tax_id, :invoice_customer_name, :invoice_concept,
 		:invoice_from_name, :invoice_from_address, :invoice_from_tax_id,
-		:invoice_type, :invoice_operation,
+		:invoice_type, :invoice_operation, :original_id,
 		:tax_percent, :plan_amount, :tax_amount, :total_amount, :account_id, :subscription_id, :payment_id)
 	end
 end

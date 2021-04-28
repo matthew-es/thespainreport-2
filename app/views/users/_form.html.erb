@@ -733,6 +733,22 @@
 							<% end %>
 						<% end %>
 					</td>
+					
+					<td class="left">
+						<% if i.original.present? %>
+							<%= link_to i.original.id, i.original %>
+						<% else %>
+						<% end %>
+						
+						<% if ["exchange", "refund"].include?(i.invoice_operation) || i.operations.where(invoice_operation: "exchange").count > 0 %>
+						<% else %>
+							<%= link_to exchange_payment_path(i) do %>
+								<% case @language when 1 %>Exchange
+								<% when 2 %>Canje
+								<% end %>
+							<% end %>
+						<% end %>
+					</td>
 				</tr>
 			<% end %>
 		</table>

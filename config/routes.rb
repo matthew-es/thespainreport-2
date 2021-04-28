@@ -54,6 +54,7 @@
 			get :reactivate_subscription
 			get :refund
 			post :confirm_refund
+			get :exchange
 			patch :reactivate_subscription
 		end
 	end

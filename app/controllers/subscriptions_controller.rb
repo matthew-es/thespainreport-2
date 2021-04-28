@@ -30,6 +30,9 @@ class SubscriptionsController < ApplicationController
 			redirect_to root_url
 		elsif current_user.status == 1
 			@subscriptions = Subscription.all.order('created_at DESC')
+			@missed = Subscription.active.late.last50.latestfirst
+			@active = Subscription.active.rolled.last50.latestfirst
+			@paused = Subscription.paused.last50.latestfirst
 		else
 			redirect_to root_url
 		end

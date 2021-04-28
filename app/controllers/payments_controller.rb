@@ -136,6 +136,12 @@ class PaymentsController < ApplicationController
 		end
 	end
 	
+	def exchange
+		invoice = Invoice.find(params[:id])
+		Patrons::CreateInvoiceExchange.process(invoice)
+		redirect_to edit_user_path(current_user)
+	end
+	
 	def refund
 		@payment = Payment.find_by(external_payment_id: params[:id])
 		
