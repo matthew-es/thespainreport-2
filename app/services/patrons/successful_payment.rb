@@ -12,7 +12,7 @@ module Patrons
 			
 			admin_subject = ("\u2705").force_encoding('utf-8') + " " + payment.payment_type.upcase + " " + (ActiveSupport::NumberHelper.number_to_currency((payment.total_amount/100.to_f), unit: "€")).to_s + " from " + payment.account.user.email
 			admin_message = ""
-			PaymentMailer.payment_admin_message(admin_subject, admin_message).deliver_now
+			PaymentMailer.payment_admin_message(admin_subject, admin_message).deliver_now unless payment.updated_at < 1.seconds.ago(Time.now)
         end
     end
 end

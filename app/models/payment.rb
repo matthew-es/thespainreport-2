@@ -6,6 +6,6 @@ class Payment < ApplicationRecord
 	has_many :payment_errors
 	has_many :invoices
 	
-	STATUSES = %i[paid refund problem]
+	STATUSES = %i[paid refunded problem]
 	TYPES = %I[first repeat fix reactivate increase]
 end

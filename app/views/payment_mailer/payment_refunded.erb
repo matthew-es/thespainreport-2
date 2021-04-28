@@ -1,0 +1,52 @@
+<% case @language when 1
+    hello = "Hi"
+    
+    payment_one = "Your payment has been refunded successfully."
+    payment_two = "Thank you for guaranteeing independent journalism."
+    payment_three = "You can reactivate your subscription at any level at any time."
+    
+    payment_amount_label = "Amount"
+    payment_amount = (number_to_currency((@amount/100.to_f), unit: "€")).to_s unless @amount.nil?
+    payment_date_label = "Date"
+    payment_date = @date.strftime("%d/%m/%Y, at %I:%M %P")
+    payment_reference_label = "Reference"
+    payment_status_label = "Status"
+    payment_status = ("\u274C").force_encoding('utf-8') + "Refunded"
+    
+    bye = "Kindest regards"
+when 2
+    hello = "Hola"
+    
+    payment_one = "Se ha realizado la devolución de su pago correctamente."
+    payment_two = "Gracias por garantizar el periodismo independiente."
+    payment_three = "Puede reactivar su suscripción en cualquier momento a cualquier nivel."
+    
+    payment_amount_label = "Cantidad"
+    payment_amount = (number_to_currency((@amount/100.to_f), unit: "", separator: ",", delimiter: ".")) + " euros" unless @amount.nil?
+    payment_date_label = "Fecha"
+    payment_date = @date.strftime("%d/%m/%Y, a las %H:%M horas")
+    payment_reference_label = "Referencia"
+    payment_status_label = "Estado"
+    payment_status = ("\u274C").force_encoding('utf-8') + "Devuelto"
+    
+    bye = "Saludos"
+end %>
+
+<%= hello %>,
+
+<p><%= payment_one %></p>
+<p><%= payment_two %></p>
+<p><%= payment_three %></p>
+<ul>
+    <li><strong><%= payment_amount_label %>:</strong> <%= payment_amount %></li>
+    <li><strong><%= payment_date_label %>:</strong> <%= payment_date %></li>
+    <li><strong><%= payment_reference_label %>:</strong> <%= @reference %></li>
+    <li><strong><%= payment_status_label %>:</strong> <%= payment_status %></li>
+</ul>
+<p><%= bye %>,</p>
+<p>
+    Matthew Bennett<br />
+    The Spain Report<br />
+    matthew@thespainreport.es<br />
+    (0034) 647 81 81 43
+</p>

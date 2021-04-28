@@ -1,9 +1,13 @@
 <% case @language when 1
 		fix_payment_title_success = "Payment succeeded, thank you"
 		fix_payment_title_problem = "Problem: please confirm this payment"
+		fix_payment_title_refunded = "Payment refunded, thank you"
 		
-		log_in_not_logged_in_succeeded = ("\u2705").force_encoding('utf-8') + " This payment succeeded. You have guaranteed this independent journalism. Please log in if you wish to view the details."
-		log_in_not_logged_in_problem = "⚠️ Your bank wants you to confirm this payment. Please log in now to fix it. The process only takes a few seconds."
+		payment_succeeded = ("\u2705").force_encoding('utf-8') + " This payment succeeded. You have guaranteed this independent journalism."
+		payment_problem = "⚠️ Your bank wants you to confirm this payment. The process only takes a few seconds."
+		payment_refunded = ("\u274C").force_encoding('utf-8') + " This payment has been refunded. Thank you for guaranteeing this independent journalism."
+		
+		log_in_please = "Please log in to view the details."
 		log_in_email = "Your e-mail..."
 		log_in_password = "Your password..."  
 		log_in_button = "Log in"
@@ -28,8 +32,9 @@
 		card_new = "Or enter new card details"
 		confirm_payment = "Confirm Payment"
 	when 2
-		fix_payment_title_success = "El pago se ha realizado con éxito, ¡gracias!"
+		fix_payment_title_success = "Este pago se ha realizado con éxito, ¡gracias!"
 		fix_payment_title_problem = "Problema: confirme este pago"
+		fix_payment_title_refunded = "Este pago se ha devuelto, gracias"
 		
 		log_in_not_logged_in_succeeded = ("\u2705").force_encoding('utf-8') + " El pago se ha realizado con éxito. Ha garantizado este periodismo independiente. Acceda con su clave si quiere ver los detalles."
 		log_in_not_logged_in_problem = "⚠️ Su banco quiere que confirme este pago. Acceda ahora con su clave para solucionarlo. Sólo se tarda unos segundos"
@@ -61,15 +66,17 @@ end %>
 <%= render "layouts/logo_account" %>
 
 <h1 class="font-header font-header-normal line-120 font-upper">
-	<% if @payment_status == "succeeded" %><%= fix_payment_title_success %>
+	<% if @payment_refunded == "true" %><%= fix_payment_title_refunded %>
+	<% elsif @payment_status == "succeeded" %><%= fix_payment_title_success %>
 	<% else %><%= fix_payment_title_problem %>
 	<% end %>
 </h1>
 
 <% if current_user.nil? %>
     <div class="margin-top-10 margin-bottom-20 padding-20 success-box font-main-small">
-	    	<% if @payment_status == "succeeded" %><%= log_in_not_logged_in_succeeded %>
-			<% else %><%= log_in_not_logged_in_problem %>
+	    	<% if @payment_refunded == "true" %><%= payment_refunded %>
+	    	<% elsif @payment_status == "succeeded" %><%= payment_succeeded %>
+			<% else %><%= payment_problem %>
 			<% end %>
     </div>
     
@@ -89,9 +96,24 @@ end %>
 		<div class="clear"></div>
 	<% end %>
 <% else %>
-	<% if @payment_status == "succeeded" %>
+	<% if @payment_refunded == "true" %>
+		<div class="margin-top-10 margin-bottom-10 padding-20 red-box font-main-small">
+			<p class="font-main-small"><%= payment_refunded %></p>
+			
+			<ul>
+				<li><%= payment_date_title %>: <%= payment_date %></li>
+				<li><%= payment_amount_title %>: <%= payment_amount %></li>
+				<li><%= payment_method_title %>: <%= @pm_brand.capitalize %> <%= payment_method_ending %> <%= @pm_last4 %> <%= payment_method_expiring %> <%= @pm_month %>/<%= @pm_year %></li>
+				<li><%= payment_invoice_title %>: 
+					<% @payment.invoices.each do |i| %>
+						<%= link_to i.invoice_number, i %>
+					<% end %>
+				</li>
+			</ul>
+		</div>
+	<% elsif @payment_status == "succeeded" %>
 		<div class="margin-top-10 margin-bottom-10 padding-20 success-box font-main-small">
-			<p class="font-main-small"><%= log_in_not_logged_in_succeeded %></p>
+			<p class="font-main-small"><%= payment_succeeded %></p>
 			
 			<ul>
 				<li><%= payment_date_title %>: <%= payment_date %></li>

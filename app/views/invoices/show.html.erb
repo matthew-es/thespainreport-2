@@ -239,7 +239,7 @@ end %>
 	<div class="float-left margin-left-5">
 		<% unless @invoice.payment.nil? %>
 			<% case @invoice.payment.status when "paid" %><span class="label font-main-tiny invoice-payment"><%= payment_status_paid %></span>
-			<% when "refund" %><span class="label font-main-tiny invoice-refund"><%= payment_status_refund %></span>
+			<% when "refunded" %><span class="label font-main-tiny invoice-refund"><%= payment_status_refund %></span>
 			<% when "problem" %><span class="label font-main-tiny invoice-refund"><%= payment_status_problem %></span>
 			<% end %>
 		<% end %>

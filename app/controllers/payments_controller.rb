@@ -103,18 +103,17 @@ class PaymentsController < ApplicationController
 		end
 		payment_method = Stripe::PaymentMethod.retrieve(location)
 		@payment_status = payment_intent["status"]
-		
+		@payment_refunded = payment_intent.charges.data[0].refunded.to_s unless payment_intent.charges.data[0].nil?
+
 		# Either it worked or it didn't...
-		if payment_intent["status"] == "succeeded"
-			
-			puts "NOW GOING TO PROCESS SUCCEEDED PAYMENT..."
-		
+		if !@payment_refunded.nil? && @payment_refunded == "true"
+			@payment.update(status: "refunded")
+			Patrons::RefundedPayment.process(@payment)
+		elsif payment_intent["status"] == "succeeded"
 			@payment.update(external_payment_status: payment_intent["status"])
 			Patrons::SuccessfulPayment.process(@payment, payment_method["id"])
 			Patrons::SubscriptionRollover.process(@payment.subscription)
 		else
-			puts "NOT PAID YET..."
-			
 			@payment.update(status: "problem", external_payment_status: payment_intent["status"])
 		end
 		
@@ -137,6 +136,27 @@ class PaymentsController < ApplicationController
 		end
 	end
 	
+	def refund
+		@payment = Payment.find_by(external_payment_id: params[:id])
+		
+		@user = User.find_by(account_id: @payment.account.id, account_role: 1)
+		set_language_frame(@user.sitelanguage, @user.frame.id)
+	end
+	
+	def confirm_refund
+		@payment = Payment.find_by(external_payment_id: params[:id])
+		issue_refund = Stripe::Refund.create({payment_intent: @payment.external_payment_id})
+			
+		puts issue_refund
+		puts issue_refund["status"]
+		
+		if issue_refund["status"] == "succeeded"
+			@payment.update(status: "refunded")
+			redirect_to fix_problem_payment_path(@payment.external_payment_id)
+		else
+		end
+		
+	end
 	
 	# Begin increase/decrease subscription amount...
 	def increase
@@ -223,7 +243,7 @@ class PaymentsController < ApplicationController
 		
 		elsif s.payments.last.status == "problem"
 			redirect_to fix_problem_payment_path(s.payments.last.external_payment_id)
-		elsif s.payments.last.status == "paid"
+		elsif ["paid", "refunded"].include?(s.payments.last.status)
 			if s.next_payment_date < DateTime.now
 				reactivate_payment = Patrons::StripeReactivatePayment.process(s)
 				redirect_to fix_problem_payment_path(reactivate_payment["external_payment_id"])

@@ -81,7 +81,8 @@
 		payments_title = "My payments"
 		payments_status_paid = "Paid"
 		payments_status_problem = "Problem"
-		payments_status_refund = "Refund"
+		payments_status_refund = "Refunded"
+		payments_refund_label = "Refund"
 	when 2
 		save_button = "Guardar"
 		increase_level_link_text = "Auméntelo"
@@ -166,7 +167,8 @@
 		payments_title = "Mis Pagos"
 		payments_status_paid = "Pagado"
 		payments_status_problem = "Problema"
-		payments_status_refund = "Abono"
+		payments_status_refund = "Abonado"
+		payments_refund_label = "Devolución"
 	end
 %>
 
@@ -766,10 +768,20 @@
 				<td class="align-left"><%= p.payment_type %></td>
 				<td class="left">
 					<% case p.status when "paid" %><span class="label font-main-tiny invoice-payment"><%= payments_status_paid %></span>
-					<% when "refund" %><span class="label font-main-tiny invoice-refund"><%= payments_status_refund %></span>
+					<% when "refunded" %><span class="label font-main-tiny invoice-refund"><%= payments_status_refund %></span>
 					<% when "problem" %><span class="label font-main-tiny invoice-refund"><%= payments_status_problem %></span>
 					<% end %>
 				</td>
+				<% if p.status == "paid" %>
+				
+					<% if p.created_at < 15.days.ago %>
+					
+					<% else %>
+						<td>
+							<%= link_to payments_refund_label, refund_payment_path(p.external_payment_id) %>
+						</td>	
+					<% end %>
+				<% end %>
 			</tr>
 		<% end %>
 		

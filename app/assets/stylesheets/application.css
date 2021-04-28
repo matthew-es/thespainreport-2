@@ -77,6 +77,7 @@ a.no-hover-bg:hover {background-color: #fff;}
 .red-background-text {background-color: #ffe6e6; color: #ff0000;}
 .green-background-text {background-color: #ccffcc; color: green;}
 .success-box {background-color: #ccffcc; border: 2px solid #00b300;}
+.red-box {background-color: #ffe6e6; border: 2px solid #ff0000;}
 
 .invoice-full {background-color: #006600; color: white;}
 .invoice-simple {background-color: #00cc00; color: white;}

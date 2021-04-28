@@ -41,7 +41,7 @@
 				<td class="align-left">
 				
 				<% case payment.status when "paid" %><span class="label font-main-tiny invoice-payment"><%= payment.status %></span>
-					<% when "refund" %><span class="label font-main-tiny invoice-refund"><%= payment.status %></span>
+					<% when "refunded" %><span class="label font-main-tiny invoice-refund"><%= payment.status %></span>
 					<% when "problem" %><span class="label font-main-tiny invoice-refund"><%= payment.status %></span>
 					<% end %>
 				

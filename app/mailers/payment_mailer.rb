@@ -65,9 +65,8 @@ class PaymentMailer < ApplicationMailer
         headers 'X-SES-CONFIGURATION-SET' => "Emails"
         mail(to: email, subject: emoji + " " + subject)
     end
-    
-    
-    def payment_problem(payment)
+   
+     def payment_problem(payment)
         email = payment.account.user.email
         @language = payment.account.user.sitelanguage
         
@@ -79,6 +78,24 @@ class PaymentMailer < ApplicationMailer
             subject = "⚠️ " + "Problem with your payment: click this link to fix it"
         when 2
             subject = "⚠️ " + "Problema con su pago: haga clic en este enlace para solucionarlo"
+        end
+        
+        headers 'X-SES-CONFIGURATION-SET' => "Emails"
+        mail(to: email, subject: subject)
+    end
+    
+    def payment_refunded(payment)
+        email = payment.account.user.email
+        @language = payment.account.user.sitelanguage
+        
+        @amount = payment.total_amount
+        @date = payment.created_at
+        @reference = payment.external_payment_id
+        
+        case @language when 1 
+            subject = ("\u274C").force_encoding('utf-8') + "Payment refunded successfully"
+        when 2
+            subject = ("\u274C").force_encoding('utf-8') + "Devolución del pago realizado con éxito"
         end
         
         headers 'X-SES-CONFIGURATION-SET' => "Emails"

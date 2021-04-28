@@ -52,6 +52,8 @@
 			post :confirm_increase
 			get :fix_problem
 			get :reactivate_subscription
+			get :refund
+			post :confirm_refund
 			patch :reactivate_subscription
 		end
 	end
