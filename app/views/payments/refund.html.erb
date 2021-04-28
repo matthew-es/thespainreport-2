@@ -1,59 +1,39 @@
 <% case @language when 1
 		refund_title = "Request a refund"
 		
-		log_in_not_logged_in_succeeded = ("\u2705").force_encoding('utf-8') + " This payment succeeded. You have guaranteed this independent journalism. Please log in if you wish to view the details."
-		log_in_not_logged_in_problem = "⚠️ Your bank wants you to confirm this payment. Please log in now to fix it. The process only takes a few seconds."
+		refund_one = "Do you want to request the refund of this payment?"
+		refund_two = "Your subscription and access will stop immediately"
+		refund_three = "You can reactivate your subscription at any time at any level"
+
 		log_in_email = "Your e-mail..."
 		log_in_password = "Your password..."  
 		log_in_button = "Log in"
 		log_in_new_password_link = "/password"
 		log_in_new_password_text = "New password?"
 		
-		payment_date_title = "Date"
-		payment_date = @payment.created_at.strftime("%d/%m/%Y, at %I:%M %P")
-		payment_amount_title = "Amount"
+		payment_reference_label = "Reference"
+		payment_amount_label = "Amount"
 		payment_amount = (number_to_currency((@payment.total_amount/100.to_f), unit: "€")).to_s
-		payment_method_title = "With"
-		payment_method_ending = "ending in ****"
-		payment_method_expiring = "that expires on"
-		payment_invoice_title = "Invoice"
-		
-		hello = "Hi"
-		situation_bank = "⚠️ Your bank wants you to confirm a payment"
-		situation_please_confirm = "Please confirm that payment now"
-		
-		card_existing = "Use existing card"
-		card_existing_expires = "that expires on"
-		card_new = "Or enter new card details"
-		confirm_payment = "Confirm Payment"
+
+		confirm_refund = "Confirm Refund"
 	when 2
 		refund_title = "Solicitar una devolución"
 		
-		log_in_not_logged_in_succeeded = ("\u2705").force_encoding('utf-8') + " El pago se ha realizado con éxito. Ha garantizado este periodismo independiente. Acceda con su clave si quiere ver los detalles."
-		log_in_not_logged_in_problem = "⚠️ Su banco quiere que confirme este pago. Acceda ahora con su clave para solucionarlo. Sólo se tarda unos segundos"
+		refund_one = "¿Quiere solicitar la devolución de este pago?"
+		refund_two = "Su suscripción y acceso se detendrán de inmediato"
+		refund_three = "Puede reactivar su suscripción en cualquier momento y a cualquier nivel"
+		
 		log_in_email = "Su correo..."
 		log_in_password = "Su clave..."  
 		log_in_button = "Entrar"
 		log_in_new_password_link = "/clave"
 		log_in_new_password_text = "¿Clave nueva?"
 		
-		payment_date_title = "Fecha"
-		payment_date = @payment.created_at.strftime("%d/%m/%Y, a las %H:%M")
-		payment_amount_title = "Cantidad"
+		payment_reference_label = "Referencia"
+		payment_amount_label = "Cantidad"
 		payment_amount = number_to_currency((@payment.total_amount/100.to_f), unit: "", separator: ",", delimiter: ".") + " euros"
-		payment_method_title = "Con"
-		payment_method_ending = "que termina en ****"
-		payment_method_expiring = "y que caduca en"
-		payment_invoice_title = "Factura"
 		
-		hello = "Hola"
-		situation_bank = "⚠️ Su banco quiere que confirme un pago"
-		situation_please_confirm = "Confirme ese pago ahora"
-		
-		card_existing = "Use la tarjeta actual"
-		card_existing_expires = "que caduca el"
-		card_new = "O use una tarjeta nueva"
-		confirm_payment = "Confirmar Pago"
+		confirm_refund = "Confirmar Devolución"
 end %>
 
 <%= render "layouts/logo_account" %>
@@ -78,16 +58,18 @@ end %>
 	<% end %>
 <% else %>
 	<div class="margin-top-10 padding-20 buy-background buy-border font-payment">
+		<p><%= refund_one %></p>
 		<ul>
-			<li>Do you want to request a refund for this payment of <%= payment_amount %>?</li>
-			<li>Your subscription and access will stop immediately</li>
-			<li>Your can restart your subscription at any level at any time</li>
+			<li><%= payment_reference_label %>: <%= @payment.external_payment_id %></li>
+			<li><%= payment_amount_label %>: <%= payment_amount %></li>
+			<li><%= refund_two %></li>
+			<li><%= refund_three %></li>
 		</ul>
 	
-		<div class="margin-bottom-20">
+		<div class="margin-top-20 margin-bottom-20">
 			<%= form_with url: confirm_refund_payment_url(@payment.external_payment_id), local: true do |f| %>
 				<div id="payment_to_fix" class="font-payment margin-top-10 align-centre">
-					<%= f.submit "Confirm", :class => "buybutton font-main-small width-fixed-cards mobile-width" %>
+					<%= f.submit confirm_refund, :class => "buybutton font-main-small width-fixed-cards mobile-width" %>
 				</div>
 			<% end %>
 		</div>

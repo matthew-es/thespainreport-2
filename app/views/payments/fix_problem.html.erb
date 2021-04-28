@@ -3,9 +3,9 @@
 		fix_payment_title_problem = "Problem: please confirm this payment"
 		fix_payment_title_refunded = "Payment refunded, thank you"
 		
-		payment_succeeded = ("\u2705").force_encoding('utf-8') + " This payment succeeded. You have guaranteed this independent journalism."
+		payment_succeeded = ("\u2705").force_encoding('utf-8') + " This payment succeeded. You have guaranteed this independent journalism. You are a hero of truth and democracy."
 		payment_problem = "⚠️ Your bank wants you to confirm this payment. The process only takes a few seconds."
-		payment_refunded = ("\u274C").force_encoding('utf-8') + " This payment has been refunded. Thank you for guaranteeing this independent journalism."
+		payment_refunded = ("\u274C").force_encoding('utf-8') + " This payment has been refunded. Thank you for guaranteeing this independent journalism. You can reactivate your subscription at any time at any level."
 		
 		log_in_please = "Please log in to view the details."
 		log_in_email = "Your e-mail..."
@@ -36,8 +36,11 @@
 		fix_payment_title_problem = "Problema: confirme este pago"
 		fix_payment_title_refunded = "Este pago se ha devuelto, gracias"
 		
-		log_in_not_logged_in_succeeded = ("\u2705").force_encoding('utf-8') + " El pago se ha realizado con éxito. Ha garantizado este periodismo independiente. Acceda con su clave si quiere ver los detalles."
-		log_in_not_logged_in_problem = "⚠️ Su banco quiere que confirme este pago. Acceda ahora con su clave para solucionarlo. Sólo se tarda unos segundos"
+		payment_succeeded = ("\u2705").force_encoding('utf-8') + " El pago se ha realizado con éxito. Ha garantizado este periodismo independiente. Es un héroe de la verdad y de la democracia."
+		payment_problem = "⚠️ Su banco quiere que confirme este pago. Sólo se tarda unos segundos"
+		payment_refunded = ("\u274C").force_encoding('utf-8') + " Se ha realizado correctamente la devolución de este pago. Gracias por garantizar este periodismo independiente. Puede reactivar su suscripción en cualquier momento a cualquier nivel."
+		
+		log_in_please = "Introduzca sus datos para ver los detalles."
 		log_in_email = "Su correo..."
 		log_in_password = "Su clave..."  
 		log_in_button = "Entrar"
@@ -74,9 +77,9 @@ end %>
 
 <% if current_user.nil? %>
     <div class="margin-top-10 margin-bottom-20 padding-20 success-box font-main-small">
-	    	<% if @payment_refunded == "true" %><%= payment_refunded %>
-	    	<% elsif @payment_status == "succeeded" %><%= payment_succeeded %>
-			<% else %><%= payment_problem %>
+	    	<% if @payment_refunded == "true" %><%= payment_refunded %> <%= log_in_please %>
+	    	<% elsif @payment_status == "succeeded" %><%= payment_succeeded %> <%= log_in_please %>
+			<% else %><%= payment_problem %> <%= log_in_please %>
 			<% end %>
     </div>
     
