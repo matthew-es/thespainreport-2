@@ -816,7 +816,11 @@ class PaymentsController < ApplicationController
 
 		# Never trust parameters from the scary internet, only allow the white list through.
 		def payment_params
-			params.require(:payment).permit(:card_country, :external_payment_error, :external_payment_id, :external_payment_status, :status, :type,
-			:base_amount, :vat_amount, :total_amount, :payment_method, :account_id, :invoice_id, :subscription_id)
+			params.require(:payment).permit(
+				:created_at,
+				:card_country, :external_payment_error, :external_payment_id, :external_payment_status, 
+				:status, :payment_type, 
+				:base_amount, :vat_amount, :total_amount, :payment_method, 
+				:account_id, :invoice_id, :subscription_id)
 		end
 end
