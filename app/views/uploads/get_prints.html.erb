@@ -14,34 +14,24 @@ end %>
 
 <h1 class="font-header font-header-normal line-120 font-upper"><%= get_print_title %></h1>
 
-<table class="font-main-vsmall">
-	<thead>
-		<tr>
-			<th>ID</th>
-			<th>Order date</th>
-			<th>Created</th>
-			<th>Updated</th>
-			<th class="align-right">User</th>
-			<th class="align-left">Image</th>
-		</tr>
-	</thead>
-
-	<tbody>
-		<% @prints.each do |p| %>
-			<tr class="<%= cycle("odd", "even") -%>">
-				<td><%= p.id %></td>
-				<td class="align-right"><%= p.order_date.strftime("%d/%m/%Y, %H:%M") %></td>
-				<td class="align-right"><%= p.created_at.strftime("%d/%m/%Y, %H:%M") %></td>
-				<td class="align-right"><%= p.updated_at.strftime("%d/%m/%Y, %H:%M") %></td>
-				<td><%= p.user.email %></td>
-				<td><%= File.basename(p.upload.data) %></td>
-				<td>
-					<%= image_tag ('https://image.thespainreport.es/' + File.basename(p.upload.data)), :style => "width: 100px;" %>
-				</td>
-			</tr>
-		<% end %>
-	</tbody>
-</table>
+<% @prints.each do |p, c| %>
+	<div class="">
+		<div class="float-left">
+			<% imageis = Upload.find(p) %>
+			<%= image_tag ('https://image.thespainreport.es/' + File.basename(imageis.data)), :style => "width: 100px; margin:0;" %>
+		</div>
+		
+		<div class="float-left margin-left-20">
+			<strong><%= pluralize(c, "person") %> </strong><br />
+			
+			<% wantsthisprint = Print.all.where(upload_id: p) %>
+			<% wantsthisprint.each do |w| %>
+				<%= w.order_date.strftime("%d/%m/%Y") %> | <%= w.order_date.strftime("%H:%M") %> | <%= w.user.email %> | <%= w.user.address_name %><br />
+			<% end %>
+		</div>
+		<div class="clear"></div>
+	</div>
+<% end %>
 
 
 <%= render "layouts/footer" %>
