@@ -36,7 +36,7 @@ class UploadsController < ApplicationController
 		if current_user.nil? 
 			redirect_to root_url
 		elsif current_user.status == 1
-			@photos = Print.all.group(:upload_id)
+			@photos = Print.select('id, user_id, upload_id, order_date').group(:upload_id)
 			
 		else
 			redirect_to root_url
