@@ -56,7 +56,10 @@
  <% end %>
 
 <%= render "articles/patrons_only_block" %>
-<%= render "payments/pay" %>
+
+<% if current_user.nil? %>
+	<%= render "payments/pay" %>
+<% end %>
 
 <div class="buy-border-top margin-top-20">
 	<h3>Video Reports</h3>

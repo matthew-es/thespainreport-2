@@ -3,13 +3,13 @@ class TweetsController < ApplicationController
 	before_action :set_tweet, only: [:show, :edit, :update, :destroy]
 
 	def tweetelements
-		@previoustweets = Tweet.last50
+		@previoustweets = Tweet.last100
 		@articles = Article.all.order("created_at DESC")
 		@languages = Language.all.order(:name)
 		@types = Type.all.order(:name)
 		@stories = Article.story.order('headline ASC')
 		@translationof = Article.lastten.order('created_at DESC')
-		@uploads = Upload.all.order('created_at DESC').limit(50)
+		@uploads = Upload.all.order('created_at DESC').limit(100)
 	end
 	
 	def index

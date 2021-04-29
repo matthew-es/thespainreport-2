@@ -116,16 +116,10 @@
 			<div class="margin-bottom-10">
 				<div class="margin-bottom-10">
 					<div class="margin-bottom-10">
-						<div class="margin-bottom-5">
-							.aac: <%= f.collection_select :audio_aac_id, @audios_aac, :id, :data_short_name, {include_blank: true, :selected => @article.audio_aac_id}, {:style => "width: 190px;"} %>
-						</div>
-						<div class="clear"></div>
+						.aac: <%= f.collection_select :audio_aac_id, @audios_aac, :id, :data_short_name, {include_blank: true, :selected => @article.audio_aac_id}, {:style => "width: 190px;"} %> <%= f.file_field :audio_upload_aac  %>
 					</div>
 					<div class="margin-bottom-10">
-						<div class="margin-bottom-5">
-							.mp3: <%= f.collection_select :audio_mp3_id, @audios_mp3, :id, :data_short_name, {include_blank: true, :selected => @article.audio_mp3_id}, {:style => "width: 190px;"} %>
-						</div>
-						<div class="clear"></div>
+						.mp3: <%= f.collection_select :audio_mp3_id, @audios_mp3, :id, :data_short_name, {include_blank: true, :selected => @article.audio_mp3_id}, {:style => "width: 190px;"} %> <%= f.file_field :audio_upload_mp3  %>
 					</div>
 					<div class="margin-bottom-10">
 						<div class="float-left margin-right-20" style="width:4%">

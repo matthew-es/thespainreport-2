@@ -5,6 +5,9 @@ class UploadsController < ApplicationController
 		@upload = Upload.find(params[:id])
 		@user = User.find(current_user.id)
 		set_language_frame(@user.sitelanguage, @user.frame.id)
+		
+		rescue
+			redirect_to root_url
 	end
 	
 	def confirm_print

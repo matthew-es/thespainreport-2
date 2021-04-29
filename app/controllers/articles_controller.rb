@@ -59,6 +59,10 @@ class ArticlesController < ApplicationController
 	def show
 		if @article.frame.present?
 			frame = @article.frame.id
+		elsif @article.language == 1
+			frame = Frame.find_by(link_slug: "guarantee")
+		elsif @article.language == 2
+			frame = Frame.find_by(link_slug: "garantizar")
 		else
 		end
 		set_language_frame(@article.language_id, frame)
@@ -68,7 +72,7 @@ class ArticlesController < ApplicationController
 		if ["Published", "Updated"].include?@article.status.name
 			
 			@article_id = @article.id
-			@frame_id = @article.frame.id
+			@frame_id = @frame.id
 			@articletweets = @article.tweets.order('created_at ASC')
 			@articlepieces = @article.pieces.published.order('created_at ASC')
 			
@@ -153,6 +157,44 @@ class ArticlesController < ApplicationController
 		end
 	end
 	
+	def add_article_podcast
+		puts "INSIDE ADD ARTICLE PODCAST"
+		
+		article_aac = params[:article][:audio_upload_aac]
+		article_mp3 = params[:article][:audio_upload_mp3]
+		
+		puts "HAVE GRABBED PARAMS WITH FILES"
+		
+		# Upload main version of image, update tweet with id
+		if article_aac
+			
+			puts "INSIDE ADD AAC VERSION"
+			
+			upload = article_aac
+			version = 1
+			main = ""
+			upload_aac = Uploads::UploadFile.process(upload, version, main)
+			
+			puts "AAC VERSION PROCESSED"
+			
+			# Update the article with the audio aac id
+			@article.update(audio_aac_id: upload_aac.id)
+		else
+		end
+		
+		# Upload high res version of image, do NOT update tweet
+		if article_mp3
+			upload = article_mp3
+			version = 2
+			main = upload_aac.id
+			upload_mp3 = Uploads::UploadFile.process(upload, version, main)
+		
+			# Update the article with the audio mp3 id
+			@article.update(audio_mp3_id: upload_mp3.id)
+		else
+		end
+	end
+	
 	def email_article
 		if params[:article][:email_to] == 'none'
 		
@@ -209,6 +251,7 @@ class ArticlesController < ApplicationController
 	def create
 		@article = Article.new(article_params)
 		add_article_image
+		add_article_podcast
 		
 		respond_to do |format|
 			if @article.save
@@ -229,6 +272,7 @@ class ArticlesController < ApplicationController
 		respond_to do |format|
 			if @article.update(article_params)
 				add_article_image
+				add_article_podcast
 				
 				format.html { redirect_to edit_article_path(@article), notice: 'Article was successfully updated.' }
 				format.json { render :edit, status: :ok, location: @article }

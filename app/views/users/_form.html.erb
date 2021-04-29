@@ -336,7 +336,7 @@
 				<strong><%= access_level_title %>:</strong>	
 			</div>
 			<div class="float-left margin-left-5 padding-top-5 mobile-width">
-			 	<%= access_level %> <%= link_to increase_level_link_text, root_url + @stub_increase if @account_owner %>
+			 	<%= access_level %> <%= link_to increase_level_link_text, root_url + @stub_increase if @boss %>
 			</div>
 			<div class="clear"></div
 		</div>
@@ -368,7 +368,7 @@
 				<% else %>	
 					<span class="red-background-text padding-2">
 						<%= prints_level_bad %> 
-						<%= link_to increase_level_link_text, root_url + @stub_increase if @account_owner %>
+						<%= link_to increase_level_link_text, root_url + @stub_increase if @boss %>
 					</span>
 				<% end %>
 			</div>
@@ -395,7 +395,7 @@
 				<h3><%= account_title %></h3>
 			</div>
 			
-			<% if @account_owner %>
+			<% if @boss %>
 				<div class="float-left margin-top-15 margin-left-5">
 					<%= form.submit save_button %>
 				</div>
@@ -415,7 +415,7 @@
 		<% end %>
 	</div>
 	
-	<% if @admin || @account_owner %>
+	<% if @admin || @boss %>
 		<div class="margin-bottom-5">
 			<strong><%= account_subscriptions_title %>:</strong> <%= @account.subscriptions.count %>
 		</div>
@@ -442,7 +442,7 @@
 		<% else end %>
 	<% end %>
 	
-	<% if @admin || @account_owner %>
+	<% if @admin || @boss %>
 	<div class="margin-top-10">
 		<% if !@user.account.invoices.any? %>
 		
@@ -463,7 +463,7 @@
 	<% end %>
 </div>
 
-<% if @admin || @account_owner %>
+<% if @admin || @boss %>
 	<% if @accountpaying && @unassigned_members.any? %>
 		<div class="patrons-background padding-20 margin-bottom-20">
 			<% @unassigned_members.each do |m| %>

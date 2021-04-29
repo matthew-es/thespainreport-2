@@ -1,4 +1,18 @@
+<% case @language when 1
+	images_high_res = "High resolution image for patrons"
+	images_request = "Request a print"
+	
+	pay_link = "https://www.thespainreport.es/value/guarantee"
+when 2
+	images_high_res = ""
+	images_request = ""
+	
+	pay_link = "https://www.thespainreport.es/valor/garantizar"
+end	%>
+
+
 <% title @article.headline %>
+
 <% content_for :meta do %>
 	<meta name="description" content="<%= @article.lede %>" />
 	<link rel="canonical" href="<%= article_url(@article) %>" />
@@ -207,22 +221,20 @@
 			<% case @language when 1 %><strong>Published:</strong> <%= @article.upload.created_at.strftime("%b %d, %Y, %l:%M %P") %>
 			<% when 2 %><strong>Publicado:</strong> <%= @article.upload.created_at.strftime("%d/%m/%Y, %H:%M") %> 
 			<% end %>
-	
-	<% if false %>
-			<% if current_user.nil? %>
-				<% case @language when 1 %> | <%= link_to "High resolution image for patrons", "https://www.thespainreport.es/value/guarantee" %>
-				<% when 2 %> | <%= link_to "Imagen de alta resolución para mecenas", "https://www.thespainreport.es/value/guarantee" %>
+			
+			<% if !@article.upload.nil? && @article.upload.versions.exists? %>
+				<% @article.upload.versions.each do |v| %>
+					<% if current_user.nil? %> | <%= link_to images_high_res, pay_link %>
+					<% elsif @get_high_res %> | <%= link_to images_high_res, 'https://image.thespainreport.es/' + File.basename(v.data) %>
+					<% else %> | <%= link_to images_high_res, pay_link %>
+					<% end %>
 				<% end %>
-			<% elsif @can_read_level_10 %>
-				<% case @language when 1 %> | <%= link_to "High resolution image for patrons", 'https://image.thespainreport.es/' + File.basename(@article.upload.data) %>
-				<% when 2 %> | <%= link_to "Imagen de alta resolución para mecenas", 'https://image.thespainreport.es/' + File.basename(@article.upload.data) %>
-				<% end %>
-			<% else %>
-				<% case @language when 1 %> | <%= link_to "High resolution image for patrons", "https://www.thespainreport.es/value/guarantee" %>
-				<% when 2 %> | <%= link_to "Imagen de alta resolución para mecenas", "https://www.thespainreport.es/valor/garantizar" %>
+			
+				<% if current_user.nil? %> | <%= link_to images_request, pay_link %>
+				<% elsif @get_prints %>	| <%= link_to images_request, get_print_upload_url(@article.upload) %>
+				<% else %> | <%= link_to images_request, pay_link %>
 				<% end %>
 			<% end %>
-	<% end %>
 		</span>
 	</div>
 <% else %>
@@ -237,42 +249,13 @@
 
 
 <% if @article.audio_aac_id.present? %>
-	
-	<% if ["Patrons Column", "Columna Mecenas"].include?(@article.type.name) && current_user.nil? %>
-			<p class="font-main-small"><em>
-				<% case @language when 1 %><a href="#patrons">Log in</a> to listen:
-				<% when 2 %><a href="#patrons">Inicie sesión</a> para escuchar:
-				<% end %>
-			</em></p>
+	<div class="margin-left-20 margin-top-20" >
 		<audio controls>
-			<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/aac">
-	  		<source src="<%= 'https://audio.thespainreport.es/' %>" type="audio/mpeg">
+		  	<source src="<%= 'https://audio.thespainreport.es/' + File.basename(Upload.find(@article.audio_aac_id).data) unless @article.audio_aac_id.nil? %>" type="audio/aac">
+		  	<source src="<%= 'https://audio.thespainreport.es/' + File.basename(Upload.find(@article.audio_mp3_id).data) unless @article.audio_mp3_id.nil? %>" type="audio/mpeg">
 			Your browser does not support the audio element.
 		</audio>
-	<% elsif ["Patrons Column", "Columna Mecenas"].include?(@article.type.name) && @can_read_level_5 %>
-		<div class="margin-left-20 margin-top-20" >
-			<audio controls>
-			  	<source src="<%= 'https://audio.thespainreport.es/' + File.basename(Upload.find(@article.audio_aac_id).data) unless @article.audio_aac_id.nil? %>" type="audio/aac">
-			  	<source src="<%= 'https://audio.thespainreport.es/' + File.basename(Upload.find(@article.audio_mp3_id).data) unless @article.audio_mp3_id.nil? %>" type="audio/mpeg">
-				Your browser does not support the audio element.
-			</audio>
-		</div>
-	<% else %>
-		<div class="margin-top-10">
-			<p><em>
-				<% case @language when 1 %>Listen:
-				<% when 2 %>Escuche:
-				<% end %>
-			</em></p>
-		</div>
-		
-		<audio controls>
-			<source src="<%= 'https://audio.thespainreport.es/' + File.basename(Upload.find(@article.audio_aac_id).data) unless @article.audio_aac_id.nil? %>" type="audio/aac">
-			  	<source src="<%= 'https://audio.thespainreport.es/' + File.basename(Upload.find(@article.audio_mp3_id).data) unless @article.audio_mp3_id.nil? %>" type="audio/mpeg">
-				Your browser does not support the audio element.
-		</audio>
-	<% end %>
-
+	</div>
 <% end %>
 
 <div class="margin-top-10">
@@ -383,31 +366,19 @@
 						<% end %>
 					<% end %>
 					
-					<% if t.upload %>
+					<% if !t.upload.nil? && t.upload.versions.exists? %>
 						<% t.upload.versions.each do |v| %>
-							<% if current_user.nil? %>
-								<% case @language when 1 %> | <%= link_to "High resolution image for patrons", "https://www.thespainreport.es/value/guarantee" %>
-								<% when 2 %> | <%= link_to "Imagen de alta resolución para mecenas", "https://www.thespainreport.es/value/guarantee" %>
-								<% end %>
-							<% elsif @get_prints %>
-								<% case @language when 1 %> | <%= link_to "High resolution image for patrons", 'https://image.thespainreport.es/' + File.basename(v.data) %>
-								<% when 2 %> | <%= link_to "Imagen de alta resolución para mecenas", 'https://image.thespainreport.es/' + File.basename(v.data) %>
-								<% end %>
-							<% else %>
-								<% case @language when 1 %> | <%= link_to "High resolution image for patrons", "https://www.thespainreport.es/value/guarantee" %>
-								<% when 2 %> | <%= link_to "Imagen de alta resolución para mecenas", "https://www.thespainreport.es/valor/garantizar" %>
-								<% end %>
+							<% if current_user.nil? %> | <%= link_to images_high_res, pay_link %>
+							<% elsif @get_high_res %> | <%= link_to images_high_res, 'https://image.thespainreport.es/' + File.basename(v.data) %>
+							<% else %> | <%= link_to images_high_res, pay_link %>
 							<% end %>
 						<% end %>
 					
-					<% case @language when 1 %> | <%= link_to "Request print", get_print_upload_url(t.upload) %>
-					<% when 2 %> | <%= link_to "Pedir imagen impresa", get_print_upload_url(t.upload) %>
+						<% if current_user.nil? %> | <%= link_to images_request, pay_link %>
+						<% elsif @get_prints %>	| <%= link_to images_request, get_print_upload_url(t.upload) %>
+						<% else %> | <%= link_to images_request, pay_link %>
+						<% end %>
 					<% end %>
-					
-					<% end %>
-					
-					
-					
 				</span>
 				</div>
 			</div>
@@ -420,8 +391,10 @@
 	<% else end %>
 
 	<%# PLEASE BECOME A PATRON...  %>
-	<%= render "payments/pay" %>
-
+	<% if current_user.nil? %>
+		<%= render "payments/pay" %>
+	<% end %>
+	
 	<%# PLEASE JOIN NEWSLETTER...  %>
 	<% if current_user.nil? %>
 		<%= render "users/new_reader_form" %>

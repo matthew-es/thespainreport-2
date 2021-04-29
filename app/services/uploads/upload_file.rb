@@ -1,6 +1,9 @@
 module Uploads
     class UploadFile
         def self.process(upload, version, main)
+        	
+        	puts "INSIDE UPLOAD FILE ACTION..."
+
 
             # Grab the image from the form field, write it to temporary folder
 			tf = "#{Rails.root}/tmp/#{upload.original_filename}"
@@ -35,7 +38,7 @@ module Uploads
 			s3 = Aws::S3::Resource.new()
 			name = File.basename(tf)
 			obj = s3.bucket(bucket).object(name)
-			obj.upload_file(tf)
+			obj.upload_file(tf, content_type: file_content_type)
 			
 			# Create a new upload entry in Rails database, for use elsewhere
 			an_upload = Upload.new(

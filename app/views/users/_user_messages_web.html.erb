@@ -1,32 +1,60 @@
+<% case @language when 1
+		subscription_account_label = "Account"
+		subscription_account_boss_label = "Account boss"
+		subscription_account_role_boss = "Boss"
+		subscription_account_role_member = "Member"
+		subscription_amount_title = "Your current level"
+		subscription_status_title = "Status"
+		subscription_active = "Active"
+		subscription_paused = "Paused"
+	when 2
+		subscription_account_label = "Cuenta"
+		subscription_account_boss_label = "Jefe de cuenta"
+		subscription_account_role_boss = "Jefe"
+		subscription_account_role_member = "Miembro"
+		subscription_amount_title = "Su nivel actual"
+		subscription_status_title = "Estado"
+		subscription_active = "Activa"
+		subscription_paused = "En pause"
+end %>
+
+<div class="margin-bottom-5">
+<strong><%= subscription_account_label %>:</strong>
+	<% if @boss %><%= subscription_account_role_boss %>
+	<% elsif @member %><%= subscription_account_role_member %>
+	<% else end %>
+</div>
+
+<% if @member %>
+	<div class="margin-bottom-5">
+		<strong><%= subscription_account_boss_label %>:</strong> <%= @account.user.email %>
+	</div>	
+<% end %>
+
 <% if !@user.account.subscriptions.blank? %>
-
-<% 
-s = @user.account.subscriptions.last
-new_level = ((((s.plan_amount + (s.plan_amount*0.3))/100))/5).round * 5
-
-case @language when 1
-	subscription_amount_title = "Your current level"
-	subscription_status_title = "Status"
-	subscription_amount = (number_to_currency((s.plan_amount/100.to_f), unit: "€")).to_s + " / month"
-	subscription_active = "Active"
-	subscription_paused = "Paused"
-when 2
-	subscription_amount_title = "Su nivel actual"
-	subscription_status_title = "Estado"
-	subscription_amount = number_to_currency((s.plan_amount/100.to_f), unit: "", separator: ",", delimiter: ".") + " euros al mes"
-	subscription_active = "Activa"
-	subscription_paused = "En pause"
-end
-%>
-
+	<% 
+	s = @user.account.subscriptions.last
+	new_level = ((((s.plan_amount + (s.plan_amount*0.3))/100))/5).round * 5
+	
+	case @language when 1
+		subscription_amount = (number_to_currency((@level/100.to_f), unit: "€")).to_s + " / month"
+	when 2
+		subscription_amount = number_to_currency((@level/100.to_f), unit: "", separator: ",", delimiter: ".") + " euros al mes"
+	end
+	%>
+	
+	<div class="margin-bottom-5">
 		<strong><%= subscription_amount_title %>:</strong> <%= subscription_amount %>
-		<br />
+	</div>
+	<div class="margin-bottom-5">
 		<strong><%= subscription_status_title %>:</strong>
-			<% if s.is_active == true %><span style="background-color: #ccffcc; color: green;"><%= subscription_active %></span>
-			<% elsif s.is_active == false %><span style="background-color: #ffe6e6; color: #ff0000;"><%= subscription_paused %></span>
-			<% else end %>
+		<% if s.is_active == true %><span style="background-color: #ccffcc; color: green;"><%= subscription_active %></span>
+		<% elsif s.is_active == false %><span style="background-color: #ffe6e6; color: #ff0000;"><%= subscription_paused %></span>
+		<% else end %>
+	</div>
 <% else end %>
 
+<div class="margin-bottom-5">
 <% case @language when 1 %>
   You are
   	<% if @admin %>the boss.
@@ -56,9 +84,10 @@ end
 <% if @reader_trial %><%= @frame.reader_45_trial_message %>: <%= link_to @frame.button_cta, @subscribe %>
 <% elsif @reader_trial_over %><%= @frame.reader_no_45_trial_message %>: <%= link_to @frame.button_cta_trial_over, @subscribe %>
 <% else end %>
+</div>
 
 
-<%= new_level %>
+<% if @boss || @admin %>
 
 <div class="padding-top-10">
 	<div class="topbutton mobile-100">
@@ -115,3 +144,4 @@ end
 		</div>
 	</div>
 </div>
+<% end %>

@@ -36,9 +36,10 @@ class ApplicationController < ActionController::Base
 			@patron_paused = (@user.account.subscriptions.last.is_active == false) unless @user.account.subscriptions.blank?
 			@patron = @patron_1 || @patron_5 || @patron_10 || @patron_25 || @patron_paused
 			@reader = @readertrial || @reader_trial_over
+			@get_high_res = @admin || @super_patron || @patron_25 || @patron_10 || @reader_trial
 			@get_prints = @admin || @super_patron || @patron_25 || @reader_trial
 			
-			@account_owner = @role == 1
+			@boss = @role == 1
 			@member = @role == 2
 			
 			if @reader_trial

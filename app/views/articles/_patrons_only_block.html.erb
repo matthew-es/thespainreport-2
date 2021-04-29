@@ -74,7 +74,7 @@
 		<% else %>
 		<% end %>
 		
-		<%= render 'users/log_in_logic' %>
+		
 		
 		<% if controller_name == "articles" && action_name == "show" %>
 			<%= render "articles/patrons_only_video", article: @article %>
@@ -84,5 +84,7 @@
 			<div class="clear"></div>
 		<% else %>
 		<% end %>
+		
+		<%= render 'users/log_in_logic' %>
 	</div>
 </div>

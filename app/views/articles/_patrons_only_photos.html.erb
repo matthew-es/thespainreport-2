@@ -1,7 +1,7 @@
 <% if ["Photos", "fotos"].include?(@article.type.name) %>
-	
 	<% if @cannot_read_2 %>
-		<div class="buy-border-bottom padding-bottom-10">
+	
+		<div class="buy-border-top padding-top-20">
 			<p class="font-main-small">
 				<% case @language when 1 %>Patrons contributing more than...
 				<% when 2 %>Los mecenas que contribuyen más de...
@@ -14,11 +14,7 @@
 					<% end %>
 				</li>
 			</ul>
-			
-			<div class="align-centre topbutton mobile-100"> 
-				<a href="<%= @increase %>" class="buybutton"><%= @cta %></a> 
-			</div>
 		</div>
+	
 	<% end %>
-
 <% else end %>
