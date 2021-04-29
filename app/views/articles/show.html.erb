@@ -389,7 +389,7 @@
 								<% case @language when 1 %> | <%= link_to "High resolution image for patrons", "https://www.thespainreport.es/value/guarantee" %>
 								<% when 2 %> | <%= link_to "Imagen de alta resolución para mecenas", "https://www.thespainreport.es/value/guarantee" %>
 								<% end %>
-							<% elsif @can_read_level_10 %>
+							<% elsif @get_prints %>
 								<% case @language when 1 %> | <%= link_to "High resolution image for patrons", 'https://image.thespainreport.es/' + File.basename(v.data) %>
 								<% when 2 %> | <%= link_to "Imagen de alta resolución para mecenas", 'https://image.thespainreport.es/' + File.basename(v.data) %>
 								<% end %>
@@ -399,7 +399,15 @@
 								<% end %>
 							<% end %>
 						<% end %>
+					
+					<% case @language when 1 %> | <%= link_to "Request print", get_print_upload_url(t.upload) %>
+					<% when 2 %> | <%= link_to "Pedir imagen impresa", get_print_upload_url(t.upload) %>
 					<% end %>
+					
+					<% end %>
+					
+					
+					
 				</span>
 				</div>
 			</div>

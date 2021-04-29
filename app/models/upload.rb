@@ -3,9 +3,10 @@ class Upload < ApplicationRecord
 	
 	has_many :versions, class_name: "Upload", foreign_key: "main_id"
 	belongs_to :main, class_name: "Upload", optional: true
-	
 	has_many :articles
 	has_many :tweets
+	has_many :prints
+	has_many :users, :through => :prints
 	
 	scope :main, -> {Upload.where(main_id: "")}
 	scope :audios_aac, -> {Upload.where(file_type: "audio/aac")}

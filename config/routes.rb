@@ -6,21 +6,24 @@
 			patch :pause
 		end
 	end
+	
 	resources :invoices do
 		member do
 			post :apply_invoice_details
 		end
 	end
+	
 	resources :countries
 	resources :tweets
 	resources :visits
 	resources :plans
+	
 	if Rails.env.production?
-	constraints(host: /^(?!www\.)/i) do
-	  get '(*any)' => redirect { |params, request|
-		URI.parse(request.url).tap { |uri| uri.host = "www.#{uri.host}" }.to_s
-	  }
-	end
+		constraints(host: /^(?!www\.)/i) do
+		  get '(*any)' => redirect { |params, request|
+			URI.parse(request.url).tap { |uri| uri.host = "www.#{uri.host}" }.to_s
+		  }
+		end
 	else
 	end
 	
@@ -167,21 +170,29 @@
 	post 'upload_files' => 'uploads#upload_files'
 	
 	resources :users do
-	member do
-	  get :confirm_email
-	  get :confirmar_correo
-	  get :confirm_email_own_account
-	  get :confirm_change_email
-	  get :enter_new_password
-	  get :introducir_clave_nueva
-	  get :update_email_amount
-	  get :update_email_language
-	  get :unlink_subscription_member
-	  patch :update_level_amount
-	  patch :account_boss_adds_user
+		member do
+		  get :confirm_email
+		  get :confirmar_correo
+		  get :confirm_email_own_account
+		  get :confirm_change_email
+		  get :enter_new_password
+		  get :introducir_clave_nueva
+		  get :update_email_amount
+		  get :update_email_language
+		  get :unlink_subscription_member
+		  patch :update_level_amount
+		  patch :account_boss_adds_user
+		end
 	end
+	
+	resources :uploads do
+		member do
+			get :get_print
+			post :confirm_print
+		end
 	end
-	resources :uploads
+	get 'get_prints' => 'uploads#get_prints'
+	
 	resources :frames
 	resources :languages
 	resources :statuses

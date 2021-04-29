@@ -3,7 +3,8 @@ class User < ApplicationRecord
 	has_secure_password
 	belongs_to :account, optional: true
 	accepts_nested_attributes_for :account
-	
+	has_many :prints
+	has_many :uploads, :through => :prints
 	belongs_to :frame, optional: true
 	belongs_to :subscription, optional: true
 	

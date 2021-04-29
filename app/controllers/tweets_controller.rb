@@ -16,7 +16,7 @@ class TweetsController < ApplicationController
 		if current_user.nil? 
 			redirect_to root_url
 		elsif current_user.status == 1
-			@tweets = Tweet.last50
+			@tweets = Tweet.last100
 		else
 			redirect_to root_url
 		end

@@ -37,6 +37,7 @@
 		prints_street = "You address..."
 		prints_postcode = "Your postcode..."
 		prints_country = "Your country..."
+		prints_latest = "Latest physical print requested"
 		
 		account_title = "My Account"
 		account_number = "Account ID"
@@ -123,6 +124,7 @@
 		prints_street = "Su dirección..."
 		prints_postcode = "Su código postal..."
 		prints_country = "Su país..."
+		prints_latest = "Última imagen impresa solicitada"
 		
 		account_title = "Mi Cuenta"
 		account_number = "Nº de cuenta"
@@ -376,9 +378,15 @@
 		<%= form.text_field :address_street, :class => "margin-bottom-5 width-90 padding-5 font-header font-header-tiny mobile-width", placeholder: prints_street, disabled: !@get_prints %><br />
 		<%= form.text_field :address_postcode, :class => "margin-bottom-5 width-50 padding-5 font-header font-header-tiny mobile-width", placeholder: prints_postcode, disabled: !@get_prints %><br />
 		<%= form.text_field :address_country, :class => "margin-bottom-5 width-50 padding-5 font-header font-header-tiny mobile-width", placeholder: prints_country, disabled: !@get_prints %>
-	</div>
 	<% end %>
-
+	
+	<% if @user.prints.any? %>
+		<div class="margin-bottom-20">
+			<h3><%= prints_latest %></h3>
+			<%= image_tag ('https://image.thespainreport.es/' + File.basename(@user.prints.last.upload.data)) %>
+		</div>
+	<% else end %>
+</div>
 
 <div class="patrons-background padding-20 margin-bottom-20">
 	<%= form_with model: @account, local: true do |form| %>

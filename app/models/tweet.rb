@@ -10,4 +10,5 @@ class Tweet < ApplicationRecord
     belongs_to :upload, optional: true
     
     scope :last50, -> {order('created_at DESC').limit(50)}
+    scope :last100, -> {order('created_at DESC').limit(100)}
 end

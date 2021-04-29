@@ -1,14 +1,57 @@
 class UploadsController < ApplicationController
 	before_action :set_upload, only: [:show, :edit, :update, :destroy]
-
+	
+	def get_print
+		@upload = Upload.find(params[:id])
+		@user = User.find(current_user.id)
+		set_language_frame(@user.sitelanguage, @user.frame.id)
+	end
+	
+	def confirm_print
+		@upload = Upload.find(params[:id])
+		@user = User.find(current_user.id)
+		
+		puts "ORDER PRINT: " + @upload.id.to_s + " FOR USER " + @user.email
+		
+		has_prints = @user.prints.where(order_date: DateTime.now.in_time_zone.beginning_of_month..DateTime.now.in_time_zone.end_of_month)
+		latest_print = has_prints.last
+		
+		if !has_prints.nil? && (has_prints.count > 0)
+			latest_print.update(
+				upload_id: @upload.id,
+				order_date: DateTime.now
+				)
+		else
+			Print.create(
+				user_id: @user.id,
+				upload_id: @upload.id,
+				order_date: DateTime.now
+				)
+		end
+		
+		redirect_to edit_user_path(@user)
+	end
+	
+	def get_prints
+		if current_user.nil? 
+			redirect_to root_url
+		elsif current_user.status == 1
+			@prints = Print.all.order('created_at DESC')
+			@photos = @prints.group(:upload_id)
+			
+		else
+			redirect_to root_url
+		end
+	end
+	
 	# GET /uploads
 	# GET /uploads.json
 	def index
 		if current_user.nil? 
 			redirect_to root_url
 		elsif current_user.status == 1
-			@uploads = Upload.all.order('created_at DESC').limit(20)
-			@mains = Upload.main.order('created_at DESC').limit(20)
+			@uploads = Upload.all.order('created_at DESC')
+			@mains = Upload.main.order('created_at DESC')
 		else
 			redirect_to root_url
 		end

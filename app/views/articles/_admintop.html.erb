@@ -12,6 +12,7 @@
 		<%= link_to "Tweets", tweets_path %>
 		<%= link_to "Articles", articles_path %>
 		<%= link_to "Uploads", uploads_path %>
+		<%= link_to "Prints", get_prints_path %>
 		|| <%= link_to "Plans", plans_path %>
 		| <%= link_to "Frames", frames_path %>
 		|| <%= link_to "Patrons", users_path %>
@@ -32,6 +33,8 @@
 			Quick / Thread / Photo Essay
 		<% elsif controller_name == "articles" %>
 			Value energy objects
+		<% elsif controller_name == "uploads" && action_name == "get_prints" %>
+			Get Prints
 		<% elsif controller_name == "uploads" %>
 			Uploads
 		<% elsif controller_name == "frames" %>
