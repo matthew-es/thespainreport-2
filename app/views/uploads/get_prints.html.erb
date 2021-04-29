@@ -14,19 +14,34 @@ end %>
 
 <h1 class="font-header font-header-normal line-120 font-upper"><%= get_print_title %></h1>
 
-<% @photos.each do |p| %>
-	<div class="margin-bottom-20">
-		<%= image_tag ('https://image.thespainreport.es/' + File.basename(p.upload.data)), :style => "width: 100px;" %>
-	</div>
-	
-	<div class="">
-		<% photoprints = Print.where(upload_id: p.upload.id) %>
-		
-		<% photoprints.each do |p| %>
-			<%= p.id %> | <%= p.order_date.strftime("%d/%m/%Y") %> | <%= p.order_date.strftime("%H:%M") %> | <%= p.user.email %> | <%= p.user.address_name %> | <%= p.user.address_street %> | <%= p.user.address_postcode %> | <%= p.user.address_country %><br />
+<table class="font-main-vsmall">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Order date</th>
+			<th>Created</th>
+			<th>Updated</th>
+			<th class="align-right">User</th>
+			<th class="align-left">Image</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% @prints.each do |p| %>
+			<tr class="<%= cycle("odd", "even") -%>">
+				<td><%= p.id %></td>
+				<td class="align-right"><%= p.order_date.strftime("%d/%m/%Y, %H:%M") %></td>
+				<td class="align-right"><%= p.created_at.strftime("%d/%m/%Y, %H:%M") %></td>
+				<td class="align-right"><%= p.updated_at.strftime("%d/%m/%Y, %H:%M") %></td>
+				<td><%= p.user.email %></td>
+				<td><%= File.basename(p.upload.data) %></td>
+				<td>
+					<%= image_tag ('https://image.thespainreport.es/' + File.basename(p.upload.data)), :style => "width: 100px;" %>
+				</td>
+			</tr>
 		<% end %>
-		
-	</div>
-<% end %>
+	</tbody>
+</table>
+
 
 <%= render "layouts/footer" %>

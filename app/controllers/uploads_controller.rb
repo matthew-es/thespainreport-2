@@ -36,8 +36,7 @@ class UploadsController < ApplicationController
 		if current_user.nil? 
 			redirect_to root_url
 		elsif current_user.status == 1
-			@photos = Print.select('id, user_id, upload_id, order_date').group(:upload_id)
-			
+			@prints = Print.all.order('created_at DESC')
 		else
 			redirect_to root_url
 		end
