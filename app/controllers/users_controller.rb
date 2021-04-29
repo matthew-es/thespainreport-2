@@ -367,7 +367,8 @@ class UsersController < ApplicationController
 			@users13 = User.patrons.where(level_amount: 13).count
 			@users14 = User.patrons.where(level_amount: 14).count
 			@users15 = User.patrons.where(level_amount: 15).count
-			@usersbig = User.patrons.where('level_amount > ?', 15)
+			@users25 = User.patrons.where(level_amount: 25)
+			@usersbig = User.patrons.where('level_amount > ?', 25)
 			
 			@problemsnil = User.patrons.where(level_amount: [nil, 0])
 			
