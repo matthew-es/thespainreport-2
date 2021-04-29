@@ -369,7 +369,7 @@ class UsersController < ApplicationController
 			@users15 = User.where(level_amount: 15).count
 			@usersbig = User.where('level_amount > ?', 15)
 			
-			@problemsnil = User.where(level_amount: [nil, 0])
+			@problemsnil = User.patrons.where(level_amount: [nil, 0])
 			
 			if params[:search]
 				search_string = params[:search]
