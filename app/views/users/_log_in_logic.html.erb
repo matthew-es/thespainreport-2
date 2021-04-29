@@ -1,6 +1,6 @@
 <div class="padding-bottom-10 margin-bottom-0 log-in-border">
 	<% if current_user.nil? %>
-		<p class="font-main-small"><em>
+		<p class="font-main-small margin-bottom-5"><em>
 			<% if controller_name == "home" %>
 				<%= @frame.patrons_extra_home %>
 			<% elsif controller_name == "articles" && action_name == "show" %>

@@ -17,13 +17,13 @@ when 2
 end
 %>
 
-		<strong><%= subscriptions_amount_title %>:</strong> <%= subscription_amount %>
-		<br />
-		<strong><%= subscriptions_status_title %>:</strong>
-			<% if s.is_active == true %><span style="background-color: #ccffcc; color: green;"><%= subscriptions_active %></span>
-			<% elsif s.is_active == false %><span style="background-color: #ffe6e6; color: #ff0000;"><%= subscriptions_paused %></span>
-			<% else end %>
-		<br />
+<strong><%= subscriptions_amount_title %>:</strong> <%= subscription_amount %>
+<br />
+<strong><%= subscriptions_status_title %>:</strong>
+	<% if s.is_active == true %><span style="background-color: #ccffcc; color: green;"><%= subscriptions_active %></span>
+	<% elsif s.is_active == false %><span style="background-color: #ffe6e6; color: #ff0000;"><%= subscriptions_paused %></span>
+	<% else end %>
+<br />
 <% else end %>
 
 <% case @language when 1 %>

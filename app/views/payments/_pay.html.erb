@@ -22,7 +22,7 @@
 		</p>
 	</div>
 	
-	<% if current_user.nil? || @reader %>
+	<% if current_user.nil? || @reader || @user.account.subscriptions.blank? %>
 	
 	
 	<%# DISPLAY PLANS... %>
@@ -63,7 +63,7 @@
 	</div>
 	
 	<%# DISPLAY PAYMENT FORM... %>
-	<div class="margin-top-10 margin-bottom-10 padding-20 buy-background buy-border font-payment">
+	<div class="margin-top-10 margin-bottom-10 padding-20 buy-background buy-border font-payment" onmouseover="checkAmount()">
 		<div id="ajax_form_one">
 			
 			<%# If user already exists and is logged in, say hello... %>
