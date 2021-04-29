@@ -65,6 +65,20 @@ Total (can/not read): <%= User.where(can_read: true).count %><br />
 	</tbody>
 </table>
 
+<h3>Big</h3>
+<table class="admin-table">
+	<tbody>
+		<%= render "user_row_header" %>
+		
+		<% if !@usersbig.empty? %> 
+			<% @usersbig.each do |user| %>
+				<%= render "user_row", user: user %>
+			<% end %>
+		<% else %>
+			<tr><td>There are no users like this.</td></tr>
+		<% end %>
+	</tbody>
+</table>
 
 <h3>Authors</h3>
 <table class="admin-table">
