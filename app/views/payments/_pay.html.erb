@@ -22,6 +22,8 @@
 		</p>
 	</div>
 	
+	<% if current_user.nil? || @reader %>
+	
 	
 	<%# DISPLAY PLANS... %>
 	<div class="width-98 margin-bottom-10">
@@ -290,5 +292,16 @@
 	
 	<%# STORE VALUES FOR SERVER IN FORM FIELDS... %>	
 	<%= render "payments/server_stuff" %>
-
+	
+	
+	<% else %>
+		<% if @boss || @admin %>
+			<div class="margin-top-20 padding-20 buy-background log-in-border-top font-main-small">
+				<div class="topbutton mobile-100">
+					<%= render "users/user_messages_web" %>
+				</div>
+			</div>
+		<% end %>		
+	<% end %>
+	
 </div>

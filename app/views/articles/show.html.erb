@@ -385,10 +385,7 @@ end	%>
 		<% end %>
 	<% end %>
 	
-	<%# PATRONS EXTRAS HERE...  %>
-	<% if @article.extras_audio_title.present? || @article.extras_video_title.present? || ["Patrons Column", "Columna Mecenas"].include?(@article.type.name) %>
-		<%= render "articles/patrons_only_block" %>
-	<% else end %>
+	<%= render "articles/patrons_only_block" %>
 
 	<%# PLEASE BECOME A PATRON...  %>
 	<% if current_user.nil? %>

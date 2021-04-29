@@ -76,7 +76,7 @@
 	
 	
 	<% if @cannot_read_1 || @patron_5 || @patron_10 %>
-		<div class="buy-border-top padding-top-20">
+		<div class="buy-border-top padding-top-20 padding-bottom-20">
 			<p class="font-main-small">
 				<% case @language when 1 %>Patrons contributing...
 				<% when 2 %>Los mecenas que contribuyen...
@@ -90,7 +90,7 @@
 						<% case @language when 1 %>...€5/month can watch <strong>one</strong> extra video/report
 						<% when 2 %>...5 euros/mes pueden ver <strong>un</strong> vídeo adicional/reportaje
 						<% end %>
-					</li>
+					
 					<li>
 						<% case @language when 1 %>...€10/month can watch <strong>two</strong> extra videos/report
 						<% when 2 %>...10 euros/mes pueden ver <strong>dos</strong> vídeos adicionales/reportaje

@@ -65,16 +65,10 @@
 			<% elsif @article.extras_audio_title.present? %>
 				<p><%= @article.extras_audio_intro %></p>
 			<% elsif ["Photos", "fotos"].include?(@article.type.name) %>
-			
 			<% elsif ["Patrons only", "Sólo mecenas"].include?(@article.type.name) %>
-			
 			<% else end %>
-			
-			
 		<% else %>
 		<% end %>
-		
-		
 		
 		<% if controller_name == "articles" && action_name == "show" %>
 			<%= render "articles/patrons_only_video", article: @article %>

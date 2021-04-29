@@ -336,7 +336,7 @@
 				<strong><%= access_level_title %>:</strong>	
 			</div>
 			<div class="float-left margin-left-5 padding-top-5 mobile-width">
-			 	<%= access_level %> <%= link_to increase_level_link_text, root_url + @stub_increase if @boss %>
+			 	<%= access_level %>
 			</div>
 			<div class="clear"></div
 		</div>
@@ -363,13 +363,8 @@
 		<div class="margin-bottom-10 font-main-small">
 			<span class="padding-2"><%= prints_teaser %></span>
 			<div class="margin-top-5">
-				<% if @get_prints %>
-					<span class="green-background-text padding-2"><%= prints_level_good %></span>
-				<% else %>	
-					<span class="red-background-text padding-2">
-						<%= prints_level_bad %> 
-						<%= link_to increase_level_link_text, root_url + @stub_increase if @boss %>
-					</span>
+				<% if @get_prints %><span class="green-background-text padding-2"><%= prints_level_good %></span>
+				<% else %><span class="red-background-text padding-2"><%= prints_level_bad %></span>
 				<% end %>
 			</div>
 		</div>
@@ -489,7 +484,7 @@
 					<strong><%= subscriptions_number_title %>:</strong> <%= s.id %>
 				</div>
 				<div class="margin-bottom-5">
-					<strong><%= subscriptions_amount_title %>:</strong> <%= number_to_currency((s.plan_amount.to_f/100.to_f), unit: "€") %> <%= link_to increase_level_link_text, root_url + @stub_increase %>
+					<strong><%= subscriptions_amount_title %>:</strong> <%= number_to_currency((s.plan_amount.to_f/100.to_f), unit: "€") %>
 				</div>
 				<div class="margin-bottom-5">
 					<strong><%= subscriptions_vat_title %>:</strong> <%= number_to_currency((s.vat_amount.to_f/100.to_f), unit: "€") %>
