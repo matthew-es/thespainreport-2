@@ -345,6 +345,29 @@ class UsersController < ApplicationController
 			@latest_authors = User.authors.order("updated_at DESC")
 			@patrons_nil_account = User.where(can_read: nil).order("created_at DESC")
 			
+			@patronsnil = User.patrons.where(level_amount: nil).count
+			@patronszero = User.patrons.where(level_amount: 0).count
+			@patronsnotnil = User.patrons.where.not(level_amount: nil).count
+			@readersnil = User.readers.where(level_amount: nil).count
+			@readerszero = User.readers.where(level_amount: 0).count
+			@readersnotnil = User.readers.where.not(level_amount: nil).count
+			@users0 = User.where(level_amount: 0).count
+			@users1 = User.where(level_amount: 1).count
+			@users2 = User.where(level_amount: 2).count
+			@users3 = User.where(level_amount: 3).count
+			@users4 = User.where(level_amount: 4).count
+			@users5 = User.where(level_amount: 5).count
+			@users6 = User.where(level_amount: 6).count
+			@users7 = User.where(level_amount: 7).count
+			@users8 = User.where(level_amount: 8).count
+			@users9 = User.where(level_amount: 9).count
+			@users10 = User.where(level_amount: 10).count
+			@users11 = User.where(level_amount: 11).count
+			@users12 = User.where(level_amount: 12).count
+			@users13 = User.where(level_amount: 13).count
+			@users14 = User.where(level_amount: 14).count
+			@users15 = User.where(level_amount: 15).count
+			
 			if params[:search]
 				search_string = params[:search]
 				@search_results = User.all.where("email LIKE ?", "%#{search_string}%").order("created_at DESC")
