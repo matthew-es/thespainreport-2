@@ -345,14 +345,14 @@ class UsersController < ApplicationController
 			@latest_authors = User.authors.order("updated_at DESC")
 			@patrons_nil_account = User.where(can_read: nil).order("created_at DESC")
 			
-			@patronsnil = User.patrons.where(level_amount: nil).count
+			@patronsnil = User.patrons.where(level_amount: nil)
 			@patronszero = User.patrons.where(level_amount: 0).count
 			@patronsnotnil = User.patrons.where.not(level_amount: nil).count
 			@readersnil = User.readers.where(level_amount: nil).count
 			@readerszero = User.readers.where(level_amount: 0).count
 			@readersnotnil = User.readers.where.not(level_amount: nil).count
 			@users0 = User.where(level_amount: 0).count
-			@users1 = User.where(level_amount: 1).count
+			@users1 = User.where(level_amount: 1)
 			@users2 = User.where(level_amount: 2).count
 			@users3 = User.where(level_amount: 3).count
 			@users4 = User.where(level_amount: 4).count
@@ -367,6 +367,9 @@ class UsersController < ApplicationController
 			@users13 = User.where(level_amount: 13).count
 			@users14 = User.where(level_amount: 14).count
 			@users15 = User.where(level_amount: 15).count
+			@usersbig = User.where('level_amount > ?', 15)
+			
+			@problemsnil = User.where(level_amount: [nil, 0])
 			
 			if params[:search]
 				search_string = params[:search]

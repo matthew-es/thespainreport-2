@@ -26,6 +26,7 @@ Total (can/not read): <%= User.where(can_read: true).count %><br />
 <br />
 
 <h3>UPDATING USER AMOUNTS</h3>
+-- big: <%= @usersbig.count %><br />
 -- 15: <%= @users15 %><br />
 -- 14: <%= @users14 %><br />
 -- 13: <%= @users13 %><br />
@@ -40,14 +41,30 @@ Total (can/not read): <%= User.where(can_read: true).count %><br />
 -- 4: <%= @users4 %><br />
 -- 3: <%= @users3 %><br />
 -- 2: <%= @users2 %><br />
--- 1: <%= @users1 %><br />
+-- 1: <%= @users1.count %><br />
 -- 0: <%= @users0 %><br />
--- patrons nil: <%= @patronsnil %><br />
+-- patrons nil: <%= @patronsnil.count %><br />
 -- patrons zerol: <%= @patronszero %><br />
 -- patrons not nil: <%= @patronsnotnil %><br />
 -- readers nil: <%= @readersnil %><br />
 -- readers zero: <%= @readerszero %><br />
 -- readers not nil: <%= @readersnotnil %><br />
+
+<h3>Problems Nil</h3>
+<table class="admin-table">
+	<tbody>
+		<%= render "user_row_header" %>
+		
+		<% if !@problemsnil.empty? %> 
+			<% @problemsnil.each do |user| %>
+				<%= render "user_row", user: user %>
+			<% end %>
+		<% else %>
+			<tr><td>There are no users like this.</td></tr>
+		<% end %>
+	</tbody>
+</table>
+
 
 <h3>Authors</h3>
 <table class="admin-table">
