@@ -108,6 +108,7 @@ class ArticlesController < ApplicationController
 		else
 			redirect_to root_url
 		end
+		
 	end
 	
 	def tweet_article

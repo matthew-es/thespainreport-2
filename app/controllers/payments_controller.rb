@@ -739,8 +739,6 @@ class PaymentsController < ApplicationController
 			redirect_to root_url
 		elsif current_user.status == 1
 		
-		elsif @payment.account.user_id == current_user.id
-		
 		else
 			redirect_to root_url
 		end
