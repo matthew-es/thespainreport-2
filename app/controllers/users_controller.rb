@@ -372,6 +372,10 @@ class UsersController < ApplicationController
 			
 			@problemsnil = User.patrons.where(level_amount: [nil, 0])
 			
+			@users2.each do |u|
+				u.update(level_amount: 200)
+			end
+			
 			if params[:search]
 				search_string = params[:search]
 				@search_results = User.all.where("email LIKE ?", "%#{search_string}%").order("created_at DESC")
