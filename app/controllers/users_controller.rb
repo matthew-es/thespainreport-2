@@ -372,8 +372,40 @@ class UsersController < ApplicationController
 			
 			@problemsnil = User.patrons.where(level_amount: [nil, 0])
 			
-			@users2.each do |u|
-				u.update(level_amount: 200)
+			@users1.each do |u|
+				u.update(level_amount: 100)
+			end
+			
+			@users3.each do |u|
+				u.update(level_amount: 300)
+			end
+			
+			@users4.each do |u|
+				u.update(level_amount: 400)
+			end
+			
+			@users5.each do |u|
+				u.update(level_amount: 500)
+			end
+			
+			@users7.each do |u|
+				u.update(level_amount: 700)
+			end
+			
+			@users9.each do |u|
+				u.update(level_amount: 900)
+			end
+			
+			@users10.each do |u|
+				u.update(level_amount: 1000)
+			end
+			
+			@users15.each do |u|
+				u.update(level_amount: 1500)
+			end
+			
+			@users25.each do |u|
+				u.update(level_amount: 2500)
 			end
 			
 			if params[:search]
