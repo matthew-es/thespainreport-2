@@ -351,9 +351,10 @@ class UsersController < ApplicationController
 			@readerscount = User.readers.count
 			@patronscount = User.patrons.count
 			
-			@patrons_problems = User.patrons.where(level_amount: [nil, 0])
+			@patrons_problems = User.where(level_amount: nil) || User.patrons.where(level_amount: 0)
 			@patrons_subscription = User.patrons.where.not(subscription_id: nil)
 			@patrons_no_subscription = User.patrons.where(subscription_id: nil)
+			@nil_level = User.where(level_amount: nil)
 			
 			@patrons_0 = User.patrons.where(level_amount: 0)
 			@patrons_below_5 = User.patrons.where(level_amount: 1..499)
@@ -363,6 +364,10 @@ class UsersController < ApplicationController
 			@patrons_10_25 = User.patrons.where(level_amount: 1001..2499)
 			@patrons_25 = User.patrons.where(level_amount: 2500)
 			@patrons_above_25 = User.patrons.where('level_amount > ?', 2501)
+			
+			@nil_level.each do |u|
+				u.update(level_amount: 0)
+			end
 			
 			if params[:search]
 				search_string = params[:search]
