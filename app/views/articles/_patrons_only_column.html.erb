@@ -1,5 +1,5 @@
-<% if ["Patrons only", "Sólo mecenas"].include?(@article.type.name) %>
-	<% if @cannot_read_1 %>
+<% if ["Patrons column", "Columna mecenas"].include?(@article.type.name) %>
+	<% if !@can_read_level_1 %>
 	
 		<div class="buy-border-bottom padding-bottom-10">
 			<p class="font-main-small">

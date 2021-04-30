@@ -214,34 +214,47 @@ class ArticlesController < ApplicationController
 			discord_message = @article.short_headline.upcase + "\n\n" + @article.body
 			Net::HTTP.post_form(discord_url, 'content' => discord_message)
 		elsif params[:article][:email_to] == 'alert'
+			i = 0
+			
 			if ["Notes"].include?@article.type.name
 				User.emails_notes.emails_english.find_each(batch_size: 50) do |user|
 					ArticleMailer.send_article_full(@article, user).deliver_now
+					i += 1
 				end
 			elsif ["Apuntes"].include?@article.type.name
 				User.emails_notes.emails_spanish.find_each(batch_size: 50) do |user|
 					ArticleMailer.send_article_full(@article, user).deliver_now
+					i += 1
 				end
 			elsif ["Update"].include?@article.type.name
 				User.emails_all.emails_english.find_each(batch_size: 50) do |user|
 					ArticleMailer.send_article_full(@article, user).deliver_now
+					i += 1
 				end
 			elsif ["Actualización"].include?@article.type.name
 				User.emails_all.emails_spanish.find_each(batch_size: 50) do |user|
 					ArticleMailer.send_article_full(@article, user).deliver_now
+					i += 1
 				end
 			elsif !["Notes", "Apuntes", "Update", "Actualización"].include?@article.type.name
 				if @article.language_id == 1
 					User.emails_full.emails_english.find_each(batch_size: 50) do |user|
 						ArticleMailer.send_article_full(@article, user).deliver_now
+						i += 1
 					end
 				elsif @article.language_id == 2
 					User.emails_full.emails_spanish.find_each(batch_size: 50) do |user|
 						ArticleMailer.send_article_full(@article, user).deliver_now
+						i += 1
 					end
 				end
 			else
 			end
+		
+		admin_subject = DateTime.now.strftime("%d/%m %H:%M: ") + i.to_s + " ARTICLES SENT BY EMAIL"
+		admin_message = ""
+		PaymentMailer.payment_admin_message(admin_subject, admin_message).deliver_now
+		
 		else
 		end
 	end

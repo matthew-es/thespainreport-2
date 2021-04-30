@@ -102,7 +102,7 @@
 
 
 <%# ARTICLE TEXT %>
-<% if ["Patrons only", "Sólo mecenas"].include?(@article.type.name) %>
+<% if ["Patrons Column", "Columna Mecenas"].include?(@article.type.name) %>
 	<% if @can_read_level_1 %>
 		<%= markdown(@article.body).html_safe %>
 	<% else %>

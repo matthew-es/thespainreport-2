@@ -22,7 +22,6 @@
 		<p><%= bit4 %></p>
 	</div>
 	
-	
 	<% if arr.length > 1 %>
 		<% second = arr[1] %>
 		<% bit1, bit2, bit3, bit4 = second.split("\r\n", 4) unless second.nil? %>
@@ -45,8 +44,6 @@
 			<p><%= bit4 %></p>
 		</div>
 	<% end %>
-	
-	
 	
 	<% if arr.length > 2 %>
 		<% arr[2..-1].each do |chunk| %>
@@ -73,8 +70,6 @@
 	<% end %>
 	
 	
-	
-	
 	<% if @cannot_read_1 || @patron_5 || @patron_10 %>
 		<div class="buy-border-top padding-top-20 padding-bottom-20">
 			<p class="font-main-small">
@@ -85,7 +80,7 @@
 			
 			<ul class="margin-left-0 font-main-small">
 
-				<% if @cannot_read_1 %>
+				<% if !@can_read_level_5 %>
 					<li>
 						<% case @language when 1 %>...€5/month can watch <strong>one</strong> extra video/report
 						<% when 2 %>...5 euros/mes pueden ver <strong>un</strong> vídeo adicional/reportaje
@@ -101,9 +96,7 @@
 						<% when 2 %>...25 euros/mes pueden ver <strong>todos</strong> los vídeos adicionales/reportaje
 						<% end %>
 					</li>
-				<% end %>
-		
-				<% if @patron_5 %>
+				<% elsif !@can_read_level_10 %>
 					<li>
 						<% case @language when 1 %>...€10/month can watch <strong>two</strong> extra videos/report
 						<% when 2 %>...10 euros/mes pueden ver <strong>dos</strong> vídeos adicionales/reportaje
@@ -114,15 +107,13 @@
 						<% when 2 %>...25 euros/mes pueden ver <strong>todos</strong> los vídeos adicionales/reportaje
 						<% end %>
 					</li>
-				<% end %>
-	
-				<% if @patron_10 %>
+				<% elsif !@can_read_level_25 %>
 					<li>
 						<% case @language when 1 %>...€25/month can watch <strong>all</strong> extra videos/report
 						<% when 2 %>...25 euros/mes pueden ver <strong>todos</strong> los vídeos adicionales/reportaje
 						<% end %>
 					</li>
-				<% end %>	
+				<% else end %>	
 		
 			</ul>
 		</div>

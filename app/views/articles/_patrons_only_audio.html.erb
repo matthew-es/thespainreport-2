@@ -113,7 +113,7 @@
 			
 			<ul class="margin-left-0 font-main-small">
 	
-				<% if @cannot_read_1 %>
+				<% if !@can_read_level_5 %>
 					<li>
 						<% case @language when 1 %>...€5/month can listen to <strong>one</strong> extra audio/report
 						<% when 2 %>...5 euros/mes pueden escuchar <strong>un</strong> audio adicional/reportaje
@@ -129,9 +129,7 @@
 						<% when 2 %>...25 euros/mes pueden escuchar <strong>todos</strong> los audios adicionales/reportaje
 						<% end %>
 					</li>
-				<% end %>
-				
-				<% if @patron_5 %>
+				<% elsif !@can_read_level_10 %>
 					<li>
 						<% case @language when 1 %>...€10/month can listen to <strong>two</strong> extra audios/report
 						<% when 2 %>...10 euros/mes pueden escuchar <strong>dos</strong> audios adicionales/reportaje
@@ -142,15 +140,13 @@
 						<% when 2 %>...25 euros/mes pueden escuchar <strong>todos</strong> los audios adicionales/reportaje
 						<% end %>
 					</li>
-				<% end %>
-				
-				<% if @patron_10 %>
+				<% elsif !@can_read_level_25 %>
 					<li>
 						<% case @language when 1 %>...€25/month can listen to <strong>all</strong> extra audios/report
 						<% when 2 %>...25 euros/mes pueden escuchar <strong>todos</strong> los audios adicionales/reportaje
 						<% end %>
 					</li>
-				<% end %>
+				<% else end %>
 				
 			</ul>
 		

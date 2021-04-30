@@ -71,17 +71,14 @@ end %>
 	<% else end %>
 <% end %>
 
-<% if @admin %><%= @frame.admin_message %>. <%= link_to @frame.button_cta_increase, @subscribe %><% else end %>
-
-<% if @patron_paused %><%= @frame.patron_paused_message %>
+<% if @admin %><%= @frame.admin_message %>. <%= link_to @frame.button_cta_increase, @subscribe %>
+<% elsif @patron && !@read_date_good %><%= @frame.patron_paused_message %>
 <% elsif @super_patron %><%= @frame.patron_super_message %>
 <% elsif @patron_25 %><%= @frame.patron_25_message %>
 <% elsif @patron_10 %><%= @frame.patron_10_24_message %>
 <% elsif @patron_5 %><%= @frame.patron_5_9_message %>
 <% elsif @patron_1 %><%= @frame.patron_1_4_message %>
-<% else end %>
-
-<% if @reader_trial %><%= @frame.reader_45_trial_message %>
+<% elsif @reader_trial %><%= @frame.reader_45_trial_message %>
 <% elsif @reader_trial_over %><%= @frame.reader_no_45_trial_message %>
 <% else end %>
 </div>
