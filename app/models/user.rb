@@ -30,17 +30,15 @@ class User < ApplicationRecord
    scope :spanish, -> {where(sitelanguage: 2)}
    
    scope :authors, -> {where(status: 1)}
-   scope :super_patrons, -> {where(status: 4)}
    scope :patrons, -> {where(status: 2)}
+   scope :readers, -> {where(status: 3)}
+   
    scope :uptodate, -> {User.joins(:account).merge(Account.uptodate)}
    scope :declined, -> {User.joins(:account).merge(Account.declined)}
    scope :cancelled, -> {User.joins(:account).merge(Account.cancelled)}
-   scope :readers, -> {where(status: 3)}
-   
-   
    scope :bosses, -> {where(account_role: 1)}
    scope :members, -> {where(account_role: 2)}
-   
+ 
    scope :nil_status, -> {where(status: nil)}
    
 	def password_complexity

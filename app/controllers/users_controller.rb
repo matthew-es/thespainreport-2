@@ -339,74 +339,30 @@ class UsersController < ApplicationController
 		if current_user.nil? 
 			redirect_to root_url
 		elsif current_user.status == 1
-			@latest_readers = User.readers.limit(20).order("updated_at DESC")
-			@latest_super_patrons  = User.super_patrons.limit(20).order("updated_at DESC")
-			@latest_patrons  = User.patrons.limit(20).order("updated_at DESC")
-			@latest_authors = User.authors.order("updated_at DESC")
+			@users = User.all.count
+			
+			@authors = User.authors.order("updated_at DESC")
+			@superpatrons  = User.patrons.where('level_amount > ?', 2500)
+			@patrons  = User.patrons.limit(20).order("updated_at DESC")
+			@readers = User.readers.limit(20).order("updated_at DESC")
+			
 			@patrons_nil_account = User.where(can_read: nil).order("created_at DESC")
 			
-			@patronsnil = User.patrons.where(level_amount: nil)
-			@patronszero = User.patrons.where(level_amount: 0)
-			@patronsnotnil = User.patrons.where.not(level_amount: nil)
-			@readersnil = User.readers.where(level_amount: nil)
-			@readerszero = User.readers.where(level_amount: 0)
-			@readersnotnil = User.readers.where.not(level_amount: nil)
-			@users0 = User.patrons.where(level_amount: 0)
-			@users1 = User.patrons.where(level_amount: 1)
-			@users2 = User.patrons.where(level_amount: 2)
-			@users3 = User.patrons.where(level_amount: 3)
-			@users4 = User.patrons.where(level_amount: 4)
-			@users5 = User.patrons.where(level_amount: 5)
-			@users6 = User.patrons.where(level_amount: 6)
-			@users7 = User.patrons.where(level_amount: 7)
-			@users8 = User.patrons.where(level_amount: 8)
-			@users9 = User.patrons.where(level_amount: 9)
-			@users10 = User.patrons.where(level_amount: 10)
-			@users11 = User.patrons.where(level_amount: 11)
-			@users12 = User.patrons.where(level_amount: 12)
-			@users13 = User.patrons.where(level_amount: 13)
-			@users14 = User.patrons.where(level_amount: 14)
-			@users15 = User.patrons.where(level_amount: 15)
-			@users25 = User.patrons.where(level_amount: 25)
-			@usersbig = User.patrons.where('level_amount > ?', 25)
+			@readerscount = User.readers.count
+			@patronscount = User.patrons.count
 			
-			@problemsnil = User.patrons.where(level_amount: [nil, 0])
+			@patrons_problems = User.patrons.where(level_amount: [nil, 0])
+			@patrons_subscription = User.patrons.where.not(subscription_id: nil)
+			@patrons_no_subscription = User.patrons.where(subscription_id: nil)
 			
-			@users1.each do |u|
-				u.update(level_amount: 100)
-			end
-			
-			@users3.each do |u|
-				u.update(level_amount: 300)
-			end
-			
-			@users4.each do |u|
-				u.update(level_amount: 400)
-			end
-			
-			@users5.each do |u|
-				u.update(level_amount: 500)
-			end
-			
-			@users7.each do |u|
-				u.update(level_amount: 700)
-			end
-			
-			@users9.each do |u|
-				u.update(level_amount: 900)
-			end
-			
-			@users10.each do |u|
-				u.update(level_amount: 1000)
-			end
-			
-			@users15.each do |u|
-				u.update(level_amount: 1500)
-			end
-			
-			@users25.each do |u|
-				u.update(level_amount: 2500)
-			end
+			@patrons_0 = User.patrons.where(level_amount: 0)
+			@patrons_below_5 = User.patrons.where('level_amount < ?', 500)
+			@patrons_5 = User.patrons.where(level_amount: 500)
+			@patrons_5_10 = User.patrons.where('level_amount > ? < ?', 500, 1000)
+			@patrons_10 = User.patrons.where(level_amount: 1000)
+			@patrons_10_25 = User.patrons.where('level_amount < ?', 500)
+			@patrons_25 = User.patrons.where(level_amount: 2500)
+			@patrons_above_25 = User.patrons.where('level_amount > ?', 2500)
 			
 			if params[:search]
 				search_string = params[:search]
