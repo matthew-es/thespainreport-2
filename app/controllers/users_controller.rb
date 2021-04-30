@@ -355,6 +355,7 @@ class UsersController < ApplicationController
 			@patrons_subscription = User.patrons.where.not(subscription_id: nil)
 			@patrons_no_subscription = User.patrons.where(subscription_id: nil)
 			@nil_level = User.where(level_amount: nil)
+			@nil_read_date = User.where(can_read_date: nil)
 			
 			@patrons_0 = User.patrons.where(level_amount: 0)
 			@patrons_below_5 = User.patrons.where(level_amount: 1..499)
@@ -367,6 +368,10 @@ class UsersController < ApplicationController
 			
 			@nil_level.each do |u|
 				u.update(level_amount: 0)
+			end
+			
+			@nil_read_date.each do |u|
+				u.update(can_read_date: Date.yesterday.to_datetime)
 			end
 			
 			if params[:search]
