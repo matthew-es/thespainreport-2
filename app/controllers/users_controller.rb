@@ -356,13 +356,13 @@ class UsersController < ApplicationController
 			@patrons_no_subscription = User.patrons.where(subscription_id: nil)
 			
 			@patrons_0 = User.patrons.where(level_amount: 0)
-			@patrons_below_5 = User.patrons.where('level_amount < ?', 500)
+			@patrons_below_5 = User.patrons.where(level_amount: 1..499)
 			@patrons_5 = User.patrons.where(level_amount: 500)
-			@patrons_5_10 = User.patrons.where('level_amount > ? < ?', 500, 1000)
+			@patrons_5_10 = User.patrons.where(level_amount: 501..999)
 			@patrons_10 = User.patrons.where(level_amount: 1000)
-			@patrons_10_25 = User.patrons.where('level_amount < ?', 500)
+			@patrons_10_25 = User.patrons.where(level_amount: 1001..2499)
 			@patrons_25 = User.patrons.where(level_amount: 2500)
-			@patrons_above_25 = User.patrons.where('level_amount > ?', 2500)
+			@patrons_above_25 = User.patrons.where('level_amount > ?', 2501)
 			
 			if params[:search]
 				search_string = params[:search]
