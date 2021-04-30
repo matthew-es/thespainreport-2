@@ -346,8 +346,6 @@ class UsersController < ApplicationController
 			@patrons  = User.patrons.limit(20).order("updated_at DESC")
 			@readers = User.readers.limit(20).order("updated_at DESC")
 			
-			@patrons_nil_account = User.where(can_read: nil).order("created_at DESC")
-			
 			@readerscount = User.readers.count
 			@patronscount = User.patrons.count
 			
@@ -356,6 +354,7 @@ class UsersController < ApplicationController
 			@patrons_no_subscription = User.patrons.where(subscription_id: nil)
 			@nil_level = User.where(level_amount: nil)
 			@nil_read_date = User.where(can_read_date: nil)
+			@nil_frame = User.where(frame_id: nil)
 			
 			@patrons_0 = User.patrons.where(level_amount: 0)
 			@patrons_below_5 = User.patrons.where(level_amount: 1..499)
@@ -372,6 +371,10 @@ class UsersController < ApplicationController
 			
 			@nil_read_date.each do |u|
 				u.update(can_read_date: Date.yesterday.to_datetime)
+			end
+			
+			@nil_frame.each do |u|
+				u.update(frame_id: 1)
 			end
 			
 			if params[:search]

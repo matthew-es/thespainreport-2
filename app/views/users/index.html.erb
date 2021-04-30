@@ -5,65 +5,70 @@
 		<td><strong>Authors:</strong></td>
 		<td><%= @authors.count %></td>
 	</tr>
-<tr>
-	<td class="width-50"><strong>Patrons total:</strong></td>
-	<td><%= @patronscount %></td>
-</tr>
-<tr>
-	<td><strong>Patrons subscription:</strong></td>
-	<td><%= @patrons_subscription.count %></td>
-</tr>
-<tr>
-	<td><strong>Patrons no subscription:</strong></td>
-	<td><%= @patrons_no_subscription.count %></td>
-</tr>
-<tr>
-	<td><strong>Patrons > 25:</strong></td>
-	<td><%= @patrons_above_25.count %></td>
-</tr>
-<tr>
-	<td><strong>Patrons 25:</strong></td>
-	<td><%= @patrons_25.count %></td>
-</tr>
-<tr>
-	<td><strong>Patrons 10-25:</strong></td>
-	<td><%= @patrons_10_25.count %></td>
-</tr>
-<tr>
-	<td><strong>Patrons 10:</strong></td>
-	<td><%= @patrons_10.count %></td>
-</tr>
-<tr>
-	<td><strong>Patrons 5-10:</strong></td>
-	<td><%= @patrons_5_10.count %></td>
-</tr>
-<tr>
-	<td><strong>Patrons 5:</strong></td>
-	<td><%= @patrons_5.count %></td>
-</tr>
-<tr>
-	<td><strong>Patrons < 5:</strong></td>
-	<td><%= @patrons_below_5.count %></td>
-</tr>
-<tr>
-	<td><strong>Patrons 0:</strong></td>
-	<td><%= @patrons_0.count %></td>
-</tr>
-<tr>
-	<td><strong>Readers:</strong>
-	<td><%= @readerscount %></td>
-	</td>
-</tr>
-<tr>
-	<td><strong>Nil level amount:</strong>
-	<td><%= @nil_level.count %></td>
-	</td>
-</tr>
-<tr>
-	<td><strong>Nil read date:</strong>
-	<td><%= @nil_read_date.count %></td>
-	</td>
-</tr>
+	<tr>
+		<td class="width-50"><strong>Patrons total:</strong></td>
+		<td><%= @patronscount %></td>
+	</tr>
+	<tr>
+		<td><strong>Patrons subscription:</strong></td>
+		<td><%= @patrons_subscription.count %></td>
+	</tr>
+	<tr>
+		<td><strong>Patrons no subscription:</strong></td>
+		<td><%= @patrons_no_subscription.count %></td>
+	</tr>
+	<tr>
+		<td><strong>Patrons > 25:</strong></td>
+		<td><%= @patrons_above_25.count %></td>
+	</tr>
+	<tr>
+		<td><strong>Patrons 25:</strong></td>
+		<td><%= @patrons_25.count %></td>
+	</tr>
+	<tr>
+		<td><strong>Patrons 10-25:</strong></td>
+		<td><%= @patrons_10_25.count %></td>
+	</tr>
+	<tr>
+		<td><strong>Patrons 10:</strong></td>
+		<td><%= @patrons_10.count %></td>
+	</tr>
+	<tr>
+		<td><strong>Patrons 5-10:</strong></td>
+		<td><%= @patrons_5_10.count %></td>
+	</tr>
+	<tr>
+		<td><strong>Patrons 5:</strong></td>
+		<td><%= @patrons_5.count %></td>
+	</tr>
+	<tr>
+		<td><strong>Patrons < 5:</strong></td>
+		<td><%= @patrons_below_5.count %></td>
+	</tr>
+	<tr>
+		<td><strong>Patrons 0:</strong></td>
+		<td><%= @patrons_0.count %></td>
+	</tr>
+	<tr>
+		<td><strong>Readers:</strong>
+		<td><%= @readerscount %></td>
+		</td>
+	</tr>
+	<tr>
+		<td><strong>Nil level amount:</strong>
+		<td><%= @nil_level.count %></td>
+		</td>
+	</tr>
+	<tr>
+		<td><strong>Nil read date:</strong>
+		<td><%= @nil_read_date.count %></td>
+		</td>
+	</tr>
+	<tr>
+		<td><strong>Nil frame:</strong>
+		<td><%= @nil_frame.count %></td>
+		</td>
+	</tr>
 </table>
 
 <h3>Problems</h3>
@@ -140,22 +145,5 @@
 		<% end %>
 	</tbody>
 </table>
-
-<h3>Users can_read nil</h3>
-<table class="admin-table">
-	<tbody>
-		<%= render "user_row_header" %>
-		
-		<% if !@patrons_nil_account.empty? %> 
-			<% @patrons_nil_account.each do |user| %>
-				<%= render "user_row", user: user %>
-			<% end %>
-		<% else %>
-			<tr><td>There are no users like this.</td></tr>
-		<% end %>
-	</tbody>
-</table>
-
-
 
 </div>
