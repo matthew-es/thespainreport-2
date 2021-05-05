@@ -20,7 +20,6 @@ class ArticleMailer < ApplicationMailer
 			@restart_value = "valor/" 
 		else end
 		@subscribe = root_url + @value + @frame.link_slug
-		@increase = root_url + @increase_value + @frame.link_slug
 		@restart = root_url + @restart_value + @frame.link_slug
 		
 		@user = user
@@ -58,6 +57,7 @@ class ArticleMailer < ApplicationMailer
 		@cannot_read_2 = @reader_trial_over || @patron_paused || @patron_1 || @patron_5
 		
 		@reactivate = reactivate_subscription_payment_url(@user.account.subscriptions.last.reactivate_token) unless @user.account.subscriptions.blank? || @user.account.subscriptions.last.reactivate_token.nil?
+		@increase = increase_payment_url(@user.account.subscriptions.last.reactivate_token) unless @user.account.subscriptions.blank? || @user.account.subscriptions.last.reactivate_token.nil?
 		
 		headers 'X-SES-CONFIGURATION-SET' => "Emails"
 		mail(:to => "<#{@user.email}>", :subject => email_subject)
