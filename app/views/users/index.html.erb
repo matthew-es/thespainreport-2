@@ -69,6 +69,11 @@
 		<td><%= @nil_frame.count %></td>
 		</td>
 	</tr>
+	<tr>
+		<td><strong>Nil status:</strong>
+		<td><%= @nil_status.count %></td>
+		</td>
+	</tr>
 </table>
 
 <h3>Problems</h3>
@@ -76,8 +81,8 @@
 	<tbody>
 		<%= render "user_row_header" %>
 		
-		<% if !@patrons_problems.empty? %> 
-			<% @patrons_problems.each do |user| %>
+		<% if !@problems.empty? %> 
+			<% @problems.each do |user| %>
 				<%= render "user_row", user: user %>
 			<% end %>
 		<% else %>

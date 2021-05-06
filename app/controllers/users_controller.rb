@@ -348,13 +348,14 @@ class UsersController < ApplicationController
 			
 			@readerscount = User.readers.count
 			@patronscount = User.patrons.count
-			
-			@patrons_problems = User.where(level_amount: nil) || User.patrons.where(level_amount: 0)
+
 			@patrons_subscription = User.patrons.where.not(subscription_id: nil)
 			@patrons_no_subscription = User.patrons.where(subscription_id: nil)
 			@nil_level = User.where(level_amount: nil)
 			@nil_read_date = User.where(can_read_date: nil)
 			@nil_frame = User.where(frame_id: nil)
+			@nil_status = User.where(status: nil)
+			@problems = @nil_status || @nil_level || @nil_read_date || @nil_frame
 			
 			@patrons_0 = User.patrons.where(level_amount: 0)
 			@patrons_below_5 = User.patrons.where(level_amount: 1..499)

@@ -83,8 +83,7 @@ class AccountsController < ApplicationController
 			admin_sets_account_settings
 			admin_sets_user_settings
 		end
-		
-		admin_sets_all_can_read_dates
+
 		redirect_back(fallback_location: root_path)
 	end
 	

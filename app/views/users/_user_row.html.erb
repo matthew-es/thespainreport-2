@@ -12,13 +12,6 @@
 		<% else end %>
 	</td>
 	<td class="right"><%= user.level_amount %></td>
-	<td class="right">
-		<% case user.can_read when true %>
-			🟢
-		<% when false %>
-			🔴
-		<% else end %>
-	</td>
 	<td class="right"><%= user.can_read_date.strftime("%d/%m/%Y") unless user.can_read_date.nil? %></td>
 	<td class="right"><%= link_to user.account.id, user.account unless user.account.nil? %></td>
 	<td class="right">
