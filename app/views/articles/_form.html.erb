@@ -182,7 +182,13 @@
 		
 		<h3><span class="label background-color-patrons font-color-white">patrons only column</span> / free article / sales post</h3>
 		<div id="" class="margin-top-20 margin-bottom-10">
-			Characters: <span id="text_length" class="font-bold"></span>/<span id="text_max" class="font-bold"></span> (<span id="text_left" class="font-bold"></span>)
+			<div class="float-left">
+				<span id="text_length_words" class="font-bold"></span>/<span id="text_max_words" class="font-bold"></span> words => <span id="text_left_words" class="font-bold"></span>
+			</div>
+			<div class="float-right">
+				<span id="text_length" class="font-bold"></span>/<span id="text_max" class="font-bold"></span> characters => <span id="text_left" class="font-bold"></span>
+			</div>
+			<div class="clear"></div>
 		</div>
 		<div class="margin-bottom-10">
 			<% if @article.original.blank? %>
@@ -206,13 +212,21 @@
 			text_to_measure.addEventListener("input", textLength);
 			
 				function textLength() {
-					var text_max = 1930;
+					var text_max = 2100;
 					var text_length = text_to_measure.value.length;
 					var text_left = (text_max - text_length);
+					
+					var text_max_words = 300;
+					var text_length_words = text_to_measure.value.split(' ').length;
+					var text_left_words = (text_max_words - text_length_words);
 					
 					document.getElementById('text_length').innerHTML = text_length;
 					document.getElementById('text_max').innerHTML = text_max;
 					document.getElementById('text_left').innerHTML = text_left;
+					
+					document.getElementById('text_length_words').innerHTML = text_length_words;
+					document.getElementById('text_max_words').innerHTML = text_max_words;
+					document.getElementById('text_left_words').innerHTML = text_left_words;
 					
 					if (text_left > 0) {
 					document.getElementById('text_length').style.cssText = "color: green; background-color: #e6ffe6;";
@@ -228,6 +242,22 @@
 						document.getElementById('text_length').style.cssText = "color: red; background-color: #ffe6e6;";
 						document.getElementById('text_left').style.cssText = "color: red; background-color: #ffe6e6;";
 					}
+					
+					if (text_left_words > 0) {
+					document.getElementById('text_length_words').style.cssText = "color: green; background-color: #e6ffe6;";
+					document.getElementById('text_left_words').style.cssText = "color: green; background-color: #e6ffe6;";
+					}
+					
+					if (text_left_words < 30) {
+						document.getElementById('text_length_words').style.cssText = "color: orange; background-color: #ffe4b3;";
+						document.getElementById('text_left_words').style.cssText = "color: orange; background-color: #ffe4b3;";
+					}
+					
+					if (text_left_words < 0) {
+						document.getElementById('text_length_words').style.cssText = "color: red; background-color: #ffe6e6;";
+						document.getElementById('text_left_words').style.cssText = "color: red; background-color: #ffe6e6;";
+					}
+					
 				};
 		</script>
 		
