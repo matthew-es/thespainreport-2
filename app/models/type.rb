@@ -26,6 +26,7 @@ class Type < ApplicationRecord
     scope :notvideoblog, -> {where.not(name: ['Video Blog', 'Vídeo Blog'])}
     scope :photo, -> {where(name: ['Photos', 'Fotos'])}
     scope :notphoto, -> {where.not(name: ['Photos', 'Fotos'])}
+    scope :notices, -> {where(name: ['Notice', 'Aviso'])}
     
     scope :english, -> {where(language_id: 1)}
     scope :spanish, -> {where(language_id: 2)}

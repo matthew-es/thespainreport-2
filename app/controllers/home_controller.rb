@@ -14,7 +14,8 @@ class HomeController < ApplicationController
 		@photos = Article.english.published.photo.lastfive
 		@videos = Article.english.published.video.lastfive
 		@videoblogs = Article.english.published.videoblog.lastfive
-			
+		@notices = Article.english.published.notices.lastfive
+		
 		@rss = Article.published.english.order('created_at DESC')
 		respond_to do |format|
 			format.html
@@ -36,6 +37,7 @@ class HomeController < ApplicationController
 		@photos = Article.spanish.published.photo.lastfive
 		@videos = Article.spanish.published.video.lastfive
 		@videoblogs = Article.spanish.published.videoblog.lastfive
+		@notices = Article.spanish.published.notices.lastfive
 		
 		@rss = Article.published.spanish.order('created_at DESC')
 		respond_to do |format|

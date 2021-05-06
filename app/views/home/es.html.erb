@@ -117,6 +117,13 @@
 			<%= render "articles/index_articles_list_link", {article: article} %>
 		<% end end %>
 	</ul>
+	
+	<h3>Avisos Generales</h3>
+	<ul class="no-points">
+		<% if @notices.any?; @notices.each do |article| %>
+			<%= render "articles/index_articles_list_link", {article: article} %>
+		<% end end %>
+	</ul>
 </div>
 
 

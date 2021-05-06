@@ -216,12 +216,12 @@ class ArticlesController < ApplicationController
 		elsif params[:article][:email_to] == 'alert'
 			i = 0
 			
-			if ["Notes"].include?@article.type.name
+			if ["Notice"].include?@article.type.name
 				User.emails_notes.emails_english.find_each(batch_size: 50) do |user|
 					ArticleMailer.send_article_full(@article, user).deliver_now
 					i += 1
 				end
-			elsif ["Apuntes"].include?@article.type.name
+			elsif ["Aviso"].include?@article.type.name
 				User.emails_notes.emails_spanish.find_each(batch_size: 50) do |user|
 					ArticleMailer.send_article_full(@article, user).deliver_now
 					i += 1
@@ -236,7 +236,7 @@ class ArticlesController < ApplicationController
 					ArticleMailer.send_article_full(@article, user).deliver_now
 					i += 1
 				end
-			elsif !["Notes", "Apuntes", "Update", "Actualización"].include?@article.type.name
+			elsif !["Notices", "Avisos", "Update", "Actualización"].include?@article.type.name
 				if @article.language_id == 1
 					User.emails_full.emails_english.find_each(batch_size: 50) do |user|
 						ArticleMailer.send_article_full(@article, user).deliver_now
