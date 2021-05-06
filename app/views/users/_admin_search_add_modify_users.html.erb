@@ -50,11 +50,9 @@
 	<div class="margin-bottom-10">
 		Level Amount: <%= f.number_field :level_amount %>
 	</div>
+
 	<div class="margin-bottom-10">
-		Can read? <%= f.select :can_read, options_for_select([["Yes", true], ["No", false]]), {include_blank: true} %>
-	</div>
-	<div class="margin-bottom-10">
-		Can read to: <%= f.text_field :can_read_date %>
+		Can read to: <%= f.datetime_field :can_read_date %>
 	</div>
 	
 	<hr />

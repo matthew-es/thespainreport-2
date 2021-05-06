@@ -72,6 +72,7 @@ end %>
 <% end %>
 
 <% if @admin %><%= @frame.admin_message %>. <%= link_to @frame.button_cta_increase, @subscribe %>
+<% elsif @patron && !@read_date_good && @no_subscription %><%= @frame.patron_paused_message %>
 <% elsif @patron && !@read_date_good %><%= @frame.patron_paused_message %>
 <% elsif @super_patron %><%= @frame.patron_super_message %>
 <% elsif @patron_25 %><%= @frame.patron_25_message %>

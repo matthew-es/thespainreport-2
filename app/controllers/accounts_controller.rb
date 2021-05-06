@@ -111,6 +111,8 @@ class AccountsController < ApplicationController
 	end
 	
 	def admin_sets_user_settings
+		puts "INSIDE ADMIN SETS USER SETTINGS..."
+		
 		if params[:user_status].blank?
 			new_status = @user.status
 		else
@@ -141,10 +143,10 @@ class AccountsController < ApplicationController
 			new_level_amount = params[:level_amount]
 		end
 		
-		if params[:can_read].blank?
-			new_can_read = @user.can_read
+		if params[:can_read_date].blank?
+			new_can_read_date = @user.can_read_date
 		else
-			new_can_read = params[:can_read]
+			new_can_read_date = params[:can_read_date]
 		end
 		
 		if @user.frame_id.nil?
@@ -153,6 +155,8 @@ class AccountsController < ApplicationController
 			new_frame_id = @user.frame_id
 		end
 		
+		puts "NEW CAN READ DATE IS: " + new_can_read_date.to_s
+		
 		@user.update(
 			status: new_status,
 			sitelanguage: new_site_language,
@@ -160,7 +164,7 @@ class AccountsController < ApplicationController
 			emaillanguage: new_email_language,
 			level_amount: new_level_amount,
 			frame_id: new_frame_id,
-			can_read: new_can_read
+			can_read_date: new_can_read_date
 			)
 		
 	end
