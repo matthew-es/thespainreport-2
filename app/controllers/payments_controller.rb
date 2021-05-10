@@ -382,7 +382,7 @@ class PaymentsController < ApplicationController
 		@account.update(
 			stripe_payment_method: update_customer.invoice_settings.default_payment_method.id,
 			stripe_payment_method_card_country: update_customer.invoice_settings.default_payment_method.card.country,
-			stripe_payment_method_expiry_reminder: Time.gm(update_customer.invoice_settings.default_payment_method.card.exp_year, update_customer.invoice_settings.default_payment_method.card.exp_month-1)
+			stripe_payment_method_expiry_reminder: Time.gm(update_customer.invoice_settings.default_payment_method.card.exp_year, update_customer.invoice_settings.default_payment_method.card.exp_month)
 			)
 	end
 	
