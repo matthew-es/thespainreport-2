@@ -68,6 +68,7 @@
 		subscriptions_vat_title = "VAT"
 		subscriptions_total_title = "Total"
 		subscriptions_created_title = "Date created"
+		subscriptions_last_title = "Last payment"
 		subscriptions_next_title = "Next payment"
 		subscriptions_status_title = "Status"
 		subscriptions_members_title = "Miembros"
@@ -155,6 +156,7 @@
 		subscriptions_vat_title = "IVA"
 		subscriptions_total_title = "Total"
 		subscriptions_created_title = "Fecha creación"
+		subscriptions_last_title = "Último pago"
 		subscriptions_next_title = "Siguiente pago"
 		subscriptions_status_title = "Estado"
 		subscriptions_members_title = "Miembros"
@@ -494,6 +496,9 @@
 				</div>
 				<div class="margin-bottom-5">
 					<strong><%= subscriptions_created_title %>:</strong> <%= s.created_at.strftime("%d/%m/%Y") %>
+				</div>
+				<div class="margin-bottom-5">
+					<strong><%= subscriptions_last_title %>:</strong> <%= s.last_payment_date.strftime("%d/%m/%Y") unless s.last_payment_date.nil? %>
 				</div>
 				<div class="margin-bottom-5">
 					<strong><%= subscriptions_next_title %>:</strong> <%= s.next_payment_date.strftime("%d/%m/%Y") unless s.next_payment_date.nil? %>

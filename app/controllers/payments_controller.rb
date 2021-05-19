@@ -112,7 +112,12 @@ class PaymentsController < ApplicationController
 		elsif payment_intent["status"] == "succeeded"
 			@payment.update(external_payment_status: payment_intent["status"])
 			Patrons::SuccessfulPayment.process(@payment, payment_method["id"])
-			Patrons::SubscriptionRollover.process(@payment.subscription)
+			if @payment.id == @payment.subscription.payments.last.id
+				puts "THIS IS THE LAST PAYMENT ON THAT SUBSCRIPTION..."
+				Patrons::SubscriptionRollover.process(@payment.subscription, @payment)
+			else
+				puts "THIS IS NOT THE LAST PAYMENT..."
+			end
 		else
 			@payment.update(status: "problem", external_payment_status: payment_intent["status"])
 		end
