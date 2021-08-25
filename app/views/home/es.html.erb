@@ -57,43 +57,38 @@
 
 <%= render "articles/patrons_only_block" %>
 
-<% if current_user.nil? %>
-	<%= render "payments/pay" %>
-<% end %>
-
 <div class="buy-border-top margin-top-20">
-	<h3>Vídeo Reportajes</h3>
 	<ul class="no-points">
 		<% if @videos.any? %>
 			<% @videos.each do |article| %>
-				<%= render "articles/index_articles_list_link", {article: article} %>
+				<%= render "articles/index_articles_list_video", {article: article} %>
 			<% end %>
 		<% else %>
 			Próximamente...
 		<% end %>
 	</ul>
 	
-	<h3>Vídeo Blog</h3>
+	<h3>-- Vídeo Blog --</h3>
 	<ul class="no-points">
 		<% if @videoblogs.any? %>
 			<% @videoblogs.each do |article| %>
-				<%= render "articles/index_articles_list_link", {article: article} %>
+				<%= render "articles/index_articles_list_video", {article: article} %>
 			<% end %>
 		<% else %>
 			Próximamente...
 		<% end %>
 	</ul>
 	
-	<h3>Podcast</h3>
+	<h3>-- Podcast --</h3>
 	<div class="margin-top-10">
 		<ul class="no-points">
 			<% if @podcast.any?; @podcast.each do |article| %>
-				<%= render "articles/index_articles_list_link", {article: article} %>
+				<%= render "articles/index_articles_list_audio", {article: article} %>
 			<% end end %>
 		</ul>
 	</div>
 	
-	<h3>Fotos</h3>
+	<h3>-- Fotos --</h3>
 	<ul class="no-points">
 		<% if @photos.any? %>
 			<% @photos.each do |article| %>
@@ -104,21 +99,21 @@
 		<% end %>
 	</ul>
 	
-	<h3>Apuntes</h3>
+	<h3>-- Apuntes --</h3>
 	<ul class="no-points">
 		<% if @notes.any?; @notes.each do |article| %>
 			<%= render "articles/index_articles_list_link", {article: article} %>
 		<% end end %>
 	 </ul>
 		
-	<h3>Verdad y Periodismo</h3>
+	<h3>-- Verdad y Periodismo --</h3>
 	<ul class="no-points">
 		<% if @truth.any?; @truth.each do |article| %>
 			<%= render "articles/index_articles_list_link", {article: article} %>
 		<% end end %>
 	</ul>
 	
-	<h3>Avisos Generales</h3>
+	<h3>-- Avisos Generales --</h3>
 	<ul class="no-points">
 		<% if @notices.any?; @notices.each do |article| %>
 			<%= render "articles/index_articles_list_link", {article: article} %>
@@ -126,7 +121,9 @@
 	</ul>
 </div>
 
-
+<% if current_user.nil? %>
+	<%= render "payments/pay" %>
+<% end %>
 
 <% if current_user.nil? %>
 	<%= render "users/new_reader_form" %>

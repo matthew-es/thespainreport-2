@@ -1,0 +1,8 @@
+<h3 class="index_video"><%= link_to article.short_headline, article %></h3>
+<div class="video-wrapper">
+	<% if article.video.match(/^[0-9]+$/) %>
+		<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{article.video}?quality=720p", allowfullscreen: true) %>
+	<% else %> 
+		<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{article.video}?rel=0&amp;showinfo=0", allowfullscreen: true) %>
+	<% end %>
+</div>
