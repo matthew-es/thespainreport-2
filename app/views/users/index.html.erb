@@ -18,6 +18,18 @@
 		<td><%= @patrons_no_subscription.count %></td>
 	</tr>
 	<tr>
+		<td><strong>Patrons up-to-date:</strong></td>
+		<td><%= @patrons_uptodate.count %></td>
+	</tr>
+	<tr>
+		<td><strong>Patrons declined:</strong></td>
+		<td><%= @patrons_declined.count %></td>
+	</tr>
+	<tr>
+		<td><strong>Patrons cancelled:</strong></td>
+		<td><%= @patrons_cancelled.count %></td>
+	</tr>
+	<tr>
 		<td><strong>Patrons > 25:</strong></td>
 		<td><%= @patrons_above_25.count %></td>
 	</tr>
@@ -76,20 +88,7 @@
 	</tr>
 </table>
 
-<h3>Problems</h3>
-<table class="admin-table">
-	<tbody>
-		<%= render "user_row_header" %>
-		
-		<% if !@problems.empty? %> 
-			<% @problems.each do |user| %>
-				<%= render "user_row", user: user %>
-			<% end %>
-		<% else %>
-			<tr><td>There are no users like this.</td></tr>
-		<% end %>
-	</tbody>
-</table>
+
 
 <h3>Authors</h3>
 <table class="admin-table">
@@ -121,6 +120,37 @@
 	</tbody>
 </table>
 
+<h3>Problems</h3>
+<table class="admin-table">
+	<tbody>
+		<%= render "user_row_header" %>
+		
+		<% if !@problems.empty? %> 
+			<% @problems.each do |user| %>
+				<%= render "user_row", user: user %>
+			<% end %>
+		<% else %>
+			<tr><td>There are no users like this.</td></tr>
+		<% end %>
+	</tbody>
+</table>
+
+
+<h3>Declined</h3>
+<table class="admin-table">
+	<tbody>
+		<%= render "user_row_header" %>
+		
+		<% if !@patrons_declined.empty? %> 
+			<% @patrons_declined.each do |user| %>
+				<%= render "user_row", user: user %>
+			<% end %>
+		<% else %>
+			<tr><td>There are no users like this.</td></tr>
+		<% end %>
+	</tbody>
+</table>
+
 <h3>Patrons</h3>
 <table class="admin-table">
 	<tbody>
@@ -135,6 +165,22 @@
 		<% end %>
 	</tbody>
 </table>
+
+<h3>Cancelled</h3>
+<table class="admin-table">
+	<tbody>
+		<%= render "user_row_header" %>
+		
+		<% if !@patrons_cancelled.empty? %> 
+			<% @patrons_cancelled.each do |user| %>
+				<%= render "user_row", user: user %>
+			<% end %>
+		<% else %>
+			<tr><td>There are no users like this.</td></tr>
+		<% end %>
+	</tbody>
+</table>
+
 
 <h3>Readers</h3>
 <table class="admin-table">

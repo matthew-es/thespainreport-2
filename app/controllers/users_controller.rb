@@ -351,6 +351,10 @@ class UsersController < ApplicationController
 
 			@patrons_subscription = User.patrons.where.not(subscription_id: nil)
 			@patrons_no_subscription = User.patrons.where(subscription_id: nil)
+			@patrons_uptodate = User.patrons.uptodate
+			@patrons_declined = User.patrons.declined
+			@patrons_cancelled = User.patrons.cancelled
+			
 			@nil_level = User.where(level_amount: nil)
 			@nil_read_date = User.where(can_read_date: nil)
 			@nil_frame = User.where(frame_id: nil)
