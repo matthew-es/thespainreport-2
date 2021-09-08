@@ -17,50 +17,12 @@
 		<p>
 			<%= @frame.short_story %>
 		</p>
-		<p class="margin-bottom-0">
-			<em><%= @frame.emotional_quest_role %>.</em>
-		</p>
 	</div>
 	
 	<% if current_user.nil? || @reader || @user.account.subscriptions.blank? %>
 	
 	
 	<%# DISPLAY PLANS... %>
-	<div class="width-98 margin-bottom-10">
-		<% @plans.each do |p| %>
-			<div class="width-33 float-left margin-right-5 mobile-width">
-				<h5 class="margin-bottom-0"><%= p.title %></h5>
-				<div class="">
-					<%= image_tag ('https://image.thespainreport.es/' + p.image) %>
-					<div class="mobile-margins font-main-small margin-bottom-10" style="min-height: 140px;">
-						<%= markdown(p.description) %>
-					</div>
-					<p class="align-centre line-100">
-						<button type="submit" class="buybutton width-100 font-main-normal" id="price" value="<%= p.price %>" onclick="setAmount(this.value); checkAmount();"><%= number_to_currency((p.price.to_f), unit: "€") %></button>
-					</p>
-				</div>
-			</div>
-		<% end %>
-		<div class="clear"></div>
-	</div>
-	
-	<div class="margin-bottom-20">
-		<div class="margin-right-5 margin-top-2 float-left font-main-tiny">
-		<span class="label super-patrons-label">
-			<% case @language when 1 %><span class="font-color-yellow">SUPER</span> PATRON
-			<% when 2 %><span class="font-color-yellow">SUPER</span> MECENAS
-			<% end %>
-		</span>
-		</div>
-		
-		<em>
-			<% case @language when 1 %>
-				Want to <%= @frame.money_word_verb_phrase %>? Type your own amount into the box below. You can create groups of friends with any combination of the three main levels.
-			<% when 2 %>
-				¿Quiere <%= @frame.money_word_verb_phrase %>? Introduzca su propia cantidad abajo. Puede crear grupos de amigos con cualquier combinación de los tres principales niveles.
-			<% end %>
-		</em>
-	</div>
 	
 	<%# DISPLAY PAYMENT FORM... %>
 	<div class="margin-top-10 margin-bottom-10 padding-20 buy-background buy-border font-payment" onmouseover="checkAmount()">
