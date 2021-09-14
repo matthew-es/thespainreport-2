@@ -200,7 +200,7 @@
 			
 			
 			<%# CARD AND STRIPE LOGOS %>
-			<div class="width-100 align-centre margin-top-20" style="border-top: 1px dashed #666666;"">
+			<div class="width-100 align-centre margin-top-20" style="border-top: 1px dashed #666666; border-bottom: 1px dashed #666666;"">
 			<div class="width-fixed-cards margin-centre">
 				<div class="float-right margin-left-7">
 					<img src="<%= asset_path('stripe-logo.png') %>" style="max-width: 150px;" />
@@ -212,60 +212,44 @@
 			</div>
 			</div>
 			
-		</div>
-	</div>
+		
 	
 	
 	<%# SALES STUFF AND INSTRUCTIONS... %>
 	
 	<div class="margin-top-20">
 		<p class="font-bold margin-bottom-0 font-main-small">
-			<% case @language when 1 %>How does it work?
-			<% when 2 %>¿Cómo funciona?
+			<% case @language when 1 %>Do this:
+			<% when 2 %>Haga esto:
 			<% end %>
 		</p>
 		<ol class="instructions margin-top-5">
 			<% case @language when 1 %>
-				<li>Click on <%= @frame.money_word_with_article %> you wish to <%= @frame.money_word_verb %></li>
-				<li>Make sure your tax country is correct</li>
-				<li>Enter your email address and credit card details</li>
-				<li>The server will check your card and do some sums…</li>
+				<li>Enter <%= @frame.money_word_with_article %> you wish to <%= @frame.money_word_verb %></li>
+				<li>Choose the right tax country</li>
+				<li>Enter your email and credit card</li>
 				<li>Click "<%= @frame.button_cta %>"</li>
-				<li>That's it, done, welcome aboard, you will get a confirmation email</li>
+				<li>The machine will check your card and do some sums…</li>
+				<li>Click "confirm"</li>
+				<li>That's it, finsihed, welcome aboard. You will get a confirmation email</li>
+				<li>Changes, receipts, invoices: log in and go to "My Account"</li>
+				<li>Problems: matthew@thespainreport.es</li>
 			<% when 2 %>
-				<li>Haga clic en <%= @frame.money_word_with_article %> que quiere <%= @frame.money_word_verb %></li>
-				<li>Elija el país donde paga impuestos</li>
-				<li>Introduzca su correo electrónico y los detalles de su tarjeta de crédito</li>
-				<li>El servidor comprobará su tarjeta y hará algunas sumas…</li>
+				<li>Introduzca <%= @frame.money_word_with_article %> que quiere <%= @frame.money_word_verb %></li>
+				<li>Elija el país correcto para los impuestos</li>
+				<li>Introduzca su correo electrónico y tarjeta de crédito</li>
 				<li>Haga clic en "<%= @frame.button_cta %>"</li>
-				<li>Ya está, hecho, bienvenido a bordo, recibirá un correo de confirmación</li>
+				<li>La máquina comprobará su tarjeta y hará algunas sumas…</li>
+				<li>Haga clic en "Confirmar"</li>
+				<li>Ya está, hecho, bienvenido a bordo. Recibirá un correo de confirmación</li>
+				<li>Cambios, recibos, facturas: en "Mi Cuenta"</li>
+				<li>Problemas: matthew@thespainreport.es</li>
 			<% end %>
 		</ol>
 	</div>
 		
-	<div style="margin-top-10">
-		<p class="font-bold margin-bottom-0 font-main-small">
-			<% case @language when 1 %>Notes:
-			<% when 2 %>Apuntes:
-			<% end %>
-		</p>
-		<ol class="instructions margin-top-5">
-			<% case @language when 1 %>
-				<li>You can print receipts or invoices for all your <%= @frame.money_word_plural %> in "My Account"</li>
-				<li>Any problems or questions, email: matthew@thespainreport.es</li>
-			<% when 2 %>
-				<li>Puede imprimir facturas para sus <%= @frame.money_word_plural %> en "Yo soy mecenas"</li>
-				<li>Cualquier problema o pregunta: matthew@thespainreport.es</li>
-			<% end %>
-		</ol>
 	</div>
-	
-	<% if false %>
-		<div class="margin-top-20">
-			<p class="font-main-small">* <%= @frame.social_proof %></p>
-			<p class="font-main-small">** <%= @frame.risk_reversal %></p>
-		</div>
-	<% end %>
+	</div>
 	
 	<%# STORE VALUES FOR SERVER IN FORM FIELDS... %>	
 	<%= render "payments/server_stuff" %>

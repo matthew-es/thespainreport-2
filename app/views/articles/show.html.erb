@@ -297,11 +297,13 @@ end	%>
 	<% else %>
 	<% end %>
 	
-	<%# PATRONS EXTRAS HERE...  %>
-	<% if ["Photos", "fotos"].include?(@article.type.name) %>
-		<%= render "articles/patrons_only_block" %>
-	<% else end %>
 	
+	<% if false %>
+		<%# PATRONS EXTRAS HERE...  %>
+		<% if ["Photos", "fotos"].include?(@article.type.name) %>
+			<%= render "articles/patrons_only_block" %>
+		<% else end %>
+	<% end %>
 	
 	<%# INDIVIDUAL TWEETS OR PHOTO ESSAY IMAGES FOR THE ARTICLE %>
 	<% if @articletweets.present? %>
@@ -380,8 +382,10 @@ end	%>
 		<%= render "payments/pay" %>
 	<% end %>
 	
+	
+	<% if false %>
 	<%= render "articles/patrons_only_block" %>
-
+	<% end %>
 	
 	
 	<%# PLEASE JOIN NEWSLETTER...  %>
