@@ -24,6 +24,7 @@
 	account = "Account"
 	concept = "Concept"
 	subscription = "Subscription"
+	frequency = "Frequency"
 	
 	vat_rate = "VAT"
 	vat_amount = "VAT"
@@ -63,6 +64,7 @@ when 2
 	account = "Cuenta"
 	concept = "Concepto"
 	subscription = "Suscripción"
+	frequency = "Frecuencia"
 	
 	vat_rate = "IVA"
 	vat_amount = "IVA"
@@ -187,6 +189,26 @@ end %>
 <div class="margin-bottom-5">
 	<div class="float-left font-bold"><%= subscription %>:</div>
 	<div class="float-left margin-left-5"><%= @invoice.subscription_id %></div>
+	<div class="clear"></div>
+</div>
+
+<div class="margin-bottom-5">
+	<div class="float-left font-bold"><%= frequency %>:</div>
+	<div class="float-left margin-left-5">
+		<% case @invoice.subscription.payment_period when "month" %>
+			<% case @user.sitelanguage when 1 %> Each month
+			<% when 2 %> Cada mes
+			<% end %>
+		<% when "year" %>
+			<% case @user.sitelanguage when 1 %> Each year
+			<% when 2 %> Cada año
+			<% end %>
+		<% when "one_time" %>
+			<% case @user.sitelanguage when 1 %> One-time payment
+			<% when 2 %> Pago único
+			<% end %>
+		<% end %>
+	</div>
 	<div class="clear"></div>
 </div>
 

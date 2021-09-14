@@ -69,6 +69,7 @@
 		subscriptions_total_title = "Total"
 		subscriptions_created_title = "Date created"
 		subscriptions_last_title = "Last payment"
+		subscriptions_period_title = "Frequency"
 		subscriptions_next_title = "Next payment"
 		subscriptions_status_title = "Status"
 		subscriptions_members_title = "Miembros"
@@ -157,6 +158,7 @@
 		subscriptions_total_title = "Total"
 		subscriptions_created_title = "Fecha creación"
 		subscriptions_last_title = "Último pago"
+		subscriptions_period_title = "Frecuencia"
 		subscriptions_next_title = "Siguiente pago"
 		subscriptions_status_title = "Estado"
 		subscriptions_members_title = "Miembros"
@@ -501,6 +503,22 @@
 					<strong><%= subscriptions_last_title %>:</strong> <%= s.last_payment_date.strftime("%d/%m/%Y") unless s.last_payment_date.nil? %>
 				</div>
 				<div class="margin-bottom-5">
+					<strong><%= subscriptions_period_title %>:</strong> 
+						<% case s.payment_period when "month" %>
+							<% case @user.sitelanguage when 1 %> Each month
+							<% when 2 %> Cada mes
+							<% end %>
+						<% when "year" %>
+							<% case @user.sitelanguage when 1 %> Each year
+							<% when 2 %> Cada año
+							<% end %>
+						<% when "one_time" %>
+							<% case @user.sitelanguage when 1 %> One-time payment
+							<% when 2 %> Pago único
+							<% end %>
+						<% end %>
+				</div>
+				<div class="margin-bottom-5">
 					<strong><%= subscriptions_next_title %>:</strong> <%= s.next_payment_date.strftime("%d/%m/%Y") unless s.next_payment_date.nil? %>
 				</div>
 				<div class="">
@@ -525,6 +543,8 @@
 						<% end %>
 					<% end %>
 				</div>
+
+			<% if false %>
 				<div class="margin-bottom-5">
 					<h3><%= subscriptions_members_title %></h3>
 				</div>
@@ -632,7 +652,9 @@
 								<% end %>
 							</div>
 						</div>
-						
+			<% end %>
+			
+			
 					
 			<% end %>
 		<% end %>

@@ -7,5 +7,6 @@ class Payment < ApplicationRecord
 	has_many :invoices
 	
 	STATUSES = %i[paid refunded problem]
-	TYPES = %I[first repeat fix reactivate increase]
+	TYPES = %i[first repeat fix reactivate increase]
+	PERIODS = %i[month year one_time]
 end

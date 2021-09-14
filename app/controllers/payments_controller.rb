@@ -291,6 +291,9 @@ class PaymentsController < ApplicationController
 	
 	# Is the user the current user? Does he already have an account?
 	def stripe_credit_card
+		period = params[:payment_period_for_server]
+		puts period
+		
 		check_user
 		
 		if !@user.nil?
@@ -399,6 +402,7 @@ class PaymentsController < ApplicationController
 		
 		plan_amount = params[:plan_amount_for_server]
 		payment_intent = params[:stripe_payment_intent_for_server]
+		payment_period = params[:payment_period_for_server]
 		
 		ip_address = @ip_address
 		ip_country = @ip_lookup_country
@@ -448,7 +452,8 @@ class PaymentsController < ApplicationController
 			total_amount: total_amount,
 			account_id: @account.id,
 			payment_method: payment_method,
-			card_country: card_country
+			card_country: card_country,
+			payment_period: payment_period
 			)
 
 		render json: {email: @user.email, plan_amount: plan_amount.to_f, vat_country: applicable_vat_country, vat_rate: vat_rate.to_f, vat_amount: vat_amount, total_amount: total_amount}, status: 200
@@ -475,6 +480,16 @@ class PaymentsController < ApplicationController
 		@vat_amount = params[:vat_amount_for_server]
 		@total_amount = params[:total_amount_for_server]
 		@payment = Payment.where(account_id: @account_id).last
+		payment_period = @payment.payment_period
+		time_now = Time.zone.now
+		
+		case payment_period when "month"
+			next_payment_date = time_now + 1.month
+		when "year"
+			next_payment_date = time_now + 1.year
+		when "one_time"
+			next_payment_date = time_now
+		end
 		
 		begin
 			if params[:subscription_for_server].empty?
@@ -495,8 +510,9 @@ class PaymentsController < ApplicationController
 					frame_emotional_quest_action: params[:frame_emotional_quest_action_for_server],
 					frame_money_word_singular: params[:frame_money_word_singular_for_server],
 					frame_button_cta: params[:frame_button_cta_for_server],
-					last_payment_date: Time.zone.now,
-					next_payment_date: Time.zone.now + 1.month,
+					last_payment_date: time_now,
+					payment_period: payment_period,
+					next_payment_date: next_payment_date,
 					is_active: true,
 					reactivate_token: SecureRandom.urlsafe_base64.to_s
 					)
@@ -518,8 +534,9 @@ class PaymentsController < ApplicationController
 					frame_emotional_quest_action: params[:frame_emotional_quest_action_for_server],
 					frame_money_word_singular: params[:frame_money_word_singular_for_server],
 					frame_button_cta: params[:frame_button_cta_for_server],
-					last_payment_date: Time.zone.now,
-					next_payment_date: Time.zone.now + 1.month,
+					last_payment_date: time_now,
+					payment_period: payment_period,
+					next_payment_date: next_payment_date,
 					is_active: true,
 					reactivate_token: SecureRandom.urlsafe_base64.to_s
 					)
@@ -823,7 +840,7 @@ class PaymentsController < ApplicationController
 				:created_at,
 				:card_country, :external_payment_error, :external_payment_id, :external_payment_status, 
 				:status, :payment_type, 
-				:base_amount, :vat_amount, :total_amount, :payment_method, 
+				:base_amount, :vat_amount, :total_amount, :payment_method, :payment_period,
 				:account_id, :invoice_id, :subscription_id)
 		end
 end

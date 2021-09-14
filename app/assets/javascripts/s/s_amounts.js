@@ -86,8 +86,8 @@ function checkVatDetails() {
 
 // Super patrons: check how much is in the box...
 function checkAmount() {
-	var amount_max = 2000;
-	var amount_min = 5;
+	var amount_max = 5000;
+	var amount_min = 1;
 	var amount_vat = 330;
 	var amount = to_check.value;
 	
@@ -108,7 +108,7 @@ function checkAmount() {
 		document.getElementById("payment_form_errors").style.display = "none";
 	}
 	
-	if (amount > amount_max || amount < amount_min || amount % 5 != 0) {
+	if (amount > amount_max || amount < amount_min) {
 		document.getElementById("plan_amount").style.cssText = "border: red 2px solid; outline-color: red; color: red;";
 		document.getElementById("invoice_details").style.display = "none";
 		document.getElementById("payment_form_errors").style.display = "inline";
@@ -117,6 +117,7 @@ function checkAmount() {
 	}
 	
 	document.getElementById("plan_amount_for_server").value = (amount * 100);
+	document.getElementById("payment_period_for_server").value = document.getElementById("select_payment_period").value;
 }
 
 

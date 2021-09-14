@@ -48,6 +48,7 @@
  			
 			var sub = document.getElementById("subscription_for_server").value;
 			var pa = document.getElementById("plan_amount_for_server").value;
+			var per = document.getElementById("payment_period_for_server").value;
 			var rc = document.getElementById("residence_country_code_for_server").value;
 			var pi = document.getElementById("stripe_payment_intent_for_server").value;
  			var si = document.getElementById("stripe_setup_intent_for_server").value;
@@ -73,6 +74,7 @@
  				+ '&article_for_server=' + art
  				+ '&subscription_for_server=' + sub 
  				+ '&plan_amount_for_server=' + pa 
+ 				+ '&payment_period_for_server=' + per 
  				+ '&residence_country_code_for_server=' + rc 
  				+ '&stripe_payment_intent_for_server=' + pi 
  				+ '&stripe_setup_intent_for_server=' + si 

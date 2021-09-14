@@ -53,6 +53,10 @@ class ArticlesController < ApplicationController
 			redirect_to root_url
 		end
 	end
+	
+	def live
+
+	end
 
 	# GET /articles/1
 	# GET /articles/1.json

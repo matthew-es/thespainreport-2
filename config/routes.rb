@@ -30,6 +30,8 @@
 	root 'home#index'
 	get 'repeat_payments' => 'payments#repeat_payments'
 	
+	get 'live' => 'articles#live'
+	
 	get 'signup' => redirect('newsletter')
 	get 'newsletter' => 'users#signup'
 	get 'apuntese' => redirect('boletin')

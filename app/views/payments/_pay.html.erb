@@ -1,31 +1,32 @@
+
 <%# OPEN PAGE DIV, DISPLAY HEADLINE... %>
+<div id="payments" class="">
 <% if controller_name == "payments" %>
-	<div id="payments" class="">
 		<h1 class="font-header font-header-normal line-120 font-upper">
 			<%= @frame.emotional_quest_action %>
 		</h1>
-<% elsif controller_name == "articles" || controller_name == "home" %>
-	<div id="payments" class="padding-top-20 buy-border-top margin-top-30">
-		<h3 class="margin-top-0">
-			<%= @frame.emotional_quest_action %>
-		</h3>
 <% else end %>
-	
-	
-	<%# DISPLAY INTRO... %>
-	<div class="font-main font-main-normal">
-		<p>
-			<%= @frame.short_story %>
-		</p>
-	</div>
+
 	
 	<% if current_user.nil? || @reader || @user.account.subscriptions.blank? %>
-	
-	
 	<%# DISPLAY PLANS... %>
 	
 	<%# DISPLAY PAYMENT FORM... %>
 	<div class="margin-top-10 margin-bottom-10 padding-20 buy-background buy-border font-payment" onmouseover="checkAmount()">
+
+	<% if controller_name == "articles" || controller_name == "home" %>
+			<h3 class="margin-top-0">
+				<%= @frame.emotional_quest_action %>
+			</h3>
+	<% else end %>
+	
+		<%# DISPLAY INTRO... %>
+		<div class="font-main font-main-normal">
+			<p>
+				<%= @frame.short_story %>
+			</p>
+		</div>
+		
 		<div id="ajax_form_one">
 			
 			<%# If user already exists and is logged in, say hello... %>
@@ -61,27 +62,41 @@
 				
 			<% end %>
 			
-			<%# Select a contribution amount and tax country... %>
+			<%# Select a contribution amount... %>
 			<div class="margin-top-10">
-				
 				<ul class="font-main-small">
 					<li>
 						<% case @language when 1 %>New <%= @frame.money_word_singular %>: € 
-						<% when 2 %>Nueva <%= @frame.money_word_singular %>: 
+						<% when 2 %>Nueva <%= @frame.money_word_singular %>: €
 						<% end %>
-						
+
 						<input type="number" id="plan_amount" min="5" step="5" max="2000" value="25" onclick="checkEmail()" onselect="checkEmail()">
 						
-						<% case @language when 1 %> / month
-						<% when 2 %> euros al mes
-						<% end %>
+						<select name="select_payment_period" id="select_payment_period" onfocus="getSetup()" onchange="changePeriod()" onclick="changePeriod()">
+							<% case @language when 1 %>
+								<option value="month">a month</option>
+								<option value="year">a year</option>
+								<option value="one_time">one-time</option>
+							<% when 2 %>
+								<option value="month">al mes</option>
+								<option value="year">al año</option>
+								<option value="one_time">pago único</option>
+							<% end %>
+						</select>
 						
 						<span id="payment_form_errors" class="color-red background-light-red hide">
-							<% case @language when 1 %>...multiple of 5 between 5 and 2,000 
-							<% when 2 %>...múltiplo de 5 entre 5 y 2.000
+							<% case @language when 1 %>...must be between €1 and €5,000 
+							<% when 2 %>...debe estar entre 1 y 5.000 euros
 							<% end %>
 						</span>
 					</li>
+				</ul>
+			</div>
+			
+			
+			<%# Select tax country... %>
+			<div class="margin-top-10">
+				<ul class="font-main-small">
 					<li>
 						<% case @language when 1 %>Which country do you pay taxes in?
 						<% when 2 %>¿En qué país paga impuestos?

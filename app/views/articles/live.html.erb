@@ -268,8 +268,18 @@ end	%>
 	
 	
 	<%# ARTICLE TEXT %>
-	<%= markdown(@article.body).html_safe %>
-	
+	<% if ["Patrons Column", "Columna Mecenas"].include?(@article.type.name) %>
+		<% if current_user.nil? %>
+			<%= markdown(truncate(@article.body, length: 350)) %>
+		<% elsif @can_read_level_1 %>
+			<%= markdown(@article.body).html_safe %>
+		<% else %>
+			<%= markdown(truncate(@article.body, length: 350)) %>
+		<% end %>
+	<% else %>
+		<%= markdown(@article.body).html_safe %>
+	<% end %>
+
 	
 	<%# PODCAST LINKS %>
 	<% if @article.type.name == "Podcast" && @article.audio_aac_id.present? && @article.language_id == 2 %>

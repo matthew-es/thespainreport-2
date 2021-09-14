@@ -25,6 +25,7 @@
 		<% if controller_name == "home" || controller_name == "payments" && ["pay", "pagar"].include?(action_name)  || controller_name == "articles" && action_name == "show" %>
 			<%= javascript_include_tag 's/s_amounts' %>
 			<%= javascript_include_tag 's/s_country' %>
+			<%= javascript_include_tag 's/s_period' %>
 			<%= javascript_include_tag 's/s_email' %>
 			
 			<script src="https://js.stripe.com/v3"></script>
@@ -46,6 +47,7 @@
 			  	 	checkAmount();
 				   	setEmail();
 				   	setExistingEmail();
+				   	startPeriod();
 				}, false);
 				
 				var to_check = document.getElementById('plan_amount');

@@ -38,6 +38,7 @@ class Article < ApplicationRecord
     scope :notphoto, -> {Article.joins(:type).merge(Type.notphoto)}
     scope :notes, -> {Article.joins(:type).merge(Type.notes)}
     scope :notices, -> {Article.joins(:type).merge(Type.notices)}
+    scope :live, -> {Article.joins(:type).merge(Type.live)}
     
     scope :podcast, -> {Article.where.not(audio_aac_id: "")}
     scope :notpodcast, -> {Article.where(audio_aac_id: "")}
