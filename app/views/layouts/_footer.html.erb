@@ -1,36 +1,34 @@
 <div class="padding-top-20 buy-border-top margin-top-30 margin-bottom-30">
 	
-	<% if @language == 1 %>
-		<span class="font-bold font-main-normal">What is The Spain Report?</span>
-		<p class="margin-top-10">
-			Independent reporting and analysis of the most important stories changing the country, 
-			written by Matthew Bennett, a British journalist who has been living and working in Spain for most of the past 20 years.
+		<h3 class="">
+			<% case @language when 1 %>What is The Spain Report?
+			<% when 2 %>¿Qué es The Spain Report?
+			<% end %>
+		</h3>
+
+		<p class="margin-top-10 font-main-small">
+			<% case @language when 1 %>Independent reporting and analysis of the most important stories changing Spain, written by Matthew Bennett, a British journalist who has been living here for more than 20 years.
+			<% when 2 %>Información y análisis independientes sobres las noticias y tendencias que están cambiando España. Informa Matthew Bennett, un periodista británico que vive aquí desde hace 20 años.
+			<% end %>
 		</p>
-	<% elsif @language == 2 %>
-		<span class="font-bold font-main-normal">¿Qué es The Spain Report?</span>
-		<p class="margin-top-10">
-			Información y análisis independientes sobres las noticias y tendencias que están cambiando España.
-			Lo escribe Matthew Bennett, un periodista británico que vive y trabaja aquí desde hace 20 años.
-		</p>
-	<% else %>
-	<% end %>
-		<p>
-		<ul>
+
+		<ul class="font-main-small">
 			<li><strong>Email:</strong> matthew@thespainreport.com</li>
 			<li><strong>Phone:</strong> (0034) 647 81 81 43</li>
 			<li><strong>Twitter:</strong> <a href="https://twitter.com/matthewbennett" title="Matthew Bennett on Twitter">@matthewbennett</a></li>
-			<li><strong>YouTube:</strong> The Spain Report</li>
-			<li><strong>Facebook:</strong> The Spain Report</li>
-			<li><strong>Instagram:</strong> The Spain Report</li>
-			<li><strong>Tik Tok:</strong> The Spain Report</li>
-			<li><strong>LinkedIn:</strong> The Spain Report</li>
+			<li><strong>YouTube:</strong> <a href="https://www.youtube.com/user/thespainreport" title="The Spain Report on YouTube">The Spain Report</a></li>
+			<li><strong>Instagram:</strong> <a href="https://www.instagram.com/thespainreport" title="The Spain Report on Instagram">The Spain Report</a></li>
+			<li><strong>Tik Tok:</strong> <a href="https://www.tiktok.com/@thespainreport" title="The Spain Report on Tik Tok">The Spain Report</a></li>
+			<li><strong>Facebook:</strong> <a href="https://www.facebook.com/thespainreport" title="The Spain Report on Facebook">The Spain Report</a></li>
+			<li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/thespainreport/" title="The Spain Report on LinkedIn">The Spain Report</a></li>
+			<li><strong>Substack:</strong> <a href="https://thespainreport.substack.com/" title="The Spain Report on Substack">The Spain Report</a></li>
+			<li><strong>Revue:</strong> <a href="https://www.getrevue.co/profile/matthewbennett" title="The Spain Report on Revue">The Spain Report</a></li>
 		</ul>
-		</p>
 
-	<p class="margin-centre" style="text-align: center;">
+	<p class="margin-centre margin-top-30" style="text-align: center;">
 		&#169;<%= Time.new.year %> Matthew Bennett<br />
 		<a href="<%= root_url %>" title="The Spain Report">The Spain Report</a>
-		| <a href="/es" title="The Spain Report en español">En español</a>
+		| <a href="/es" title="The Spain Report en español">The Spain Report en español</a>
 	</p>
 </div>
 
