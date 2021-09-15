@@ -11,7 +11,7 @@
 		<div class="width-fixed-logo">
 			<% if controller_name == 'payments' && action_name == 'pay' || controller_name == 'payments' && action_name == 'pagar' %>
 			
-			<% elsif controller_name == 'home' && action_name == 'es' || controller_name == 'articles' && action_name == 'show' && @article.language_id == 2 %>
+			<% elsif controller_name == 'home' && action_name == 'es' || controller_name == 'articles' && ["show", "live", "directo"].include?(action_name) && @article.language_id == 2 %>
 				<a href="/es" class="logo">
 			<% else %>
 				<a href="/" class="logo">
