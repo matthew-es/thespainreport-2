@@ -213,7 +213,15 @@
 			</div>
 			
 		
-	
+	<% if @frame.video.present? %>
+		<div class="video-wrapper" style="margin-top: 20px;">
+			<% if @frame.video.match(/^[0-9]+$/) %>
+				<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{@frame.video}?quality=720p", allowfullscreen: true) %>
+			<% else %> 
+				<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{@frame.video}?rel=0&amp;showinfo=0", allowfullscreen: true) %>
+			<% end %>
+		</div>
+	<% end %>
 	
 	<%# SALES STUFF AND INSTRUCTIONS... %>
 	

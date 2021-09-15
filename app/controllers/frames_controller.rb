@@ -91,7 +91,7 @@ class FramesController < ApplicationController
     def frame_params
       params.require(:frame).permit(
         :button_cta, :button_cta_trial_over, :button_cta_increase, :button_cta_reactivate,
-        :image, :emotional_quest_action, :emotional_quest_role, :short_story, :money_word_singular, 
+        :image, :video, :emotional_quest_action, :emotional_quest_role, :short_story, :money_word_singular, 
         :money_word_plural, :money_word_verb, :money_word_verb_phrase, :money_word_with_article, :link_slug, :social_proof,:risk_reversal, :language_id, :original_id,
         :access_patrons_only, :access_more_for_patrons,
         :email_reader_header, :email_reader_text, :email_reader_placeholder, :email_reader_button,
