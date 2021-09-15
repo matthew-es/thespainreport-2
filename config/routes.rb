@@ -31,6 +31,7 @@
 	get 'repeat_payments' => 'payments#repeat_payments'
 	
 	get 'live' => 'articles#live'
+	get 'directo' => 'articles#directo'
 	
 	get 'signup' => redirect('newsletter')
 	get 'newsletter' => 'users#signup'

@@ -52,7 +52,21 @@ class ArticlesController < ApplicationController
 	end
 	
 	def live
-
+		@article = Article.english.live.published.last
+		frame = Frame.find_by(link_slug: "guarantee")
+		set_language_frame(@article.language_id, frame.id)
+		set_status(current_user) unless current_user.nil?
+		
+		render 'articles/show'
+	end
+	
+	def directo
+		@article = Article.spanish.live.published.last
+		frame = Frame.find_by(link_slug: "garantizar")
+		set_language_frame(@article.language_id, frame.id)
+		set_status(current_user) unless current_user.nil?
+		
+		render 'articles/show'
 	end
 
 	# GET /articles/1
