@@ -28,6 +28,8 @@ class Type < ApplicationRecord
     scope :notphoto, -> {where.not(name: ['Photos', 'Fotos'])}
     scope :notices, -> {where(name: ['Notice', 'Aviso'])}
     scope :live, -> {where(name: ['Live', 'Directo'])}
+    scope :text, -> {where(name: ['Notes', 'Apuntes', 'News', 'Noticia', 'Analysis', 'Análisis', 'Chronicle', 'Crónica'])}
+    scope :depth, -> {where(name: ['Video', 'Vídeo', 'Photos', 'Fotos'])}
     
     scope :english, -> {where(language_id: 1)}
     scope :spanish, -> {where(language_id: 2)}
