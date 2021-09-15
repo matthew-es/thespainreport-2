@@ -29,13 +29,10 @@
 					<% if controller_name == "payments" %>
 		
 					<% else %>
-						<div class="">
-							<div class="topbutton mobile-100"> 
-								<a href="<%= @subscribe %>" class="buybutton"><%= @frame.emotional_quest_action %></a> 
-							</div>
-							<div class="margin-top-5 font-main font-italic font-main-tiny">
-								<%= @frame.emotional_quest_role %>
-							</div>
+						<div class="margin-top-10">
+							<% case @language when 1 %><a href="/login">Log in</a>
+							<% when 2 %><a href="/entrar">Iniciar sesión</a>
+							<% end %>
 						</div>
 					<% end %>
 				

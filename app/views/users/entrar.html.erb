@@ -1,15 +1,13 @@
 <% title "Entrar" %>
 
-<div class="content">
-	<%= render "layouts/logo_account" %>
-	
-	<h3>Entrar aquí…</h3>
-	
-	<% flash.each do |key, value| %>
-		<div class="alert alert-<%= key %>"><p><%= value.html_safe %></p></div>
-	<% end %>
-	
-	<div class="alert-warning padding-20 margin-top-20">
-		<%= render "users/log_in_logic" %>
-	</div>
+<%= render "layouts/logo_account" %>
+
+<h3>Entrar aquí…</h3>
+
+<% flash.each do |key, value| %>
+	<div class="alert alert-<%= key %>"><p><%= value.html_safe %></p></div>
+<% end %>
+
+<div class="alert-warning padding-20 margin-top-20">
+	<%= render "users/log_in_logic" %>
 </div>

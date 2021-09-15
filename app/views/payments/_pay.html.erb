@@ -63,11 +63,11 @@
 			<% end %>
 			
 			<%# Select a contribution amount... %>
-			<div class="margin-top-10">
+			<div class="margin-top-5">
 				<ul class="font-main-small">
 					<li>
-						<% case @language when 1 %>New <%= @frame.money_word_singular %>: € 
-						<% when 2 %>Nueva <%= @frame.money_word_singular %>: €
+						<% case @language when 1 %>Your <%= @frame.money_word_singular %>: € 
+						<% when 2 %>Su <%= @frame.money_word_singular %>: €
 						<% end %>
 
 						<input type="number" id="plan_amount" min="5" step="5" max="2000" value="25" onclick="checkEmail()" onselect="checkEmail()">
@@ -95,7 +95,7 @@
 			
 			
 			<%# Select tax country... %>
-			<div class="margin-top-10">
+			<div class="margin-top-5">
 				<ul class="font-main-small">
 					<li>
 						<% case @language when 1 %>Which country do you pay taxes in?

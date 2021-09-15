@@ -11,9 +11,8 @@ class HomeController < ApplicationController
 		@patrons = Article.english.published.patrons.lastfive
 		@free = Article.english.published.nottruth.notstory.notpatrons.notpodcast.notphoto.notvideo.lastfive
 		@truth = Article.english.published.truth.lastfive
-		@photos = Article.english.published.photo.lastfive
-		@videos = Article.english.published.video.lastfive
-		@videoblogs = Article.english.published.videoblog.lastfive
+		@depth = Article.english.published.depth.lastfive
+		@daily = Article.english.published.daily.lastten
 		@notices = Article.english.published.notices.lastfive
 		
 		@rss = Article.published.english.order('created_at DESC')
@@ -34,9 +33,8 @@ class HomeController < ApplicationController
 		@patrons = Article.spanish.published.patrons.lastfive
 		@free = Article.spanish.published.nottruth.notstory.notpatrons.notpodcast.notphoto.notvideo.lastfive
 		@truth = Article.spanish.published.truth.lastfive
-		@photos = Article.spanish.published.photo.lastfive
-		@videos = Article.spanish.published.video.lastfive
-		@videoblogs = Article.spanish.published.videoblog.lastfive
+		@depth = Article.spanish.published.depth.lastfive
+		@daily = Article.spanish.published.daily.lastfive
 		@notices = Article.spanish.published.notices.lastfive
 		
 		@rss = Article.published.spanish.order('created_at DESC')

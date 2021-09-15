@@ -23,89 +23,40 @@
 
 <%= render "layouts/logo_account" %>
 
-<% @latestmain.each do |article| %>
-	 <% if article.video.present? %>
-		<div class="video-wrapper">
-			<% if article.video.match(/^[0-9]*$/) %>
-				<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{article.video}", allowfullscreen: true) %>
-			<% else %> 
-				<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{article.video}?rel=0&amp;showinfo=0", allowfullscreen: true) %>
-			<% end %>
-		</div>
-	<% else %>
-	<% end %>
-	 
-	 <h1 class="font-header font-header-normal line-120 font-upper margin-top-0 margin-bottom-5">
-		 <%= link_to article do %>
-		  <%= link_to article.headline, article %>
-		<% end %>
-	 </h1>
-	 
-	 <div class="font-main font-main-normal font-italic"><span class="font-bold"><%= article.type.name %>:</span> <%= article.lede %></div>
-   
-	<% if article.pieces.present? %>
-		<ul class="margin-top-5 margin-bottom-0 margin-left-20 margin-right-0 font-main-small">
-			<% article.pieces.each do |p| %>
-				<li>
-					<strong><%= p.type.name %>:</strong> <%= link_to p.short_headline, p %>
-				</li>
-			<% end %>
-		</ul>
-	<% else end %>
- <% end %>
-
-
-<%= render "articles/patrons_only_block" %>
-
-<div class="buy-border-top margin-top-20">
+<div class="margin-top-20">
+	<h3>-- Información y análisis diarios --</h3>
 	<ul class="no-points">
-		<% if @videos.any? %>
-			<% @videos.each do |article| %>
-				<%= render "articles/index_articles_list_video", {article: article} %>
-			<% end %>
-		<% else %>
-			Próximamente...
-		<% end %>
-	</ul>
-	
-	<h3>-- Vídeo Blog --</h3>
-	<ul class="no-points">
-		<% if @videoblogs.any? %>
-			<% @videoblogs.each do |article| %>
-				<%= render "articles/index_articles_list_video", {article: article} %>
-			<% end %>
-		<% else %>
-			Próximamente...
-		<% end %>
-	</ul>
-	
-	<h3>-- Podcast --</h3>
-	<div class="margin-top-10">
-		<ul class="no-points">
-			<% if @podcast.any?; @podcast.each do |article| %>
-				<%= render "articles/index_articles_list_audio", {article: article} %>
-			<% end end %>
-		</ul>
-	</div>
-	
-	<h3>-- Fotos --</h3>
-	<ul class="no-points">
-		<% if @photos.any? %>
-			<% @photos.each do |article| %>
+		<% if @daily.any? %>
+			<% @daily.each do |article| %>
 				<%= render "articles/index_articles_list_link", {article: article} %>
 			<% end %>
 		<% else %>
-			Próximamente...
+			Coming soon....
 		<% end %>
 	</ul>
 	
-	<h3>-- Apuntes --</h3>
+	<div class="margin-top-20">
+		<%= render "payments/pay" %>
+	</div>
+	
+	<h3>-- Conversación Podcast --</h3>
 	<ul class="no-points">
-		<% if @notes.any?; @notes.each do |article| %>
+		<% if @podcast.any?; @podcast.each do |article| %>
 			<%= render "articles/index_articles_list_link", {article: article} %>
 		<% end end %>
-	 </ul>
-		
+	</ul>
+	
+	<h3>-- Vídeo Reportajes y Fotos --</h3>
+	<ul class="no-points">
+		<% if @depth.any? %>
+			<% @depth.each do |article| %>
+				<%= render "articles/index_articles_list_link", {article: article} %>
+			<% end %>
+		<% else %>
+			Coming soon....
+		<% end %>
+	</ul>
+	
 	<h3>-- Verdad y Periodismo --</h3>
 	<ul class="no-points">
 		<% if @truth.any?; @truth.each do |article| %>
@@ -120,10 +71,6 @@
 		<% end end %>
 	</ul>
 </div>
-
-<% if current_user.nil? %>
-	<%= render "payments/pay" %>
-<% end %>
 
 <% if current_user.nil? %>
 	<%= render "users/new_reader_form" %>

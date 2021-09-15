@@ -11,7 +11,7 @@
 
 	<h3>Daily Reports & Analysis</h3>
 	<table width="100%">
-	<% @text.each do |article| %>
+	<% @daily.each do |article| %>
 		<%= render "articles/admin_articles_table", {article: article} %>
 	<% end %>
 	</table>

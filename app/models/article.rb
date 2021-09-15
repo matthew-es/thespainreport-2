@@ -39,7 +39,7 @@ class Article < ApplicationRecord
     scope :notes, -> {Article.joins(:type).merge(Type.notes)}
     scope :notices, -> {Article.joins(:type).merge(Type.notices)}
     scope :live, -> {Article.joins(:type).merge(Type.live)}
-    scope :text, -> {Article.joins(:type).merge(Type.text)}
+    scope :daily, -> {Article.joins(:type).merge(Type.daily)}
     scope :depth, -> {Article.joins(:type).merge(Type.depth)}
     
     scope :podcast, -> {Article.where.not(audio_aac_id: "")}

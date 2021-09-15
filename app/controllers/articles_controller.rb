@@ -30,7 +30,7 @@ class ArticlesController < ApplicationController
 			@podcast = Article.podcast.nottranslation.order('created_at DESC').limit(10)
 			@truth = Article.truth.nottranslation.order('created_at DESC').limit(10)
 			@depth = Article.depth.nottranslation.order('created_at DESC').limit(10)
-			@text = Article.text.nottranslation.order('created_at DESC').limit(10)
+			@daily = Article.daily.nottranslation.order('created_at DESC').limit(10)
 			@all = Article.all.nottranslation.order('created_at DESC')
 			
 			@frame_en = Frame.find_by(link_slug: "guarantee")
