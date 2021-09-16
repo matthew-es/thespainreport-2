@@ -39,7 +39,7 @@ class ArticleMailer < ApplicationMailer
 		@patron_1 = @status == 2 && @level.between?(100, 499)
 		@patron_active = (@user.account.subscriptions.last.is_active == true) unless @user.account.subscriptions.blank?
 		@patron_paused = (@user.account.subscriptions.last.is_active == false) unless @user.account.subscriptions.blank?
-		@patron = @patron_1 || @patron_5 || @patron_10 || @patron_25
+		@patron = (@status == 2)
 		@no_subscription = @user.account.subscriptions.blank?
 		
 		@reader_trial = (@status == 3 && @can_read_date > Time.now)
