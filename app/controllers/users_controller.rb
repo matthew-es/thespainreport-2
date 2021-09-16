@@ -164,6 +164,8 @@ class UsersController < ApplicationController
 	def entrar
 		default_frame_es
 		redirect_to edit_user_path(current_user) unless current_user.nil?
+		
+		render "users/login"
 	end
 	
 	def newsession
@@ -175,9 +177,15 @@ class UsersController < ApplicationController
 			redirect_back(fallback_location: root_path)
 			flash[:success] = "Welcome back!"
 		else
-		# If user's login doesn't work, send them back to the login form.
-			redirect_back(fallback_location: root_path)
-			flash[:tryagain] = "Try again…"
+		# If user's login doesn't work, send them to the login page
+			if user.nil? || user.sitelanguage == 1
+				redirect_to "/login"
+				flash[:tryagain] = "Try again…"
+			else 
+				redirect_to "/entrar"
+				flash[:tryagain] = "Inténtelo de nuevo…"
+			end
+			
 		end
 	end
 

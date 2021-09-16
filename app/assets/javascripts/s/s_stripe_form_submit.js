@@ -94,6 +94,8 @@
 				    
 				    if (this.readyState == 4 && this.status == 499) {
 						    	var details = JSON.parse(this.responseText);
+						    	console.log(details);
+						    	console.log(this.status);
 						    	document.getElementById("ajax_form_one").style.display = "none";
 						    	document.getElementById("ajax_form_message").style.display = "none";
 						    	document.getElementById("ajax_form_login").style.display = "block";

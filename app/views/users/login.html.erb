@@ -1,13 +1,23 @@
-<% title "Login" %>
+<% case @language when 1 %><% title "Log in" %>
+<% when 2 %><% title "Iniciar sesión" %>
+<% end %>
 
-	<%= render "layouts/logo_account" %>
-	
-	<h3>Log in here…</h3>
-	
+<%= render "layouts/logo_account" %>
+
+<h3>
+	<% case @language when 1 %>Log in here…
+	<% when 2 %>Inicie sesión aquí...
+	<% end %>
+</h3>
+
+<div class="buy-background buy-border padding-20 margin-top-20">
 	<% flash.each do |key, value| %>
-		<div class="alert alert-<%= key %>"><p><%= value.html_safe %></p></div>
+		<div class="font-main-small color-red">
+			<%= value.html_safe %>
+		</div>
 	<% end %>
 	
-	<div class="alert-warning padding-20 margin-top-20">
-		<%= render "users/log_in_logic" %>
-	</div>
+	<%= render "users/log_in_logic" %>
+</div>
+
+<%= render "payments/pay" %>

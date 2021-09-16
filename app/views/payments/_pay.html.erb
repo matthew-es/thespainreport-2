@@ -160,7 +160,7 @@
 			</div>
 			
 			
-
+		</div>
 			
 			
 			<%# CONFIRM WITH TAXES OR RE-CONFIRM PAYMENT... %>
@@ -177,15 +177,13 @@
 			</div>
 		
 			<%# IF EXISTING USER, LOG IN FIRST... %>
-			<div id="ajax_form_login" class="margin-top-10 padding-10 alert-warning" style="display:none;">
-				<p>Please log in first…</p>
-				<%= form_tag '/login' do %>
-					<div class="float-left"><%= text_field_tag 'email', nil, class: 'padding-5 font-main font-main-small', placeholder: 'Your e-mail...' %></div>
-					<div class="float-left"><%= password_field_tag 'password', nil, class: 'padding-5 font-main font-main-small', placeholder: 'Your password...' %></div>
-					<div class="float-left"><button type="submit" class="padding-5 font-main-small">Log In</button></div>
-					<div class="float-left"><a href="/password">New password?</a></div>
-					<div class="clear"></div>
-				<% end %>
+			<div id="ajax_form_login" class="" style="display:none;">
+				<p class="font-main-small margin-bottom-0 color-red">
+					<% case @language when 1 %>Please log in first…
+					<% when 2 %>Inicie sesión primero...
+					<% end %>
+				</p>
+				<%= render "users/log_in_logic" %>
 			</div>
 		
 			
@@ -256,7 +254,7 @@
 		</ol>
 	</div>
 		
-	</div>
+	
 	</div>
 	
 	<%# STORE VALUES FOR SERVER IN FORM FIELDS... %>	

@@ -102,24 +102,7 @@
 
 
 <%# ARTICLE TEXT %>
-<% if ["Patrons Column", "Columna Mecenas"].include?(@article.type.name) %>
-	<% if @can_read_level_1 %>
-		<%= markdown(@article.body).html_safe %>
-	<% else %>
-		<%= markdown(truncate(@article.body, length: 550)) %>
-	<% end %>
-<% else %>
-	<%= markdown(@article.body).html_safe %>
-<% end %>
-
-
-<%# PATRONS EXTRAS HERE...  %>
-<% if ["Patrons only", "Sólo mecenas"].include?@article.type.name %>
-	<%= render "articles/patrons_only_block_email" %>
-<% elsif @article.extras_audio_title.present? || @article.extras_video_title.present? %>
-	<%= render "articles/patrons_only_block_email" %>
-<% else end %>
-
+<%= markdown(@article.body).html_safe %>
 
 <%# INDIVIDUAL TWEETS OR PHOTO ESSAY IMAGES FOR THE ARTICLE %>
 <% if @articletweets.present? %>

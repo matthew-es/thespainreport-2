@@ -50,6 +50,7 @@ function confirmPayment() {
 	    }
 	    if (this.readyState == 4 && this.status == 499) {
 	    	var details = JSON.parse(this.responseText);
+	    	console.log(details);
 	    	document.getElementById("ajax_form_message").style.display = "block";
 	    	document.getElementById("ajax_form_message").innerHTML = details["message"];
 	    	document.getElementById("confirm_first_payment").style.display = "none";
@@ -58,12 +59,14 @@ function confirmPayment() {
 	    }
 	    if (this.readyState == 4 && this.status == 400) {
 	    	var details = JSON.parse(this.responseText);
+	    	console.log(details);
 	    	document.getElementById("ajax_form_message").style.display = "block";
 	    	document.getElementById("ajax_form_message").className = "margin-top-10 padding-10 alert-error";
 	    	document.getElementById("ajax_form_message").innerHTML = details["message"];
 	    }
 	    if (this.readyState == 4 && this.status == 200) {
 			var details = JSON.parse(this.responseText);
+			console.log(details);
 			document.getElementById("ajax_form_confirm").style.display = "none";
 			document.getElementById("ajax_form_message").style.display = "block";
 			document.getElementById("ajax_form_message").className = "margin-top-10 padding-10 alert-success";
