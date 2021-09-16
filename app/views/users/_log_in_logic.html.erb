@@ -2,7 +2,7 @@
 	<% if current_user.nil? %>
 		
 		<%= form_tag '/login' do %>
-			<% if controller_name == "users" && action_name == "login" || controller_name == "home" && action_name == "index" || controller_name == "articles" && ["show", "live", "directo"].incliude?(action_name) && @article.language_id == 1 %>
+			<% if controller_name == "users" && action_name == "login" || controller_name == "home" && action_name == "index" || controller_name == "articles" && ["show", "live", "directo"].include?(action_name) && @article.language_id == 1 %>
 				<div class="float-left margin-right-10 width-100 margin-top-5">
 					<%= text_field_tag 'email', nil, class: 'padding-10 width-90', placeholder: 'Your e-mail…' %>
 				</div>
@@ -15,7 +15,7 @@
 				<div class="float-left margin-top-10 margin-right-5 font-main-small">
 					| <a href="/password">New password?</a>
 				</div>
-			<% elsif controller_name == "users" && action_name == "entrar" || controller_name == "home" && action_name == "es" || controller_name == "articles" && ["show", "live", "directo"].incliude?(action_name) && @article.language_id == 2 %>
+			<% elsif controller_name == "users" && action_name == "entrar" || controller_name == "home" && action_name == "es" || controller_name == "articles" && ["show", "live", "directo"].include?(action_name) && @article.language_id == 2 %>
 				<div class="float-left margin-right-10 width-100 margin-top-5">
 					<%= text_field_tag 'email', nil, class: 'padding-10 width-90', placeholder: 'Su correo…' %>
 				</div>
