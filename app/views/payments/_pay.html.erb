@@ -1,3 +1,23 @@
+<% case @language when 1
+    your_email_label = "Your email"
+	amount_label = "Amount"
+	vat_rate_label = "VAT rate"
+	vat_amount_label = "VAT amount"
+	total_label = "Total"
+	frequency_label = "Frequency"
+	confirm_label = "Confirm"
+	reconfirm_label = "Re-confirm"
+when 2
+    your_email_label = "Su correo"
+	amount_label = "Cantidad"
+	vat_rate_label = "IVA tipo"
+	vat_amount_label = "IVA cantidad"
+	total_label = "Total"
+	frequency_label = "Frecuencia"
+	confirm_label = "Confirmar"
+	reconfirm_label = "Reconfirmar"
+end %>
+
 
 <%# OPEN PAGE DIV, DISPLAY HEADLINE... %>
 <div id="payments" class="">
@@ -166,13 +186,14 @@
 			<%# CONFIRM WITH TAXES OR RE-CONFIRM PAYMENT... %>
 			<div id="ajax_form_confirm" class="margin-top-10 padding-10 buy-border" style="display: none;">
 				<div class="width-50 align-left margin-centre">
-					Your email: <span id="confirm_email"></span><br />
-					Plan amount: <span id="confirm_plan_amount"></span><br />
-					VAT rate: <span id="confirm_vat_rate"></span><br />
-					VAT amount: <span id="confirm_vat_amount"></span><br />
-					Total amount: <span id="confirm_total_amount"></span><br />
-					<button id="confirm_first_payment" class="margin-top-10 padding-5 buybutton font-main-normal" onclick="confirmPayment()">Confirm <%= @frame.money_word_singular %></button>
-					<button id="confirm_sca_payment" onclick="ConfirmScaPayment()" style="display:none;" data-secret="">Re-confirm SCA Payment</button>
+					<%= your_email_label %>: <span id="confirm_email"></span><br />
+					<%= amount_label %>: <span id="confirm_plan_amount"></span><br />
+					<%= vat_rate_label %>: <span id="confirm_vat_rate"></span><br />
+					<%= vat_amount_label %>: <span id="confirm_vat_amount"></span><br />
+					<%= total_label %>: <span id="confirm_total_amount"></span><br />
+					<%= frequency_label %>: <span id="confirm_payment_period"></span><br />
+					<button id="confirm_first_payment" class="margin-top-10 padding-5 buybutton font-main-normal" onclick="confirmPayment()"><%= confirm_label %> <%= @frame.money_word_singular %></button>
+					<button id="confirm_sca_payment" onclick="ConfirmScaPayment()" style="display:none;" data-secret=""><%= reconfirm_label %></button>
 				</div>
 			</div>
 		
@@ -194,6 +215,8 @@
 			
 			<%# UI messages from Ajax responses... %>
 			<div id="ajax_form_message" class="margin-top-10 padding-10 buy-border" style="display:none;">
+					Confirming now...
+					<img src="<%= asset_path('ajax-loader.gif') %>" class="ajax_form_message_image" id="ajax_form_message_image" />
 			</div>
 			
 			

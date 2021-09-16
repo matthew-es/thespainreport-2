@@ -87,7 +87,7 @@
 				var xhttp = new XMLHttpRequest();
 				  xhttp.onreadystatechange = function() {
 				    if (this.readyState == 1 || 2 || 3) {
-				    	var content = 'Doing some sums for the tax man…<br />' + ajax_image;
+				    	var content = 'Calculating…<br />' + ajax_image;
 					    document.getElementById("ajax_form_message").style.display = "block";
 					    document.getElementById("ajax_form_message").innerHTML = content;
 				    }
@@ -108,7 +108,11 @@
 					     var details_vat_rate = details["vat_rate"]
 					     var details_vat_amount = details["vat_amount"]
 					     var details_total_amount = details["total_amount"]
+					     var details_payment_period = details["payment_period"]
 					     var details_email = details["email"]
+					     
+					     console.log(details)
+					     console.log(details_payment_period)
 					     
 					     document.getElementById("confirm_email").innerHTML = details_email;
 					     document.getElementById("confirm_plan_amount").innerHTML = "€ " + preciseTaxes(details_plan_amount/100, 2);
@@ -119,6 +123,7 @@
 					     	document.getElementById("confirm_vat_amount").innerHTML = "€ " + preciseTaxes(details_vat_amount/100, 2);
 					     }
 					     document.getElementById("confirm_total_amount").innerHTML = "€ " + preciseTaxes(details_total_amount/100, 2);
+					     document.getElementById("confirm_payment_period").innerHTML = details_payment_period;
 					     document.getElementById("vat_rate_for_server").value = details_vat_rate;
 					     document.getElementById("vat_amount_for_server").value = details_vat_amount;
 					     document.getElementById("total_amount_for_server").value = details_total_amount;

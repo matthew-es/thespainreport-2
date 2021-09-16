@@ -455,8 +455,26 @@ class PaymentsController < ApplicationController
 			card_country: card_country,
 			payment_period: payment_period
 			)
+			
+		case @user.sitelanguage when 1
+			case payment_period when "month"
+				confirm_payment_period = "Monthly"
+			when "year"
+				confirm_payment_period = "Yearly"
+			when "one_time"
+				confirm_payment_period = "One-time payment"
+			end
+		when 2
+			case payment_period when "month"
+				confirm_payment_period = "Cada mes"
+			when "year"
+				confirm_payment_period = "Cada año"
+			when "one_time"
+				confirm_payment_period = "Pago único"
+			end
+		end
 
-		render json: {email: @user.email, plan_amount: plan_amount.to_f, vat_country: applicable_vat_country, vat_rate: vat_rate.to_f, vat_amount: vat_amount, total_amount: total_amount}, status: 200
+		render json: {email: @user.email, plan_amount: plan_amount.to_f, vat_country: applicable_vat_country, vat_rate: vat_rate.to_f, vat_amount: vat_amount, total_amount: total_amount, payment_period: confirm_payment_period}, status: 200
 	end
 	
 	

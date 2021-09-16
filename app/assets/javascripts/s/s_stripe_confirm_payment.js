@@ -44,7 +44,7 @@ function confirmPayment() {
 	var xhttp = new XMLHttpRequest();
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 1 || 2 || 3) {
-	    	var content = 'Confirming your payment now…' + ajax_image;
+			var content = "Confirming..." + ajax_image;
 	    	document.getElementById("ajax_form_message").style.display = "block";
 	    	document.getElementById("ajax_form_message").innerHTML = content;
 	    }

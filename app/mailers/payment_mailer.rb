@@ -26,6 +26,10 @@ class PaymentMailer < ApplicationMailer
             type_repeat = "Monthly contribution"
             type_upgrade = "Increased contribution"
             type_reactivate = "Reactivated contribution"
+            
+            frequency_month = "Monthly"
+            frequency_year = "Yearly"
+            frequency_one_time = "One-time payment"
         when 2
             subject_first = "Se ha recibido su primera contribución. ¡Ha garantizado el periodismo independiente!"
             subject_repeat = "Se ha recibido su contribución mensual. Ha garantizado el periodismo independiente"
@@ -41,6 +45,10 @@ class PaymentMailer < ApplicationMailer
             type_repeat = "Contribución mensual"
             type_upgrade = "Contribución aumentada"
             type_reactivate = "Contribución reactivada"
+            
+            frequency_month = "Mensual"
+            frequency_year = "Anual"
+            frequency_one_time = "Pago único"
         end
         
         case payment.payment_type when "first"
@@ -60,6 +68,15 @@ class PaymentMailer < ApplicationMailer
             @type = type_reactivate
             @message = message_reactivate
         end
+        
+        case payment.payment_period when "month"
+            @frequency = frequency_month
+        when "year"
+            @frequency = frequency_year
+        when "one_time"
+            @frequency = frequency_one_time
+        end
+        
         emoji = ("\u2705").force_encoding('utf-8')
         
         headers 'X-SES-CONFIGURATION-SET' => "Emails"
