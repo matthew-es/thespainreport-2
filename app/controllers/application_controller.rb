@@ -19,6 +19,7 @@ class ApplicationController < ActionController::Base
 			@account = @user.account
 			@account_status = @account.account_status unless @user.account.nil?
 			@role = @user.account_role
+			@subscription = Subscription.find(@user.account.subscriptions.last.id) unless @user.account.subscriptions.blank?
 			
 			@reactivate = reactivate_subscription_payment_url(@user.account.subscriptions.last.reactivate_token) unless @user.account.subscriptions.blank? || @user.account.subscriptions.last.reactivate_token.nil?
 			@increase = increase_payment_url(@user.account.subscriptions.last.reactivate_token) unless @user.account.subscriptions.blank? || @user.account.subscriptions.last.reactivate_token.nil?

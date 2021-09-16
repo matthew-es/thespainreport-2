@@ -7,6 +7,10 @@
 	frequency_label = "Frequency"
 	confirm_label = "Confirm"
 	reconfirm_label = "Re-confirm"
+	
+	monthly_label = "each month"
+	yearly_label = "each year"
+	one_time_label = "one-time payment"
 when 2
     your_email_label = "Su correo"
 	amount_label = "Cantidad"
@@ -16,20 +20,21 @@ when 2
 	frequency_label = "Frecuencia"
 	confirm_label = "Confirmar"
 	reconfirm_label = "Reconfirmar"
+	
+	monthly_label = "al mes"
+	yearly_label = "al año"
+	one_time_label = "en pago único"
 end %>
 
 
 <%# OPEN PAGE DIV, DISPLAY HEADLINE... %>
 <div id="payments" class="">
-<% if controller_name == "payments" %>
-		<h1 class="font-header font-header-normal line-120 font-upper">
-			<%= @frame.emotional_quest_action %>
-		</h1>
-<% else end %>
-
 	
-	<% if current_user.nil? || @reader || @user.account.subscriptions.blank? %>
-	<%# DISPLAY PLANS... %>
+	<% if controller_name == "payments" %>
+			<h1 class="font-header font-header-normal line-120 font-upper">
+				<%= @frame.emotional_quest_action %>
+			</h1>
+	<% else end %>
 	
 	<%# DISPLAY PAYMENT FORM... %>
 	<div class="margin-top-10 margin-bottom-10 padding-20 buy-background buy-border font-payment" onmouseover="checkAmount()">
@@ -48,46 +53,62 @@ end %>
 		</div>
 		
 		<div id="ajax_form_one">
-			
+			<div class="margin-bottom-20">
 			<%# If user already exists and is logged in, say hello... %>
 			<% if current_user.nil? %>
+			
 			<% else %>
-				<div id ="customer_email" name="customer_email" type="text" data-email="<%= current_user.email %>">
+				<div id="customer_email" name="customer_email" type="text" data-email="<%= current_user.email %>" class="font-main-small float-left margin-right-5">
 					<% case @language when 1 %>Hi, 
 					<% when 2 %>Hola,  
 					<% end %>
 					<strong><%= current_user.email %></strong>
 				</div>
-				<div id ="customer_support" name="customer_support" class="margin-top-10">
-					<% case @language when 1 %>Your current <%= @frame.money_word_singular %> is
-					<% when 2 %>Su <%= @frame.money_word_singular %> actual es 
-					<% end %>
+				<%= render "users/user_labels" %>
 
-					<strong>
-						<% if current_user.account.total_support.nil? %>
-							<% case @language when 1 %>€0.00
-							<% when 2 %>0,00
-							<% end %>
-						<% else %>
-							<% case @language when 1 %><%= number_to_currency((current_user.account.total_support/100.to_f), unit: "€") %>
-							<% when 2 %><%= number_to_currency((current_user.account.total_support/100.to_f), unit: "", separator: ",", delimiter: ".") %>
-							<% end %>
-						<% end %>
-					</strong>
-
-					<% case @language when 1 %> / month
-					<% when 2 %> euros al mes
-					<% end %>
-				</div>
+				<div class="clear"></div>
+				
+				<% if !@subscription.nil? %>
+					<div class="margin-top-5">
+						<ul class="font-main-small">
+							<li>
+								<% case @language when 1 %>Your current <%= @frame.money_word_singular %> is
+								<% when 2 %>Su <%= @frame.money_word_singular %> actual es 
+								<% end %>
+			
+								<strong>
+									<% if current_user.account.total_support.nil? %>
+										<% case @language when 1 %>€0.00
+										<% when 2 %>0,00
+										<% end %>
+									<% else %>
+										<% case @language when 1 %><%= number_to_currency((current_user.account.total_support/100.to_f), unit: "€") %>
+										<% when 2 %><%= number_to_currency((current_user.account.total_support/100.to_f), unit: "", separator: ",", delimiter: ".") %> euros
+										<% end %>
+									<% end %>
+								</strong>
+			
+								<% case @subscription.payment_period when "month" %>
+									<%= monthly_label %>
+								<% when "year" %>
+									<%= yearly_label %>
+								<% when "one_time" %>
+									<%= one_time_label %>
+								<% end %>
+							</li>
+						</ul>
+					</div>
+				<% else end %>
 				
 			<% end %>
+			
 			
 			<%# Select a contribution amount... %>
 			<div class="margin-top-5">
 				<ul class="font-main-small">
 					<li>
-						<% case @language when 1 %>Your <%= @frame.money_word_singular %>: € 
-						<% when 2 %>Su <%= @frame.money_word_singular %>: €
+						<% case @language when 1 %>New <%= @frame.money_word_singular %>: € 
+						<% when 2 %>Nueva <%= @frame.money_word_singular %>: €
 						<% end %>
 
 						<input type="number" id="plan_amount" min="5" step="5" max="2000" value="25" onclick="checkEmail()" onselect="checkEmail()">
@@ -147,6 +168,7 @@ end %>
 				</ul>
 			</div>
 			
+			</div>
 			
 			<%# If new user, or not logged in, display box for new email... %>	
 			<% if current_user.nil? %>
@@ -282,16 +304,5 @@ end %>
 	
 	<%# STORE VALUES FOR SERVER IN FORM FIELDS... %>	
 	<%= render "payments/server_stuff" %>
-	
-	
-	<% else %>
-		<% if @boss || @admin %>
-			<div class="margin-top-20 padding-20 buy-background log-in-border-top font-main-small">
-				<div class="topbutton mobile-100">
-					<%= render "users/user_messages_web" %>
-				</div>
-			</div>
-		<% end %>		
-	<% end %>
 	
 </div>

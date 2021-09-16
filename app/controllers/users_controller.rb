@@ -163,9 +163,12 @@ class UsersController < ApplicationController
 	
 	def entrar
 		default_frame_es
-		redirect_to edit_user_path(current_user) unless current_user.nil?
 		
-		render "users/login"
+		if current_user.nil?
+			render "users/login"
+		else
+			redirect_to edit_user_path(current_user)
+		end
 	end
 	
 	def newsession

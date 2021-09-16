@@ -58,14 +58,12 @@ end %>
 <% case @language when 1 %>
   You are
   	<% if @admin %>the boss.
-	<% elsif @super_patron %>a super patron.
 	<% elsif @patron %>a patron.
 	<% elsif @reader %>a reader.
 	<% else end %>
 <% when 2 %>
   Ud. es
 	<% if @admin %>el jefe.
-	<% elsif @super_patron %>súper mecenas.
 	<% elsif @patron %>mecenas.
 	<% elsif @reader %>lector.
 	<% else end %>
@@ -75,7 +73,6 @@ end %>
 	
 		<% if @admin %><%= @frame.admin_message %>. <%= link_to @frame.button_cta_increase, @subscribe %>
 		<% elsif @patron && !@read_date_good %><%= @frame.patron_paused_message %>: <%= link_to @frame.button_cta_reactivate, @subscribe %>
-		<% elsif @super_patron %><%= @frame.patron_super_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
 		<% elsif @patron_25 %><%= @frame.patron_25_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
 		<% elsif @patron_10 %><%= @frame.patron_10_24_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
 		<% elsif @patron_5 %><%= @frame.patron_5_9_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
@@ -88,7 +85,6 @@ end %>
 		
 		<% if @admin %><%= @frame.admin_message %>. <%= link_to @frame.button_cta_increase, @subscribe %>
 		<% elsif @patron && !@read_date_good %><%= @frame.patron_paused_message %>: <%= link_to @frame.button_cta_reactivate, @reactivate %>
-		<% elsif @super_patron %><%= @frame.patron_super_message %>: <%= link_to @frame.button_cta_increase, @increase %>
 		<% elsif @patron_25 %><%= @frame.patron_25_message %>: <%= link_to @frame.button_cta_increase, @increase %>
 		<% elsif @patron_10 %><%= @frame.patron_10_24_message %>: <%= link_to @frame.button_cta_increase, @increase %>
 		<% elsif @patron_5 %><%= @frame.patron_5_9_message %>: <%= link_to @frame.button_cta_increase, @increase %>
