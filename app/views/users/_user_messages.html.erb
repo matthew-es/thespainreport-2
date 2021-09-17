@@ -1,49 +1,81 @@
-<% if !@user.account.subscriptions.blank? %>
 <% 
-s = @user.account.subscriptions.last
-
 case @language when 1
-	subscriptions_amount_title = "Your current level"
-	subscriptions_status_title = "Status"
-	subscription_amount = (number_to_currency((@level/100.to_f), unit: "€")).to_s + " / month"
+	subscriptions_title = "Your subscription(s)"
+	subscriptions_manage_here = "manage here"
+	
+	subscriptions_period_month = "Each month"
+	subscriptions_period_year = "Each year"
+	subscriptions_period_one_time = "One-time payment"
+	
 	subscriptions_active = "Active"
 	subscriptions_paused = "Paused"
+	subscriptions_problem = "PROBLEM"
+	
+	subscriptions_last = "Last"
+	subscriptions_next = "Next"
+	
+	subscriptions_reactivate = "Reactivate"
+	subscriptions_increase = "Increase"
+	subscriptions_give_more = "Give more"
+	subscriptions_link = "https://www.thespainreport.es/value/guarantee"
 when 2
-	subscriptions_amount_title = "Su nivel actual"
-	subscriptions_status_title = "Estado"
-	subscription_amount = number_to_currency((@level/100.to_f), unit: "", separator: ",", delimiter: ".") + " euros al mes"
+
+
+
 	subscriptions_active = "Activa"
 	subscriptions_paused = "En pause"
 end
 %>
 
-<strong><%= subscriptions_amount_title %>:</strong> <%= subscription_amount %>
-<br />
-<strong><%= subscriptions_status_title %>:</strong>
-	<% if s.is_active == true %><span style="background-color: #ccffcc; color: green;"><%= subscriptions_active %></span>
-	<% elsif s.is_active == false %><span style="background-color: #ffe6e6; color: #ff0000;"><%= subscriptions_paused %></span>
-	<% else end %>
-<br />
+<strong><%= subscriptions_title %>:</strong> <a href="https://www.thespainreport.es/login"><%= subscriptions_manage_here %></a>
+
+<% if !@user.account.subscriptions.blank? %>
+
+	<ul>
+	<% @user.account.subscriptions.each do |s| %>
+		<li>
+			<%= (number_to_currency((s.total_amount/100.to_f), unit: "€")).to_s %> | 
+			<% case s.payment_period when "month" %><%= subscriptions_period_month %>
+			<% when "year" %><%= subscriptions_period_year %>
+			<% when "one_time" %><%= subscriptions_period_one_time %>
+			<% end %>
+			| 
+			<% if s.is_active == true %><span style="background-color: #ccffcc; color: green;"><%= subscriptions_active %></span>
+			<% elsif s.is_active == false %><span style="background-color: #ffe6e6; color: #ff0000;"><%= subscriptions_paused %></span>
+			<% else end %>
+			 | 
+			<%= subscriptions_last %>: <%= s.last_payment_date.strftime("%d/%m/%Y") %> | 
+			<%= subscriptions_next %>: <%= s.next_payment_date.strftime("%d/%m/%Y") %> | 
+			
+			<% if s.is_active == false %>
+				 <%= link_to subscriptions_reactivate, reactivate_subscription_payment_url(s.reactivate_token) %>
+			<% elsif ["month", "year"].include?(s.payment_period) %>
+				<%= link_to subscriptions_increase, subscriptions_link %>
+			<% elsif ["one_time"].include?(s.payment_period) %>
+				<%= link_to subscriptions_give_more, subscriptions_link %>
+			<% else end %>
+		</li>
+	<% end %>
+	</ul>
+
 <% else end %>
 
-<% case @language when 1 %>
-  You are
-  	<% if @admin %>the boss.
-	<% elsif @patron %>a patron.
-	<% elsif @reader %>a reader.
-	<% else end %>
-<% when 2 %>
-  Ud. es
-	<% if @admin %>el jefe.
-	<% elsif @patron %>mecenas.
-	<% elsif @reader %>lector.
-	<% else end %>
-<% end %>
-	
-<% if @admin %><%= @frame.admin_message %>. <%= link_to @frame.button_cta_increase, @subscribe %>
-<% elsif @patron && @user.account.subscriptions.blank? %><%= @frame.patron_5_9_message %>: <%= link_to @frame.button_cta_trial_over, @subscribe %>
-<% elsif @patron && @user.account.payments.last.status == "problem" %> <%= @frame.patron_payment_problem_message %>: <%= link_to @frame.patron_super_message, fix_problem_payment_url(@user.account.payments.last.external_payment_id) %>
-<% elsif @patron && @patron_paused %><%= @frame.patron_paused_message %>: <%= link_to @frame.button_cta_reactivate, @reactivate %>
-<% elsif @patron %><%= @frame.patron_1_4_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
-<% elsif @reader %><%= @frame.reader_45_trial_message %>: <%= link_to @frame.button_cta, @subscribe %>
+<% if @patron && @user.account.subscriptions.blank? %>
+	<ul>
+		<li>
+			<%= @frame.patron_5_9_message %>: <%= link_to @frame.button_cta_trial_over, subscriptions_link %>
+		</li>
+	</ul>
+<% elsif @patron && @user.account.payments.last.status == "problem" %>
+	<ul>
+		<li>
+			<span style="background-color: #ffe6e6; color: red;"><%= subscriptions_problem %></span>: <%= @frame.patron_payment_problem_message %>: <%= link_to @frame.patron_super_message, fix_problem_payment_url(@user.account.payments.last.external_payment_id) %>
+		</li>
+	</ul>
+<% elsif @reader %>
+	<ul>
+		<li>
+			<%= @frame.reader_45_trial_message %>: <%= link_to @frame.button_cta, subscriptions_link %>
+		</li>
+	</ul>
 <% else end %>

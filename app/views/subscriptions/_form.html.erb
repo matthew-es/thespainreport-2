@@ -19,6 +19,14 @@
 		</div>
 		
 		<div class="margin-bottom-5">
+			<div class="float-left width-15">Frequency</div>
+			<div class="float-left">
+				<%= form.select :payment_period, options_for_select([["Month", "month"], ["Year", "Year"], ["One-time", "one_time"]], selected: @subscription.payment_period), include_blank: true %>
+			</div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="margin-bottom-5">
 			<div class="float-left width-15">Reactivate token</div>
 			<div class="float-left"><%= @subscription.reactivate_token %></div>
 			<div class="clear"></div>

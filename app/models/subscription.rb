@@ -16,4 +16,6 @@ class Subscription < ApplicationRecord
 	scope :paused, -> {where(is_active: false)}
 	scope :last50, -> {limit(50)}
 	scope :latestfirst, -> {order('created_at DESC')}
+	
+	PERIODS = %i[month year one_time]
 end
