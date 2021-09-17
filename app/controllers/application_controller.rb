@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
 		
 			@read_date_good = (@can_read_date > Time.now)
 			@get_high_res = @admin || @super_patron || @patron_25 || @patron_10 || @reader_trial
-			@get_prints = @admin || @super_patron || @patron_25 || @reader_trial
+			@get_prints = @admin || @super_patron || @patron_25
 			
 			@boss = @role == 1
 			@member = @role == 2

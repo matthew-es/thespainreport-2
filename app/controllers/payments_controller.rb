@@ -91,6 +91,7 @@ class PaymentsController < ApplicationController
 		@payment = Payment.find_by(external_payment_id: params[:id])
 		@user = User.find_by(account_id: @payment.account.id, account_role: 1)
 		set_language_frame(@user.sitelanguage, @user.frame.id)
+		set_status(@user)
 		
 		# Check the actual status of that payment on Stripe...
 		payment_intent = Stripe::PaymentIntent.retrieve(@payment.external_payment_id)

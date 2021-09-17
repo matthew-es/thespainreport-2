@@ -1,8 +1,8 @@
 <% if controller_name == "articles" && action_name == "show" && ["Photos", "Fotos"].include?(@article.type.name) %>
-		<div class="content-wide">
-	<% else %>
-		<div class="content">
-	<% end %>
+	<div class="content-wide">
+<% else %>
+	<div class="content">
+<% end %>
 
 
 <div class="">
@@ -42,11 +42,12 @@
 						
 						<div class="float-left">
 							<% case @status when 1 %>
-								<%= link_to 'Send', new_tweet_path %> |
+								<%= link_to 'Send', new_tweet_path %> 
 							<% end %>
 							
-							<% case @language when 1 %> <%= link_to 'I am a patron', edit_user_path(current_user) %>
-							<% when 2 %> <%= link_to 'Yo soy mecenas', edit_user_path(current_user) %>
+							|
+							<% case @language when 1 %> <%= link_to 'My account', edit_user_path(current_user) %>
+							<% when 2 %> <%= link_to 'Mi cuenta', edit_user_path(current_user) %>
 							<% end %>
 							
 							| 

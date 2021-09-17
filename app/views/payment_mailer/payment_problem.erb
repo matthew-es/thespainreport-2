@@ -12,6 +12,8 @@
     payment_reference_label = "Reference"
     payment_status_label = "Status"
     payment_status = "⚠️ " + "Problem"
+    payment_type_label = "Type"
+    payment_frequency_label = "Frequency"
     
     bye = "Kindest regards"
 when 2
@@ -28,6 +30,8 @@ when 2
     payment_reference_label = "Referencia"
     payment_status_label = "Estado"
     payment_status = "⚠️ " + "Problema"
+    payment_type_label = "Tipo"
+    payment_frequency_label = "Frecuencia"
     
     bye = "Saludos"
 end %>
@@ -42,6 +46,8 @@ end %>
     <li><strong><%= payment_date_label %>:</strong> <%= payment_date %></li>
     <li><strong><%= payment_reference_label %>:</strong> <%= @reference %></li>
     <li><strong><%= payment_status_label %>:</strong> <%= payment_status %></li>
+    <li><strong><%= payment_type_label %>:</strong> <%= @type %></li>
+    <li><strong><%= payment_frequency_label %>:</strong> <%= @frequency %></li>
 </ul>
 <p><%= bye %>,</p>
 <p>

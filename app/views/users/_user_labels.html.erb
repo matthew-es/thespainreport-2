@@ -1,27 +1,15 @@
 <div class="float-left meta font-main font-main-tiny margin-top-3" >
 	<div class="margin-right-5 float-left mobile-bottom-10">
-		<% if @reader_trial %>
+		<% if @reader %>
 			<span class="label background-color-green font-color-white">
-				<% case @language when 1 %>30 DAYS FREE
-				<% when 2 %>30 DÍAS GRATIS
-				<% end %>
-			</span>
-		<% elsif @reader_trial_over %>
-			<span class="label background-color-brown font-color-white">
-				<% case @language when 1 %>TRIAL OVER
-				<% when 2 %>PRUEBA TERMINADA
+				<% case @language when 1 %>NEW READER
+				<% when 2 %>LECTOR NUEVO
 				<% end %>
 			</span>
 		<% elsif @patron %>
 			<span class="label patrons-label">
 				<% case @language when 1 %>PATRON
 				<% when 2 %>MECENAS
-				<% end %>
-			</span>
-		<% elsif @super_patron %>
-			<span class="label super-patrons-label">
-				<% case @language when 1 %><span class="font-color-yellow">SUPER</span> PATRON
-				<% when 2 %><span class="font-color-yellow">SUPER</span> MECENAS
 				<% end %>
 			</span>
 		<% elsif @admin %>

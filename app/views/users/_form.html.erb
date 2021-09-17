@@ -31,8 +31,8 @@
 		
 		prints_title = "My Photo prints"
 		prints_teaser = "The address you would like me to send your physical prints to."
-		prints_level_bad = "Your access level must be above €25 / month."
-		prints_level_good = "Your access level is above €25 / month."
+		prints_level_bad = "Your guarantee must be above €25 / month."
+		prints_level_good = "Your guarantee level is above €25 / month."
 		prints_name = "Your name..."
 		prints_street = "You address..."
 		prints_postcode = "Your postcode..."
@@ -120,8 +120,8 @@
 		
 		prints_title = "Mis Fotos impresas"
 		prints_teaser = "La dirección a la que quiere que le envíe sus fotos impresas."
-		prints_level_bad = "Su nivel de acceso debe ser superior a 25 euros al mes."
-		prints_level_good = "Su nivel de acceso es superior a 25 euros al mes."
+		prints_level_bad = "Su garantía debe ser superior a 25 euros al mes."
+		prints_level_good = "Su garantía es superior a 25 euros al mes."
 		prints_name = "Su nombre..."
 		prints_street = "Su dirección..."
 		prints_postcode = "Su código postal..."
@@ -321,29 +321,31 @@
 			<div class="clear"></div>
 		</div>
 		
-		<div class="padding-top-10 margin-bottom-10 admin-border-split">
-			<div class="float-left padding-top-5 margin-right-5 mobile-width">
-				<strong><%= can_read_title %>:</strong>	
+		<% if false %>
+			<div class="padding-top-10 margin-bottom-10 admin-border-split">
+				<div class="float-left padding-top-5 margin-right-5 mobile-width">
+					<strong><%= can_read_title %>:</strong>	
+				</div>
+				<div class="float-left mobile-width">
+					<% if current_user.status == 1 %>
+				 		<%= form.datetime_field :can_read_date, :size => '35' %>
+				 	<% else %>
+				 		<%= form.datetime_field :can_read_date, :size => '35', disabled: true %>
+				 	<% end %>
+				</div>
+				<div class="clear"></div>
 			</div>
-			<div class="float-left mobile-width">
-				<% if current_user.status == 1 %>
-			 		<%= form.datetime_field :can_read_date, :size => '35' %>
-			 	<% else %>
-			 		<%= form.datetime_field :can_read_date, :size => '35', disabled: true %>
-			 	<% end %>
+			
+			<div class="">
+				<div class="float-left padding-top-5 margin-right-5 mobile-width">
+					<strong><%= access_level_title %>:</strong>	
+				</div>
+				<div class="float-left margin-left-5 padding-top-5 mobile-width">
+				 	<%= access_level %>
+				</div>
+				<div class="clear"></div
 			</div>
-			<div class="clear"></div>
-		</div>
-		
-		<div class="">
-			<div class="float-left padding-top-5 margin-right-5 mobile-width">
-				<strong><%= access_level_title %>:</strong>	
-			</div>
-			<div class="float-left margin-left-5 padding-top-5 mobile-width">
-			 	<%= access_level %>
-			</div>
-			<div class="clear"></div
-		</div>
+		<% end %>
 	</div>
 	<% end %>
 </div>
