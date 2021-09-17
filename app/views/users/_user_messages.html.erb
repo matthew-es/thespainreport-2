@@ -41,7 +41,8 @@ end
 <% end %>
 	
 <% if @admin %><%= @frame.admin_message %>. <%= link_to @frame.button_cta_increase, @subscribe %>
-<% elsif @patron && !@read_date_good %><%= @frame.patron_paused_message %>: <%= link_to @frame.button_cta_reactivate, @reactivate %>
+<% elsif @patron && @user.account.subscriptions.blank? %><%= @frame.patron_5_9_message %>: <%= link_to @frame.button_cta_trial_over, @subscribe %>
+<% elsif @patron && @user.account.payments.last.status == "problem" %> <%= @frame.patron_payment_problem_message %>: <%= link_to @frame.patron_super_message, fix_problem_payment_url(@user.account.payments.last.external_payment_id) %>
 <% elsif @patron && @patron_paused %><%= @frame.patron_paused_message %>: <%= link_to @frame.button_cta_reactivate, @reactivate %>
 <% elsif @patron %><%= @frame.patron_1_4_message %>: <%= link_to @frame.button_cta_increase, @subscribe %>
 <% elsif @reader %><%= @frame.reader_45_trial_message %>: <%= link_to @frame.button_cta, @subscribe %>
