@@ -269,11 +269,11 @@ end %>
 	<%# SALES STUFF AND INSTRUCTIONS... %>
 	
 	<div class="margin-top-20">
-		<p class="font-bold margin-bottom-0 font-main-small">
+		<h3 class="">
 			<% case @language when 1 %>Do this:
 			<% when 2 %>Haga esto:
 			<% end %>
-		</p>
+		</h3>
 		<ol class="instructions margin-top-5">
 			<% case @language when 1 %>
 				<li>Enter <%= @frame.money_word_with_article %> you wish to <%= @frame.money_word_verb %></li>
@@ -298,7 +298,37 @@ end %>
 			<% end %>
 		</ol>
 	</div>
+	
+	
+		<h3 class="">
+			<% case @language when 1 %>Do you prefer Bitcoin?
+			<% when 2 %>¿Prefiere el Bitcoin?
+			<% end %>
+		</h3>
 		
+		<p class="margin-top-10 margin-bottom-10 font-main-small">
+			<% case @language when 1 %>
+				Bitcoin also works for guaranteeing independent journalism. Send your satoshis here:
+			<% when 2 %>
+				El bitcoin también sirve para garantizar el periodismo libre. Envíe sus satoshis aquí:
+			<% end %>
+		</p>
+		
+		<p class="margin-top-0 font-main-small">
+			<% case @language when 1 %>
+				3HcpD1kknGLJ5d5WSMFCbZHY78wrvNhCeH
+			<% when 2 %>
+				397QcpdjuhwCoJjZR9igpSMK6mCeD3K2yd
+			<% end %>
+		</p>
+		
+		<p class="margin-top-0 font-main-small">
+			<% case @language when 1 %>
+				<img src="<%= asset_path('bitcoin-legacy-eng.jpg') %>" style="max-width: 200px; margin-top: 0px;" />
+			<% when 2 %>
+				<img src="<%= asset_path('bitcoin-legacy-es.jpg') %>" style="max-width: 200px; margin-top: 0px;" />
+			<% end %>
+		</p>
 	
 	</div>
 	
