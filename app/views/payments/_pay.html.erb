@@ -301,16 +301,22 @@ end %>
 	
 	
 		<h3 class="">
-			<% case @language when 1 %>Do you prefer Bitcoin?
-			<% when 2 %>¿Prefiere el Bitcoin?
+			<% case @language when 1 %>Alternatives
+			<% when 2 %>Alternativas
 			<% end %>
 		</h3>
 		
 		<p class="margin-top-10 margin-bottom-10 font-main-small">
 			<% case @language when 1 %>
-				Bitcoin also works for guaranteeing independent journalism. Send your satoshis here:
+				- If you like GoFundMe: <a href="https://www.gofundme.com/f/thespainreport">fund me here</a>
+				<br />- If you prefer to gift a journalism object directly: <a href="https://www.amazon.es/hz/wishlist/ls/37ITLR6W8OS7E">Amazon list</a>
+				<br />- If you want a <strong>bitcoin lightning</strong> invoice or QR code: <a href="https://twitter.com/matthewbennett">get in touch on Twitter</a>
+				<br />- If you want to do <strong>normal bitcoin</strong>, send your satoshis here:
 			<% when 2 %>
-				El bitcoin también sirve para garantizar el periodismo libre. Envíe sus satoshis aquí:
+				- Si le gusta GoFundMe: <a href="https://www.gofundme.com/f/thespainreport">aquí puede contribuir</a>
+				<br />- Si quiere regalar algún objeto periodístico directamente: <a href="https://www.amazon.es/hz/wishlist/ls/37ITLR6W8OS7E">la lista de Amazon</a>
+				<br />- Si quiere un código QR de <strong>bitcoin lightning</strong>: <a href="https://twitter.com/matthewbennett"> póngame un mensaje en Twitter</a>
+				<br />- Si prefiere <strong>bitcoin normal</strong>, envíe sus satoshis aquí:
 			<% end %>
 		</p>
 		
