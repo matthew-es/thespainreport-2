@@ -308,17 +308,28 @@ end %>
 		
 		<p class="margin-top-10 margin-bottom-10 font-main-small">
 			<% case @language when 1 %>
-				- If you like GoFundMe: <a href="https://www.gofundme.com/f/thespainreport">fund me here</a>
-				<br />- If you prefer to gift a journalism object directly: <a href="https://www.amazon.es/hz/wishlist/ls/37ITLR6W8OS7E">Amazon list</a>
-				<br />- If you want a <strong>bitcoin lightning</strong> invoice or QR code: <a href="https://twitter.com/matthewbennett">get in touch on Twitter</a>
-				<br />- If you want to do <strong>normal bitcoin</strong>, send your satoshis here:
+				- <a href="https://www.gofundme.com/f/thespainreport">GoFundMe</a> -- <a href="https://www.amazon.es/hz/wishlist/ls/37ITLR6W8OS7E">Amazon Wishlist</a> -- <a href="https://www.paypal.com/paypalme/thespainreport">PayPal</a>
 			<% when 2 %>
-				- Si le gusta GoFundMe: <a href="https://www.gofundme.com/f/thespainreport">aquí puede contribuir</a>
-				<br />- Si quiere regalar algún objeto periodístico directamente: <a href="https://www.amazon.es/hz/wishlist/ls/37ITLR6W8OS7E">la lista de Amazon</a>
-				<br />- Si quiere un código QR de <strong>bitcoin lightning</strong>: <a href="https://twitter.com/matthewbennett"> póngame un mensaje en Twitter</a>
-				<br />- Si prefiere <strong>bitcoin normal</strong>, envíe sus satoshis aquí:
+				- <a href="https://www.gofundme.com/f/thespainreport">GoFundMe</a> -- <a href="https://www.amazon.es/hz/wishlist/ls/37ITLR6W8OS7E">Amazon Wishlist</a> -- <a href="https://www.paypal.com/paypalme/thespainreport">PayPal</a>
 			<% end %>
 		</p>
+		
+		<h3 class="">
+			<% case @language when 1 %>Crypto
+			<% when 2 %>Criptomonedas
+			<% end %>
+		</h3>
+		
+		<p class="margin-top-10 margin-bottom-10 font-main-small">
+			<% case @language when 1 %>
+				- For bitcoin lightning, get in touch <a href="https://twitter.com/matthewbennett">on Twitter</a> or by email
+				<br />- Normal bitcoin: 
+			<% when 2 %>
+				- Para bitcoin lightning, póngame un mensaje <a href="https://twitter.com/matthewbennett">en Twitter</a> o por email)
+				<br />- Bitcoin normal:
+			<% end %>
+		</p>
+
 		
 		<p class="margin-top-0 font-main-small">
 			<% case @language when 1 %>
