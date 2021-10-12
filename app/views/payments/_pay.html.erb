@@ -285,6 +285,7 @@ end %>
 				<li>That's it, finsihed, welcome aboard. You will get a confirmation email</li>
 				<li>Changes, receipts, invoices: log in and go to "My Account"</li>
 				<li>Problems: matthew@thespainreport.es</li>
+				<li>Alternatives: <a href="https://www.gofundme.com/f/thespainreport">GoFundMe</a> -- <a href="https://www.amazon.es/hz/wishlist/ls/37ITLR6W8OS7E">Amazon Wishlist</a> -- <a href="https://www.paypal.com/paypalme/thespainreport">PayPal</a></li>
 			<% when 2 %>
 				<li>Introduzca <%= @frame.money_word_with_article %> que quiere <%= @frame.money_word_verb %></li>
 				<li>Elija el país correcto para los impuestos</li>
@@ -295,24 +296,10 @@ end %>
 				<li>Ya está, hecho, bienvenido a bordo. Recibirá un correo de confirmación</li>
 				<li>Cambios, recibos, facturas: en "Mi Cuenta"</li>
 				<li>Problemas: matthew@thespainreport.es</li>
+				<li>Alternativas: <a href="https://www.gofundme.com/f/thespainreport">GoFundMe</a> -- <a href="https://www.amazon.es/hz/wishlist/ls/37ITLR6W8OS7E">Amazon Wishlist</a> -- <a href="https://www.paypal.com/paypalme/thespainreport">PayPal</a></li>
 			<% end %>
 		</ol>
 	</div>
-	
-	
-		<h3 class="">
-			<% case @language when 1 %>Alternatives
-			<% when 2 %>Alternativas
-			<% end %>
-		</h3>
-		
-		<p class="margin-top-10 margin-bottom-10 font-main-small">
-			<% case @language when 1 %>
-				- <a href="https://www.gofundme.com/f/thespainreport">GoFundMe</a> -- <a href="https://www.amazon.es/hz/wishlist/ls/37ITLR6W8OS7E">Amazon Wishlist</a> -- <a href="https://www.paypal.com/paypalme/thespainreport">PayPal</a>
-			<% when 2 %>
-				- <a href="https://www.gofundme.com/f/thespainreport">GoFundMe</a> -- <a href="https://www.amazon.es/hz/wishlist/ls/37ITLR6W8OS7E">Amazon Wishlist</a> -- <a href="https://www.paypal.com/paypalme/thespainreport">PayPal</a>
-			<% end %>
-		</p>
 		
 		<h3 class="">
 			<% case @language when 1 %>Crypto
