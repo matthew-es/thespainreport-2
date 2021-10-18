@@ -8,10 +8,10 @@ xml.rss :version => "2.0",
 	"xmlns:media" => "https://search.yahoo.com/mrss/" do
 	
 	xml.channel do
-		podcast_image = "https://image.thespainreport.es/bennett_en_espana_artwork_map.png"
-		podcast_description = "Matthew Bennett analiza las noticias de España."
+		podcast_image = "http://image.thespainreport.es/tsr_podcast_square_3000.png"
+		podcast_description = "Una conversación sobre cómo está cambiando España."
 		podcast_author = "Matthew Bennett"
-		podcast_title = "Bennett en España"
+		podcast_title = "The Spain Report"
 		
 		xml.title podcast_title
 		xml.description podcast_description
