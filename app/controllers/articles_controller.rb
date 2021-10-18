@@ -174,46 +174,48 @@ class ArticlesController < ApplicationController
 	end
 	
 	def add_article_podcast
-		puts "INSIDE ADD ARTICLE ADD PODCAST"
-		
 		article_aac = params[:article][:audio_upload_aac]
 		article_mp3 = params[:article][:audio_upload_mp3]
 		
-		puts "HAVE GRABBED PARAMS WITH FILES"
-		
-		# Upload main version of image, update tweet with id
-		if article_aac
-			
-			puts "INSIDE ADD ARTICLE AAC VERSION"
-			
+		if article_aac && article_mp3
 			upload = article_aac
 			version = 1
 			main = ""
-			
-			puts "ADD AAC VALUES SET"
-			
 			upload_aac = Uploads::UploadFile.process(upload, version, main)
 			
-			puts "AAC VERSION FINISHED PROCESSING"
-			
-			# Update the article with the audio aac id
-			@article.update(audio_aac_id: upload_aac.id)
-			
-			puts "AAC TAGGED TO ARTICLE. ALL FINISHED"
-		else
-		end
-		
-		# Upload high res version of image, do NOT update tweet
-		if article_mp3
-			puts "INSIDE ADD ARTICLE MP3 VERSION"
+			upload_2 = article_mp3
+			version_2 = 2
+			main_2 = upload_aac.id
+			upload_mp3 = Uploads::UploadFile.process(upload_2, version_2, main_2)
+
+			@article.update(
+				audio_aac_id: upload_aac.id,
+				audio_mp3_id: upload_mp3.id
+				)
+		elsif !article_aac && article_mp3
+			if @article.audio_aac_id?
+				version = 2
+				main = @article.audio_aac_id
+			else
+				version = 1
+				main = ""
+			end
 			
 			upload = article_mp3
-			version = 2
-			main = upload_aac.id
 			upload_mp3 = Uploads::UploadFile.process(upload, version, main)
-		
-			# Update the article with the audio mp3 id
 			@article.update(audio_mp3_id: upload_mp3.id)
+		elsif article_aac && !article_mp3
+			if @article.audio_mp3_id?
+				version = 2
+				main = @article.audio_mp3_id
+			else
+				version = 1
+				main = ""
+			end
+			
+			upload = article_aac
+			upload_aac = Uploads::UploadFile.process(upload, version, main)
+			@article.update(audio_aac_id: upload_aac.id)
 		else
 		end
 	end

@@ -40,6 +40,8 @@ module Uploads
 			end
 			how_big = File.size(tf)
 			
+			puts "HOW BIG IS: " + how_big.to_s
+			
 			# Put the image on S3
 			s3 = Aws::S3::Resource.new()
 			name = File.basename(tf)
