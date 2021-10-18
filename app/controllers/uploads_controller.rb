@@ -52,7 +52,6 @@ class UploadsController < ApplicationController
 		if current_user.nil? 
 			redirect_to root_url
 		elsif current_user.status == 1
-			@uploads = Upload.all.order('created_at DESC')
 			@mains = Upload.main.order('created_at DESC')
 		else
 			redirect_to root_url
