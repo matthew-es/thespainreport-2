@@ -174,7 +174,7 @@ class ArticlesController < ApplicationController
 	end
 	
 	def add_article_podcast
-		puts "INSIDE ADD ARTICLE PODCAST"
+		puts "INSIDE ADD ARTICLE ADD PODCAST"
 		
 		article_aac = params[:article][:audio_upload_aac]
 		article_mp3 = params[:article][:audio_upload_mp3]
@@ -184,22 +184,29 @@ class ArticlesController < ApplicationController
 		# Upload main version of image, update tweet with id
 		if article_aac
 			
-			puts "INSIDE ADD AAC VERSION"
+			puts "INSIDE ADD ARTICLE AAC VERSION"
 			
 			upload = article_aac
 			version = 1
 			main = ""
+			
+			puts "ADD AAC VALUES SET"
+			
 			upload_aac = Uploads::UploadFile.process(upload, version, main)
 			
-			puts "AAC VERSION PROCESSED"
+			puts "AAC VERSION FINISHED PROCESSING"
 			
 			# Update the article with the audio aac id
 			@article.update(audio_aac_id: upload_aac.id)
+			
+			puts "AAC TAGGED TO ARTICLE. ALL FINISHED"
 		else
 		end
 		
 		# Upload high res version of image, do NOT update tweet
 		if article_mp3
+			puts "INSIDE ADD ARTICLE MP3 VERSION"
+			
 			upload = article_mp3
 			version = 2
 			main = upload_aac.id
