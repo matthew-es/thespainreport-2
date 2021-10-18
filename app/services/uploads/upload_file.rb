@@ -4,12 +4,15 @@ module Uploads
         	
         	puts "INSIDE UPLOAD FILE ACTION..."
 
-
             # Grab the image from the form field, write it to temporary folder
 			tf = "#{Rails.root}/tmp/#{upload.original_filename}"
+
+			puts "TF IS:" + tf
 			
 			# What type of file is it and where shall we put it?
 			what_type_of_file = File.extname(tf)
+			
+			puts "TYPE OF FILE IS:" + what_type_of_file
 			
 			image_bucket = 'image.thespainreport.es'
 	    	audio_bucket = 'audio.thespainreport.es'
@@ -27,6 +30,9 @@ module Uploads
 		    	when '.jpg' then file_content_type = "image/jpeg"; bucket = image_bucket
 		    	when '.jpeg' then file_content_type = "image/jpeg"; bucket = image_bucket
 		    end
+			
+			puts "FILE CONTENT TYPE IS:" + file_content_type
+			puts "BUCKET IS:" + bucket
 			
 			# Write the file, measure it
 			File.open(tf, 'wb') do |f|
