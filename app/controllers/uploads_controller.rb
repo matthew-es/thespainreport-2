@@ -52,7 +52,7 @@ class UploadsController < ApplicationController
 		if current_user.nil? 
 			redirect_to root_url
 		elsif current_user.status == 1
-			@mains = Upload.main.order('created_at DESC')
+			@mains = Upload.main.order('created_at DESC').limit(100)
 			puts "NUMBER OF UPLOADS: " + @mains.count.to_s
 		else
 			redirect_to root_url
