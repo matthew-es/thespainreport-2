@@ -261,10 +261,11 @@ end	%>
 <div class="margin-top-10">
 	<%# PODCAST BITS %>
 	
-	<%= render 'layouts/links_podcast' %>
-	
 	<% if ["Podcast"].include?(@article.type.name) %>
 		<hr />
+		<p>
+			<%= render 'layouts/links_podcast' %>
+		</p>
 		<%= markdown(@article.audio_episode_notes) %>
 		<hr />	
 	<% else end %>
