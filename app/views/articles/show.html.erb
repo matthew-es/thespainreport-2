@@ -259,7 +259,10 @@ end	%>
 <% end %>
 
 <div class="margin-top-10">
-	<%# PODCAST REPORT/INTERVIEW EPISODE NOTES %>
+	<%# PODCAST BITS %>
+	
+	<%= render 'layouts/links_podcast' %>
+	
 	<% if ["Podcast"].include?(@article.type.name) %>
 		<hr />
 		<%= markdown(@article.audio_episode_notes) %>
@@ -269,33 +272,6 @@ end	%>
 	
 	<%# ARTICLE TEXT %>
 	<%= markdown(@article.body).html_safe %>
-	
-	
-	<%# PODCAST LINKS %>
-	<% if @article.type.name == "Podcast" && @article.audio_aac_id.present? && @article.language_id == 2 %>
-		<h3>Escuche el podcast de The Spain Report aquí:</h3>
-		<a href="https://www.thespainreport.es/es/rss/podcast" title="Bennett en España RSS">RSS</a>, 
-		<a href="https://podcasts.apple.com/podcast/id1495596384" title="Bennett en España en Apple Podcasts">Apple Podcasts</a>, 
-		<a href="https://open.spotify.com/show/7euXMABMb6onzw50VxKK0W" title="Bennett en España en Spotify">Spotify</a>, 
-		<a href="https://www.ivoox.com/podcast-bennett-espana_sq_f1842998_1.html" title="Bennett en España en iVoox">iVoox</a>,
-		<a href="https://www.stitcher.com/podcast/bennett-en-espana" title="Bennett en España en Stitcher">Stitcher</a>,
-		<a href="https://tunein.com/podcasts/News--Politics-Podcasts/Bennett-en-Espana-p1286596/" title="Bennett en España en TuneIn">TuneIn</a>,
-		<a href="https://soundcloud.com/user-842077287/sets/bennett-en-espana" title="Bennett en España en SoundCloud">SoundCloud</a>,
-		<a href="https://www.youtube.com/playlist?list=PL3DymtXaX19TyCGLrkycaKaCAzha0HwAw" title="Bennett en España en YouTube">YouTube</a>,
-		<a href="https://www.facebook.com/TheSpainReport" title="Bennett en España en Facebook">Facebook</a>
-	<% elsif @article.type.name == "Podcast" && @article.audio_aac_id.present? && @article.language_id == 1 %>
-		<h3>Listen to The Spain Report podcast here:</h3>
-		<a href="https://www.thespainreport.es/rss/podcast" title="The Spain Report RSS">RSS</a>, 
-		<a href="https://podcasts.apple.com/us/podcast/the-spain-report/id1590889706" title="The Spain Report on Apple Podcasts">Apple Podcasts</a>, 
-		<a href="https://open.spotify.com/show/4A8CdKc4bYPYsapzyxdvWo" title="The Spain Report on Spotify">Spotify</a>, 
-		<a href="https://www.ivoox.com/podcast-bennett-in-spain_sq_f1842992_1.html" title="The Spain Report on iVoox">iVoox</a>,
-		<a href="https://www.stitcher.com/podcast/the-spain-report" title="The Spain Report on Stitcher">Stitcher</a>,
-		<a href="https://tunein.com/podcasts/News--Politics-Podcasts/Bennett-in-Spain-p1290614/" title="The Spain Report on TuneIn">TuneIn</a>,
-		<a href="https://soundcloud.com/user-842077287/sets/bennett-in-spain" title="The Spain Report on SoundCloud">SoundCloud</a>,
-		<a href="https://www.youtube.com/playlist?list=PL3DymtXaX19QyOs-R0bu1eiX6j4c8L-Ey" title="The Spain Report on YouTube">YouTube</a>,
-		<a href="https://www.facebook.com/TheSpainReport" title="The Spain Report on Facebook">Facebook</a>
-	<% else %>
-	<% end %>
 	
 	
 	<% if false %>

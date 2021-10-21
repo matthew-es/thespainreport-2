@@ -168,40 +168,6 @@
 		<br />
 	<% end %>
 <% end %>
-
-
-<% if @article.type.name == "Podcast" && @article.audio_aac_id.present? && @language == 1 %>
-	<p>
-	********************************************************************************************
-	<br />
-	Listen to The Spain Report podcast here:
-	<br />
-	<a href="https://podcasts.apple.com/us/podcast/the-spain-report/id1590889706" title="The Spain Report on Apple Podcasts">Apple Podcasts</a>, 
-	<a href="https://open.spotify.com/show/4A8CdKc4bYPYsapzyxdvWo" title="The Spain Report on Spotify">Spotify</a>, 
-	<a href="https://www.ivoox.com/podcast-bennett-in-spain_sq_f1842992_1.html" title="The Spain Report on iVoox">iVoox</a>,
-	<a href="https://www.stitcher.com/podcast/the-spain-report" title="The Spain Report on Stitcher">Stitcher</a>,
-	<a href="https://tunein.com/podcasts/News--Politics-Podcasts/Bennett-en-Espana-p1286596/" title="The Spain Report en TuneIn">TuneIn</a>,
-	<a href="https://soundcloud.com/user-842077287/sets/bennett-in-spain" title="The Spain Report on SoundCloud">SoundCloud</a>,
-	<a href="https://www.youtube.com/playlist?list=PL3DymtXaX19QyOs-R0bu1eiX6j4c8L-Ey" title="The Spain Report on YouTube">YouTube</a>,
-	<a href="https://www.facebook.com/BennettInSpain/playlist/606829756765780" title="The Spain Report on Facebook">Facebook</a>
-	</p>
-<% elsif @article.type.name == "Podcast" && @article.audio_aac_id.present? && @language == 2 %>
-	<p>
-	********************************************************************************************
-	<br />
-	Escuche el podcast de The Spain Report aquí:
-	<br />
-	<a href="https://podcasts.apple.com/podcast/id1495596384" title="The Spain Report en Apple Podcasts">Apple Podcasts</a>, 
-	<a href="https://open.spotify.com/show/7euXMABMb6onzw50VxKK0W" title="The Spain Report en Spotify">Spotify</a>, 
-	<a href="https://www.ivoox.com/podcast-bennett-espana_sq_f1842998_1.html" title="The Spain Report en iVoox">iVoox</a>,
-	<a href="https://www.stitcher.com/podcast/bennett-en-espana" title="The Spain Report en Stitcher">Stitcher</a>,
-	<a href="https://tunein.com/podcasts/News--Politics-Podcasts/Bennett-en-Espana-p1286596/" title="The Spain Report en Tunein">Tunein</a>,
-	<a href="https://soundcloud.com/user-842077287/sets/bennett-en-espana" title="The Spain Report en SoundCloud">SoundCloud</a>,
-	<a href="https://www.youtube.com/playlist?list=PL3DymtXaX19TyCGLrkycaKaCAzha0HwAw" title="The Spain Report en YouTube">YouTube</a>,
-	<a href="https://www.facebook.com/TheSpainReport" title="The Spain Report en Facebook">Facebook</a>
-	</p>
-<% else %>
-<% end %>
 	
 <p>
 ********************************************************************************************
@@ -219,45 +185,16 @@
 </p>
 
 <p class="">
-	<% case @language when 1 %>
-		<strong>Crypto:</strong> 
-		<br />- BTC, ETH, DOGE: <strong>thespainreport.wallet</strong>
-		<br />- <strong>ETH:</strong> 0xF02EEfC88336c142Dee946B14b6Fc24539357871
-		<br />- <strong>DOGE:</strong> DMNQDn839VDhqhBSuG6dNAPUSaTYVAzH4N
-		<br />- <strong>Bitcoin lightning (⚡BTC):</strong> get in touch <a href="https://twitter.com/matthewbennett">on Twitter</a> or by email
-		<br />- <strong>Bitcoin (BTC)</strong>: 3HcpD1kknGLJ5d5WSMFCbZHY78wrvNhCeH
-	<% when 2 %>
-		<strong>Criptomonedas:</strong>
-		<br />- BTC, ETH, DOGE: <strong>thespainreport.wallet</strong>
-		<br />- <strong>ETH:</strong> 0xF02EEfC88336c142Dee946B14b6Fc24539357871
-		<br />- <strong>DOGE:</strong> DMNQDn839VDhqhBSuG6dNAPUSaTYVAzH4N
-		<br />- <strong>Bitcoin lightning (⚡BTC):</strong> póngame un mensaje <a href="https://twitter.com/matthewbennett">en Twitter</a> o por email
-		<br />- <strong>Bitcoin (BTC):</strong> 397QcpdjuhwCoJjZR9igpSMK6mCeD3K2yd
-	<% end %>
+	<%= render 'layouts/links_crypto' %>
 </p>
 
 <p class="">
-	<% case @language when 1 %>
-		<img src="<%= asset_path('bitcoin-legacy-eng.jpg') %>" style="max-width: 200px; margin-top: 0px;" />
-	<% when 2 %>
-		<img src="<%= asset_path('bitcoin-legacy-es.jpg') %>" style="max-width: 200px; margin-top: 0px;" />
-	<% end %>
+	<img src="<%= asset_path('bitcoin_qr_3HfKnLAb1nWfh6e8BCjst6cwyWX6fTciz9.jpg') %>" style="max-width: 200px; margin-top: 0px;" />
 </p>
 
 ********************************************************************************************
 
-<p class="">
-	<a href="https://twitter.com/matthewbennett" title="Matthew Bennett on Twitter">Twitter</a> |
-	<a href="https://www.youtube.com/user/thespainreport" title="The Spain Report on YouTube">YouTube</a> |
-	<a href="https://www.instagram.com/thespainreport" title="The Spain Report on Instagram">Instagram</a> |
-	<a href="https://www.tiktok.com/@thespainreport" title="The Spain Report on TikTok">TikTok</a> |
-	<a href="https://www.facebook.com/thespainreport" title="The Spain Report on Facebook">Facebook</a> |
-	<a href="https://www.linkedin.com/in/thespainreport/" title="The Spain Report on LinkedIn">LinkedIn</a> |
-	<a href="https://thespainreport.substack.com/" title="The Spain Report on Substack">Substack</a> |
-	<a href="https://www.getrevue.co/profile/matthewbennett" title="The Spain Report on Revue">Revue</a> |
-	<a href="https://discord.gg/NX9TYpCccS" title="The Spain Report on Discord">Discord</a> |
-	<a href="https://mirror.xyz/0xF02EEfC88336c142Dee946B14b6Fc24539357871/kXERdsG7715ahu55D6taTunOqklY0OjlrVjAvIY3S3g" title="The Spain Report on Mirror">Mirror</a>
-</p>
+<%= render 'layouts/links' %>
 
 ********************************************************************************************
 
