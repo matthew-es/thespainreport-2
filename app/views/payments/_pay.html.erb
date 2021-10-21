@@ -70,7 +70,7 @@ end %>
 				
 				<% if !@subscription.nil? %>
 					<div class="margin-top-5">
-						<ul class="font-main-small">
+						<ul class="font-main-small" style="margin-inline-end: 0;">
 							<li>
 								<% case @language when 1 %>Your current <%= @frame.money_word_singular %> is
 								<% when 2 %>Su <%= @frame.money_word_singular %> actual es 
@@ -105,7 +105,7 @@ end %>
 			
 			<%# Select a contribution amount... %>
 			<div class="margin-top-5">
-				<ul class="font-main-small">
+				<ul class="font-main-small" style="margin-inline-end: 0;">
 					<li>
 						<% case @language when 1 %>New <%= @frame.money_word_singular %>: € 
 						<% when 2 %>Nueva <%= @frame.money_word_singular %>: €
@@ -137,7 +137,7 @@ end %>
 			
 			<%# Select tax country... %>
 			<div class="margin-top-5">
-				<ul class="font-main-small">
+				<ul class="font-main-small" style="margin-inline-end: 0;">
 					<li>
 						<% case @language when 1 %>Which country do you pay taxes in?
 						<% when 2 %>¿En qué país paga impuestos?
