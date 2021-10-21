@@ -248,25 +248,29 @@ end	%>
 <% end %>
 
 
-<% if @article.audio_aac_id.present? %>
-	<div class="margin-left-20 margin-top-20" >
-		<audio controls>
-		  	<source src="<%= 'https://audio.thespainreport.es/' + File.basename(Upload.find(@article.audio_aac_id).data) unless @article.audio_aac_id.nil? %>" type="audio/aac">
-		  	<source src="<%= 'https://audio.thespainreport.es/' + File.basename(Upload.find(@article.audio_mp3_id).data) unless @article.audio_mp3_id.nil? %>" type="audio/mpeg">
-			Your browser does not support the audio element.
-		</audio>
-	</div>
-<% end %>
+
 
 <div class="margin-top-10">
 	<%# PODCAST BITS %>
 	
 	<% if ["Podcast"].include?(@article.type.name) %>
 		<hr />
+		
+		<% if @article.audio_aac_id.present? %>
+			<div class="margin-left-20 margin-top-20 margin-bottom-10" >
+				<audio controls>
+				  	<source src="<%= 'https://audio.thespainreport.es/' + File.basename(Upload.find(@article.audio_aac_id).data) unless @article.audio_aac_id.nil? %>" type="audio/aac">
+				  	<source src="<%= 'https://audio.thespainreport.es/' + File.basename(Upload.find(@article.audio_mp3_id).data) unless @article.audio_mp3_id.nil? %>" type="audio/mpeg">
+					Your browser does not support the audio element.
+				</audio>
+			</div>
+		<% end %>
+		
+		<%= markdown(@article.audio_episode_notes) %>
+		
 		<p>
 			<%= render 'layouts/links_podcast' %>
 		</p>
-		<%= markdown(@article.audio_episode_notes) %>
 		<hr />	
 	<% else end %>
 	
