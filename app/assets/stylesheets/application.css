@@ -51,6 +51,7 @@ a.no-hover-bg:hover {background-color: #fff;}
 .font-italic {font-style: italic;}
 .font-upper {text-transform: uppercase;}
 .font-main {font-family: Georgia;}
+.font-logo {font-family: 'Anton'; font-weight: 400; font-size: 30px;}
 .font-main-big {font-size: 21px;}
 .font-main-normal {font-size: 18px;}
 .font-main-17 {font-size: 17px;}
