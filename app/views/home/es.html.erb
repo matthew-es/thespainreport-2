@@ -25,7 +25,6 @@
 
 <div class="margin-top-20">
 	<h3>-- Información y análisis diarios --</h3>
-	<ul class="no-points">
 		<% if @daily.any? %>
 			<% @daily.each do |article| %>
 				<%= render "articles/index_articles_list_link", {article: article} %>
@@ -33,21 +32,19 @@
 		<% else %>
 			Coming soon....
 		<% end %>
-	</ul>
 	
 	<div class="margin-top-20">
 		<%= render "payments/pay" %>
 	</div>
 	
-	<h3>-- Conversación Podcast --</h3>
-	<ul class="no-points">
+	<div class="margin-top-30">
+		<h3>-- Conversación Podcast --</h3>
 		<% if @podcast.any?; @podcast.each do |article| %>
 			<%= render "articles/index_articles_list_link", {article: article} %>
 		<% end end %>
-	</ul>
 	
-	<h3>-- Vídeo Reportajes y Fotos --</h3>
-	<ul class="no-points">
+	<div class="margin-top-30">
+		<h3>-- Vídeo Reportajes y Fotos --</h3>
 		<% if @depth.any? %>
 			<% @depth.each do |article| %>
 				<%= render "articles/index_articles_list_link", {article: article} %>
@@ -55,21 +52,21 @@
 		<% else %>
 			Coming soon....
 		<% end %>
-	</ul>
+	</div>
 	
-	<h3>-- Verdad y Periodismo --</h3>
-	<ul class="no-points">
+	<div class="margin-top-30">
+		<h3>-- Verdad y Periodismo --</h3>
 		<% if @truth.any?; @truth.each do |article| %>
 			<%= render "articles/index_articles_list_link", {article: article} %>
 		<% end end %>
-	</ul>
+	</div>
 	
-	<h3>-- Avisos Generales --</h3>
-	<ul class="no-points">
+	<div class="margin-top-30">
+		<h3>-- Avisos Generales --</h3>
 		<% if @notices.any?; @notices.each do |article| %>
 			<%= render "articles/index_articles_list_link", {article: article} %>
 		<% end end %>
-	</ul>
+	</div>
 </div>
 
 <% if current_user.nil? %>

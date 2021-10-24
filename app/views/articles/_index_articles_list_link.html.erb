@@ -1,1 +1,9 @@
-<li class="font-main font-main-small"><%= article.created_at.strftime("%d/%m/%Y") %>: <%= link_to article.short_headline, article %></li>
+<div class="font-link-list  margin-bottom-3 padding-bottom-3" style="border-bottom: 1px solid #cccccc;">
+    <div class="float-left margin-right-10">
+        <%= article.created_at.strftime("%d/%m/%Y") %>
+    </div>
+    <div class="float-left">
+        <%= link_to article.short_headline, article, class: "no_underline" %>
+    </div>
+    <div class="clear"></div>
+</div>
