@@ -172,15 +172,16 @@
 <p>
 ********************************************************************************************
 <br />
+
 <%= render "users/user_messages" %>
-********************************************************************************************
+
 </p>
 
 <p class="margin-top-10 margin-bottom-10 font-main-small">
 	<% case @language when 1 %>
-		<strong>Alternatives:</strong> <a href="https://www.gofundme.com/f/thespainreport">GoFundMe</a> -- <a href="https://www.amazon.es/hz/wishlist/ls/37ITLR6W8OS7E">Amazon Wishlist</a> -- <a href="https://www.paypal.com/paypalme/thespainreport">PayPal</a>
+		<strong>More options:</strong> <a href="https://www.gofundme.com/f/thespainreport">GoFundMe</a> -- <a href="https://www.amazon.es/hz/wishlist/ls/37ITLR6W8OS7E">Amazon Wishlist</a> -- <a href="https://www.paypal.com/paypalme/thespainreport">PayPal</a>
 	<% when 2 %>
-		<strong>Alternativas:</strong> <a href="https://www.gofundme.com/f/thespainreport">GoFundMe</a> -- <a href="https://www.amazon.es/hz/wishlist/ls/37ITLR6W8OS7E">Amazon Wishlist</a> -- <a href="https://www.paypal.com/paypalme/thespainreport">PayPal</a>
+		<strong>Más opciones:</strong> <a href="https://www.gofundme.com/f/thespainreport">GoFundMe</a> -- <a href="https://www.amazon.es/hz/wishlist/ls/37ITLR6W8OS7E">Amazon Wishlist</a> -- <a href="https://www.paypal.com/paypalme/thespainreport">PayPal</a>
 	<% end %>
 </p>
 
@@ -193,8 +194,8 @@
 </p>
 
 ********************************************************************************************
-
-<%= render 'layouts/links' %>
+<br />
+<%= render 'layouts/links_social' %>
 
 ********************************************************************************************
 
