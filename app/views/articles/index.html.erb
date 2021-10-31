@@ -9,7 +9,7 @@
 
 	<hr />
 
-	<h3>Daily Reports & Analysis</h3>
+	<h3>Newsletter, notes, podcast, video blog</h3>
 	<table width="100%">
 	<% @daily.each do |article| %>
 		<%= render "articles/admin_articles_table", {article: article} %>
@@ -18,7 +18,7 @@
 	
 	<hr />
 	
-	<h3>Video Reports & Photos</h3>
+	<h3>In-depth & NFTs</h3>
 	<table>
 	<% @depth.each do |article| %>
 		<%= render "articles/admin_articles_table", {article: article} %>
