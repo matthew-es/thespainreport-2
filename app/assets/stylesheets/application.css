@@ -8,6 +8,7 @@ p {margin-top: 0px; margin-bottom: 20px; font-family: Georgia; font-size: 18px; 
 ul {display: inline; margin-block-start: 0; margin-block-end: 0; margin: 0; padding: 0;}
 li {margin-top: 0px; margin-bottom: 0px; font-family: Georgia; font-size: 18px; font-style: normal; line-height: 130%; text-align: left;}
 img {max-width: 100%; margin: 10px 0 5px 0;}
+img.thread-image {max-width:100%; margin-top: -10px;}
 mark {background-color: #ffe680; font-weight: normal;}
 tr.even {background-color: #d6f5d6;}
 input[type=number]{width: 45px;}
