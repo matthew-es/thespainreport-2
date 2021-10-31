@@ -1,8 +1,8 @@
 <%= render "articles/admintop" %>
 	
-	<h3>Sales, Truth & Journalism</h3>
-	<table width="100%">
-	<% @truth.each do |article| %>
+	<h3>Blog</h3>
+	<table>
+	<% @blog.each do |article| %>
 		<%= render "articles/admin_articles_table", {article: article} %>
 	<% end %>
 	</table>
@@ -12,13 +12,6 @@
 	<h3>Daily Reports & Analysis</h3>
 	<table width="100%">
 	<% @daily.each do |article| %>
-		<%= render "articles/admin_articles_table", {article: article} %>
-	<% end %>
-	</table>
-	
-	<h3>Audio conversations</h3>
-	<table width="100%">
-	<% @podcast.each do |article| %>
 		<%= render "articles/admin_articles_table", {article: article} %>
 	<% end %>
 	</table>

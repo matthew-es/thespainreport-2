@@ -27,10 +27,12 @@ class ArticlesController < ApplicationController
 			redirect_to root_url
 		elsif current_user.status == 1
 			@free = Article.nottruth.notpatrons.notaudioreport.notaudiointerview.nottranslation.notvideo.notphoto.notstory.order('created_at DESC').limit(20)
-			@podcast = Article.podcast.nottranslation.order('created_at DESC').limit(10)
-			@truth = Article.truth.nottranslation.order('created_at DESC').limit(10)
-			@depth = Article.depth.nottranslation.order('created_at DESC').limit(10)
+		
+			
 			@daily = Article.daily.nottranslation.order('created_at DESC').limit(10)
+			@depth = Article.depth.nottranslation.order('created_at DESC').limit(10)
+			@blog = Article.blog.nottranslation.order('created_at DESC').limit(10)
+			
 			@all = Article.all.nottranslation.order('created_at DESC')
 			
 			@frame_en = Frame.find_by(link_slug: "guarantee")
