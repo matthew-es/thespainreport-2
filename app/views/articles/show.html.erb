@@ -299,12 +299,14 @@ end	%>
 		<% @articletweets.each do |t| %>
 			<div class="font-main font-main-normal margin-bottom-20">
 				<%# Display the tweet and any link %>
-				<p><%= t.message %></p>
-				<% if t.tweet_url.present? %>
-					<% case t.article.language_id when 1 %><%= link_to "Link", t.tweet_url unless !t.tweet_url %>
-					<% when 2 %><%= link_to "Enlace", t.tweet_url unless !t.tweet_url %>
-					<% end %>
-				<% else end %>
+				<p>
+					<%= t.message %>
+					<% if t.tweet_url.present? %>
+						<% case t.article.language_id when 1 %><%= link_to "Link", t.tweet_url unless !t.tweet_url %>
+						<% when 2 %><%= link_to "Enlace", t.tweet_url unless !t.tweet_url %>
+						<% end %>
+					<% else end %>
+				</p>
 				
 				<%# Display YouTube video if there is one %>
 				<% if t.tweet_url.nil? %>
