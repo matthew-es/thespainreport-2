@@ -321,10 +321,8 @@ end	%>
 				<% if t.upload == @article.upload && t == @article.tweets.first %>
 				
 				<% elsif t.upload %>
-					<br />
 					<%= image_tag ('https://image.thespainreport.es/' + File.basename(t.upload.data)) %>
 				<% elsif !t.image.nil? %>
-					<br />
 					<%= image_tag ('https://image.thespainreport.es/' + t.image) %>
 				<% else end %>
 				
