@@ -28,7 +28,7 @@
 		<strong>Frame:</strong> <%= f.collection_select :frame_id, @frames.where(language_id: @article.language_id || 1), :id, :emotional_quest_action, {include_blank: true, :selected => @article.frame_id}, {:style => "width: 190px;"}  %>
 	</div>
 	
-	<h3>Headlines, Lede, Images, Article</h3>
+	<h3>Headlines, Lede, Images</h3>
 		<% if @article.original.blank? %>
 		
 			<div class="margin-bottom-10">
@@ -180,7 +180,7 @@
 		<% end %>
 		
 		
-		<h3><span class="label background-color-patrons font-color-white">patrons only column</span> / free article / sales post</h3>
+		<h3>TEXT</h3>
 		<div id="" class="margin-top-20 margin-bottom-10">
 			<div class="float-left">
 				<span id="text_length_words" class="font-bold"></span>/<span id="text_max_words" class="font-bold"></span> words => <span id="text_left_words" class="font-bold"></span>
@@ -260,92 +260,6 @@
 					
 				};
 		</script>
-		
-		<h3>Patrons: extra videos</h3>
-		<div class="alert-warning padding-10 margin-top-10">	
-			<% if @article.original.blank? %>
-				<div class="margin-bottom-5">
-					<%= f.text_field :extras_video_title, :class => "width-30 padding-5 font-header font-header-tiny", placeholder: "Extra videos title…" %>
-				</div>
-				<div class="margin-bottom-10 width-100 margin-right-20">
-					<%= f.text_area :extras_video_intro, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 100px;", placeholder: "Extra video headline…" %>
-				</div>
-				
-				<div class="width-100">
-					<%= f.text_area :extras_videos, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 500px;", placeholder: "Extra video intro…" %>
-				</div>
-			<% else %>
-				<div class="width-100">
-					<div class="width-48 float-left padding-left-10 padding-right-10">
-						<div class="margin-bottom-20">
-							<h3><%= @article.original.extras_video_title %></h3>
-						</div>
-						<div class="margin-top-25 margin-bottom-50 width-100">
-							<p><%= @article.original.extras_video_intro %></p>
-						</div>
-						<div class="width-100">
-							<%= markdown(@article.original.extras_videos) unless @article.original.extras_videos.nil? %>
-						</div>
-					</div>
-					<div class="width-48 float-left padding-10">
-						<div class="margin-bottom-5">
-							<%= f.text_field :extras_video_title, :class => "width-80 padding-5 font-header font-header-tiny", placeholder: "Extra videos title…" %>
-						</div>
-						<div class="margin-bottom-10 width-100 margin-right-20">
-							<%= f.text_area :extras_video_intro, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 130px;", placeholder: "Extra video intro.…" %>
-						</div>
-						
-						<div class="width-100">
-							<%= f.text_area :extras_videos, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 620px;", placeholder: "Extra video intro…" %>
-						</div>
-					</div>
-					<div class="clear"></div>
-				</div>
-				<div class="clear"></div>
-			<% end %>
-		</div>
-		
-		<h3>Patrons: extra audios</h3>
-		<div class="alert-warning padding-10 margin-top-10">
-			<% if @article.original.blank? %>
-				<div class="margin-bottom-10 width-100 margin-right-20">
-					<%= f.text_field :extras_audio_title, :class => "width-30 padding-5 font-header font-header-tiny", placeholder: "Extra audios title…" %>
-				</div>
-				<div class="width-100">
-					<%= f.text_area :extras_audio_intro, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 100px;", placeholder: "Extra audios intro…" %>
-				</div>
-				<div class="width-100">
-					<%= f.text_area :extras_audios, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 500px;", placeholder: "Extra audios..." %>
-				</div>
-			<% else %>
-				<div class="width-100">
-					<div class="width-48 float-left padding-left-10 padding-right-10">
-						<div class="margin-bottom-20">
-							<h3><%= @article.original.extras_audio_title %></h3>
-						</div>
-						<div class="margin-top-25 margin-bottom-50 width-100">
-							<p><%= @article.original.extras_audio_intro %></p>
-						</div>
-							<%= markdown(@article.original.extras_audios) unless @article.original.extras_audios.nil? %>
-						</div>
-					</div>
-					<div class="width-48 float-left padding-10">
-						<div class="margin-bottom-5">
-							<%= f.text_field :extras_audio_title, :class => "width-80 padding-5 font-header font-header-tiny", placeholder: "Extras audios title…" %>
-						</div>
-						<div class="margin-bottom-10 width-100 margin-right-20">
-							<%= f.text_area :extras_audio_intro, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 130px;", placeholder: "Extras audios intro.…" %>
-						</div>
-						
-						<div class="width-100">
-							<%= f.text_area :extras_audios, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 620px;", placeholder: "Extra audios…" %>
-						</div>
-						<div class="clear"></div>
-					</div>
-					<div class="clear"></div>
-				</div>
-			<% end %>
-		</div>	
 		
 		
 		
