@@ -11,11 +11,10 @@ class HomeController < ApplicationController
 		@patrons = Article.english.published.patrons.lastfive
 		@free = Article.english.published.nottruth.notstory.notpatrons.notpodcast.notphoto.notvideo.lastfive
 		@truth = Article.english.published.truth.lastfive
-		@notices = Article.english.published.notices.lastfive
 		
 		@daily = Article.english.published.daily.lastten
 		@depth = Article.english.published.depth.lastten
-		@notes = Article.english.published.blog.lastten
+		@blog = Article.english.published.blog.lastten
 		
 		@rss = Article.published.english.order('created_at DESC')
 		respond_to do |format|

@@ -39,15 +39,9 @@
 		<%= render "payments/pay" %>
 	</div>
 	
-	<div class="margin-top-30">
-		<h3>-- Podcast Conversation --</h3>
-		<% if @podcast.any?; @podcast.each do |article| %>
-			<%= render "articles/index_articles_list_link", {article: article} %>
-		<% end end %>
-	</div>
 	
 	<div class="margin-top-30">
-		<h3>-- Video Reports & Photos --</h3>
+		<h3>Reports</h3>
 		<% if @depth.any? %>
 			<% @depth.each do |article| %>
 				<%= render "articles/index_articles_list_link", {article: article} %>
@@ -58,18 +52,12 @@
 	</div>
 	
 	<div class="margin-top-30">
-		<h3>--Blog--</h3>
-		<% if @truth.any?; @truth.each do |article| %>
+		<h3>Blog</h3>
+		<% if @blog.any?; @blog.each do |article| %>
 			<%= render "articles/index_articles_list_link", {article: article} %>
 		<% end end %>
 	</div>
 	
-	<div class="margin-top-30">
-		<h3>--Blog--</h3>
-		<% if @notices.any?; @notices.each do |article| %>
-			<%= render "articles/index_articles_list_link", {article: article} %>
-		<% end end %>
-	</div>
 </div>
 
 <% if current_user.nil? %>
