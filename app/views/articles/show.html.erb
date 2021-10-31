@@ -358,6 +358,11 @@ end	%>
 		<% end %>
 	<% end %>
 	
+	<%# PLEASE JOIN NEWSLETTER...  %>
+	<% if current_user.nil? %>
+		<%= render "users/new_reader_form" %>
+	<% else end %>
+	
 	<%= render "payments/pay" %>
 	
 	<% if false %>
@@ -365,10 +370,6 @@ end	%>
 	<% end %>
 	
 	
-	<%# PLEASE JOIN NEWSLETTER...  %>
-	<% if current_user.nil? %>
-		<%= render "users/new_reader_form" %>
-	<% else end %>
 
 	<%# FOOTER...  %>
 	<%= render "layouts/footer" %>

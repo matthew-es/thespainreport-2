@@ -1,22 +1,27 @@
-<div class="buy-border margin-top-30 padding-20">
-	<span class="font-bold font-main-normal"><%= @frame.email_reader_header %></span>
-	
-	<p class="margin-top-10">
-		<%= @frame.email_reader_text %>
-	</p>
+<% case @language when 1
+	email_placeholder = "Enter your email address..."
+	email_button = "Subscribe"
+when 2
+	email_placeholder = "Introduzca su correo electrónico..."
+	email_button = "Suscríbase"
+end %>
+
+<div class="padding-bottom-20 padding-left-20">
 	
 	<%= form_with url: '/new_reader', local: true do |f| %>
-		<div class="width-100" >
-			<div class="float-left margin-right-10 width-100 margin-top">
-				<input type="email_for_server" name="email_for_server" id="email_for_server" class="padding-10 width-90" placeholder="<%= @frame.email_reader_placeholder %>" onclick="checkHuman()" />
+		<div class="width-100 align-centre" >
+			<div class="float-left width-70 display-inline">
+				<input type="email_for_server" name="email_for_server" id="email_for_server" class="padding-10 width-100" placeholder="<%= email_placeholder %>" onclick="checkHuman()" />
 			</div>
-			<div class="float-left align-centre margin-top-5 width-100">
-				<button type="submit" class="width-50 padding-7 font-main-small"><%= @frame.email_reader_button %></button>
+			<div class="float-left width-25 margin-left-10 display-inline">
+				<button type="submit" class="padding-10 font-main-small">
+					<%= email_button %>
+				</button>
 			</div>
 			<div class="clear"></div>
 		</div>
-		<input type="hidden" id="full_name" name="full_name" value="" />
 		
+		<input type="hidden" id="full_name" name="full_name" value="" />
 		<input type="hidden" id="language_for_server" name="language_for_server" value="<%= @language %>" />
 		<input type="hidden" id="article_for_server" name="article_for_server" value="<%= yield(:title) %>" />
 		<input type="hidden" id="frame_for_server" name="frame_for_server" value="<%= @frame_id %>" />
