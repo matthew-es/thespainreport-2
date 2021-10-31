@@ -13,7 +13,7 @@ class HomeController < ApplicationController
 		@truth = Article.english.published.truth.lastfive
 		@notices = Article.english.published.notices.lastfive
 		
-		@daily = Article.english.published.daily.newsletter.lastten
+		@daily = Article.english.published.daily.lastten
 		@depth = Article.english.published.depth.lastten
 		@notes = Article.english.published.blog.lastten
 		
