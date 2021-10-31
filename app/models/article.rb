@@ -39,9 +39,12 @@ class Article < ApplicationRecord
     scope :notes, -> {Article.joins(:type).merge(Type.notes)}
     scope :notices, -> {Article.joins(:type).merge(Type.notices)}
     scope :live, -> {Article.joins(:type).merge(Type.live)}
+    
     scope :daily, -> {Article.joins(:type).merge(Type.daily)}
     scope :depth, -> {Article.joins(:type).merge(Type.depth)}
+    scope :blog, -> {Article.joins(:type).merge(Type.blog)}
     
+    scope :newsletter, -> {Article.joins(:type).merge(Type.newsletter)}
     scope :podcast, -> {Article.where.not(audio_aac_id: "")}
     scope :notpodcast, -> {Article.where(audio_aac_id: "")}
     scope :latestpodcast, -> {Article.podcast.order('created_at DESC').limit(1)}

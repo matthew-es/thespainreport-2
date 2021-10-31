@@ -5,15 +5,17 @@ class HomeController < ApplicationController
 		placeholders
 		
 		@article_id = "0"
+
 		@latestmain = Article.english.published.latestmain
 		@podcast = Article.english.published.podcast.lastfive
-		@notes = Article.english.published.notes.lastfive
 		@patrons = Article.english.published.patrons.lastfive
 		@free = Article.english.published.nottruth.notstory.notpatrons.notpodcast.notphoto.notvideo.lastfive
 		@truth = Article.english.published.truth.lastfive
-		@depth = Article.english.published.depth.lastfive
-		@daily = Article.english.published.daily.lastten
 		@notices = Article.english.published.notices.lastfive
+		
+		@daily = Article.english.published.daily.newsletter.lastten
+		@depth = Article.english.published.depth.lastten
+		@notes = Article.english.published.blog.lastten
 		
 		@rss = Article.published.english.order('created_at DESC')
 		respond_to do |format|

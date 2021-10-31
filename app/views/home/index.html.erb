@@ -26,7 +26,7 @@
 <%= render "layouts/logo_account" %>
 
 <div class="margin-top-20">
-	<h3>-- Daily Reports & Analysis --</h3>
+	<h3>Newsletter, threads, podcast, video blog</h3>
 		<% if @daily.any? %>
 			<% @daily.each do |article| %>
 				<%= render "articles/index_articles_list_link", {article: article} %>
@@ -58,14 +58,14 @@
 	</div>
 	
 	<div class="margin-top-30">
-		<h3>-- Truth & Journalism--</h3>
+		<h3>--Blog--</h3>
 		<% if @truth.any?; @truth.each do |article| %>
 			<%= render "articles/index_articles_list_link", {article: article} %>
 		<% end end %>
 	</div>
 	
 	<div class="margin-top-30">
-		<h3>-- General Notices --</h3>
+		<h3>--Blog--</h3>
 		<% if @notices.any?; @notices.each do |article| %>
 			<%= render "articles/index_articles_list_link", {article: article} %>
 		<% end end %>

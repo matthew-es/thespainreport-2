@@ -24,12 +24,15 @@ class Type < ApplicationRecord
     scope :notvideo, -> {where.not(name: ['Video', 'Vídeo'])}
     scope :videoblog, -> {where(name: ['Video Blog', 'Vídeo Blog'])}
     scope :notvideoblog, -> {where.not(name: ['Video Blog', 'Vídeo Blog'])}
+    scope :newsletter, -> {where(name: ['Newsletter', 'Boletín'])}
     scope :photo, -> {where(name: ['Photos', 'Fotos'])}
     scope :notphoto, -> {where.not(name: ['Photos', 'Fotos'])}
     scope :notices, -> {where(name: ['Notice', 'Aviso'])}
     scope :live, -> {where(name: ['Live', 'Directo'])}
-    scope :daily, -> {where(name: ['Notes', 'Apuntes', 'News', 'Noticia', 'Analysis', 'Análisis', 'Chronicle', 'Crónica', 'Live', 'Directo'])}
+    
+    scope :daily, -> {where(name: ['Newsletter', 'Boletín', 'Live', 'Directo'])}
     scope :depth, -> {where(name: ['Video', 'Vídeo', 'Photos', 'Fotos'])}
+    scope :blog, -> {where(name: ['Blog'])}
     
     scope :english, -> {where(language_id: 1)}
     scope :spanish, -> {where(language_id: 2)}
