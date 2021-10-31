@@ -30,7 +30,7 @@ class Type < ApplicationRecord
     scope :notices, -> {where(name: ['Notice', 'Aviso'])}
     scope :live, -> {where(name: ['Live', 'Directo'])}
     
-    scope :daily, -> {where(name: ['Newsletter', 'Boletín', 'Live', 'Directo', 'Notes', 'Apuntes', 'Podcast'])}
+    scope :daily, -> {where(name: ['Newsletter', 'Boletín', 'Live', 'Directo', 'Notes', 'Apuntes', 'Podcast', 'Video Blog', 'Vídeo Blog'])}
     scope :depth, -> {where(name: ['Video', 'Vídeo', 'Photos', 'Fotos'])}
     scope :blog, -> {where(name: ['Blog'])}
     
