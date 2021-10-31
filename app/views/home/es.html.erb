@@ -38,13 +38,9 @@
 	</div>
 	
 	<div class="margin-top-30">
-		<h3>-- Conversación Podcast --</h3>
-		<% if @podcast.any?; @podcast.each do |article| %>
-			<%= render "articles/index_articles_list_link", {article: article} %>
-		<% end end %>
 	
 	<div class="margin-top-30">
-		<h3>-- Vídeo Reportajes y Fotos --</h3>
+		<h3>En detalle y NFTs</h3>
 		<% if @depth.any? %>
 			<% @depth.each do |article| %>
 				<%= render "articles/index_articles_list_link", {article: article} %>
@@ -55,15 +51,8 @@
 	</div>
 	
 	<div class="margin-top-30">
-		<h3>-- Verdad y Periodismo --</h3>
-		<% if @truth.any?; @truth.each do |article| %>
-			<%= render "articles/index_articles_list_link", {article: article} %>
-		<% end end %>
-	</div>
-	
-	<div class="margin-top-30">
-		<h3>-- Avisos Generales --</h3>
-		<% if @notices.any?; @notices.each do |article| %>
+		<h3>Blog</h3>
+		<% if @blog.any?; @blog.each do |article| %>
 			<%= render "articles/index_articles_list_link", {article: article} %>
 		<% end end %>
 	</div>

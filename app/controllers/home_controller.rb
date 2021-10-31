@@ -34,10 +34,11 @@ class HomeController < ApplicationController
 		@patrons = Article.spanish.published.patrons.lastfive
 		@free = Article.spanish.published.nottruth.notstory.notpatrons.notpodcast.notphoto.notvideo.lastfive
 		@truth = Article.spanish.published.truth.lastfive
-		@depth = Article.spanish.published.depth.lastfive
-		@daily = Article.spanish.published.daily.lastfive
-		@notices = Article.spanish.published.notices.lastfive
-		
+
+		@daily = Article.spanish.published.daily.lastten
+		@depth = Article.spanish.published.depth.lastten
+		@blog = Article.spanish.published.blog.lastten
+
 		@rss = Article.published.spanish.order('created_at DESC')
 		respond_to do |format|
 			format.html
