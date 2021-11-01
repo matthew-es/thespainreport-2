@@ -323,7 +323,7 @@ end	%>
 				<% elsif t.upload %>
 					<%= image_tag ('https://image.thespainreport.es/' + File.basename(t.upload.data)), class: "thread-image" %>
 				<% elsif !t.image.nil? %>
-					<%= image_tag ('https://image.thespainreport.es/' + t.image) %>
+					<%= image_tag ('https://image.thespainreport.es/' + t.image), class: "thread-image" %>
 				<% else end %>
 				
 				<%# Display details, link to Twitter, high res image link for patrons %>

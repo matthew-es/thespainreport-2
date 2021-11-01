@@ -42,6 +42,11 @@ button.buybutton, button.buybutton:visited, input[type=submit].buybutton {backgr
 button.buybutton:hover, input[type=submit].buybutton:hover {background-color: #997a00; color: #fff;}
 button.greyedout, button.greyedout:hover, input.greyedout, input.greyedout:hover {background-color: grey;}
 
+button.choosebutton, input[type=submit].choosebutton {padding: 7px;}
+button.choosebutton, button.choosebutton:visited, button.choosebutton:hover, input[type=submit].buybutton {border: 1px solid #997a00; border-radius: 3px; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset; cursor: pointer; text-align: center; display: inline-block;}
+button.choosebutton, button.choosebutton:visited, input[type=submit].choosebutton {background-color: transparent; color: #32325d; font-family: Georgia; text-decoration: none;}
+button.choosebutton:hover, input[type=submit].choosebutton:hover {border: 1px solid #f1bf00; border-radius: 3px; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset; cursor: pointer; text-align: center; display: inline-block;}
+
 a.buybutton {padding: 7px;}
 a.buybutton, a.buybutton:visited, a.buybutton:hover {border: 1px solid #997a00; border-radius: 3px; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset; cursor: pointer; text-align: center; display: inline-block;}
 a.buybutton, a.buybutton:visited {background-color: #f1bf00; color: #fffae6; font-family: Georgia; text-decoration: none;}
@@ -265,6 +270,7 @@ input.stripe_email::placeholder {color: #aab7c4;}
     .content {width: 95%; margin: 0 auto; padding-left: 2%; padding-right: 2%; border-left: 0; border-right: 0;}
     .mobile-100 {width: 95%; margin-bottom: 5px;}
     .mobile-width, input.mobile-width {width: 100%;}
+    .mobile-width-half, input.mobile-width-half {width: 33%;}
     .buybutton {width: 100%;}
     p, li {width: 95%; font-size: 19px;}
     .mobile-bottom-10 {margin-bottom: 5px;}
@@ -273,6 +279,7 @@ input.stripe_email::placeholder {color: #aab7c4;}
 
 @media only screen and (max-width: 400px) {
     .mobile-width {width: 95%;}
+    .mobile-width-half, input.mobile-width-half {width: 33%;}
     .mobile-margins {margin: 0px;}
 }
 

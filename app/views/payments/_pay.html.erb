@@ -37,13 +37,14 @@ end %>
 	<% else end %>
 	
 	<%# DISPLAY PAYMENT FORM... %>
-	<div class="margin-top-10 margin-bottom-10 padding-20 buy-background buy-border font-payment" onmouseover="checkAmount()">
-
-	<% if controller_name == "articles" || controller_name == "home" %>
-			<h3 class="margin-top-0">
-				<%= @frame.emotional_quest_action %>
-			</h3>
-	<% else end %>
+	<div class="margin-top-10 margin-bottom-20 padding-20 buy-background buy-border font-payment" onmouseover="checkAmount()">
+		
+		<%# DISPLAY TITLE... %>
+		<% if controller_name == "articles" || controller_name == "home" %>
+				<h3 class="margin-top-0">
+					<%= @frame.emotional_quest_action %>
+				</h3>
+		<% else end %>
 	
 		<%# DISPLAY INTRO... %>
 		<div class="font-main font-main-normal">
@@ -52,9 +53,52 @@ end %>
 			</p>
 		</div>
 		
+		
+		<%# DISPLAY OPTION BUTTONS... %>
+		<div class="width-98 margin-bottom-10">
+			<div class="width-15 float-left margin-right-5 mobile-width">
+				<div class="">
+					<p class="align-centre line-100">
+						<button type="submit" class="choosebutton width-100 font-main-normal" id="price" value="10" onclick="setAmount(this.value); checkAmount();"><%= number_to_currency((10), unit: "€") %></button>
+					</p>
+				</div>
+			</div>
+			<div class="width-15 float-left margin-right-5 mobile-width">
+				<div class="">
+					<p class="align-centre line-100">
+						<button type="submit" class="choosebutton width-100 font-main-normal" id="price" value="25" onclick="setAmount(this.value); checkAmount();"><%= number_to_currency((25), unit: "€") %></button>
+					</p>
+				</div>
+			</div>
+			<div class="width-15 float-left margin-right-5 mobile-width">
+				<div class="">
+					<p class="align-centre line-100">
+						<button type="submit" class="choosebutton width-100 font-main-normal" id="price" value="50" onclick="setAmount(this.value); checkAmount();"><%= number_to_currency((50), unit: "€") %></button>
+					</p>
+				</div>
+			</div>
+			<div class="width-15 float-left margin-right-5 mobile-width">
+				<div class="">
+					<p class="align-centre line-100">
+						<button type="submit" class="choosebutton width-100 font-main-normal" id="price" value="100" onclick="setAmount(this.value); checkAmount();"><%= number_to_currency((100), unit: "€") %></button>
+					</p>
+				</div>
+			</div>
+			<div class="width-15 float-left margin-right-5 mobile-width">
+				<div class="">
+					<p class="align-centre line-100">
+						<button type="submit" class="choosebutton width-100 font-main-normal" id="price" value="500" onclick="setAmount(this.value); checkAmount();"><%= number_to_currency((500), unit: "€") %></button>
+					</p>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		
+		<%# DISPLAY FORM INPUTS... %>
 		<div id="ajax_form_one">
-			<div class="margin-bottom-20">
-			<%# If user already exists and is logged in, say hello... %>
+			<div class="margin-bottom-10">
+			
+			<%# IS USER ALREADY LOGGED IN? DO THEY HAVE A SUBSCRIPTION ON TSR? %>
 			<% if current_user.nil? %>
 			
 			<% else %>
@@ -99,76 +143,62 @@ end %>
 						</ul>
 					</div>
 				<% else end %>
-				
 			<% end %>
 			
 			
-			<%# Select a contribution amount... %>
-			<div class="margin-top-5">
-				<ul class="font-main-small" style="margin-inline-end: 0;">
-					<li>
-						<% case @language when 1 %>New <%= @frame.money_word_singular %>: € 
-						<% when 2 %>Nueva <%= @frame.money_word_singular %>: €
+			<%# THE CONTRIBUTION AMOUNT AND PERIOD... %>
+			<div class="">
+				<input type="number" id="plan_amount" min="5" step="5" max="2000" value="25" onclick="checkEmail()" onselect="checkEmail()" class="StripeElement stripe_email width-15 mobile-width-half">
+				
+				euros
+				
+				<select name="select_payment_period" id="select_payment_period" onfocus="getSetup()" onchange="changePeriod()" onclick="changePeriod()" class="StripeElement width-20 mobile-width-half">
+					<% case @language when 1 %>
+						<option value="month">a month</option>
+						<option value="year">a year</option>
+						<option value="one_time">one-time</option>
+					<% when 2 %>
+						<option value="month">al mes</option>
+						<option value="year">al año</option>
+						<option value="one_time">pago único</option>
+					<% end %>
+				</select>
+				
+				<span id="payment_form_errors" class="color-red background-light-red hide">
+					<% case @language when 1 %>...must be between €1 and €5,000 
+					<% when 2 %>...debe estar entre 1 y 5.000 euros
+					<% end %>
+				</span>
+			</div>
+			
+			
+			<%# THE TAX COUNTRY... %>
+			<div class="margin-top-10">
+				<select name="select_residence_country" id="select_residence_country" onfocus="getSetup()" onchange="changeCountry()" onclick="changeCountry()" class="StripeElement width-30">
+					<% case @language when 1 %><option id="" value="" disabled>--EU Countries--</option>
+					<% when 2 %><option id="" value="" disabled>--Países UE--</option>
+					<% end %>
+					
+					<% @countries.each do |c| %>
+						<% case @language when 1 %><option id="<%= c.country_code %>" value="<%= c.country_code %>"><%= c.name_en %></option>
+						<% when 2 %><option id="<%= c.country_code %>" value="<%= c.country_code %>"><%= c.name_es %></option>
 						<% end %>
-
-						<input type="number" id="plan_amount" min="5" step="5" max="2000" value="25" onclick="checkEmail()" onselect="checkEmail()">
-						
-						<select name="select_payment_period" id="select_payment_period" onfocus="getSetup()" onchange="changePeriod()" onclick="changePeriod()">
-							<% case @language when 1 %>
-								<option value="month">a month</option>
-								<option value="year">a year</option>
-								<option value="one_time">one-time</option>
-							<% when 2 %>
-								<option value="month">al mes</option>
-								<option value="year">al año</option>
-								<option value="one_time">pago único</option>
-							<% end %>
-						</select>
-						
-						<span id="payment_form_errors" class="color-red background-light-red hide">
-							<% case @language when 1 %>...must be between €1 and €5,000 
-							<% when 2 %>...debe estar entre 1 y 5.000 euros
-							<% end %>
-						</span>
-					</li>
-				</ul>
-			</div>
-			
-			
-			<%# Select tax country... %>
-			<div class="margin-top-5">
-				<ul class="font-main-small" style="margin-inline-end: 0;">
-					<li>
-						<% case @language when 1 %>Which country do you pay taxes in?
-						<% when 2 %>¿En qué país paga impuestos?
+					<% end %>
+					
+					<% case @language when 1 %><option id="" value="" disabled>--Rest of World--</option>
+					<% when 2 %><option id="" value="" disabled>--Resto del Mundo--</option>
+					<% end %>
+					
+					<% @row.each do |c| %>
+						<% case @language when 1 %><option id="<%= c.country_code %>" value="<%= c.country_code %>"><%= c.name_en %></option>
+						<% when 2 %><option id="<%= c.country_code %>" value="<%= c.country_code %>"><%= c.name_es %></option>
 						<% end %>
-						
-						<select name="select_residence_country" id="select_residence_country" onfocus="getSetup()" onchange="changeCountry()" onclick="changeCountry()" >
-							<% case @language when 1 %><option id="" value="" disabled>--EU Countries--</option>
-							<% when 2 %><option id="" value="" disabled>--Países UE--</option>
-							<% end %>
-							
-							<% @countries.each do |c| %>
-								<% case @language when 1 %><option id="<%= c.country_code %>" value="<%= c.country_code %>"><%= c.name_en %></option>
-								<% when 2 %><option id="<%= c.country_code %>" value="<%= c.country_code %>"><%= c.name_es %></option>
-								<% end %>
-							<% end %>
-							
-							<% case @language when 1 %><option id="" value="" disabled>--Rest of World--</option>
-							<% when 2 %><option id="" value="" disabled>--Resto del Mundo--</option>
-							<% end %>
-							
-							<% @row.each do |c| %>
-								<% case @language when 1 %><option id="<%= c.country_code %>" value="<%= c.country_code %>"><%= c.name_en %></option>
-								<% when 2 %><option id="<%= c.country_code %>" value="<%= c.country_code %>"><%= c.name_es %></option>
-								<% end %>
-							<% end %>
-						</select>
-					</li>
-				</ul>
+					<% end %>
+				</select>
 			</div>
 			
-			</div>
+		</div>
+			
 			
 			<%# If new user, or not logged in, display box for new email... %>	
 			<% if current_user.nil? %>
@@ -197,7 +227,7 @@ end %>
 			
 			
 			<%# PAYMENT BUTTON %>
-			<div class="font-payment margin-top-10 align-centre">
+			<div class="font-payment margin-top-10 margin-bottom-30 align-centre">
 					<button id="card-button" class="buybutton font-main-normal" data-secret=""><%= @frame.button_cta %></button>
 			</div>
 			
