@@ -231,13 +231,13 @@ class ArticlesController < ApplicationController
 				ArticleMailer.send_article_full(@article, user).deliver_now
 			end
 		elsif params[:article][:email_to] == 'discord'
-			if @article.type.name == "Patrons Column"
-				discord_url = URI("https://discord.com/api/webhooks/815276312247795723/72Ib0XzZ1SLjxahBaR7QWE10lM9IdDt5yxncxXtpxe6fILJnTcv9paDuX-hkODMl3nwK")
-			elsif @article.type.name = "Columna Mecenas"
-				discord_url = URI("https://discord.com/api/webhooks/815290225273995324/nAJkFq869-Q1n16rPWn9W96gshhNHmOuZfA8FJUj7rLgjUX-R5eO6LS-cj3PzTN93NjM")
+			if @article.language_id == 1
+				discord_url = URI("https://discord.com/api/webhooks/814107529373679677/lMvRTAbDKtVOtDbfghfKS-NXGvN8It1tUiJshIRh6Velt3WS3eVfoFngGJMMD_MU_3_9")
+			elsif @article.language_id == 2
+				discord_url = URI("https://discord.com/api/webhooks/813774247804665947/VCgCWCb9xfuqV3rV2TRzDnHFNnSGuQWpqwNZCHgln60WEIOqu7oVNyAqwpxr2L2lDe0B")
 			else end
 			
-			discord_message = @article.short_headline.upcase + "\n\n" + @article.body
+			discord_message = "@everyone" + @article.short_headline.upcase + "\n\n" + @article.lede + "\n\n" + url_for(@article)
 			Net::HTTP.post_form(discord_url, 'content' => discord_message)
 		elsif params[:article][:email_to] == 'alert'
 			i = 0
