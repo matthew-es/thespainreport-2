@@ -132,7 +132,7 @@
 					</div>
 				</div>
 				<div class="margin-bottom-10">
-					<%= f.text_area :audio_episode_notes, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 100px;", placeholder: "Podcast episode notes…" %>
+					<%= f.text_area :audio_episode_notes, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 150px;", placeholder: "Podcast episode notes…" %>
 				</div>
 			</div>
 		<% else %>
@@ -192,7 +192,7 @@
 		</div>
 		<div class="margin-bottom-10">
 			<% if @article.original.blank? %>
-				<%= f.text_area :body, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 410px;", placeholder: "Article text…" %>
+				<%= f.text_area :body, :class => "width-98 padding-10 font-main font-main-normal", :style => "min-height: 790px;", placeholder: "Article text…" %>
 			<% else %>
 				<div class="width-100">
 					<div class="width-48 float-left padding-10">
