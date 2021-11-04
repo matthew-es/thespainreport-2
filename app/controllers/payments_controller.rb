@@ -89,12 +89,21 @@ class PaymentsController < ApplicationController
 	def fix_problem
 		# Which payment is it? Who does it belong to?
 		@payment = Payment.find_by(external_payment_id: params[:id])
+		
+		puts "PAYMENT ON TSR IS: " + @payment.id.to_s
+		
 		@user = User.find_by(account_id: @payment.account.id, account_role: 1)
+		
+		puts "USER ON TSR IS: " + @user.email
+		
 		set_language_frame(@user.sitelanguage, @user.frame.id)
 		set_status(@user)
 		
 		# Check the actual status of that payment on Stripe...
 		payment_intent = Stripe::PaymentIntent.retrieve(@payment.external_payment_id)
+		
+		puts "PAYMENT INTENT ON STRIPE IS: " + payment_intent["id"].to_s
+		
 		if ["succeeded", "requires_action", "requires_confirmation"].include?(payment_intent["status"])
 			location = payment_intent.payment_method
 		elsif payment_intent["status"] == "requires_payment_method"
