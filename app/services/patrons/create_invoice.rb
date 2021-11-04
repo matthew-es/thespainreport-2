@@ -18,7 +18,7 @@ module Patrons
 			how_many_invoices = Invoice.all.where(invoice_year: Time.current.year, invoice_type: "simple").count
 			invoice_number = "SI-" + Time.current.year.to_s + '-' + (how_many_invoices + 1).to_s.rjust(8, '0')
 			
-			puts "CREATE INVOICE -- HOW MANY IS: " + how_many.to_s
+			puts "CREATE INVOICE -- HOW MANY IS: " + how_many_invoices.to_s
 			puts "CREATE INVOICE -- INVOICE NUMBER IS: " + invoice_number.to_s
 			
 			invoice = Invoice.create(
