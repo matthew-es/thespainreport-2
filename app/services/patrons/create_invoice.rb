@@ -2,17 +2,24 @@ module Patrons
     class CreateInvoice
         def self.process(payment)
         
+        puts "CREATE INVOICE -- INSIDE"
+        
         if payment.account.invoice_account_name.blank? || payment.account.invoice_account_tax_id.blank? || payment.account.invoice_account_address.blank?
         	type = "simple"
         else
         	type = "full"
         end
         
+        puts "CREATE INVOICE -- TYPE IS: " + type.to_s
+        
         operation = "payment"
         
         case type when "simple"
 			how_many_invoices = Invoice.all.where(invoice_year: Time.current.year, invoice_type: "simple").count
 			invoice_number = "SI-" + Time.current.year.to_s + '-' + (how_many_invoices + 1).to_s.rjust(8, '0')
+			
+			puts "CREATE INVOICE -- HOW MANY IS: " + how_many.to_s
+			puts "CREATE INVOICE -- INVOICE NUMBER IS: " + invoice_number.to_s
 			
 			invoice = Invoice.create(
 				payment_id: payment.id,

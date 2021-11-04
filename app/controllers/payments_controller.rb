@@ -114,6 +114,9 @@ class PaymentsController < ApplicationController
 		payment_method = Stripe::PaymentMethod.retrieve(location)
 		@payment_status = payment_intent["status"]
 		@payment_refunded = payment_intent.charges.data[0].refunded.to_s unless payment_intent.charges.data[0].nil?
+		
+		puts "PAYMENT METHOD IS: " + payment_method["id"].to_s
+		puts "PAYMENT STATUS IS: " + @payment_status.to_s
 
 		# Either it worked or it didn't...
 		if !@payment_refunded.nil? && @payment_refunded == "true"
@@ -121,7 +124,9 @@ class PaymentsController < ApplicationController
 			Patrons::RefundedPayment.process(@payment)
 		elsif payment_intent["status"] == "succeeded"
 			@payment.update(external_payment_status: payment_intent["status"])
+			
 			Patrons::SuccessfulPayment.process(@payment, payment_method["id"])
+			
 			if @payment.id == @payment.subscription.payments.last.id
 				puts "THIS IS THE LAST PAYMENT ON THAT SUBSCRIPTION..."
 				Patrons::SubscriptionRollover.process(@payment.subscription, @payment)
