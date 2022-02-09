@@ -110,7 +110,9 @@
 		<% end %>
 	</div>
 	
-	<% if @article.type.name == "NFT" %>
+	<% if @article.type.nil? %>
+	
+	<% elsif ["NFT"].include?(@article.type.name) %>
 		<h3>NFT</h3>
 		<div class="margin-bottom-10">
 			<div class="margin-bottom-5">
@@ -157,9 +159,7 @@
 			</div>
 			<div class="clear"></div>
 		</div>
-	<% else end %>
-	
-	<% if @article.type.name == "Podcast" %>
+	<% elsif ["Podcast"].include?(@article.type.name) %>
 		<h3>Podcast Episode</h3>
 			<% if @article.original.blank? %>
 				<div class="margin-bottom-10">
