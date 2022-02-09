@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_15_121552) do
+ActiveRecord::Schema.define(version: 2022_02_09_115633) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -96,6 +96,20 @@ ActiveRecord::Schema.define(version: 2021_09_15_121552) do
     t.integer "audio_mp3_id"
     t.integer "extra_audio_aac_id"
     t.integer "extra_audio_mp3_id"
+    t.integer "nft_number"
+    t.string "nft_address_creator"
+    t.string "nft_address_contract"
+    t.string "nft_blockchain"
+    t.string "nft_token_type"
+    t.string "nft_property_creator"
+    t.string "nft_property_year"
+    t.string "nft_property_place"
+    t.string "nft_property_story_name"
+    t.string "nft_property_story_position"
+    t.string "nft_property_rarity"
+    t.string "nft_link_opensea"
+    t.string "nft_link_rarible"
+    t.string "nft_promo_video"
     t.index ["frame_id"], name: "index_articles_on_frame_id"
     t.index ["language_id"], name: "index_articles_on_language_id"
     t.index ["main_id"], name: "index_articles_on_main_id"

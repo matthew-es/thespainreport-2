@@ -11,7 +11,7 @@ xml.rss :version => "2.0",
 		podcast_image = "http://image.thespainreport.es/tsr_podcast_square_3000.png"
 		podcast_description = "Una conversación sobre cómo está cambiando España."
 		podcast_author = "Matthew Bennett"
-		podcast_title = "The Spain Report"
+		podcast_title = "The Spain Report (es)"
 		
 		xml.title podcast_title
 		xml.description podcast_description

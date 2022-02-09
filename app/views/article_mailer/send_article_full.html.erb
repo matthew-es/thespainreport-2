@@ -104,6 +104,28 @@
 <%# ARTICLE TEXT %>
 <%= markdown(@article.body).html_safe %>
 
+<%# NFT %>
+	<% if ["NFT"].include?(@article.type.name) %>
+		<h3>NFT details</h3>
+		<p>NFT story: <%= link_to "watch video here", article_url(@article) %></p>
+		<p>
+			<ul>
+				<li><strong>NFT Nº:</strong> <%= @article.nft_number %></li>
+				<li><strong>Rarity:</strong> <%= @article.nft_property_rarity %></li>
+				<li><strong>Blockchain:</strong> <%= @article.nft_blockchain %></li>
+				<li><strong>Creator:</strong> <%= link_to @article.nft_address_creator, "https://etherscan.io/address/" + @article.nft_address_creator %> (thespainreport.eth)</li>
+				<li><strong>Contract:</strong> <%= link_to @article.nft_address_contract, "https://etherscan.io/address/" + @article.nft_address_contract %></li>
+				<li><strong>Token:</strong> <%= @article.nft_token_type %></li>
+				<li><strong>Creator:</strong> <%= @article.nft_property_creator %></li>
+				<li><strong>Year:</strong> <%= @article.nft_property_year %></li>
+				<li><strong>Place:</strong> <%= @article.nft_property_place %></li>
+				<li><strong>Story:</strong> <%= @article.nft_property_story_name %></li>
+				<li><strong>Position in Story:</strong> <%= @article.nft_property_story_position %></li>
+				<li><strong>Buy:</strong> <%= link_to "Rarible", "https://rarible.com/token/" + @article.nft_link_rarible %> | <%= link_to "OpenSea", "https://opensea.io/assets/" + @article.nft_link_opensea %></li>
+			</ul>
+		</p>
+		<% else end %>
+
 <%# INDIVIDUAL TWEETS OR PHOTO ESSAY IMAGES FOR THE ARTICLE %>
 <% if @articletweets.present? %>
 	<% if !["Notes", "Apuntes", "Photos", "Fotos"].include?(@article.type.name) %>

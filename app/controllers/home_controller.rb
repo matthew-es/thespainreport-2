@@ -1,4 +1,7 @@
 class HomeController < ApplicationController
+	def test
+	end
+	
 	def index
 		set_language_frame(1, nil)
 		set_status(current_user) unless current_user.nil?

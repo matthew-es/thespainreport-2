@@ -70,6 +70,10 @@ class ArticlesController < ApplicationController
 		
 		render 'articles/show'
 	end
+	
+	def nft
+		@article = Article.find_by(id: params[:nft_id])
+	end
 
 	# GET /articles/1
 	# GET /articles/1.json
@@ -345,7 +349,13 @@ class ArticlesController < ApplicationController
 	private
 		# Use callbacks to share common setup or constraints between actions.
 		def set_article
-			@article = Article.find(params[:id])
+			if params[:nft_id]
+				@article = Article.find_by(nft_number: params[:nft_id])
+			elsif params[:article_id]
+				@article = Article.find_by(id: params[:article_id])
+			else
+				@article = Article.find(params[:id])
+			end
 		end
 
 		# Never trust parameters from the scary internet, only allow the white list through.
@@ -354,7 +364,8 @@ class ArticlesController < ApplicationController
 			:audio_file_episode, :audio_episode_notes, :audio_file_duration, :audio_file_mp3_length, :audio_file_mp3_type, :audio_file_aac_length, :audio_file_aac_type, 
 			:extras_audio_intro, :extras_audio_title, :extras_audios, :extras_notes_teaser, :extras_video_title, :extras_video_intro, :extras_videos, 
 			:short_headline, :headline, :image, :is_breaking, :language_id, :lede, :main_id, :original_id, :status_id, :story_id, :topstory, :type_id, :video,
-			:upload_id, :audio_aac_id, :audio_mp3_id, :extra_audio_aac_id, :extra_audio_mp3_id
+			:upload_id, :audio_aac_id, :audio_mp3_id, :extra_audio_aac_id, :extra_audio_mp3_id,
+			:nft_number, :nft_address_creator, :nft_address_contract, :nft_blockchain, :nft_token_type, :nft_property_creator, :nft_property_year, :nft_property_place, :nft_property_story_name, :nft_property_story_position, :nft_property_rarity, :nft_link_opensea, :nft_link_rarible, :nft_promo_video
 			)
 		end
 end

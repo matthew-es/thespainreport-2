@@ -144,8 +144,13 @@ end	%>
 			<%# TEASER LINKS %>
 			<div class="font-main font-main-normal font-italic margin-top-5">
 				
-				<% if @article.extras_audio_title.present? || @article.extras_video_title.present? || @articlepieces.present? || @article.main.present? %>
+				<% if @article.extras_audio_title.present? || @article.extras_video_title.present? || @articlepieces.present? || @article.main.present? || ["NFT"].include?(@article.type.name) %>
 					<ul class="font-main-small">
+						<% if ["NFT"].include?(@article.type.name) %>
+							<li><strong>This NFT on:</strong> <%= link_to "Rarible", "https://rarible.com/token/" + @article.nft_link_rarible %> | <%= link_to "OpenSea", "https://opensea.io/assets/" + @article.nft_link_opensea %></li>
+						<% else end %>
+						
+						
 						<% if @article.extras_audio_title.present? %>
 							<li><strong>
 								<% case @article.language_id when 1 %>More audio:
@@ -277,6 +282,37 @@ end	%>
 	
 	<%# ARTICLE TEXT %>
 	<%= markdown(@article.body).html_safe %>
+	
+	<% if ["NFT"].include?(@article.type.name) %>
+		<h3>NFT details</h3>
+		<div class="">
+			<ul class="font-main-small">
+				<li><strong>NFT Nº:</strong> <%= @article.nft_number %></li>
+				<li><strong>Rarity:</strong> <%= @article.nft_property_rarity %></li>
+				<li><strong>Blockchain:</strong> <%= @article.nft_blockchain %></li>
+				<li><strong>Creator:</strong> <%= link_to @article.nft_address_creator, "https://etherscan.io/address/" + @article.nft_address_creator %> (thespainreport.eth)</li>
+				<li><strong>Contract:</strong> <%= link_to @article.nft_address_contract, "https://etherscan.io/address/" + @article.nft_address_contract %></li>
+				<li><strong>Token:</strong> <%= @article.nft_token_type %></li>
+				<li><strong>Creator:</strong> <%= @article.nft_property_creator %></li>
+				<li><strong>Year:</strong> <%= @article.nft_property_year %></li>
+				<li><strong>Place:</strong> <%= @article.nft_property_place %></li>
+				<li><strong>Story:</strong> <%= @article.nft_property_story_name %></li>
+				<li><strong>Position in Story:</strong> <%= @article.nft_property_story_position %></li>
+				<li><strong>Buy:</strong> <%= link_to "Rarible", "https://rarible.com/token/" + @article.nft_link_rarible %> | <%= link_to "OpenSea", "https://opensea.io/assets/" + @article.nft_link_opensea %></li>
+			</ul>
+		</div>
+		
+		<h3>NFT story</h3>
+		<% if @article.nft_promo_video.present? %>
+			<div class="video-wrapper">
+				<% if @article.video.match(/^[0-9]+$/) %>
+					<%= content_tag(:iframe, nil, frameborder: 0, src: "https://player.vimeo.com/video/#{@article.nft_promo_video}?quality=720p", allowfullscreen: true) %>
+				<% else %> 
+					<%= content_tag(:iframe, nil, frameborder: 0, src: "//www.youtube.com/embed/#{@article.nft_promo_video}?rel=0&amp;showinfo=0", allowfullscreen: true) %>
+				<% end %>
+			</div>
+		<% else end %>
+	<% else end %>
 	
 	
 	<% if false %>

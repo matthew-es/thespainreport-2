@@ -28,6 +28,7 @@
 	end
 	
 	root 'home#index'
+	get 'test' => 'home#test'
 	get 'repeat_payments' => 'payments#repeat_payments'
 	
 	get 'live' => 'articles#live'
@@ -65,6 +66,8 @@
 		end
 	end
 	
+	get 'nft/:nft_id' => 'articles#show'
+
 	get 'pay', to: redirect('value/pay')
 	get 'pay/:slug', to: redirect { |path, req| "value/#{path[:slug]}" }
 	get 'contribute', to: redirect('value/contribute')
