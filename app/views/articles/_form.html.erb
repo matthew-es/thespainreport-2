@@ -12,7 +12,7 @@
 		</div>
 	<% end %>
 
-	<div class="padding-5 margin-bottom-10 align-right" style="background-color:#<%= @article.status.colorbackground unless @article.status.nil? %>; color: #<%= @article.status.colortext unless @article.status.nil? %>;">
+	<div class="padding-5 margin-bottom-10 align-left" style="background-color:#<%= @article.status.colorbackground unless @article.status.nil? %>; color: #<%= @article.status.colortext unless @article.status.nil? %>;">
 		<%= f.collection_select :language_id, @languages, :id, :name, {:selected => @article.language_id ? @article.language_id : 1} %>
 		<%= f.collection_select :type_id, @types.where(language_id: @article.language_id || 1), :id, :name, {:selected => @article.type_id ? @article.type_id : 1}, {:style => "width: 160px;"} %>
 		<%= f.text_field :created_at %>
@@ -22,7 +22,7 @@
 		<%= link_to 'Go', @article %>
 	</div>
 	
-	<div class="margin-bottom-10 align-right">
+	<div class="margin-bottom-10 align-left">
 		<strong>Main report:</strong> <%= f.collection_select :main_id, @mains.where(language_id: @article.language_id || 1), :id, :headline, {include_blank: true, :selected => @article.main_id}, {:style => "width: 190px;"} %>
 		<strong>Translation of:</strong> <%= f.collection_select :original_id, @translationof, :id, :headline, {include_blank: true, :selected => @article.original_id}, {:style => "width: 190px;"} %>
 		<strong>Frame:</strong> <%= f.collection_select :frame_id, @frames.where(language_id: @article.language_id || 1), :id, :emotional_quest_action, {include_blank: true, :selected => @article.frame_id}, {:style => "width: 190px;"}  %>

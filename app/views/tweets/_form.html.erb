@@ -16,7 +16,14 @@
 	<div class="margin-bottom-10">
 		<strong>Previous tweet:</strong> <%= f.collection_select :previous_id, @previoustweets, :id, proc {|st| st.message.truncate(70)}, {include_blank: true, :selected => @tweet.previous_id}, {:style => "width: 380px;"} %>
 		<% if false %><%= f.select :email_to, options_for_select([["Do not send", "none"], ["Test to M", "test"], ["Send email", "alert"]]) %><% end %>
-		
+	
+		<strong>Article:</strong> <%= f.collection_select :article_id, @articles, :id, :short_headline, {include_blank: true, :selected => @tweet.article_id}, {:style => "width: 200px;"} %>
+		<% if @tweet.article.present? %>
+			| <%= link_to "Link", @tweet.article %>
+		<% end %>
+		| <%= f.select :send_tweet, options_for_select([["Do not send", "none"], ["Send tweet", "send"]]) %>
+		<%= f.submit :id => "submit-button" %>
+	
 	</div>
 	
 	<div class="background-color-yellow padding-10 margin-bottom-10">
@@ -87,13 +94,7 @@
 			</div>
 		<% end %>
 		
-		<strong>Article:</strong> <%= f.collection_select :article_id, @articles, :id, :short_headline, {include_blank: true, :selected => @tweet.article_id}, {:style => "width: 200px;"} %>
-		<% if @tweet.article.present? %>
-			| <%= link_to @tweet.article.short_headline, @tweet.article %>
-		<% end %>
-		| Covid<%= f.check_box :discord_covid %> Politics<%= f.check_box :discord_politics %> Economy<%= f.check_box :discord_economy %> Media<%= f.check_box :discord_media %>
-		| <%= f.select :send_tweet, options_for_select([["Do not send", "none"], ["Send tweet", "send"]]) %>
-		<%= f.submit :id => "submit-button" %>
+		
 		
 	</div>
 	
