@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_09_193059) do
+ActiveRecord::Schema.define(version: 2022_02_12_190552) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -112,6 +112,8 @@ ActiveRecord::Schema.define(version: 2022_02_09_193059) do
     t.string "nft_promo_video"
     t.string "nft_address_creator_name"
     t.string "nft_address_contract_name"
+    t.string "nft_original_price"
+    t.string "nft_royalties"
     t.index ["frame_id"], name: "index_articles_on_frame_id"
     t.index ["language_id"], name: "index_articles_on_language_id"
     t.index ["main_id"], name: "index_articles_on_main_id"

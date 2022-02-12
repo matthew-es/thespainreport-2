@@ -366,7 +366,8 @@ class ArticlesController < ApplicationController
 			:short_headline, :headline, :image, :is_breaking, :language_id, :lede, :main_id, :original_id, :status_id, :story_id, :topstory, :type_id, :video,
 			:upload_id, :audio_aac_id, :audio_mp3_id, :extra_audio_aac_id, :extra_audio_mp3_id,
 			:nft_number, :nft_address_creator, :nft_address_contract, :nft_blockchain, :nft_token_type, :nft_property_creator, :nft_property_year, :nft_property_place, 
-			:nft_property_story_name, :nft_property_story_position, :nft_property_rarity, :nft_link_opensea, :nft_link_rarible, :nft_promo_video, :nft_address_creator_name, :nft_address_contract_name
+			:nft_property_story_name, :nft_property_story_position, :nft_property_rarity, :nft_link_opensea, :nft_link_rarible, :nft_promo_video, :nft_address_creator_name, :nft_address_contract_name,
+			:nft_original_price, :nft_royalties
 			)
 		end
 end

@@ -147,6 +147,7 @@ end	%>
 				<% if @article.extras_audio_title.present? || @article.extras_video_title.present? || @articlepieces.present? || @article.main.present? || ["NFT"].include?(@article.type.name) %>
 					<ul class="font-main-small">
 						<% if ["NFT"].include?(@article.type.name) %>
+							<li><strong>NFT Nº:</strong> <%= @article.nft_number %></li>
 							<li><strong>This NFT on:</strong> <%= link_to "Rarible", "https://rarible.com/token/" + @article.nft_link_rarible %> | <%= link_to "OpenSea", "https://opensea.io/assets/" + @article.nft_link_opensea %></li>
 						<% else end %>
 						
@@ -209,6 +210,11 @@ end	%>
 
 
 <%# MAIN VIDEO, AUDIO OR IMAGE %>
+<% if ["NFT"].include?(@article.type.name) %>
+	<h3>NFT: <%= @article.headline %></h3>
+<% else end %>
+
+
 <% if @article.video.present? %>
 	<div class="video-wrapper">
 		<% if @article.video.match(/^[0-9]+$/) %>
@@ -290,19 +296,25 @@ end	%>
 				<li><strong>NFT Nº:</strong> <%= @article.nft_number %></li>
 				<li><strong>Rarity:</strong> <%= @article.nft_property_rarity %></li>
 				<li><strong>Buy:</strong> <%= link_to "Rarible", "https://rarible.com/token/" + @article.nft_link_rarible, :title => "Buy " + @article.headline + " on Rarible" %> | <%= link_to "OpenSea", "https://opensea.io/assets/" + @article.nft_link_opensea, :title => "Buy " + @article.headline + " on OpenSea" %></li>
+				<li><strong>Original price:</strong> <%= @article.nft_original_price %></li>
 			</ul>
 			<ul class="font-main-small">
 				<li><strong>Story:</strong> <%= @article.nft_property_story_name %></li>
 				<li><strong>Position in Story:</strong> <%= @article.nft_property_story_position %></li>
 				<li><strong>Year:</strong> <%= @article.nft_property_year %></li>
 				<li><strong>Place:</strong> <%= @article.nft_property_place %></li>
-				<li><strong>Creator:</strong> <%= @article.nft_property_creator %></li>
+				<li><strong>Creator:</strong> <%= @article.nft_property_creator %> (Twitter: @matthewbennett)</li>
 			</ul>
 			<ul class="font-main-small">	
 				<li><strong>Blockchain:</strong> <%= @article.nft_blockchain %></li>
 				<li><strong>Token:</strong> <%= @article.nft_token_type %></li>
+				<li><strong>Royalties:</strong> <%= @article.nft_royalties %></li>
 				<li><strong>Origin:</strong> <%= link_to @article.nft_address_creator, "https://etherscan.io/address/" + @article.nft_address_creator %> (<%= @article.nft_address_creator_name %>)</li>
 				<li><strong>Contract:</strong> <%= link_to @article.nft_address_contract, "https://etherscan.io/address/" + @article.nft_address_contract %> (<%= @article.nft_address_contract_name %>)</li>
+			</ul>
+			<ul class="font-main-small">
+				<li><strong>Rights:</strong> &#169;<%= Time.new.year %> Matthew Bennett. Not commercial rights. I might issue prints in the future but this NFT is the original.</li>
+				<li><strong>Content authenticity:</strong> Original image signed by Matthew Bennett with the same ETH address as the NFT origin address. You can <a href="https://verify.contentauthenticity.org/inspect">verify it here</a>.</li>
 			</ul>
 		</div>
 		
@@ -316,6 +328,9 @@ end	%>
 				<% end %>
 			</div>
 		<% else end %>
+		
+
+		<h3></h3>
 	<% else end %>
 	
 	
