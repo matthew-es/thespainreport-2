@@ -60,14 +60,14 @@ end %>
 				<div class="">
 					<div id="customer_email" name="customer_email" type="text" data-email="<%= current_user.email %>" class="font-main-small">
 						<% case @language when 1 %>- Your email: 
-						<% when 2 %>Su correo:  
+						<% when 2 %>- Su correo:  
 						<% end %>
 						<strong><%= current_user.email %></strong>
 					</div>
 					
 					<div class="margin-top-5 margin-right-5 float-left font-main-small">
 						<% case @language when 1 %>- Your status: 
-						<% when 2 %>Su correo:  
+						<% when 2 %>- Su correo:  
 						<% end %>
 						
 					</div>
@@ -79,7 +79,7 @@ end %>
 					
 					<div class="margin-top-5 font-main-small">
 						<% case @language when 1 %>- Your current subscription:
-						<% when 2 %>Su suscripción actual: 
+						<% when 2 %>- Su suscripción actual: 
 						<% end %>
 						
 						<% if !@subscription.nil? %>
@@ -103,6 +103,26 @@ end %>
 							<% end %>
 						<% end %>	
 					
+					<div class="margin-top-5 font-main-small">
+						<% case @language when 1 %>- You can read until: 
+						<% when 2 %>- Puede leer hasta el:  
+						<% end %>
+						<%= current_user.can_read_date.strftime("%d/%m/%Y") %>
+					</div>
+					
+					<div class="margin-top-10 font-main-small">
+						<strong>
+							<% if @language == 1 %>
+								<% if [3].include?(@user.status) %>Subscribe now to read this column:
+								<% elsif [1, 2].include?(@user.status) %>Increase your subscription or make an additional contribution:
+								<% else end %>
+							<% elsif @language == 2 %>
+								<% if [3].include?(@user.status) %>Suscríbase ahora para leer esta columna...
+								<% elsif [1, 2].include?(@user.status) %>Aumente su suscripción o haga una contribución adicional:
+								<% else end %>
+							<% else end %>
+						</strong>
+					</p>
 					
 					</div>					
 				</div>
