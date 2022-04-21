@@ -48,14 +48,71 @@ end %>
 	
 		<%# DISPLAY INTRO... %>
 		<div class="font-main font-main-normal">
-			<p>
+			<p class="margin-bottom-10">
 				<%= @frame.short_story %>
 			</p>
 		</div>
 		
+		<%# IS USER ALREADY LOGGED IN? DO THEY HAVE A SUBSCRIPTION ON TSR? %>
+			<% if current_user.nil? %>
+			
+			<% else %>
+				<div class="">
+					<div id="customer_email" name="customer_email" type="text" data-email="<%= current_user.email %>" class="font-main-small">
+						<% case @language when 1 %>- Your email: 
+						<% when 2 %>Su correo:  
+						<% end %>
+						<strong><%= current_user.email %></strong>
+					</div>
+					
+					<div class="margin-top-5 margin-right-5 float-left font-main-small">
+						<% case @language when 1 %>- Your status: 
+						<% when 2 %>Su correo:  
+						<% end %>
+						
+					</div>
+					<div class="margin-top-8">
+						<%= render "users/user_labels" %>
+					</div>
+	
+					<div class="clear"></div>
+					
+					<div class="margin-top-5 font-main-small">
+						<% case @language when 1 %>- Your current subscription:
+						<% when 2 %>Su suscripción actual: 
+						<% end %>
+						
+						<% if !@subscription.nil? %>
+							<% if current_user.account.total_support.nil? %>
+								<% case @language when 1 %>€0.00
+								<% when 2 %>0,00
+								<% end %>
+							<% else %>
+								<% case @language when 1 %><%= number_to_currency((current_user.account.total_support/100.to_f), unit: "€") %>
+								<% when 2 %><%= number_to_currency((current_user.account.total_support/100.to_f), unit: "", separator: ",", delimiter: ".") %> euros
+								<% end %>
+							<% end %>
+		
+							<% case @subscription.payment_period when "month" %><%= monthly_label %>
+							<% when "year" %><%= yearly_label %>
+							<% when "one_time" %><%= one_time_label %>
+							<% end %>
+						<% else %>
+							<% case @language when 1 %>€0.00 / month
+							<% when 2 %>0,00 euros / mes
+							<% end %>
+						<% end %>	
+					
+					
+					</div>					
+				</div>
+				
+				
+			<% end %>
+		
 		
 		<%# DISPLAY OPTION BUTTONS... %>
-		<div class="width-98 margin-bottom-10">
+		<div class="width-98 margin-top-20">
 			<div class="width-15 float-left margin-right-5 mobile-width">
 				<div class="">
 					<p class="align-centre line-100">
@@ -97,54 +154,6 @@ end %>
 		<%# DISPLAY FORM INPUTS... %>
 		<div id="ajax_form_one">
 			<div class="margin-bottom-10">
-			
-			<%# IS USER ALREADY LOGGED IN? DO THEY HAVE A SUBSCRIPTION ON TSR? %>
-			<% if current_user.nil? %>
-			
-			<% else %>
-				<div id="customer_email" name="customer_email" type="text" data-email="<%= current_user.email %>" class="font-main-small float-left margin-right-5">
-					<% case @language when 1 %>Hi, 
-					<% when 2 %>Hola,  
-					<% end %>
-					<strong><%= current_user.email %></strong>
-				</div>
-				<%= render "users/user_labels" %>
-
-				<div class="clear"></div>
-				
-				<% if !@subscription.nil? %>
-					<div class="margin-top-5">
-						<ul class="font-main-small" style="margin-inline-end: 0;">
-							<li>
-								<% case @language when 1 %>Your current <%= @frame.money_word_singular %> is
-								<% when 2 %>Su <%= @frame.money_word_singular %> actual es 
-								<% end %>
-			
-								<strong>
-									<% if current_user.account.total_support.nil? %>
-										<% case @language when 1 %>€0.00
-										<% when 2 %>0,00
-										<% end %>
-									<% else %>
-										<% case @language when 1 %><%= number_to_currency((current_user.account.total_support/100.to_f), unit: "€") %>
-										<% when 2 %><%= number_to_currency((current_user.account.total_support/100.to_f), unit: "", separator: ",", delimiter: ".") %> euros
-										<% end %>
-									<% end %>
-								</strong>
-			
-								<% case @subscription.payment_period when "month" %>
-									<%= monthly_label %>
-								<% when "year" %>
-									<%= yearly_label %>
-								<% when "one_time" %>
-									<%= one_time_label %>
-								<% end %>
-							</li>
-						</ul>
-					</div>
-				<% else end %>
-			<% end %>
-			
 			
 			<%# THE CONTRIBUTION AMOUNT AND PERIOD... %>
 			<div class="">
@@ -337,7 +346,9 @@ end %>
 		
 		<p class="margin-bottom-10 font-main-small">
 			<%= render 'layouts/links_crypto' %>
+			<% if false %>
 			<br /><iframe id="nftvideo" type="text/html" width="200" height="200" src="https://player.vimeo.com/video/640163356?quality=4k&autoplay=1&controls=false&loop=1&muted=1&playsinline=1" frameborder="0"></iframe>
+			<% end %>
 		</p>
 	
 	</div>

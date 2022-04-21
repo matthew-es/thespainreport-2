@@ -321,21 +321,22 @@
 			<div class="clear"></div>
 		</div>
 		
-		<% if false %>
-			<div class="padding-top-10 margin-bottom-10 admin-border-split">
-				<div class="float-left padding-top-5 margin-right-5 mobile-width">
-					<strong><%= can_read_title %>:</strong>	
-				</div>
-				<div class="float-left mobile-width">
-					<% if current_user.status == 1 %>
-				 		<%= form.datetime_field :can_read_date, :size => '35' %>
-				 	<% else %>
-				 		<%= form.datetime_field :can_read_date, :size => '35', disabled: true %>
-				 	<% end %>
-				</div>
-				<div class="clear"></div>
+		
+		<div class="padding-top-10 margin-bottom-10 admin-border-split">
+			<div class="float-left padding-top-5 margin-right-5 mobile-width">
+				<strong><%= can_read_title %>:</strong>	
 			</div>
-			
+			<div class="float-left mobile-width">
+				<% if current_user.status == 1 %>
+			 		<%= form.datetime_field :can_read_date, :size => '35' %>
+			 	<% else %>
+			 		<%= form.datetime_field :can_read_date, :size => '35', disabled: true %>
+			 	<% end %>
+			</div>
+			<div class="clear"></div>
+		</div>
+		
+		<% if false %>	
 			<div class="">
 				<div class="float-left padding-top-5 margin-right-5 mobile-width">
 					<strong><%= access_level_title %>:</strong>	
@@ -350,6 +351,7 @@
 	<% end %>
 </div>
 
+<% if false %>
 <div class="patrons-background padding-20 margin-bottom-20">
 	<%= form_with(model: user, local: true) do |form| %>
 		<div class="margin-bottom-10">
@@ -388,6 +390,7 @@
 		</div>
 	<% else end %>
 </div>
+<% end %>
 
 <div class="patrons-background padding-20 margin-bottom-20">
 	<%= form_with model: @account, local: true do |form| %>

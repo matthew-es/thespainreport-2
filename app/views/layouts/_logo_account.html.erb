@@ -38,7 +38,9 @@
 				
 				<% else %>
 					<div class="patrons-background padding-10 no-print">
-						<%= render "users/user_labels" %>
+						<div class="margin-top-3 float-left">
+							<%= render "users/user_labels" %>
+						</div>
 						
 						<div class="float-left">
 							<% case @status when 1 %>

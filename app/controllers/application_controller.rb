@@ -39,7 +39,9 @@ class ApplicationController < ActionController::Base
 			@reader_trial = (@status == 3 && @can_read_date > Time.now)
 			@reader_trial_over = @status == 3 && @can_read_date < Time.now
 			@reader = @reader_trial || @reader_trial_over
-		
+			
+			@subscription_good = (@user.can_read_date > Time.now)
+					
 			@read_date_good = (@can_read_date > Time.now)
 			@get_high_res = @admin || @super_patron || @patron_25 || @patron_10 || @reader_trial
 			@get_prints = @admin || @super_patron || @patron_25

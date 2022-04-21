@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_12_190552) do
+ActiveRecord::Schema.define(version: 2022_04_20_191214) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "account_status"
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 2022_02_12_190552) do
     t.integer "type_id"
     t.integer "status_id"
     t.boolean "topstory"
-    t.boolean "is_breaking"
+    t.boolean "premium"
     t.integer "language_id"
     t.integer "original_id"
     t.integer "frame_id"

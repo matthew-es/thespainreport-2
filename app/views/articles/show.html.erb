@@ -287,7 +287,33 @@ end	%>
 	
 	
 	<%# ARTICLE TEXT %>
-	<%= markdown(@article.body).html_safe %>
+	
+			<% if @article.premium == true %>
+				<% if current_user.nil? %>
+					<%= markdown(truncate(@article.body, length: 500)) %>
+				<% elsif @subscription_good %>
+					<%= markdown(@article.body).html_safe %>
+				<% else %>
+					<%= markdown(truncate(@article.body, length: 500)) %>
+					<p>
+						<% if @language == 1 %>
+							<a href="https://www.thespainreport.es/value">
+								<% if [3].include?(@user.status) %>...Subscribe now to read this column...
+								<% elsif [1, 2].include?(@user.status) %>...Fix your subscription to read this column here...
+								<% else end %>
+							</a>
+						<% elsif @language == 2 %>
+							<a href="https://www.thespainreport.es/valor">
+								<% if [3].include?(@user.status) %>...Suscríbase ahora para leer esta columna...
+								<% elsif [1, 2].include?(@user.status) %>...Arregle su suscripción para leer esta columna aquí...
+								<% else end %>
+							</a>
+						<% else end %>	
+					</p>
+				<% end %>
+			<% else %>
+				<%= markdown(@article.body).html_safe %>
+			<% end %>
 	
 	<% if ["NFT"].include?(@article.type.name) %>
 		<h3>NFT details</h3>
@@ -414,9 +440,11 @@ end	%>
 	<% end %>
 	
 	<%# PLEASE JOIN NEWSLETTER...  %>
+	<% if false %>
 	<% if current_user.nil? %>
 		<%= render "users/new_reader_form" %>
 	<% else end %>
+	<% end %>
 	
 	<%= render "payments/pay" %>
 	

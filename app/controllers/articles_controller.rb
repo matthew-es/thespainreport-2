@@ -363,7 +363,7 @@ class ArticlesController < ApplicationController
 			params.require(:article).permit(:alertmessage, :audio_file_mp3, :audio_file_aac, :audio_intro, :body, :created_at, :frame_id, :extras_audio_file, 
 			:audio_file_episode, :audio_episode_notes, :audio_file_duration, :audio_file_mp3_length, :audio_file_mp3_type, :audio_file_aac_length, :audio_file_aac_type, 
 			:extras_audio_intro, :extras_audio_title, :extras_audios, :extras_notes_teaser, :extras_video_title, :extras_video_intro, :extras_videos, 
-			:short_headline, :headline, :image, :is_breaking, :language_id, :lede, :main_id, :original_id, :status_id, :story_id, :topstory, :type_id, :video,
+			:short_headline, :headline, :image, :premium, :language_id, :lede, :main_id, :original_id, :status_id, :story_id, :topstory, :type_id, :video,
 			:upload_id, :audio_aac_id, :audio_mp3_id, :extra_audio_aac_id, :extra_audio_mp3_id,
 			:nft_number, :nft_address_creator, :nft_address_contract, :nft_blockchain, :nft_token_type, :nft_property_creator, :nft_property_year, :nft_property_place, 
 			:nft_property_story_name, :nft_property_story_position, :nft_property_rarity, :nft_link_opensea, :nft_link_rarible, :nft_promo_video, :nft_address_creator_name, :nft_address_contract_name,
