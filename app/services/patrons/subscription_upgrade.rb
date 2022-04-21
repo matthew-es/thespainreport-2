@@ -19,8 +19,6 @@ module Patrons
         puts "UPDATED NEW BASE AMOUNT IS: " + subscription.plan_amount.to_s
         puts "UPDATED NEW TAX AMOUNT IS: " + subscription.vat_amount.to_s
         puts "UPDATED NEW TOTAL AMOUNT IS: " + subscription.total_amount.to_s
-        
-        Patrons::SubscriptionUpdateUsers.process(subscription, new_base_amount)
             
         subscription
 

@@ -21,9 +21,6 @@ class ApplicationController < ActionController::Base
 			@role = @user.account_role
 			@subscription = Subscription.find(@user.account.subscriptions.last.id) unless @user.account.subscriptions.blank?
 			
-			@reactivate = reactivate_subscription_payment_url(@user.account.subscriptions.last.reactivate_token) unless @user.account.subscriptions.blank? || @user.account.subscriptions.last.reactivate_token.nil?
-			@increase = increase_payment_url(@user.account.subscriptions.last.reactivate_token) unless @user.account.subscriptions.blank? || @user.account.subscriptions.last.reactivate_token.nil?
-			
 			@admin = @status == 1
 			
 			@super_patron = @status == 2 && (@level > 2500)

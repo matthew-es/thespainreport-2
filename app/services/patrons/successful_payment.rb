@@ -8,7 +8,7 @@ module Patrons
             puts "SUCCESSFUL PAYMENT SERVICE -- PAYMENT UPDATED"
             
             if payment.id == payment.account.payments.last.id
-            	payment.account.update(stripe_payment_method: payment_method, total_support: payment.total_amount)
+            	payment.account.update(stripe_payment_method: payment_method, total_support: payment.subscription.plan_amount)
             end
 
             puts "SUCCESSFUL PAYMENT SERVICE -- TIME TO CREATE INVOICE"
