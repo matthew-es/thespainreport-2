@@ -87,7 +87,7 @@ function checkVatDetails() {
 // Super patrons: check how much is in the box...
 function checkAmount() {
 	var amount_max = 5000;
-	var amount_min = 1;
+	var amount_min = 10;
 	var amount_vat = 330;
 	var amount = to_check.value;
 	

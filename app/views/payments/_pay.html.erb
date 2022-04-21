@@ -136,35 +136,42 @@ end %>
 			<div class="width-15 float-left margin-right-5 mobile-width">
 				<div class="">
 					<p class="align-centre line-100">
-						<button type="submit" class="choosebutton width-100 font-main-normal" id="price" value="10" onclick="setAmount(this.value); checkAmount();"><%= number_to_currency((10), unit: "€") %></button>
+						<button type="submit" class="choosebutton width-100 font-main-normal" id="price" value="10" onclick="setAmount(this.value); checkAmount();"><%= number_to_currency((10), precision: 0, unit: "€") %></button>
 					</p>
 				</div>
 			</div>
 			<div class="width-15 float-left margin-right-5 mobile-width">
 				<div class="">
 					<p class="align-centre line-100">
-						<button type="submit" class="choosebutton width-100 font-main-normal" id="price" value="25" onclick="setAmount(this.value); checkAmount();"><%= number_to_currency((25), unit: "€") %></button>
+						<button type="submit" class="choosebutton width-100 font-main-normal" id="price" value="25" onclick="setAmount(this.value); checkAmount();"><%= number_to_currency((25), precision: 0, unit: "€") %></button>
 					</p>
 				</div>
 			</div>
 			<div class="width-15 float-left margin-right-5 mobile-width">
 				<div class="">
 					<p class="align-centre line-100">
-						<button type="submit" class="choosebutton width-100 font-main-normal" id="price" value="50" onclick="setAmount(this.value); checkAmount();"><%= number_to_currency((50), unit: "€") %></button>
+						<button type="submit" class="choosebutton width-100 font-main-normal" id="price" value="50" onclick="setAmount(this.value); checkAmount();"><%= number_to_currency((50), precision: 0, unit: "€") %></button>
 					</p>
 				</div>
 			</div>
 			<div class="width-15 float-left margin-right-5 mobile-width">
 				<div class="">
 					<p class="align-centre line-100">
-						<button type="submit" class="choosebutton width-100 font-main-normal" id="price" value="100" onclick="setAmount(this.value); checkAmount();"><%= number_to_currency((100), unit: "€") %></button>
+						<button type="submit" class="choosebutton width-100 font-main-normal" id="price" value="100" onclick="setAmount(this.value); checkAmount();"><%= number_to_currency((100), precision: 0, unit: "€") %></button>
 					</p>
 				</div>
 			</div>
 			<div class="width-15 float-left margin-right-5 mobile-width">
 				<div class="">
 					<p class="align-centre line-100">
-						<button type="submit" class="choosebutton width-100 font-main-normal" id="price" value="500" onclick="setAmount(this.value); checkAmount();"><%= number_to_currency((500), unit: "€") %></button>
+						<button type="submit" class="choosebutton width-100 font-main-normal" id="price" value="500" onclick="setAmount(this.value); checkAmount();"><%= number_to_currency((500), precision: 0, unit: "€") %></button>
+					</p>
+				</div>
+			</div>
+			<div class="width-15 float-left margin-right-5 mobile-width">
+				<div class="">
+					<p class="align-centre line-100">
+						<button type="submit" class="choosebutton width-100 font-main-normal" id="price" value="1000" onclick="setAmount(this.value); checkAmount();"><%= number_to_currency((1000), precision: 0, unit: "€") %></button>
 					</p>
 				</div>
 			</div>
@@ -177,7 +184,7 @@ end %>
 			
 			<%# THE CONTRIBUTION AMOUNT AND PERIOD... %>
 			<div class="">
-				<input type="number" id="plan_amount" min="5" step="5" max="2000" value="25" onclick="checkEmail()" onselect="checkEmail()" class="StripeElement stripe_email width-15 mobile-width-half">
+				<input type="number" id="plan_amount" min="10" step="5" max="2000" value="25" onclick="checkEmail()" onselect="checkEmail()" class="StripeElement stripe_email width-15 mobile-width-half">
 				
 				euros
 				
@@ -194,8 +201,8 @@ end %>
 				</select>
 				
 				<span id="payment_form_errors" class="color-red background-light-red hide">
-					<% case @language when 1 %>...must be between €1 and €5,000 
-					<% when 2 %>...debe estar entre 1 y 5.000 euros
+					<% case @language when 1 %>...must be between €10 and €5,000 
+					<% when 2 %>...debe estar entre 10 y 5.000 euros
 					<% end %>
 				</span>
 			</div>
