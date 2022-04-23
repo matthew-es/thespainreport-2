@@ -87,7 +87,15 @@ function checkVatDetails() {
 // Super patrons: check how much is in the box...
 function checkAmount() {
 	var amount_max = 5000;
-	var amount_min = 10;
+	
+	var period = document.getElementById("payment_period_for_server").value
+		if (period === "month" || "one_time"){
+			var amount_min = 10;
+		}
+		
+		if (period === "year"){
+			var amount_min = 120;
+		}
 	var amount_vat = 330;
 	var amount = to_check.value;
 	
@@ -116,7 +124,7 @@ function checkAmount() {
 		document.getElementById("card-button").disabled = true;
 	}
 	
-	document.getElementById("plan_amount_for_server").value = (amount * 100);
+	document.getElementById("plan_amount_for_server").value = (Math.trunc(amount) * 100);
 	document.getElementById("payment_period_for_server").value = document.getElementById("select_payment_period").value;
 }
 

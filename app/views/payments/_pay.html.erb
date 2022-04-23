@@ -8,9 +8,9 @@
 	confirm_label = "Confirm"
 	reconfirm_label = "Re-confirm"
 	
-	monthly_label = "each month"
-	yearly_label = "each year"
-	one_time_label = "one-time payment"
+	monthly_label = "/month"
+	yearly_label = "/year"
+	one_time_label = "/one-time"
 when 2
     your_email_label = "Su correo"
 	amount_label = "Cantidad"
@@ -21,9 +21,9 @@ when 2
 	confirm_label = "Confirmar"
 	reconfirm_label = "Reconfirmar"
 	
-	monthly_label = "al mes"
-	yearly_label = "al año"
-	one_time_label = "en pago único"
+	monthly_label = "/mes"
+	yearly_label = "/año"
+	one_time_label = "/único"
 end %>
 
 
@@ -78,25 +78,37 @@ end %>
 					<div class="clear"></div>
 					
 					<div class="margin-top-5 font-main-small">
-						<% case @language when 1 %>- Your current subscription:
-						<% when 2 %>- Su suscripción actual: 
+						<% case @language when 1 %>- Your current subscription(s):
+						<% when 2 %>- Su(s) suscripción(es) actual(es): 
 						<% end %>
 						
 						<% if !@subscription.nil? %>
 							<% if current_user.account.total_support.nil? %>
-								<% case @language when 1 %>€0.00
-								<% when 2 %>0,00
+								<% case @language when 1 %>€0.00/month
+								<% when 2 %>0,00 euros al mes
 								<% end %>
 							<% else %>
-								<% case @language when 1 %><%= number_to_currency((current_user.account.total_support/100.to_f), unit: "€") %>
-								<% when 2 %><%= number_to_currency((current_user.account.total_support/100.to_f), unit: "", separator: ",", delimiter: ".") %> euros
-								<% end %>
 							<% end %>
-		
-							<% case @subscription.payment_period when "month" %><%= monthly_label %>
-							<% when "year" %><%= yearly_label %>
-							<% when "one_time" %><%= one_time_label %>
-							<% end %>
+							
+							
+							<%= current_user.account.subscriptions.map { |s| 
+							
+							case @language 
+								when 1 then subscription_amount = number_to_currency((s.plan_amount/100.to_f), unit: "€")
+								when 2 then subscription_amount = number_to_currency((s.plan_amount/100.to_f), unit: "€", separator: ",", delimiter: ".")
+							end
+							
+							case s.payment_period
+								when "month" then period_label = "#{monthly_label}"
+								when "year" then period_label = "#{yearly_label}"
+								when "one_time" then period_label = "#{one_time_label}"
+							end
+								
+							subscription_amount + period_label
+								
+							}.join(', ') %>
+							
+							
 						<% else %>
 							<% case @language when 1 %>€0.00 / month
 							<% when 2 %>0,00 euros / mes
@@ -201,8 +213,8 @@ end %>
 				</select>
 				
 				<span id="payment_form_errors" class="color-red background-light-red hide">
-					<% case @language when 1 %>...must be between €10 and €5,000 
-					<% when 2 %>...debe estar entre 10 y 5.000 euros
+					<% case @language when 1 %>Min: €10/month, €10/one-time or €120/year
+					<% when 2 %>Min 10 euros/mes o pago único, 120 euros/año
 					<% end %>
 				</span>
 			</div>

@@ -246,7 +246,7 @@ td {font-family: Arial; font-size: 13px; vertical-align: top; padding: 5px;}
 
 .admin-table {margin-top: 10px;}
 .admin-table th {padding: 0px 12px 0px 0px;}
-.admin-table td {padding: 5px 12px 0px 0px;}
+.admin-table td {padding: 5px 12px 0px 0px; vertical-align: middle;}
 
 /* Mobile placeholders */
 .mobile-100 {}
