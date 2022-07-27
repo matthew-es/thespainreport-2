@@ -1,6 +1,6 @@
 <%= render "articles/admintop" %>
 	
-	<h3>Blog</h3>
+	<h3>Sales Conversation</h3>
 	<table>
 	<% @blog.each do |article| %>
 		<%= render "articles/admin_articles_table", {article: article} %>
@@ -9,18 +9,36 @@
 
 	<hr />
 
-	<h3>Newsletter, notes, podcast, video blog</h3>
+	<h3>National Analysis</h3>
 	<table width="100%">
-	<% @daily.each do |article| %>
+	<% @analysis.each do |article| %>
 		<%= render "articles/admin_articles_table", {article: article} %>
 	<% end %>
 	</table>
 	
 	<hr />
 	
-	<h3>In-depth & NFTs</h3>
+	<h3>Spain Dispatches</h3>
+	<table width="100%">
+	<% @dispatch.each do |article| %>
+		<%= render "articles/admin_articles_table", {article: article} %>
+	<% end %>
+	</table>
+	
+	<hr />
+	
+	<h3>Photos & NFTs</h3>
 	<table>
-	<% @depth.each do |article| %>
+	<% @photo.each do |article| %>
+		<%= render "articles/admin_articles_table", {article: article} %>
+	<% end %>
+	</table>
+	
+	<hr />
+	
+	<h3>Long-form</h3>
+	<table>
+	<% @long.each do |article| %>
 		<%= render "articles/admin_articles_table", {article: article} %>
 	<% end %>
 	</table>

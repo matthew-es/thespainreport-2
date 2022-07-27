@@ -34,14 +34,16 @@ class Article < ApplicationRecord
     scope :notvideo, -> {Article.joins(:type).merge(Type.notvideo)}
     scope :videoblog, -> {Article.joins(:type).merge(Type.videoblog)}
     scope :notvideoblog, -> {Article.joins(:type).merge(Type.notvideoblog)}
-    scope :photo, -> {Article.joins(:type).merge(Type.photo)}
+    
     scope :notphoto, -> {Article.joins(:type).merge(Type.notphoto)}
     scope :notes, -> {Article.joins(:type).merge(Type.notes)}
     scope :notices, -> {Article.joins(:type).merge(Type.notices)}
     scope :live, -> {Article.joins(:type).merge(Type.live)}
     
-    scope :daily, -> {Article.joins(:type).merge(Type.daily)}
-    scope :depth, -> {Article.joins(:type).merge(Type.depth)}
+    scope :analysis, -> {Article.joins(:type).merge(Type.analysis)}
+    scope :dispatch, -> {Article.joins(:type).merge(Type.dispatch)}
+    scope :photo, -> {Article.joins(:type).merge(Type.photo)}
+    scope :long, -> {Article.joins(:type).merge(Type.long)}
     scope :blog, -> {Article.joins(:type).merge(Type.blog)}
     
     scope :newsletter, -> {Article.joins(:type).merge(Type.newsletter)}

@@ -28,9 +28,10 @@ class ArticlesController < ApplicationController
 		elsif current_user.status == 1
 			@free = Article.nottruth.notpatrons.notaudioreport.notaudiointerview.nottranslation.notvideo.notphoto.notstory.order('created_at DESC').limit(20)
 		
-			
-			@daily = Article.daily.nottranslation.order('created_at DESC').limit(10)
-			@depth = Article.depth.nottranslation.order('created_at DESC').limit(10)
+			@analysis = Article.analysis.nottranslation.order('created_at DESC').limit(10)
+			@dispatch = Article.dispatch.nottranslation.order('created_at DESC').limit(10)
+			@photo = Article.photo.nottranslation.order('created_at DESC').limit(10)
+			@long = Article.long.nottranslation.order('created_at DESC').limit(10)
 			@blog = Article.blog.nottranslation.order('created_at DESC').limit(10)
 			
 			@all = Article.all.nottranslation.order('created_at DESC')

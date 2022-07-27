@@ -26,9 +26,9 @@
 <%= render "layouts/logo_account" %>
 
 <div class="margin-top-20">
-	<h3>Newsletter, notes, podcast, video blog</h3>
-		<% if @daily.any? %>
-			<% @daily.each do |article| %>
+	<h3>National Analysis</h3>
+		<% if @analysis.any? %>
+			<% @analysis.each do |article| %>
 				<%= render "articles/index_articles_list_link", {article: article} %>
 			<% end %>
 		<% else %>
@@ -39,11 +39,30 @@
 		<%= render "payments/pay" %>
 	</div>
 	
+	<h3>Spain Dispatches</h3>
+		<% if @dispatch.any? %>
+			<% @dispatch.each do |article| %>
+				<%= render "articles/index_articles_list_link", {article: article} %>
+			<% end %>
+		<% else %>
+			Coming soon....
+		<% end %>
 	
 	<div class="margin-top-30">
-		<h3>In-depth & NFTs</h3>
-		<% if @depth.any? %>
-			<% @depth.each do |article| %>
+		<h3>Photos & NFTs</h3>
+		<% if @photo.any? %>
+			<% @photo.each do |article| %>
+				<%= render "articles/index_articles_list_link", {article: article} %>
+			<% end %>
+		<% else %>
+			Coming soon....
+		<% end %>
+	</div>
+	
+	<div class="margin-top-30">
+		<h3>Long-form</h3>
+		<% if @long.any? %>
+			<% @long.each do |article| %>
 				<%= render "articles/index_articles_list_link", {article: article} %>
 			<% end %>
 		<% else %>

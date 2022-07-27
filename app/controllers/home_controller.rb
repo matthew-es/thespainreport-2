@@ -15,8 +15,10 @@ class HomeController < ApplicationController
 		@free = Article.english.published.nottruth.notstory.notpatrons.notpodcast.notphoto.notvideo.lastfive
 		@truth = Article.english.published.truth.lastfive
 		
-		@daily = Article.english.published.daily.lastten
-		@depth = Article.english.published.depth.lastten
+		@analysis = Article.english.published.analysis.lastten
+		@dispatch = Article.english.published.dispatch.lastten
+		@photo = Article.english.published.photo.lastten
+		@long = Article.english.published.long.lastten
 		@blog = Article.english.published.blog.lastten
 		
 		@rss = Article.published.english.order('created_at DESC')

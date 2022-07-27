@@ -30,8 +30,10 @@ class Type < ApplicationRecord
     scope :notices, -> {where(name: ['Notice', 'Aviso'])}
     scope :live, -> {where(name: ['Live', 'Directo'])}
     
-    scope :daily, -> {where(name: ['Newsletter', 'Boletín', 'Live', 'Directo', 'Notes', 'Apuntes', 'Podcast', 'Video Blog', 'Vídeo Blog'])}
-    scope :depth, -> {where(name: ['Video', 'Vídeo', 'Photos', 'Fotos'])}
+    scope :analysis, -> {where(name: ['Newsletter', 'Boletín', 'Live', 'Directo', 'Notes', 'Apuntes', 'Analysis', 'Análisis'])}
+    scope :dispatch, -> {where(name: ['Dispatch', 'Crónica'])}
+    scope :photo, -> {where(name: ['NFT', 'Photos', 'Fotos'])}
+    scope :long, -> {where(name: ['Long-form'])}
     scope :blog, -> {where(name: ['Blog'])}
     
     scope :english, -> {where(language_id: 1)}
