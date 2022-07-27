@@ -4,7 +4,6 @@
 	<div class="content">
 <% end %>
 
-
 <div class="">
 	
 	<div class="float-left align-right margin-top-10 background-color-red padding-5">
@@ -44,7 +43,7 @@
 						
 						<div class="float-left">
 							<% case @status when 1 %>
-								<%= link_to 'New Notes', new_tweet_path %> | <%= link_to 'New Article', new_article_path %>
+								<%= link_to 'Notes', new_tweet_path %> | <%= link_to 'Article', new_article_path %> | <%= link_to "Articles", articles_path %>
 							<% end %>
 							
 							|
