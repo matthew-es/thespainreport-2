@@ -148,7 +148,7 @@ end	%>
 					<ul class="font-main-small">
 						<% if ["NFT"].include?(@article.type.name) %>
 							<li><strong>NFT Nº:</strong> <%= @article.nft_number %></li>
-							<li><strong>Buy this NFT on:</strong> <%= link_to "Foundation", "https://rarible.com/token/" + @article.nft_link_rarible %></li>
+							<li><strong>Buy this NFT on:</strong> <%= link_to "Foundation", @article.nft_link_rarible %></li>
 						<% else end %>
 						
 						
@@ -322,7 +322,7 @@ end	%>
 				<li><strong>NFT Nº:</strong> <%= @article.nft_number %></li>
 				<li><strong>Rarity:</strong> <%= @article.nft_property_rarity %></li>
 				<li><strong>Collection:</strong> Spain Stories</li>
-				<li><strong>Buy:</strong> <%= link_to "Foundation", "https://rarible.com/token/" + @article.nft_link_rarible, :title => "Buy " + @article.headline + " on Rarible" %></li>
+				<li><strong>Buy:</strong> <%= link_to "Foundation", @article.nft_link_rarible, :title => "Buy " + @article.headline + " NFT on Foundation" %></li>
 				<li><strong>Original price:</strong> <%= @article.nft_original_price %></li>
 			</ul>
 			<ul class="font-main-small">
