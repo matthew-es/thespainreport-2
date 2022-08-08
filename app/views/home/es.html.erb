@@ -24,29 +24,47 @@
 <%= render "layouts/logo_account" %>
 
 <div class="margin-top-20">
-	<h3>Boletín, apuntes, podcast, vídeo blog</h3>
-		<% if @daily.any? %>
-			<% @daily.each do |article| %>
+	<h3>Análisis Nacional</h3>
+		<% if @analysis.any? %>
+			<% @analysis.each do |article| %>
 				<%= render "articles/index_articles_list_link", {article: article} %>
 			<% end %>
 		<% else %>
-			Coming soon....
+			Próximamente....
 		<% end %>
 	
 	<div class="margin-top-20">
 		<%= render "payments/pay" %>
 	</div>
 	
-	<div class="margin-top-30">
-	
-	<div class="margin-top-30">
-		<h3>En detalle y NFTs</h3>
-		<% if @depth.any? %>
-			<% @depth.each do |article| %>
+	<h3>Crónicas</h3>
+		<% if @dispatch.any? %>
+			<% @dispatch.each do |article| %>
 				<%= render "articles/index_articles_list_link", {article: article} %>
 			<% end %>
 		<% else %>
-			Coming soon....
+			Próximamente....
+		<% end %>
+	
+	<div class="margin-top-30">
+		<h3>Fotos y NFTs</h3>
+		<% if @photo.any? %>
+			<% @photo.each do |article| %>
+				<%= render "articles/index_articles_list_link", {article: article} %>
+			<% end %>
+		<% else %>
+			Próximamente....
+		<% end %>
+	</div>
+	
+	<div class="margin-top-30">
+		<h3>Reportajes</h3>
+		<% if @long.any? %>
+			<% @long.each do |article| %>
+				<%= render "articles/index_articles_list_link", {article: article} %>
+			<% end %>
+		<% else %>
+			Próximamente....
 		<% end %>
 	</div>
 	
@@ -56,6 +74,7 @@
 			<%= render "articles/index_articles_list_link", {article: article} %>
 		<% end end %>
 	</div>
+	
 </div>
 
 <%= render "layouts/footer" %>

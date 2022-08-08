@@ -35,13 +35,14 @@ class HomeController < ApplicationController
 		@article_id = "0"
 		@latestmain = Article.spanish.published.latestmain
 		@podcast = Article.spanish.published.podcast.lastfive
-		@notes = Article.spanish.published.notes.lastfive
 		@patrons = Article.spanish.published.patrons.lastfive
 		@free = Article.spanish.published.nottruth.notstory.notpatrons.notpodcast.notphoto.notvideo.lastfive
 		@truth = Article.spanish.published.truth.lastfive
 
-		@daily = Article.spanish.published.daily.lastten
-		@depth = Article.spanish.published.depth.lastten
+		@analysis = Article.spanish.published.analysis.lastten
+		@dispatch = Article.spanish.published.dispatch.lastten
+		@photo = Article.spanish.published.photo.lastten
+		@long = Article.spanish.published.long.lastten
 		@blog = Article.spanish.published.blog.lastten
 
 		@rss = Article.published.spanish.order('created_at DESC')
