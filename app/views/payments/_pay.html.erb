@@ -183,19 +183,19 @@ end %>
 			
 			<%# THE CONTRIBUTION AMOUNT AND PERIOD... %>
 			<div class="">
-				<input type="number" id="plan_amount" min="10" step="5" max="2000" value="50" onclick="checkEmail()" onselect="checkEmail()" class="StripeElement stripe_email width-15 mobile-width-half">
+				<input type="number" id="plan_amount" min="10" step="5" max="2000" value="10" onclick="checkEmail()" onselect="checkEmail()" class="StripeElement stripe_email width-15 mobile-width-half">
 				
 				euros
 				
 				<select name="select_payment_period" id="select_payment_period" onfocus="getSetup()" onchange="changePeriod()" onclick="changePeriod()" class="StripeElement width-20 mobile-width-half">
 					<% case @language when 1 %>
 						<option value="month">a month</option>
-						<option value="year">a year</option>
-						<option value="one_time">one-time</option>
+						<!-- <option value="year">a year</option> -->
+						<!-- <option value="one_time">one-time</option> -->
 					<% when 2 %>
 						<option value="month">al mes</option>
-						<option value="year">al año</option>
-						<option value="one_time">pago único</option>
+						<!-- <option value="year">al año</option> -->
+						<!-- <option value="one_time">pago único</option> -->
 					<% end %>
 				</select>
 				
