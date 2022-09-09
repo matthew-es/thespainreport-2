@@ -381,9 +381,9 @@ class UsersController < ApplicationController
 			@patrons_25 = User.patrons.where(level_amount: 2500)
 			@patrons_above_25 = User.patrons.where('level_amount > ?', 2501)
 			
-			@emails_english = User.where(emaillanguage: 1)
-			@emails_spanish = User.where(emaillanguage: 2)
-			@emails_both = User.where(emaillanguage: 3)
+			@emails_english = User.where(emaillanguage: 1).where.not(emails: 4)
+			@emails_spanish = User.where(emaillanguage: 2).where.not(emails: 4)
+			@emails_both = User.where(emaillanguage: 3).where.not(emails: 4)
 			
 			@nil_level.each do |u|
 				u.update(level_amount: 0)
