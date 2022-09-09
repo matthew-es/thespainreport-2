@@ -108,7 +108,7 @@
 		
 		<% if !@emails_both.empty? %> 
 			<% @emails_both.each do |user| %>
-				<%= render "user_row", user: user %>
+				<%= user.email %><br>
 			<% end %>
 		<% else %>
 			<tr><td>There are no users like this.</td></tr>
@@ -123,7 +123,7 @@
 		
 		<% if !@emails_english.empty? %> 
 			<% @emails_english.each do |user| %>
-				<%= render "user_row", user: user %>
+				<%= user.email %><br>
 			<% end %>
 		<% else %>
 			<tr><td>There are no users like this.</td></tr>
@@ -139,7 +139,7 @@
 		
 		<% if !@emails_spanish.empty? %> 
 			<% @emails_spanish.each do |user| %>
-				<%= render "user_row", user: user %>
+				<%= user.email %><br>
 			<% end %>
 		<% else %>
 			<tr><td>There are no users like this.</td></tr>
