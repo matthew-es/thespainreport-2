@@ -32,6 +32,13 @@ class InvoicesController < ApplicationController
 			redirect_to root_url
 		elsif current_user.status == 1
 			@invoices = Invoice.all.order('invoice_year DESC, invoice_month DESC, invoice_day DESC, created_at DESC')
+			
+			@invoices.each do |i|
+				i.invoice_from_name = "Matthew Bennett"
+				i.invoice_from_address = "Avenida Príncipe de Asturias 42, 3C, 30007 Murcia"
+				i.invoice_from_tax_id = "X3630511F"
+			end
+			
 		else
 			redirect_to root_url
 		end
